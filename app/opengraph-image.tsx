@@ -1,9 +1,25 @@
 import { ImageResponse } from "next/og";
+import { PROPERTIES } from "@/lib/data/properties";
+import { getRecommendation } from "@/lib/recommendations";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default function Image() {
+  const count = PROPERTIES.length;
+  const avgYield = (
+    PROPERTIES.reduce((s, p) => s + p.expectedYield, 0) / count
+  ).toFixed(1);
+  const buyCount = PROPERTIES.filter(
+    (p) => getRecommendation(p, PROPERTIES).action === "Buy"
+  ).length;
+
+  const stats = [
+    { value: String(count), label: "Properties tracked" },
+    { value: `${avgYield}%`, label: "Avg net yield" },
+    { value: `${buyCount} Buy signals`, label: "Right now" },
+  ];
+
   return new ImageResponse(
     (
       <div
@@ -58,20 +74,16 @@ export default function Image() {
           </div>
         </div>
 
-        {/* Bottom: stats */}
-        <div style={{ display: "flex", gap: 32 }}>
-          {[
-            { value: "9", label: "Verified properties" },
-            { value: "10.9%", label: "Avg net yield" },
-            { value: "Buy / Hold / Avoid", label: "Decision signals" },
-          ].map((s) => (
+        {/* Bottom: live stats */}
+        <div style={{ display: "flex", gap: 24 }}>
+          {stats.map((s) => (
             <div
               key={s.label}
               style={{
                 display: "flex",
                 flexDirection: "column",
                 gap: 4,
-                padding: "16px 24px",
+                padding: "16px 28px",
                 background: "#1a1a1a",
                 borderRadius: 10,
                 border: "1px solid #2a2a2a",
