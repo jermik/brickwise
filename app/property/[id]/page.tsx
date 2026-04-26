@@ -82,7 +82,7 @@ export default async function PropertyDetailPage({
             {/* Hero image */}
             <div className="rounded-[12px] overflow-hidden" style={{ border: "1px solid #ebebeb" }}>
               <div className="relative h-[260px]">
-                <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                <img src={p.image} alt={p.name} referrerPolicy="no-referrer" className="w-full h-full object-cover" />
                 <div
                   className="absolute inset-0"
                   style={{
@@ -228,7 +228,7 @@ export default async function PropertyDetailPage({
                     </div>
                   </div>
                   {/* €1k calculator */}
-                  <div className="flex items-center gap-2 ml-auto">
+                  <div className="flex items-center gap-2">
                     <div
                       className="w-7 h-7 rounded-full flex items-center justify-center"
                       style={{ background: "#f0fdf4" }}

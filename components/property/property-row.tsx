@@ -25,6 +25,7 @@ export function PropertyRow({ property: p }: { property: Property }) {
         <img
           src={p.image}
           alt={p.name}
+          referrerPolicy="no-referrer"
           className="w-10 h-10 rounded-[6px] object-cover flex-shrink-0"
         />
 
