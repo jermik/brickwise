@@ -24,6 +24,7 @@ export function PropertyCard({ property: p }: PropertyCardProps) {
           <img
             src={p.image}
             alt={p.name}
+            referrerPolicy="no-referrer"
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
           />
           {/* Platform dot — glass pill bottom-left */}

@@ -123,6 +123,7 @@ export default function DecisionPage() {
                       <img
                         src={bestPick.image}
                         alt={bestPick.name}
+                        referrerPolicy="no-referrer"
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                       />
                       <div
@@ -225,13 +226,8 @@ export default function DecisionPage() {
 
                       {/* Stats grid */}
                       <div
-                        className="rounded-[8px] overflow-hidden mt-4"
-                        style={{
-                          display: "grid",
-                          gridTemplateColumns: "repeat(4, 1fr)",
-                          gap: 1,
-                          background: "#ebebeb",
-                        }}
+                        className="rounded-[8px] overflow-hidden mt-4 grid grid-cols-2 sm:grid-cols-4"
+                        style={{ gap: 1, background: "#ebebeb" }}
                       >
                         {[
                           { label: "Net yield", value: `${bestPick.expectedYield}%`, green: true },
@@ -497,6 +493,7 @@ export default function DecisionPage() {
                       <img
                         src={p.image}
                         alt={p.name}
+                        referrerPolicy="no-referrer"
                         className="w-full h-full object-cover opacity-70"
                       />
                       <div
