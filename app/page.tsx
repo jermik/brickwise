@@ -42,6 +42,49 @@ const avoidProperties = PROPERTIES.filter(
   (p) => getRecommendation(p, PROPERTIES).action === "Avoid"
 );
 
+// ── Rankings ───────────────────────────────────────────────────────────
+const top5ByScore = [...PROPERTIES].sort((a, b) => b.overallScore - a.overallScore).slice(0, 5);
+const top5ByYield = [...PROPERTIES].sort((a, b) => b.expectedYield - a.expectedYield).slice(0, 5);
+const bestValueProps = PROPERTIES.filter((p) => p.fairValueStatus === "undervalued").sort((a, b) => b.overallScore - a.overallScore);
+const lowestRiskProps = PROPERTIES.filter((p) => p.risk === "Low").sort((a, b) => b.expectedYield - a.expectedYield).slice(0, 5);
+
+// ── Categories ─────────────────────────────────────────────────────────
+const byCityEntries = Object.entries(
+  PROPERTIES.reduce<Record<string, number>>((acc, p) => {
+    acc[p.city] = (acc[p.city] ?? 0) + 1;
+    return acc;
+  }, {})
+).sort((a, b) => b[1] - a[1]);
+
+const yieldBuckets = [
+  { label: "8–10%", count: PROPERTIES.filter((p) => p.expectedYield >= 8 && p.expectedYield < 10).length },
+  { label: "10–12%", count: PROPERTIES.filter((p) => p.expectedYield >= 10 && p.expectedYield < 12).length },
+  { label: "12%+", count: PROPERTIES.filter((p) => p.expectedYield >= 12).length },
+];
+const riskCounts = {
+  Low: PROPERTIES.filter((p) => p.risk === "Low").length,
+  Medium: PROPERTIES.filter((p) => p.risk === "Medium").length,
+};
+
+// ── Platform coverage ──────────────────────────────────────────────────
+const platformCoverage = [
+  {
+    name: "RealT",
+    color: "#3b82f6",
+    total: PROPERTIES.filter((p) => p.platform === "RealT").length,
+    verified: PROPERTIES.filter((p) => p.platform === "RealT" && p.sourceVerified).length,
+    status: "verified" as const,
+  },
+  {
+    name: "Lofty",
+    color: "#f97316",
+    total: PROPERTIES.filter((p) => p.platform === "Lofty").length,
+    verified: PROPERTIES.filter((p) => p.platform === "Lofty" && p.sourceVerified).length,
+    status: "partial" as const,
+  },
+];
+const verifiedCount = PROPERTIES.filter((p) => p.sourceVerified).length;
+
 export default function DecisionPage() {
   return (
     <AppShell>
@@ -60,6 +103,38 @@ export default function DecisionPage() {
           >
             What to do right now
           </h1>
+        </div>
+
+        {/* ── Coverage strip ── */}
+        <div
+          className="flex flex-wrap items-center gap-3 mb-8 px-4 py-3 rounded-[10px]"
+          style={{ background: "#f9fafb", border: "1px solid #ebebeb" }}
+        >
+          {[
+            { value: String(PROPERTIES.length), label: "properties tracked" },
+            { value: String(verifiedCount), label: "source-verified listings" },
+            { value: `${platformCoverage.length}`, label: "platforms covered" },
+            { value: String(PROPERTIES.filter((p) => getRecommendation(p, PROPERTIES).action === "Buy").length), label: "active buy signals" },
+          ].map((s) => (
+            <div key={s.label} className="flex items-center gap-1.5">
+              <span
+                className="text-[13px] font-bold"
+                style={{ fontFamily: "var(--font-dm-mono)", color: "#111" }}
+              >
+                {s.value}
+              </span>
+              <span className="text-[12px]" style={{ color: "#737373" }}>
+                {s.label}
+              </span>
+              <span className="text-[#e5e5e5] ml-1.5">·</span>
+            </div>
+          ))}
+          <span
+            className="text-[11px] font-medium ml-auto px-2.5 py-1 rounded-[5px]"
+            style={{ background: "#f0fdf4", color: "#15803d", border: "1px solid #d1fae5" }}
+          >
+            Curated · not scraped
+          </span>
         </div>
 
         {/* ── Best pick today ── */}
@@ -468,6 +543,253 @@ export default function DecisionPage() {
           </div>
         )}
 
+        {/* ── Rankings ── */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-3.5">
+            <div>
+              <div className="text-[14px] font-bold tracking-[-0.2px]" style={{ color: "#111" }}>
+                Rankings
+              </div>
+              <div className="text-[12px] mt-0.5" style={{ color: "#a3a3a3" }}>
+                Every list ranks the same {PROPERTIES.length} properties — no padding, no duplicates
+              </div>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {[
+              { title: "Top opportunities", sub: "by overall score", items: top5ByScore, metric: (p: typeof PROPERTIES[0]) => `${p.overallScore}/100`, metricLabel: "score" },
+              { title: "Highest yield", sub: "net yield after fees", items: top5ByYield, metric: (p: typeof PROPERTIES[0]) => `${p.expectedYield}%`, metricLabel: "yield" },
+              { title: "Best value", sub: "undervalued token price", items: bestValueProps.slice(0, 5), metric: (p: typeof PROPERTIES[0]) => `${p.expectedYield}%`, metricLabel: "yield" },
+              { title: "Lowest risk", sub: "Low risk rating only", items: lowestRiskProps, metric: (p: typeof PROPERTIES[0]) => `${p.expectedYield}%`, metricLabel: "yield" },
+            ].map((list) => (
+              <div
+                key={list.title}
+                className="rounded-[10px] overflow-hidden"
+                style={{ background: "#fff", border: "1px solid #ebebeb" }}
+              >
+                <div className="px-4 py-3" style={{ borderBottom: "1px solid #f5f5f5" }}>
+                  <div className="text-[12px] font-bold" style={{ color: "#111" }}>{list.title}</div>
+                  <div className="text-[10px] mt-0.5" style={{ color: "#a3a3a3" }}>{list.sub}</div>
+                </div>
+                {list.items.length === 0 ? (
+                  <div className="px-4 py-5 text-[11px] text-center" style={{ color: "#a3a3a3" }}>No properties in this category yet</div>
+                ) : (
+                  list.items.map((p, i) => {
+                    const cmp = getComparison(p, PROPERTIES);
+                    const rec = getRecommendation(p, PROPERTIES);
+                    const recColor = rec.action === "Buy" ? "#16a34a" : rec.action === "Avoid" ? "#dc2626" : "#b45309";
+                    return (
+                      <Link key={p.id} href={`/property/${p.id}`} className="no-underline block">
+                        <div
+                          className="flex items-center gap-2.5 px-4 py-2.5 transition-colors"
+                          style={{ borderBottom: "1px solid #f9f9f9" }}
+                          onMouseEnter={(e) => ((e.currentTarget as HTMLDivElement).style.background = "#fafafa")}
+                          onMouseLeave={(e) => ((e.currentTarget as HTMLDivElement).style.background = "")}
+                        >
+                          <span
+                            className="text-[10px] font-bold w-4 flex-shrink-0 text-center"
+                            style={{ color: i === 0 ? "#16a34a" : "#c3c3c3" }}
+                          >
+                            {i + 1}
+                          </span>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-[11px] font-semibold truncate" style={{ color: "#111" }}>{p.name}</div>
+                            <div className="flex items-center gap-1 mt-0.5">
+                              <span className="text-[10px]" style={{ color: "#a3a3a3" }}>{p.flag} {p.city}</span>
+                              <span
+                                className="text-[9px] font-medium"
+                                style={{ color: recColor }}
+                              >
+                                · {rec.action}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="flex-shrink-0 text-right">
+                            <div
+                              className="text-[12px] font-bold"
+                              style={{ fontFamily: "var(--font-dm-mono)", color: i === 0 ? "#16a34a" : "#111" }}
+                            >
+                              {list.metric(p)}
+                            </div>
+                            {cmp.betterThanPct > 0 && (
+                              <div className="text-[9px]" style={{ color: "#a3a3a3" }}>
+                                top {100 - cmp.betterThanPct}%
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Category breakdown ── */}
+        <div className="mb-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {/* By city */}
+          <div
+            className="rounded-[10px] p-4"
+            style={{ background: "#fff", border: "1px solid #ebebeb" }}
+          >
+            <div className="text-[12px] font-bold mb-3" style={{ color: "#111" }}>By city</div>
+            <div className="space-y-2">
+              {byCityEntries.map(([city, count]) => (
+                <div key={city} className="flex items-center gap-2">
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[11px] font-medium truncate" style={{ color: "#333" }}>{city}</div>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <div
+                      className="h-1.5 rounded-full"
+                      style={{
+                        width: Math.max(16, (count / PROPERTIES.length) * 80),
+                        background: "#e5e5e5",
+                      }}
+                    >
+                      <div
+                        className="h-full rounded-full"
+                        style={{ width: "100%", background: "#16a34a", opacity: 0.6 + (count / PROPERTIES.length) * 0.4 }}
+                      />
+                    </div>
+                    <span className="text-[11px] font-medium w-4 text-right" style={{ color: "#737373" }}>{count}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* By yield range */}
+          <div
+            className="rounded-[10px] p-4"
+            style={{ background: "#fff", border: "1px solid #ebebeb" }}
+          >
+            <div className="text-[12px] font-bold mb-3" style={{ color: "#111" }}>By yield range</div>
+            <div className="space-y-2.5">
+              {yieldBuckets.map((b) => (
+                <div key={b.label} className="flex items-center gap-2">
+                  <div className="w-12 text-[11px] font-medium flex-shrink-0" style={{ color: "#333" }}>{b.label}</div>
+                  <div className="flex-1 h-5 rounded-[4px] overflow-hidden" style={{ background: "#f5f5f5" }}>
+                    <div
+                      className="h-full rounded-[4px] flex items-center px-2"
+                      style={{
+                        width: `${Math.max(12, (b.count / PROPERTIES.length) * 100)}%`,
+                        background: b.label === "12%+" ? "#16a34a" : b.label === "10–12%" ? "#b45309" : "#d4d4d4",
+                        transition: "width 0.3s",
+                      }}
+                    >
+                      <span className="text-[10px] font-bold text-white">{b.count}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-3 pt-3" style={{ borderTop: "1px solid #f5f5f5" }}>
+              <div className="text-[10px]" style={{ color: "#a3a3a3" }}>
+                Avg yield: <strong style={{ color: "#111" }}>{(PROPERTIES.reduce((s, p) => s + p.expectedYield, 0) / PROPERTIES.length).toFixed(1)}%</strong>
+              </div>
+            </div>
+          </div>
+
+          {/* By risk */}
+          <div
+            className="rounded-[10px] p-4"
+            style={{ background: "#fff", border: "1px solid #ebebeb" }}
+          >
+            <div className="text-[12px] font-bold mb-3" style={{ color: "#111" }}>By risk level</div>
+            <div className="space-y-2.5">
+              {([["Low", "#16a34a"], ["Medium", "#b45309"]] as [keyof typeof riskCounts, string][]).map(([level, color]) => (
+                <div key={level} className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5 w-16 flex-shrink-0">
+                    <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: color }} />
+                    <span className="text-[11px] font-medium" style={{ color: "#333" }}>{level}</span>
+                  </div>
+                  <div className="flex-1 h-5 rounded-[4px] overflow-hidden" style={{ background: "#f5f5f5" }}>
+                    <div
+                      className="h-full rounded-[4px] flex items-center px-2"
+                      style={{
+                        width: `${Math.max(12, (riskCounts[level] / PROPERTIES.length) * 100)}%`,
+                        background: color,
+                        opacity: 0.75,
+                      }}
+                    >
+                      <span className="text-[10px] font-bold text-white">{riskCounts[level]}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-3 pt-3" style={{ borderTop: "1px solid #f5f5f5" }}>
+              <div className="text-[10px]" style={{ color: "#a3a3a3" }}>
+                {Math.round((riskCounts.Low / PROPERTIES.length) * 100)}% of listings rated Low risk
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Platform coverage ── */}
+        <div className="mb-8">
+          <div className="mb-3.5">
+            <div className="text-[14px] font-bold tracking-[-0.2px]" style={{ color: "#111" }}>Platform coverage</div>
+            <div className="text-[12px] mt-0.5" style={{ color: "#a3a3a3" }}>
+              We track every listing manually. No scrapers, no feeds, no synthetic data.
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {platformCoverage.map((p) => (
+              <div
+                key={p.name}
+                className="rounded-[10px] px-5 py-4 flex items-center gap-4"
+                style={{ background: "#fff", border: "1px solid #ebebeb" }}
+              >
+                <div
+                  className="w-8 h-8 rounded-full flex-shrink-0"
+                  style={{ background: p.color + "18", border: `1.5px solid ${p.color}30` }}
+                >
+                  <div className="w-full h-full flex items-center justify-center">
+                    <div className="w-2.5 h-2.5 rounded-full" style={{ background: p.color }} />
+                  </div>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[13px] font-bold" style={{ color: "#111" }}>{p.name}</div>
+                  <div className="text-[11px] mt-0.5" style={{ color: "#737373" }}>
+                    {p.total} properties · {p.verified > 0 ? `${p.verified} source-verified` : "verification in progress"}
+                  </div>
+                </div>
+                <span
+                  className="text-[9px] font-bold uppercase tracking-[0.5px] px-2 py-1 rounded-[4px] flex-shrink-0"
+                  style={p.status === "verified"
+                    ? { background: "#f0fdf4", color: "#16a34a", border: "1px solid #d1fae5" }
+                    : { background: "#fff7ed", color: "#b45309", border: "1px solid #fed7aa" }
+                  }
+                >
+                  {p.status === "verified" ? "Verified" : "Partial"}
+                </span>
+              </div>
+            ))}
+            {/* Coming soon slot */}
+            <div
+              className="rounded-[10px] px-5 py-4 flex items-center gap-4"
+              style={{ background: "#fafafa", border: "1px dashed #e5e5e5" }}
+            >
+              <div
+                className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center"
+                style={{ background: "#f5f5f5", border: "1.5px dashed #e5e5e5" }}
+              >
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M6 2v8M2 6h8" stroke="#c3c3c3" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+              </div>
+              <div>
+                <div className="text-[12px] font-semibold" style={{ color: "#a3a3a3" }}>More platforms coming</div>
+                <div className="text-[10px] mt-0.5" style={{ color: "#c3c3c3" }}>Blocksquare, Arrived, others</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* ── Avoid ── */}
         {avoidProperties.length > 0 && (
           <div>
@@ -549,12 +871,12 @@ export default function DecisionPage() {
         >
           <div className="w-1.5 h-1.5 rounded-full" style={{ background: "#d4d4d4" }} />
           <p className="text-[10px] leading-[1.6]" style={{ color: "#c4c4c4" }}>
-            Source: RealT verified dataset · Last updated{" "}
+            {verifiedCount} source-verified listings across {platformCoverage.length} platforms · Last updated{" "}
             {new Date(latestUpdate + "T00:00:00").toLocaleDateString("en-GB", {
               month: "short",
               year: "numeric",
             })}{" "}
-            · Scores computed from yield, risk, neighbourhood, and fair-value metrics. Not financial advice.
+            · Curated manually — no scrapers, no synthetic data · Scores computed from yield, risk, neighbourhood, and fair-value metrics. Not financial advice.
           </p>
         </div>
       </div>
