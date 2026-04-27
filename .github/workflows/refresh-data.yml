@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
       - uses: actions/checkout@v4
@@ -26,14 +28,17 @@ jobs:
           npm install -D playwright
           npx playwright install chromium --with-deps
 
-      - name: Run refresh script
-        run: node scripts/refresh-data.mjs
+      - name: Run discovery script
+        env:
+          KIE_AI_API_KEY: ${{ secrets.KIE_AI_API_KEY }}
+          KIE_AI_DEFAULT_MODEL: ${{ secrets.KIE_AI_DEFAULT_MODEL }}
+        run: node scripts/discover-properties.mjs
 
       - name: Commit updated data
         run: |
           git config user.name "brickwise-bot"
           git config user.email "bot@brickwise.pro"
-          git add lib/data/properties-live.json
+          git add lib/data/properties-live.json lib/data/properties-auto.json
           if git diff --staged --quiet; then
             echo "No data changes to commit"
           else

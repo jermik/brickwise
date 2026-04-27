@@ -1,5 +1,6 @@
 import { Property, Holding } from "@/lib/types";
 import liveDataRaw from "./properties-live.json";
+import autoDataRaw from "./properties-auto.json";
 
 type LiveEntry = {
   tokenPrice: number;
@@ -12,6 +13,7 @@ type LiveEntry = {
   sourceUrl?: string;
 };
 const LIVE = liveDataRaw as Record<string, LiveEntry>;
+const AUTO_PROPERTIES = autoDataRaw as unknown as Property[];
 
 // ── Scoring formula:
 // overallScore = round(yieldScore×0.30 + riskScore×0.25 + neighborhoodScore×0.20 + valueScore×0.25)
@@ -565,11 +567,14 @@ const STATIC_PROPERTIES: Property[] = [
 
 ];
 
-// ── Merge static + live data ───────────────────────────────────────────
-export const PROPERTIES: Property[] = STATIC_PROPERTIES.map((p) => {
-  const live = LIVE[String(p.id)];
-  return live ? { ...p, ...live } : p;
-});
+// ── Merge static + live data + auto-discovered ────────────────────────
+export const PROPERTIES: Property[] = [
+  ...STATIC_PROPERTIES.map((p) => {
+    const live = LIVE[String(p.id)];
+    return live ? { ...p, ...live } : p;
+  }),
+  ...AUTO_PROPERTIES,
+];
 
 // ── Holdings (demo portfolio) ──────────────────────────────────────────
 export const HOLDINGS: Holding[] = [
