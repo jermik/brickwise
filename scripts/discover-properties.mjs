@@ -321,6 +321,10 @@ async function discoverLoftyListings(page) {
     };
   }
   console.log("    Yield map: " + Object.keys(yieldMap).length + " entries");
+  var ymKeys = Object.keys(yieldMap);
+  if (ymKeys.length > 0) {
+    console.log("    YIELD SAMPLE id=" + ymKeys[0] + ": " + JSON.stringify(yieldMap[ymKeys[0]]));
+  }
 
   var listings = [];
   var seen = new Set();
@@ -350,6 +354,12 @@ async function discoverLoftyListings(page) {
 
     console.log("    Raw array length: " + (Array.isArray(rawArr) ? rawArr.length : "not an array"));
     if (!Array.isArray(rawArr)) continue;
+    // Log first record structure so we can see real field names
+    if (rawArr.length > 0) {
+      var sample = rawArr[0];
+      console.log("    SAMPLE KEYS: " + Object.keys(sample).join(", "));
+      console.log("    SAMPLE DATA: " + JSON.stringify(sample).slice(0, 600));
+    }
 
     for (var ai = 0; ai < rawArr.length; ai++) {
       var rec = rawArr[ai];
