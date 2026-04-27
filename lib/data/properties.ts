@@ -1,4 +1,17 @@
 import { Property, Holding } from "@/lib/types";
+import liveDataRaw from "./properties-live.json";
+
+type LiveEntry = {
+  tokenPrice: number;
+  grossYield: number;
+  expectedYield: number;
+  monthlyRent: number;
+  occupancyRate: number;
+  lastUpdated: string;
+  sourceVerified: boolean;
+  sourceUrl?: string;
+};
+const LIVE = liveDataRaw as Record<string, LiveEntry>;
 
 // ── Scoring formula:
 // overallScore = round(yieldScore×0.30 + riskScore×0.25 + neighborhoodScore×0.20 + valueScore×0.25)
@@ -7,7 +20,7 @@ import { Property, Holding } from "@/lib/types";
 // live on realt.co via Google site-search index as of 2026-04-26.
 // Fees are calibrated so that (monthlyRent − totalFees) × 12 / totalValue = expectedYield.
 
-export const PROPERTIES: Property[] = [
+const STATIC_PROPERTIES: Property[] = [
 
   {
     id: 5,
@@ -551,6 +564,12 @@ export const PROPERTIES: Property[] = [
   },
 
 ];
+
+// ── Merge static + live data ───────────────────────────────────────────
+export const PROPERTIES: Property[] = STATIC_PROPERTIES.map((p) => {
+  const live = LIVE[String(p.id)];
+  return live ? { ...p, ...live } : p;
+});
 
 // ── Holdings (demo portfolio) ──────────────────────────────────────────
 export const HOLDINGS: Holding[] = [

@@ -1,0 +1,15 @@
+{
+  "5":  { "tokenPrice": 41.20, "grossYield": 11.1, "expectedYield": 8.7,  "monthlyRent": 580, "occupancyRate": 94, "lastUpdated": "2026-04-26", "sourceVerified": true },
+  "7":  { "tokenPrice": 35.75, "grossYield": 13.6, "expectedYield": 10.6, "monthlyRent": 648, "occupancyRate": 89, "lastUpdated": "2026-04-26", "sourceVerified": true },
+  "9":  { "tokenPrice": 43.10, "grossYield": 10.5, "expectedYield": 8.2,  "monthlyRent": 568, "occupancyRate": 91, "lastUpdated": "2026-04-26", "sourceVerified": true },
+  "11": { "tokenPrice": 56.85, "grossYield": 15.6, "expectedYield": 12.3, "monthlyRent": 960, "occupancyRate": 99, "lastUpdated": "2026-04-26", "sourceVerified": true },
+  "12": { "tokenPrice": 48.37, "grossYield": 18.7, "expectedYield": 10.81,"monthlyRent": 980, "occupancyRate": 94, "lastUpdated": "2026-04-26", "sourceVerified": true },
+  "13": { "tokenPrice": 53.88, "grossYield": 16.3, "expectedYield": 11.54,"monthlyRent": 880, "occupancyRate": 97, "lastUpdated": "2026-04-26", "sourceVerified": true },
+  "14": { "tokenPrice": 50.50, "grossYield": 17.4, "expectedYield": 11.81,"monthlyRent": 880, "occupancyRate": 97, "lastUpdated": "2026-04-26", "sourceVerified": true },
+  "15": { "tokenPrice": 49.69, "grossYield": 16.2, "expectedYield": 11.81,"monthlyRent": 870, "occupancyRate": 97, "lastUpdated": "2026-04-26", "sourceVerified": true },
+  "16": { "tokenPrice": 52.17, "grossYield": 16.9, "expectedYield": 11.87,"monthlyRent": 880, "occupancyRate": 97, "lastUpdated": "2026-04-26", "sourceVerified": true },
+  "17": { "tokenPrice": 50.00, "grossYield": 16.2, "expectedYield": 12.2, "monthlyRent": 875, "occupancyRate": 96, "lastUpdated": "2026-04-27", "sourceVerified": false },
+  "18": { "tokenPrice": 50.00, "grossYield": 16.3, "expectedYield": 11.2, "monthlyRent": 680, "occupancyRate": 91, "lastUpdated": "2026-04-27", "sourceVerified": false },
+  "19": { "tokenPrice": 50.00, "grossYield": 14.9, "expectedYield": 11.0, "monthlyRent": 920, "occupancyRate": 94, "lastUpdated": "2026-04-27", "sourceVerified": false },
+  "20": { "tokenPrice": 50.00, "grossYield": 16.4, "expectedYield": 12.3, "monthlyRent": 820, "occupancyRate": 97, "lastUpdated": "2026-04-27", "sourceVerified": false }
+}
