@@ -302,55 +302,88 @@ async function discoverLoftyListings(page) {
 
   console.log("    Captured " + captured.length + " Lofty API responses");
 
+  // Build yield map from get-property-yields responses (keyed by property id)
+  var yieldMap = {};
+  for (var yi = 0; yi < captured.length; yi++) {
+    var yurl = captured[yi].url;
+    if (yurl.indexOf("get-property-yields") === -1) continue;
+    var ym = yurl.match(/[?&]id=([^&]+)/);
+    if (!ym) continue;
+    var yid = ym[1];
+    var yjson = captured[yi].json;
+    // The yield response may wrap in data/result/body
+    var yd = yjson.data || yjson.result || yjson.body || yjson;
+    yieldMap[yid] = {
+      expectedYield: parseNum(yd.apy || yd.netYield || yd.yield || yd.annualYield || yd.targetYield || yd.netRentYield),
+      grossYield:    parseNum(yd.grossYield || yd.grossRentYield || yd.annualPercentageYield),
+      monthlyRent:   parseNum(yd.monthlyRent || yd.grossMonthlyRent || yd.rent),
+      occupancyRate: parseNum(yd.occupancy || yd.occupancyRate || yd.occupied),
+    };
+  }
+  console.log("    Yield map: " + Object.keys(yieldMap).length + " entries");
+
   var listings = [];
   var seen = new Set();
 
+  // Find the main list-view-data response — this has all properties
   for (var ci = 0; ci < captured.length; ci++) {
     var item = captured[ci];
+    if (item.url.indexOf("get-list-view-data") === -1) continue;
+    console.log("    Parsing get-list-view-data from " + item.url);
+
     var json = item.json;
-    // Recursively find any array with 3+ items that looks like property records
-    function extractArrays(obj, depth) {
-      if (depth > 4) return [];
-      if (Array.isArray(obj) && obj.length >= 3) return [obj];
-      if (obj && typeof obj === "object") {
-        var found = [];
-        var keys = Object.keys(obj);
-        for (var k = 0; k < keys.length; k++) {
-          var sub = extractArrays(obj[keys[k]], depth + 1);
-          for (var s = 0; s < sub.length; s++) found.push(sub[s]);
-        }
-        return found;
-      }
-      return [];
+    // Unwrap common envelope shapes
+    var rawArr = json;
+    if (!Array.isArray(rawArr)) {
+      rawArr = json.data || json.result || json.body || json.properties || json.listings || json.items || [];
     }
-    var candidates = extractArrays(json, 0);
-    var arr = [];
-    for (var ca = 0; ca < candidates.length; ca++) {
-      // Pick the array that looks most like property records
-      var cand = candidates[ca];
-      if (cand[0] && typeof cand[0] === "object" && (cand[0].address || cand[0].tokenPrice || cand[0].apy || cand[0].token_price || cand[0].name || cand[0].title)) {
-        arr = cand;
-        console.log("    Found candidate array (" + arr.length + " items) in " + item.url.slice(0, 80));
-        break;
+    if (!Array.isArray(rawArr)) {
+      // Try one more level
+      var keys = Object.keys(json);
+      for (var k = 0; k < keys.length; k++) {
+        if (Array.isArray(json[keys[k]]) && json[keys[k]].length > 5) {
+          rawArr = json[keys[k]];
+          break;
+        }
       }
     }
 
-    for (var ai = 0; ai < arr.length; ai++) {
-      var rec = arr[ai];
+    console.log("    Raw array length: " + (Array.isArray(rawArr) ? rawArr.length : "not an array"));
+    if (!Array.isArray(rawArr)) continue;
+
+    for (var ai = 0; ai < rawArr.length; ai++) {
+      var rec = rawArr[ai];
       if (!rec || typeof rec !== "object") continue;
-      var address      = rec.address || rec.propertyAddress || rec.title || rec.name || "";
-      var tokenPrice   = parseNum(rec.tokenPrice || rec.token_price || rec.pricePerToken || rec.price);
-      var expectedYield = parseNum(rec.apy || rec.yield || rec.annualYield || rec.expectedYield || rec.targetYield);
-      var monthlyRent  = parseNum(rec.monthlyRent || rec.rent || rec.rentalIncome);
-      var occupancyRate = parseNum(rec.occupancy || rec.occupancyRate || rec.occupied);
-      var city         = rec.city || extractCity(address);
-      var itemUrl      = rec.url || rec.link || rec.propertyUrl || ("https://www.lofty.ai/property/" + (rec.id || rec.slug || ""));
-      var key          = itemUrl || address;
+
+      var propId    = rec.id || rec.propertyId || rec.uid || rec.uuid || "";
+      var address   = rec.address || rec.propertyAddress || rec.streetAddress || rec.fullAddress || rec.title || rec.name || "";
+      var city      = rec.city || rec.propertyCity || extractCity(address);
+      var state     = rec.state || rec.propertyState || "";
+      var tokenPrice = parseNum(rec.tokenPrice || rec.token_price || rec.pricePerToken || rec.currentPrice || rec.price);
+      var slug      = rec.slug || rec.propertySlug || rec.id || "";
+      var itemUrl   = rec.url || rec.link || rec.propertyUrl || ("https://www.lofty.ai/property/" + slug);
+
+      // Merge yield data from yieldMap if available
+      var ydata     = (propId && yieldMap[propId]) || {};
+      var expectedYield = ydata.expectedYield || parseNum(rec.apy || rec.yield || rec.annualYield || rec.expectedYield || rec.targetYield || rec.netYield);
+      var grossYield    = ydata.grossYield    || parseNum(rec.grossYield || rec.grossRentYield);
+      var monthlyRent   = ydata.monthlyRent   || parseNum(rec.monthlyRent || rec.rent || rec.rentalIncome || rec.grossMonthlyRent);
+      var occupancyRate = ydata.occupancyRate || parseNum(rec.occupancy || rec.occupancyRate || rec.occupied);
+      var yearBuilt     = rec.yearBuilt || rec.constructionYear || rec.built;
+
+      var key = itemUrl || address;
       if (!key || seen.has(key)) continue;
       if (!tokenPrice && !expectedYield) continue;
       seen.add(key);
-      listings.push({ address: address, url: itemUrl, tokenPrice: tokenPrice, expectedYield: expectedYield, monthlyRent: monthlyRent, occupancyRate: occupancyRate, city: city });
+
+      listings.push({
+        address: address, url: itemUrl, city: city, state: state,
+        tokenPrice: tokenPrice, expectedYield: expectedYield, grossYield: grossYield,
+        monthlyRent: monthlyRent, occupancyRate: occupancyRate,
+        yearBuilt: yearBuilt ? parseInt(yearBuilt) : null,
+      });
     }
+    break; // Only need one list-view-data response
   }
 
   // DOM fallback
