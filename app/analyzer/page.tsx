@@ -15,6 +15,7 @@ const DEFAULT_FILTERS: FilterState = {
   valueStatus: "All",
   country: "All",
   maxPrice: null,
+  platform: "All",
 };
 
 export default function AnalyzerPage() {

@@ -1,6 +1,6 @@
 "use client";
 
-import { FilterState, SortKey, ViewMode } from "@/lib/types";
+import { FilterState, Platform, SortKey, ViewMode } from "@/lib/types";
 
 interface PropertyFiltersProps {
   filters: FilterState;
@@ -107,6 +107,19 @@ export function PropertyFilters({
         ]}
         value={filters.valueStatus}
         onChange={(v) => set({ valueStatus: v as FilterState["valueStatus"] })}
+      />
+
+      <div className="w-px h-7 self-end mb-0.5" style={{ background: "#ebebeb" }} />
+
+      <PillGroup
+        label="Platform"
+        options={[
+          { label: "All", value: "All" },
+          { label: "RealT", value: "RealT" },
+          { label: "Lofty", value: "Lofty" },
+        ]}
+        value={filters.platform}
+        onChange={(v) => set({ platform: v as FilterState["platform"] })}
       />
 
       {/* Sort + count + view toggle pushed right */}

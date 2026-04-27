@@ -1,6 +1,6 @@
 export type RiskLevel = "Low" | "Medium" | "High";
 export type ValueStatus = "undervalued" | "fair" | "overpriced";
-export type Platform = "RealT" | "EstateX" | "Blocksquare" | "LABS Group" | "RealtyX";
+export type Platform = "RealT" | "Lofty" | "EstateX" | "Blocksquare" | "LABS Group" | "RealtyX";
 export type PropertyType = "Single Family" | "Multi Family" | "Condo" | "Commercial" | "Mixed Use";
 
 export interface PropertyFees {
@@ -68,4 +68,5 @@ export interface FilterState {
   valueStatus: ValueStatus | "All";
   country: string;
   maxPrice: number | null;
+  platform: Platform | "All";
 }

@@ -59,6 +59,7 @@ export function valueStatusColors(status: ValueStatus): {
 export function platformColor(platform: string): string {
   const map: Record<string, string> = {
     RealT: "#3b82f6",
+    Lofty: "#f97316",
     EstateX: "#8b5cf6",
     Blocksquare: "#f59e0b",
     "LABS Group": "#ec4899",
@@ -74,6 +75,7 @@ export function filterAndSort(
     risk: string;
     valueStatus: string;
     country: string;
+    platform?: string;
   },
   sortKey: string
 ): Property[] {
@@ -87,6 +89,8 @@ export function filterAndSort(
       )
         return false;
       if (filters.country !== "All" && p.country !== filters.country)
+        return false;
+      if (filters.platform && filters.platform !== "All" && p.platform !== filters.platform)
         return false;
       return true;
     })

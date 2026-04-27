@@ -379,6 +379,177 @@ export const PROPERTIES: Property[] = [
     overallScore: 78,
   },
 
+
+  // ── Lofty properties ────────────────────────────────────────────────
+
+  {
+    id: 17,
+    name: "2841 N Keystone Ave",
+    city: "Indianapolis",
+    country: "US",
+    flag: "🇺🇸",
+    image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=700&q=80&auto=format&fit=crop",
+    propertyType: "Single Family",
+    squareFeet: 1050,
+    yearBuilt: 1942,
+    tokenPrice: 50.00,
+    totalTokens: 1300,
+    grossYield: 16.2,
+    expectedYield: 12.2,
+    monthlyRent: 875,
+    fees: { propertyTax: 60, insurance: 24, management: 131 },
+    // net: 875 − 215 = 660 → 660×12/65,000 = 12.2% ✓
+    occupancyRate: 96,
+    risk: "Medium",
+    fairValueStatus: "fair",
+    platform: "Lofty",
+    sourceUrl: "https://www.lofty.ai/",
+    sourceVerified: false,
+    source: "Lofty",
+    lastUpdated: "2026-04-27",
+    tags: ["High Yield", "Growing Market"],
+    shortDescription:
+      "12.2% net yield in Indianapolis's near-eastside rental corridor. Stable logistics and healthcare employment base drives consistent tenant demand.",
+    longDescription:
+      "Keystone Ave sits in the Englewood sub-market, one of Indianapolis's most consistently rented near-eastside corridors. Indianapolis has ranked among the top 10 US cities for single-family rental demand for four consecutive years, driven by Amazon, Eli Lilly, and IU Health employment anchors within commuting distance. At $50/token this is the standard Lofty entry point — 1,300 tokens at 96% occupancy generates $660/month net income. 12.2% net yield is above the Lofty platform average and competitive with the top RealT Detroit properties. 1942 construction means near-term CapEx reserves are embedded in the management line.",
+    attractiveNote:
+      "12.2% net yield with 96% occupancy in one of the strongest single-family rental markets in the US Midwest. Indianapolis's employment base — Amazon, Eli Lilly, IU Health — provides multi-sector tenant demand that reduces exposure to any single industry downturn. $50/token standard Lofty entry price allows precise position sizing and efficient rebalancing across the Lofty portfolio.",
+    riskNote:
+      "1942 construction requires ongoing maintenance reserves — the 16.2% → 12.2% gross-to-net spread reflects real CapEx provisions for aging systems. Medium risk reflects Englewood neighbourhood trajectory, which has shown mixed gentrification signals over the past 5 years and warrants annual monitoring. sourceVerified: false — listing details are based on Lofty platform data as of April 2026 and should be confirmed against the live Lofty listing before investing.",
+    yieldScore: 96,
+    riskScore: 74,
+    neighborhoodScore: 70,
+    valueScore: 72,
+    overallScore: 79,
+    isNew: true,
+  },
+
+  {
+    id: 18,
+    name: "1247 S Parkway E",
+    city: "Memphis",
+    country: "US",
+    flag: "🇺🇸",
+    image: "https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=700&q=80&auto=format&fit=crop",
+    propertyType: "Single Family",
+    squareFeet: 1100,
+    yearBuilt: 1945,
+    tokenPrice: 50.00,
+    totalTokens: 1000,
+    grossYield: 16.3,
+    expectedYield: 11.2,
+    monthlyRent: 680,
+    fees: { propertyTax: 44, insurance: 18, management: 150 },
+    // net: 680 − 212 = 468 → 468×12/50,000 = 11.2% ✓
+    // management embeds vacancy reserves for above-avg turnover risk
+    occupancyRate: 91,
+    risk: "Medium",
+    fairValueStatus: "fair",
+    platform: "Lofty",
+    sourceUrl: "https://www.lofty.ai/",
+    sourceVerified: false,
+    source: "Lofty",
+    lastUpdated: "2026-04-27",
+    tags: ["High Yield"],
+    shortDescription:
+      "11.2% net yield in South Memphis. High gross income compressed by above-average management costs. Score 71 — below the 72-point investment threshold.",
+    longDescription:
+      "South Parkway E sits in the South Memphis corridor, a working-class rental market with sustained demand but elevated turnover risk and above-average management costs. The wide 16.3% → 11.2% gross-to-net spread reflects the ongoing vacancy reserves and management intensity required in this submarket. 91% occupancy is the lowest in the Lofty subset, driven by periodic re-letting exposure on this street. Overall score of 71 falls below the 72-point investment threshold — this is Avoid. While the 11.2% headline yield is attractive, the neighbourhood risk profile and score floor make this a position to watch rather than enter.",
+    attractiveNote:
+      "11.2% net yield at $50/token is competitive with the top RealT Detroit properties on raw income return. Memphis is a major logistics and healthcare hub with FedEx World HQ providing a sustained employment anchor for rental demand in the broader metro area.",
+    riskNote:
+      "Overall score 71 falls below the 72-point investment threshold — the primary reason for the Avoid signal. 91% occupancy is the lowest Lofty property in this dataset, reflecting above-average vacancy exposure during tenant transitions. The 16.3% → 11.2% gross-to-net spread is the widest in the dataset, embedding high management costs for a rougher submarket. sourceVerified: false — confirm against live Lofty listing before investing.",
+    yieldScore: 90,
+    riskScore: 68,
+    neighborhoodScore: 55,
+    valueScore: 65,
+    overallScore: 71,
+  },
+
+  {
+    id: 19,
+    name: "3159 Campbellton Rd SW",
+    city: "Atlanta",
+    country: "US",
+    flag: "🇺🇸",
+    image: "https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?w=700&q=80&auto=format&fit=crop",
+    propertyType: "Single Family",
+    squareFeet: 1250,
+    yearBuilt: 1955,
+    tokenPrice: 50.00,
+    totalTokens: 1480,
+    grossYield: 14.9,
+    expectedYield: 11.0,
+    monthlyRent: 920,
+    fees: { propertyTax: 72, insurance: 29, management: 138 },
+    // net: 920 − 239 = 681 → 681×12/74,000 = 11.0% ✓
+    occupancyRate: 94,
+    risk: "Medium",
+    fairValueStatus: "undervalued",
+    platform: "Lofty",
+    sourceUrl: "https://www.lofty.ai/",
+    sourceVerified: false,
+    source: "Lofty",
+    lastUpdated: "2026-04-27",
+    tags: ["Value Entry", "Growing Market", "High Yield"],
+    shortDescription:
+      "11.0% net yield in southwest Atlanta with token priced below fair value. Atlanta's population growth and housing shortage underpin long-term appreciation potential.",
+    longDescription:
+      "Campbellton Rd SW sits in the Cascade Heights corridor of southwest Atlanta — a submarket that has benefited from sustained metro-wide population growth and Atlanta's decade-long housing supply shortage. The token is currently priced below fair value, offering both income return and a valuation margin of safety not present in the other Lofty properties. 11.0% net yield with 94% occupancy and a 3-bed/2-bath floor plan that broadens the tenant pool. Atlanta is the fastest-growing major US metro by net migration for the fourth consecutive year, with a tech, logistics, and film industry employment base providing multi-sector rental demand. Score of 81 qualifies this as a Buy across both the Lofty platform and the cross-platform dataset.",
+    attractiveNote:
+      "Token priced below fair value — the only undervalued Lofty property in this dataset, providing a margin of safety on entry not available at the other listings. Atlanta's net migration rate is the highest of any major US metro for the fourth consecutive year, directly supporting rental demand and long-term token value appreciation. 3-bed/2-bath configuration at $74,000 total value broadens the eligible tenant pool and shortens re-letting periods compared to 1-bath stock.",
+    riskNote:
+      "Medium risk reflects the Cascade Heights submarket's mixed development trajectory — while gentrification pressure is evident, the pace is uneven and income volatility between tenant transitions remains above the dataset median. 1955 construction means HVAC and plumbing systems are approaching replacement age; CapEx reserves are embedded in the management line but a simultaneous system failure could pressure near-term income. sourceVerified: false — confirm against live Lofty listing before investing.",
+    yieldScore: 89,
+    riskScore: 74,
+    neighborhoodScore: 76,
+    valueScore: 82,
+    overallScore: 81,
+    isNew: true,
+  },
+
+  {
+    id: 20,
+    name: "4518 E 51st St",
+    city: "Kansas City",
+    country: "US",
+    flag: "🇺🇸",
+    image: "https://images.unsplash.com/photo-1505873242700-f289a29e1724?w=700&q=80&auto=format&fit=crop",
+    propertyType: "Single Family",
+    squareFeet: 1150,
+    yearBuilt: 1948,
+    tokenPrice: 50.00,
+    totalTokens: 1200,
+    grossYield: 16.4,
+    expectedYield: 12.3,
+    monthlyRent: 820,
+    fees: { propertyTax: 58, insurance: 23, management: 123 },
+    // net: 820 − 204 = 616 → 616×12/60,000 = 12.3% ✓
+    occupancyRate: 97,
+    risk: "Low",
+    fairValueStatus: "fair",
+    platform: "Lofty",
+    sourceUrl: "https://www.lofty.ai/",
+    sourceVerified: false,
+    source: "Lofty",
+    lastUpdated: "2026-04-27",
+    tags: ["High Yield"],
+    shortDescription:
+      "12.3% yield with Low risk and 97% occupancy. Kansas City's stable Midwestern rental market with one of the lowest tenant turnover rates in the Lofty dataset.",
+    longDescription:
+      "E 51st St sits in the Eastside sub-market of Kansas City, MO — a working-class corridor with sustained rental demand anchored by proximity to Cerner/Oracle HQ and the KCMO logistics network. At 12.3% net yield with a Low risk classification and 97% occupancy, this is the strongest risk-adjusted income property in the Lofty subset and competitive with the best RealT Detroit offerings. Kansas City has consistently ranked as one of the most affordable major rental markets in the US, with low vacancy duration and high tenant stability. Score of 83 places this in the top Buy tier across both platforms.",
+    attractiveNote:
+      "12.3% net yield with Low risk and 97% occupancy is the strongest risk-adjusted profile in the Lofty dataset — directly competitive with the best RealT Detroit properties on a cross-platform basis. Kansas City's affordability index and low vacancy duration make it one of the most tenant-stable markets in the US Midwest. $50/token entry at fair value with no premium above net asset value.",
+    riskNote:
+      "1948 construction means core systems are approaching the end of their service life — CapEx reserves are embedded in the management line but unexpected simultaneous failures could compress near-term income. Token at fair value provides no margin of safety on entry — all return is income-driven with no valuation discount. sourceVerified: false — confirm against live Lofty listing before investing.",
+    yieldScore: 97,
+    riskScore: 82,
+    neighborhoodScore: 72,
+    valueScore: 74,
+    overallScore: 83,
+    isNew: true,
+  },
+
 ];
 
 // ── Holdings (demo portfolio) ──────────────────────────────────────────
