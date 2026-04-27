@@ -189,18 +189,25 @@ async function fetchRealtApi() {
   var endpoints = [
     "https://api.realt.community/v1/properties",
     "https://ehpst.deno.dev/realt/api/properties",
+    "https://realt.co/wp-json/wc/store/v1/products?per_page=100",
+    "https://realt.co/wp-json/wp/v2/product?per_page=100&_fields=id,slug,title,meta",
   ];
   for (var i = 0; i < endpoints.length; i++) {
     var url = endpoints[i];
     try {
       console.log("  Trying RealT API: " + url);
+      var controller = new AbortController();
+      var timer = setTimeout(function() { controller.abort(); }, 12000);
       var res = await fetch(url, {
         headers: { "Accept": "application/json", "User-Agent": "brickwise-bot/1.0" },
+        signal: controller.signal,
       });
+      clearTimeout(timer);
       if (!res.ok) { console.log("    HTTP " + res.status + " — trying next"); continue; }
       var data = await res.json();
       var arr = Array.isArray(data) ? data : (data.data ? (Array.isArray(data.data) ? data.data : Object.values(data.data)) : (data.properties || data.listings || data.results || []));
-      if (arr.length > 0) { console.log("    Got " + arr.length + " properties"); return arr; }
+      if (arr.length > 0) { console.log("    Got " + arr.length + " records from " + url); return arr; }
+      console.log("    Empty response from " + url);
     } catch (err) {
       console.log("    " + url + " failed: " + err.message);
     }
@@ -268,12 +275,16 @@ async function discoverLoftyListings(page) {
 
   page.on("response", async function(response) {
     var url = response.url();
-    if (url.indexOf("lofty") === -1 && url.indexOf("/api/") === -1) return;
+    // Skip static assets
+    if (url.match(/\.(js|css|png|jpg|svg|ico|woff|woff2|ttf)(\?|$)/)) return;
     var ct = response.headers()["content-type"] || "";
-    if (ct.indexOf("application/json") === -1) return;
+    if (ct.indexOf("application/json") === -1 && ct.indexOf("text/plain") === -1) return;
     try {
-      var json = await response.json();
+      var text = await response.text();
+      if (text.length < 20) return;
+      var json = JSON.parse(text);
       captured.push({ url: url, json: json });
+      console.log("    [capture] " + url.slice(0, 120) + " (" + text.length + " bytes)");
     } catch (e) { /* skip */ }
   });
 
@@ -296,11 +307,33 @@ async function discoverLoftyListings(page) {
 
   for (var ci = 0; ci < captured.length; ci++) {
     var item = captured[ci];
-    console.log("    Parsing: " + item.url);
     var json = item.json;
-    var arr = Array.isArray(json) ? json
-      : (json.data ? (Array.isArray(json.data) ? json.data : Object.values(json.data))
-      : (json.properties || json.listings || json.results || []));
+    // Recursively find any array with 3+ items that looks like property records
+    function extractArrays(obj, depth) {
+      if (depth > 4) return [];
+      if (Array.isArray(obj) && obj.length >= 3) return [obj];
+      if (obj && typeof obj === "object") {
+        var found = [];
+        var keys = Object.keys(obj);
+        for (var k = 0; k < keys.length; k++) {
+          var sub = extractArrays(obj[keys[k]], depth + 1);
+          for (var s = 0; s < sub.length; s++) found.push(sub[s]);
+        }
+        return found;
+      }
+      return [];
+    }
+    var candidates = extractArrays(json, 0);
+    var arr = [];
+    for (var ca = 0; ca < candidates.length; ca++) {
+      // Pick the array that looks most like property records
+      var cand = candidates[ca];
+      if (cand[0] && typeof cand[0] === "object" && (cand[0].address || cand[0].tokenPrice || cand[0].apy || cand[0].token_price || cand[0].name || cand[0].title)) {
+        arr = cand;
+        console.log("    Found candidate array (" + arr.length + " items) in " + item.url.slice(0, 80));
+        break;
+      }
+    }
 
     for (var ai = 0; ai < arr.length; ai++) {
       var rec = arr[ai];
