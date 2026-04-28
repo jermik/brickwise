@@ -136,8 +136,10 @@ function buildPropertyObject(raw, id, platform) {
   var scores        = computeScores({ expectedYield: expectedYield, occupancyRate: occupancyRate, yearBuilt: yearBuilt, city: city, fairValueStatus: fairValueStatus });
   var risk          = deriveRisk(scores);
   var tags          = deriveTags({ expectedYield: expectedYield, fairValueStatus: fairValueStatus, city: city });
-  var image         = CITY_IMAGES[city] || CITY_IMAGES["default"];
+  var image         = raw.image || CITY_IMAGES[city] || CITY_IMAGES["default"];
   var sourceUrl     = raw.url || (platform === "RealT" ? "https://realt.co" : "https://www.lofty.ai");
+  // Use platform-provided neighborhoodScore if available
+  if (raw.neighborhoodScore) scores.neighborhoodScore = raw.neighborhoodScore;
 
   return Object.assign({
     id: id,
@@ -365,21 +367,35 @@ async function discoverLoftyListings(page) {
       var rec = rawArr[ai];
       if (!rec || typeof rec !== "object") continue;
 
-      var propId    = rec.id || rec.propertyId || rec.uid || rec.uuid || "";
-      var address   = rec.address || rec.propertyAddress || rec.streetAddress || rec.fullAddress || rec.title || rec.name || "";
-      var city      = rec.city || rec.propertyCity || extractCity(address);
-      var state     = rec.state || rec.propertyState || "";
-      var tokenPrice = parseNum(rec.tokenPrice || rec.token_price || rec.pricePerToken || rec.currentPrice || rec.price);
-      var slug      = rec.slug || rec.propertySlug || rec.id || "";
-      var itemUrl   = rec.url || rec.link || rec.propertyUrl || ("https://www.lofty.ai/property/" + slug);
+      var propId    = rec.propertyId || rec.id || rec.uid || "";
+      var address   = rec.address || rec.propertyAddress || rec.streetAddress || rec.title || rec.name || "";
+      var city      = rec.city || extractCity(address);
+      var state     = rec.state || "";
+      var slug      = rec.slug || propId;
+      var itemUrl   = "https://www.lofty.ai/property/" + slug;
 
-      // Merge yield data from yieldMap if available
-      var ydata     = (propId && yieldMap[propId]) || {};
-      var expectedYield = ydata.expectedYield || parseNum(rec.apy || rec.yield || rec.annualYield || rec.expectedYield || rec.targetYield || rec.netYield);
-      var grossYield    = ydata.grossYield    || parseNum(rec.grossYield || rec.grossRentYield);
-      var monthlyRent   = ydata.monthlyRent   || parseNum(rec.monthlyRent || rec.rent || rec.rentalIncome || rec.grossMonthlyRent);
-      var occupancyRate = ydata.occupancyRate || parseNum(rec.occupancy || rec.occupancyRate || rec.occupied);
+      // Lofty field names (confirmed from API response)
+      var tokenPrice    = parseNum(rec.lastPrice || rec.salePrice || rec.bestAsk || rec.price || rec.tokenPrice);
+      // coc/capRate may be decimals (0.12) or percentages (12) — normalise
+      function normPct(v) {
+        var n = parseNum(v);
+        if (n === null) return null;
+        return n < 2 ? Math.round(n * 1000) / 10 : n; // 0.12 → 12.0, 12 stays 12
+      }
+      var expectedYield = normPct(rec.coc || rec.projectedCoc || rec.projectedAnnualReturn);
+      var grossYield    = normPct(rec.capRate || rec.projectedCapRate || rec.grossYield);
+      var monthlyRent   = parseNum(rec.monthlyRent || rec.rent || rec.rentalIncome || rec.grossMonthlyRent);
+      // Merge with yield map if available
+      var ydata = (propId && yieldMap[propId]) || {};
+      if (ydata.expectedYield) expectedYield = ydata.expectedYield;
+      if (ydata.grossYield)    grossYield    = ydata.grossYield;
+      if (ydata.monthlyRent)   monthlyRent   = ydata.monthlyRent;
+      // Occupancy: boolean isOccupied → approximate %, or from yield map
+      var occupancyRate = ydata.occupancyRate || (rec.isOccupied ? 95 : 75);
       var yearBuilt     = rec.yearBuilt || rec.constructionYear || rec.built;
+      var loftyImage    = rec.image || null;
+      var loftyNeighborhoodScore = parseNum(rec.neighborhoodScore);
+      var totalTokens   = parseNum(rec.numIssued) || 1200;
 
       var key = itemUrl || address;
       if (!key || seen.has(key)) continue;
@@ -391,7 +407,12 @@ async function discoverLoftyListings(page) {
         tokenPrice: tokenPrice, expectedYield: expectedYield, grossYield: grossYield,
         monthlyRent: monthlyRent, occupancyRate: occupancyRate,
         yearBuilt: yearBuilt ? parseInt(yearBuilt) : null,
+        totalTokens: totalTokens, image: loftyImage,
+        neighborhoodScore: loftyNeighborhoodScore,
       });
+      if (listings.length <= 3) {
+        console.log("    listing: " + address + ", " + city + " | price=" + tokenPrice + " coc=" + expectedYield + "% cap=" + grossYield + "% occ=" + occupancyRate + "%");
+      }
     }
     break; // Only need one list-view-data response
   }
@@ -577,7 +598,7 @@ async function main() {
     } else if (city && city !== "Unknown" && card.tokenPrice && card.expectedYield) {
       var lnewId = nextId++;
       console.log("  NEW Lofty (ID " + lnewId + "): " + (card.address || city));
-      var lraw = { name: card.address || ("Lofty " + city), address: card.address || "", city: city, url: card.url || "https://www.lofty.ai/marketplace", tokenPrice: card.tokenPrice, expectedYield: card.expectedYield, grossYield: card.expectedYield ? Math.round((card.expectedYield + 4) * 10) / 10 : null, monthlyRent: card.monthlyRent, occupancyRate: card.occupancyRate };
+      var lraw = { name: card.address || ("Lofty " + city), address: card.address || "", city: city, url: card.url || "https://www.lofty.ai/marketplace", tokenPrice: card.tokenPrice, expectedYield: card.expectedYield, grossYield: card.grossYield || (card.expectedYield ? Math.round((card.expectedYield + 4) * 10) / 10 : null), monthlyRent: card.monthlyRent, occupancyRate: card.occupancyRate, totalTokens: card.totalTokens, image: card.image, neighborhoodScore: card.neighborhoodScore };
       var lprop = buildPropertyObject(lraw, lnewId, "Lofty");
       var lai = await generateDescriptions(lprop);
       if (lai) {
