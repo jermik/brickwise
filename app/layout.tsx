@@ -121,14 +121,12 @@ export default function RootLayout({
         lang="en"
         className={`${inter.variable} ${dmMono.variable} ${dmSerif.variable} h-full`}
       >
-        <head>
+        <body className="h-full">
           <link rel="preconnect" href="https://api.fontshare.com" />
           <link
             rel="stylesheet"
             href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap"
           />
-        </head>
-        <body className="h-full">
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(globalSchema) }}
