@@ -89,7 +89,7 @@ export function Sidebar() {
     <aside
       className="w-[220px] flex-shrink-0 flex flex-col h-screen sticky top-0"
       style={{
-        background: "#0e0e0e",
+        background: "#120F0A",
         borderRight: "1px solid rgba(255,255,255,0.06)",
       }}
     >

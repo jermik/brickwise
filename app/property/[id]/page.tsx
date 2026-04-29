@@ -33,8 +33,30 @@ export async function generateMetadata({
   const p = PROPERTIES.find((prop) => prop.id === Number(id));
   if (!p) return { title: "Property not found" };
   return {
-    title: `${p.name}, ${p.city} — Brickwise`,
-    description: p.shortDescription,
+    title: `${p.name}, ${p.city} — ${p.expectedYield}% Net Yield | Tokenized Real Estate | Brickwise`,
+    description: `${p.shortDescription} ${p.propertyType} in ${p.city}, ${p.country}. Token price €${p.tokenPrice.toFixed(2)}. ${p.overallScore}/100 Brickwise score. Listed on ${p.platform}.`,
+    keywords: [
+      p.name,
+      `tokenized real estate ${p.city}`,
+      `fractional property investment ${p.city}`,
+      `${p.platform} ${p.city}`,
+      `real estate token ${p.country}`,
+      `${p.expectedYield}% yield property investment`,
+      "tokenized property investment",
+      "fractional real estate",
+    ],
+    openGraph: {
+      title: `${p.name} — ${p.expectedYield}% Net Yield | Brickwise`,
+      description: p.shortDescription,
+      images: [{ url: p.image, alt: p.name }],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${p.name} — ${p.expectedYield}% Net Yield`,
+      description: p.shortDescription,
+      images: [p.image],
+    },
   };
 }
 
@@ -60,8 +82,42 @@ export default async function PropertyDetailPage({
   const attractivePoints = toPoints(p.attractiveNote);
   const riskPoints = toPoints(p.riskNote);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Product",
+        "name": `${p.name} — Tokenized Real Estate`,
+        "description": p.shortDescription,
+        "image": p.image,
+        "brand": { "@type": "Brand", "name": p.platform },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "EUR",
+          "price": p.tokenPrice.toFixed(2),
+          "availability": "https://schema.org/InStock",
+          ...(p.sourceUrl ? { "url": p.sourceUrl } : {}),
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": String(p.overallScore),
+          "bestRating": "100",
+          "ratingCount": "1",
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Analyzer", "item": "https://brickwise.pro/analyzer" },
+          { "@type": "ListItem", "position": 2, "name": p.name, "item": `https://brickwise.pro/property/${p.id}` },
+        ],
+      },
+    ],
+  };
+
   return (
     <AppShell>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="px-6 lg:px-10 py-8 max-w-[960px]">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 mb-6 text-[12px]">
@@ -748,6 +804,19 @@ export default async function PropertyDetailPage({
             >
               ← Back to Analyzer
             </Link>
+
+            <a
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${p.expectedYield}% net yield · ${p.name}, ${p.city}\n\nScore: ${p.overallScore}/100 · Listed on ${p.platform}`)}&url=${encodeURIComponent(`https://brickwise.pro/property/${p.id}`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full py-3 rounded-[9px] text-[13px] font-medium no-underline transition-opacity hover:opacity-80"
+              style={{ background: "#000", color: "#fff", border: "1px solid #222" }}
+            >
+              <svg width="12" height="12" viewBox="0 0 1200 1227" fill="none">
+                <path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.163 519.284Z" fill="white" />
+              </svg>
+              Share on X
+            </a>
 
             <p className="text-[10px] leading-[1.6]" style={{ color: "#c4c4c4" }}>
               Scores and yield estimates are for informational purposes only and do not constitute

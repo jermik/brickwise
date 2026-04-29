@@ -9,6 +9,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter);
   --font-mono: var(--font-dm-mono);
+  --font-display: var(--font-dm-serif);
   --color-border: var(--border);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
@@ -30,23 +31,23 @@
 
 :root {
   /* Brickwise design tokens */
-  --background: #f5f5f3;
+  --background: #ECEAE3;
   --foreground: #111111;
-  --card: #ffffff;
+  --card: #F8F5F0;
   --card-foreground: #111111;
-  --popover: #ffffff;
+  --popover: #F8F5F0;
   --popover-foreground: #111111;
   --primary: #111111;
   --primary-foreground: #ffffff;
-  --secondary: #f5f5f3;
+  --secondary: #ECEAE3;
   --secondary-foreground: #111111;
-  --muted: #f5f5f5;
+  --muted: #E8E4DC;
   --muted-foreground: #737373;
   --accent: #f0fdf4;
   --accent-foreground: #15803d;
   --destructive: #dc2626;
-  --border: #ebebeb;
-  --input: #ebebeb;
+  --border: #E0DAD0;
+  --input: #E0DAD0;
   --ring: #111111;
   --radius: 0.5rem;
 
@@ -86,4 +87,40 @@
 
 .font-mono {
   font-family: var(--font-dm-mono), 'DM Mono', monospace;
+}
+
+/* Liquid glass — used on landing hero logo chips */
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.01);
+  background-blend-mode: luminosity;
+  backdrop-filter: blur(4px);
+  border: none;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+.liquid-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.4px;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.45) 0%,
+    rgba(255,255,255,0.15) 20%,
+    rgba(255,255,255,0) 40%,
+    rgba(255,255,255,0) 60%,
+    rgba(255,255,255,0.15) 80%,
+    rgba(255,255,255,0.45) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0%); }
+  to   { transform: translateX(-50%); }
 }

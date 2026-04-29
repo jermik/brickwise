@@ -5,8 +5,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: ["/", "/analyzer", "/property/"],
-        disallow: ["/dashboard", "/portfolio", "/watchlist", "/sign-in", "/sign-up"],
+        allow: ["/", "/analyzer", "/property/", "/market"],
+        disallow: ["/dashboard", "/portfolio", "/watchlist", "/sign-in", "/sign-up", "/announce"],
       },
     ],
     sitemap: "https://brickwise.pro/sitemap.xml",

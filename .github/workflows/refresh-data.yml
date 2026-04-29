@@ -32,11 +32,17 @@ jobs:
           KIE_AI_DEFAULT_MODEL: ${{ secrets.KIE_AI_DEFAULT_MODEL }}
         run: node scripts/discover-properties.mjs
 
+      - name: Generate SEO content
+        env:
+          KIE_AI_API_KEY: ${{ secrets.KIE_AI_API_KEY }}
+          KIE_AI_DEFAULT_MODEL: ${{ secrets.KIE_AI_DEFAULT_MODEL }}
+        run: node scripts/generate-seo-content.mjs
+
       - name: Commit updated data
         run: |
           git config user.name "brickwise-bot"
           git config user.email "bot@brickwise.pro"
-          git add lib/data/properties-live.json lib/data/properties-auto.json
+          git add lib/data/properties-live.json lib/data/properties-auto.json lib/data/market-updates.json
           if git diff --staged --quiet; then
             echo "No data changes to commit"
           else

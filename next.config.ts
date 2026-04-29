@@ -4,10 +4,9 @@ import { withSentryConfig } from "@sentry/nextjs";
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-      },
+      { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "images.lofty.ai" },
+      { protocol: "https", hostname: "**.lofty.ai" },
     ],
   },
 };

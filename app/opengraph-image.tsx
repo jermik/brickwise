@@ -2,6 +2,7 @@ import { ImageResponse } from "next/og";
 import { PROPERTIES } from "@/lib/data/properties";
 import { getRecommendation } from "@/lib/recommendations";
 
+export const runtime = "nodejs";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -70,7 +71,7 @@ export default function Image() {
             <span style={{ color: "#16a34a" }}>or avoid.</span>
           </div>
           <div style={{ fontSize: 24, color: "#a3a3a3", fontWeight: 400, letterSpacing: "-0.3px" }}>
-            Tokenised real estate analytics for RealT investors.
+            {count} properties scored across Lofty & RealT.
           </div>
         </div>
 

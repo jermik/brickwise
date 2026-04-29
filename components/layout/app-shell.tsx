@@ -20,7 +20,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     return (
       <div
         className="flex h-full min-h-screen items-center justify-center"
-        style={{ background: "#f5f5f3" }}
+        style={{ background: "#ECEAE3" }}
       />
     );
   }
@@ -29,13 +29,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     return (
       <div
         className="flex h-full min-h-screen items-center justify-center"
-        style={{ background: "#f5f5f3" }}
+        style={{ background: "#ECEAE3" }}
       />
     );
   }
 
   return (
-    <div className="flex flex-col lg:flex-row h-full min-h-screen" style={{ background: "#f5f5f3" }}>
+    <div className="flex flex-col lg:flex-row h-full min-h-screen" style={{ background: "#ECEAE3" }}>
       <div className="hidden lg:flex">
         <Sidebar />
       </div>

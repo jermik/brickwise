@@ -16,8 +16,8 @@ export function PropertyCard({ property: p }: PropertyCardProps) {
   return (
     <Link href={`/property/${p.id}`} className="block no-underline group">
       <div
-        className="rounded-[10px] overflow-hidden transition-shadow duration-200 group-hover:shadow-[0_4px_20px_rgba(0,0,0,0.07)]"
-        style={{ background: "#fff", border: "1px solid #ebebeb" }}
+        className="rounded-[10px] overflow-hidden transition-shadow duration-200 group-hover:shadow-[0_6px_24px_rgba(60,40,10,0.10)]"
+        style={{ background: "#F8F5F0", border: "1px solid #E0DAD0" }}
       >
         {/* Image */}
         <div className="relative h-[140px] overflow-hidden flex-shrink-0">
@@ -95,8 +95,8 @@ export function PropertyCard({ property: p }: PropertyCardProps) {
           {/* Name + location */}
           <div className="mb-3">
             <div
-              className="text-[13px] font-semibold leading-tight mb-1"
-              style={{ color: "#111" }}
+              className="text-[15px] font-normal leading-tight mb-1"
+              style={{ color: "#111", fontFamily: "var(--font-dm-serif)" }}
             >
               {p.name}
             </div>
@@ -115,7 +115,7 @@ export function PropertyCard({ property: p }: PropertyCardProps) {
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
               gap: 1,
-              background: "#ebebeb",
+              background: "#E0DAD0",
             }}
           >
             {[
@@ -127,7 +127,7 @@ export function PropertyCard({ property: p }: PropertyCardProps) {
               <div
                 key={s.label}
                 className="px-3 py-2.5"
-                style={{ background: "#fff" }}
+                style={{ background: "#F8F5F0" }}
               >
                 <div
                   className="text-[9px] font-semibold uppercase tracking-[0.6px] mb-1"

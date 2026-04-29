@@ -70,7 +70,7 @@ export function MobileNav() {
       <div
         className="lg:hidden flex items-center justify-between px-5 h-[52px] flex-shrink-0 sticky top-0 z-30"
         style={{
-          background: "#0e0e0e",
+          background: "#120F0A",
           borderBottom: "1px solid rgba(255,255,255,0.06)",
         }}
       >
@@ -117,7 +117,7 @@ export function MobileNav() {
       <div
         className="lg:hidden fixed top-0 left-0 h-full z-50 flex flex-col w-[260px] transition-transform duration-200"
         style={{
-          background: "#0e0e0e",
+          background: "#120F0A",
           borderRight: "1px solid rgba(255,255,255,0.06)",
           transform: open ? "translateX(0)" : "translateX(-100%)",
         }}
