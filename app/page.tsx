@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { auth } from "@clerk/nextjs/server";
-import { LandingHero } from "@/components/landing/hero";
 import { AppShell } from "@/components/layout/app-shell";
 import { EmailCapture } from "@/components/ui/email-capture";
 import { PropertyCard } from "@/components/property/property-card";
@@ -114,10 +112,7 @@ const platformCoverage = [
 ];
 const verifiedCount = PROPERTIES.filter((p) => p.sourceVerified).length;
 
-export default async function DecisionPage() {
-  const { userId } = await auth();
-  if (!userId) return <LandingHero />;
-
+export default function DecisionPage() {
   const itemListSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -633,10 +628,8 @@ export default async function DecisionPage() {
                     return (
                       <Link key={p.id} href={`/property/${p.id}`} className="no-underline block">
                         <div
-                          className="flex items-center gap-2.5 px-4 py-2.5 transition-colors"
+                          className="flex items-center gap-2.5 px-4 py-2.5 transition-colors hover:bg-[#fafafa]"
                           style={{ borderBottom: "1px solid #f9f9f9" }}
-                          onMouseEnter={(e) => ((e.currentTarget as HTMLDivElement).style.background = "#fafafa")}
-                          onMouseLeave={(e) => ((e.currentTarget as HTMLDivElement).style.background = "")}
                         >
                           <span
                             className="text-[10px] font-bold w-4 flex-shrink-0 text-center"
