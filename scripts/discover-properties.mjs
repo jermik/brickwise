@@ -400,6 +400,8 @@ async function discoverLoftyListings(page) {
       var key = itemUrl || address;
       if (!key || seen.has(key)) continue;
       if (!tokenPrice && !expectedYield) continue;
+      // Skip properties with implausible yields
+      if (expectedYield && (expectedYield < 2 || expectedYield > 35)) continue;
       seen.add(key);
 
       listings.push({
