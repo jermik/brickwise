@@ -71,7 +71,7 @@ export default function Image() {
             <span style={{ color: "#16a34a" }}>or avoid.</span>
           </div>
           <div style={{ fontSize: 24, color: "#a3a3a3", fontWeight: 400, letterSpacing: "-0.3px" }}>
-            {count} properties scored across Lofty & RealT.
+            {`${count} properties scored across Lofty & RealT.`}
           </div>
         </div>
 

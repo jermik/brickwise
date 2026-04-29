@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
   const { email, source } = await req.json();
@@ -17,6 +17,8 @@ export async function POST(req: NextRequest) {
       { status: 503 }
     );
   }
+
+  const resend = new Resend(process.env.RESEND_API_KEY);
 
   const { error } = await resend.contacts.create({
     email: email.toLowerCase().trim(),

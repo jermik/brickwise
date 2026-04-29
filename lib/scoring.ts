@@ -53,7 +53,7 @@ export function valueStatusColors(status: ValueStatus): {
         border: "#fecaca",
       },
     };
-  return map[status];
+  return map[status] ?? { bg: "#f5f5f5", text: "#737373", border: "#e5e5e5" };
 }
 
 export function platformColor(platform: string): string {
