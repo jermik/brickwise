@@ -61,17 +61,6 @@ const navItems = [
       </svg>
     ),
   },
-  {
-    href: "/announce",
-    label: "Announce",
-    icon: (
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <path d="M2 5.5h1.5v3H2a1 1 0 01-1-1v-1a1 1 0 011-1z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
-        <path d="M3.5 5.5L10 2v10L3.5 8.5V5.5z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
-        <path d="M5.5 8.5l1 3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-      </svg>
-    ),
-  },
 ];
 
 export function Sidebar() {
