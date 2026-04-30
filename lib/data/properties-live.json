@@ -90,14 +90,14 @@
     "sourceVerified": false
   },
   "18": {
-    "tokenPrice": 23.32,
+    "tokenPrice": 29.91,
     "grossYield": 16.3,
-    "expectedYield": 20.31,
+    "expectedYield": 8.77,
     "monthlyRent": 680,
     "occupancyRate": 95,
     "lastUpdated": "2026-04-30",
     "sourceVerified": true,
-    "sourceUrl": "https://www.lofty.ai/property/2724-Chatsworth-St_Memphis-TN-38127"
+    "sourceUrl": "https://www.lofty.ai/property/3976-Stillwood-Dr_Memphis-TN-38128"
   },
   "19": {
     "tokenPrice": 50,
