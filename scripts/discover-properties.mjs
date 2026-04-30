@@ -55,13 +55,34 @@ const CITY_SCORES = {
 };
 
 const CITY_IMAGES = {
-  Detroit:       "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=700&q=80&auto=format&fit=crop",
-  Indianapolis:  "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=700&q=80&auto=format&fit=crop",
-  Atlanta:       "https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?w=700&q=80&auto=format&fit=crop",
-  Memphis:       "https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=700&q=80&auto=format&fit=crop",
-  "Kansas City": "https://images.unsplash.com/photo-1505873242700-f289a29e1724?w=700&q=80&auto=format&fit=crop",
-  Nashville:     "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80&auto=format&fit=crop",
-  default:       "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=700&q=80&auto=format&fit=crop",
+  Detroit:        "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=700&q=80&auto=format&fit=crop",
+  Indianapolis:   "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=700&q=80&auto=format&fit=crop",
+  Atlanta:        "https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?w=700&q=80&auto=format&fit=crop",
+  Memphis:        "https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=700&q=80&auto=format&fit=crop",
+  "Kansas City":  "https://images.unsplash.com/photo-1505873242700-f289a29e1724?w=700&q=80&auto=format&fit=crop",
+  Nashville:      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80&auto=format&fit=crop",
+  Chicago:        "https://images.unsplash.com/photo-1494522855154-9297ac14b55f?w=700&q=80&auto=format&fit=crop",
+  Cleveland:      "https://images.unsplash.com/photo-1569535860598-a674beb1fb77?w=700&q=80&auto=format&fit=crop",
+  Cincinnati:     "https://images.unsplash.com/photo-1570197571499-166b36435e9f?w=700&q=80&auto=format&fit=crop",
+  "St. Louis":    "https://images.unsplash.com/photo-1573455494060-c5595004fb6c?w=700&q=80&auto=format&fit=crop",
+  Pittsburgh:     "https://images.unsplash.com/photo-1534430480872-3498386e7856?w=700&q=80&auto=format&fit=crop",
+  Birmingham:     "https://images.unsplash.com/photo-1601517742513-21e9d4d555ee?w=700&q=80&auto=format&fit=crop",
+  Houston:        "https://images.unsplash.com/photo-1571974599782-87624638275e?w=700&q=80&auto=format&fit=crop",
+  Dallas:         "https://images.unsplash.com/photo-1545194445-dddb8f4487c6?w=700&q=80&auto=format&fit=crop",
+  Jacksonville:   "https://images.unsplash.com/photo-1575517111478-7f6afd0973db?w=700&q=80&auto=format&fit=crop",
+  Tampa:          "https://images.unsplash.com/photo-1558618047-3c0017c5e485?w=700&q=80&auto=format&fit=crop",
+  Orlando:        "https://images.unsplash.com/photo-1575517111839-84a09b36afc0?w=700&q=80&auto=format&fit=crop",
+  Miami:          "https://images.unsplash.com/photo-1533106497176-45ae19e68ba2?w=700&q=80&auto=format&fit=crop",
+  Charlotte:      "https://images.unsplash.com/photo-1589307357824-1c2eb2d0d6ee?w=700&q=80&auto=format&fit=crop",
+  Raleigh:        "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=700&q=80&auto=format&fit=crop",
+  Columbus:       "https://images.unsplash.com/photo-1588005956780-9de4a64c0cdf?w=700&q=80&auto=format&fit=crop",
+  Toledo:         "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=700&q=80&auto=format&fit=crop",
+  "South Bend":   "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=700&q=80&auto=format&fit=crop",
+  Akron:          "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=700&q=80&auto=format&fit=crop",
+  Dayton:         "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=700&q=80&auto=format&fit=crop",
+  Youngstown:     "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=700&q=80&auto=format&fit=crop",
+  Flint:          "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=700&q=80&auto=format&fit=crop",
+  default:        "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=700&q=80&auto=format&fit=crop",
 };
 
 // ── Helpers ──────────────────────────────────────────────────────────────
@@ -188,50 +209,114 @@ async function generateDescriptions(prop) {
 
 // ── RealT: community JSON API ─────────────────────────────────────────────
 async function fetchRealtApi() {
-  var endpoints = [
-    "https://api.realt.community/v1/properties",
-    "https://ehpst.deno.dev/realt/api/properties",
-    "https://realt.co/wp-json/wc/store/v1/products?per_page=100",
-    "https://realt.co/wp-json/wp/v2/product?per_page=100&_fields=id,slug,title,meta",
-  ];
-  for (var i = 0; i < endpoints.length; i++) {
-    var url = endpoints[i];
+  var apiKey = process.env.REALT_API_KEY;
+
+  // Primary: authenticated community API — returns ALL 700+ tokens
+  if (apiKey) {
     try {
-      console.log("  Trying RealT API: " + url);
+      console.log("  Trying RealT community API (authenticated)...");
       var controller = new AbortController();
-      var timer = setTimeout(function() { controller.abort(); }, 12000);
-      var res = await fetch(url, {
-        headers: { "Accept": "application/json", "User-Agent": "brickwise-bot/1.0" },
+      var timer = setTimeout(function() { controller.abort(); }, 30000);
+      var res = await fetch("https://api.realt.community/v1/token", {
+        headers: {
+          "Accept": "application/json",
+          "User-Agent": "brickwise-bot/1.0",
+          "X-AUTH-REALT-TOKEN": apiKey,
+        },
         signal: controller.signal,
       });
       clearTimeout(timer);
-      if (!res.ok) { console.log("    HTTP " + res.status + " — trying next"); continue; }
-      var data = await res.json();
-      var arr = Array.isArray(data) ? data : (data.data ? (Array.isArray(data.data) ? data.data : Object.values(data.data)) : (data.properties || data.listings || data.results || []));
-      if (arr.length > 0) { console.log("    Got " + arr.length + " records from " + url); return arr; }
-      console.log("    Empty response from " + url);
+      if (res.ok) {
+        var data = await res.json();
+        var arr = Array.isArray(data) ? data : Object.values(data);
+        if (arr.length > 0) {
+          console.log("  Got " + arr.length + " RealT tokens from authenticated API");
+          return arr;
+        }
+      } else {
+        console.log("  Auth API HTTP " + res.status + " — falling back");
+      }
     } catch (err) {
-      console.log("    " + url + " failed: " + err.message);
+      console.log("  Auth API failed: " + err.message + " — falling back");
+    }
+  } else {
+    console.log("  No REALT_API_KEY set — trying public fallbacks");
+  }
+
+  // Fallback: public proxies
+  var fallbacks = [
+    "https://ehpst.deno.dev/realt/api/token",
+    "https://ehpst.deno.dev/realt/api/properties",
+    "https://api.realt.community/v1/token",
+  ];
+  for (var i = 0; i < fallbacks.length; i++) {
+    var url = fallbacks[i];
+    try {
+      console.log("  Trying fallback: " + url);
+      var ctrl2 = new AbortController();
+      var t2 = setTimeout(function() { ctrl2.abort(); }, 15000);
+      var r2 = await fetch(url, {
+        headers: { "Accept": "application/json", "User-Agent": "brickwise-bot/1.0" },
+        signal: ctrl2.signal,
+      });
+      clearTimeout(t2);
+      if (!r2.ok) { console.log("    HTTP " + r2.status); continue; }
+      var d2 = await r2.json();
+      var a2 = Array.isArray(d2) ? d2 : Object.values(d2);
+      if (a2.length > 0) { console.log("    Got " + a2.length + " records"); return a2; }
+    } catch (err2) {
+      console.log("    " + url + " failed: " + err2.message);
     }
   }
   return null;
 }
 
 function normaliseRealtApiRecord(rec) {
-  var tokenPrice    = parseNum(rec.tokenPrice    || (rec.token && rec.token.value) || rec.tokenPriceCurrent || rec.pricePerToken);
-  var grossYield    = parseNum(rec.annualPercentageYield || rec.grossRentYield || rec.totalReturnYield || rec.grossYield);
-  var netYield      = parseNum(rec.netRentYield  || rec.netYield  || rec.expectedYield || rec.annualReturn);
-  var monthlyRent   = parseNum(rec.grossRentMonth || rec.monthlyRent || rec.rentalMonth || rec.grossMonthlyRent);
-  var occupancyRate = parseNum(rec.occupancy     || rec.occupancyRate || rec.rented);
-  var yearBuilt     = rec.constructionYear || rec.yearBuilt || rec.built;
-  var squareFeet    = parseNum(rec.squareFeet    || rec.surface  || rec.livingArea || rec.sqft);
-  var totalTokens   = parseNum(rec.totalTokens   || rec.tokenSupply || rec.totalToken);
-  var fullName      = rec.fullName || rec.shortName || "";
-  var slug          = fullName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-  var url           = slug ? ("https://realt.co/product/" + slug + "/") : (rec.marketplaceLink || rec.realtUrl || null);
-  var city          = extractCity(fullName) || rec.city || rec.propertyCity || "Unknown";
-  var name          = fullName.replace(/,.*/, "").trim().replace(/\b\w/g, function(c) { return c.toUpperCase(); }) || ("RealT " + (rec.uuid || "").slice(0, 6));
-  return { name: name, city: city, url: url, tokenPrice: tokenPrice, grossYield: grossYield, expectedYield: netYield, monthlyRent: monthlyRent, occupancyRate: occupancyRate, yearBuilt: yearBuilt ? parseInt(yearBuilt) : null, squareFeet: squareFeet, totalTokens: totalTokens };
+  var fullName    = rec.fullName || rec.shortName || "";
+  var tokenPrice  = parseNum(rec.tokenPrice || rec.usdcPrice || rec.pricePerToken);
+  var totalTokens = parseNum(rec.totalTokens || rec.totalTokensRegSummed || rec.tokenSupply);
+
+  // annualPercentageYield in the RealT API IS the net yield (after all fees)
+  var netYield    = parseNum(rec.annualPercentageYield || rec.netRentYield);
+  // Compute gross yield from grossRentYear if available
+  var grossRentYear = parseNum(rec.grossRentYear);
+  var grossYield  = (grossRentYear && tokenPrice && totalTokens)
+    ? Math.round((grossRentYear / (tokenPrice * totalTokens)) * 1000) / 10
+    : (netYield ? Math.round((netYield + 3) * 10) / 10 : null);
+
+  // Use net monthly rent when available
+  var monthlyRent = parseNum(rec.netRentMonth || rec.grossRentMonth || rec.monthlyRent);
+
+  // Occupancy from units rented ratio
+  var rentedUnits = parseNum(rec.rentedUnits);
+  var totalUnits  = parseNum(rec.totalUnits);
+  var occupancyRate = (rentedUnits !== null && totalUnits && totalUnits > 0)
+    ? Math.round((rentedUnits / totalUnits) * 100)
+    : parseNum(rec.occupancy || rec.occupancyRate);
+
+  var yearBuilt  = rec.constructionYear || rec.yearBuilt;
+  var squareFeet = parseNum(rec.squareFeet || rec.surface || rec.livingArea);
+
+  // Real property image from RealT's CDN
+  var image = (rec.imageLink && rec.imageLink[0]) || null;
+
+  // Property type from API
+  var propType = (rec.propertyType && rec.propertyType.type) || "Single Family";
+
+  var slug = fullName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  var url  = slug ? ("https://realt.co/product/" + slug + "/") : (rec.marketplaceLink || null);
+  var city = extractCity(fullName) || rec.propertyCity || "Unknown";
+  var name = fullName.replace(/,.*/, "").trim().replace(/\b\w/g, function(c) { return c.toUpperCase(); })
+             || ("RealT " + (rec.uuid || "").slice(0, 6));
+
+  return {
+    name: name, city: city, url: url, image: image,
+    tokenPrice: tokenPrice, totalTokens: totalTokens,
+    grossYield: grossYield, expectedYield: netYield,
+    monthlyRent: monthlyRent, occupancyRate: occupancyRate,
+    yearBuilt: yearBuilt ? parseInt(yearBuilt) : null,
+    squareFeet: squareFeet, propertyType: propType,
+  };
 }
 
 // ── RealT: Playwright fallback ────────────────────────────────────────────
@@ -535,6 +620,7 @@ async function main() {
         if (raw.grossYield)    nextAuto.grossYield    = raw.grossYield;
         if (raw.monthlyRent)   nextAuto.monthlyRent   = raw.monthlyRent;
         if (raw.occupancyRate) nextAuto.occupancyRate = raw.occupancyRate;
+        if (raw.image)         nextAuto.image         = raw.image;
         if (JSON.stringify(prevAuto) !== JSON.stringify(nextAuto)) {
           updatedAuto[idx] = nextAuto;
           autoChanged = true;

@@ -30,6 +30,7 @@ jobs:
         env:
           KIE_AI_API_KEY: ${{ secrets.KIE_AI_API_KEY }}
           KIE_AI_DEFAULT_MODEL: ${{ secrets.KIE_AI_DEFAULT_MODEL }}
+          REALT_API_KEY: ${{ secrets.REALT_API_KEY }}
         run: node scripts/discover-properties.mjs
 
       - name: Generate SEO content
