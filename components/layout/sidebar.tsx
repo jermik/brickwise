@@ -121,14 +121,16 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className="w-full flex items-center gap-2.5 px-2.5 py-[9px] rounded-[7px] mb-0.5 text-[13px] transition-all duration-150 no-underline"
+              className="w-full flex items-center gap-2.5 py-[9px] rounded-[7px] mb-0.5 text-[13px] transition-all duration-150 no-underline relative overflow-hidden"
               style={{
-                background: active ? "rgba(255,255,255,0.06)" : "transparent",
-                color: active ? "#fff" : "rgba(255,255,255,0.5)",
+                padding: "9px 10px 9px 10px",
+                background: active ? "rgba(34,197,94,0.07)" : "transparent",
+                color: active ? "#e2fded" : "rgba(255,255,255,0.45)",
                 fontWeight: active ? 600 : 400,
+                borderLeft: active ? "2px solid #22c55e" : "2px solid transparent",
               }}
             >
-              <span style={{ opacity: active ? 1 : 0.6 }}>{item.icon}</span>
+              <span style={{ opacity: active ? 1 : 0.5, color: active ? "#22c55e" : "currentColor" }}>{item.icon}</span>
               {item.label}
             </Link>
           );

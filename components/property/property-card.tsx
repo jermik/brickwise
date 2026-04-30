@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { Property } from "@/lib/types";
 import { ScoreRing } from "@/components/ui/score-ring";
 import { ValueTag } from "@/components/ui/value-tag";
@@ -13,42 +16,66 @@ interface PropertyCardProps {
 
 export function PropertyCard({ property: p }: PropertyCardProps) {
   const rec = getRecommendation(p);
+  const isBuy = rec.action === "Buy";
+
   return (
     <Link href={`/property/${p.id}`} className="block no-underline group">
-      <div
-        className="rounded-[10px] overflow-hidden transition-shadow duration-200 group-hover:shadow-[0_6px_24px_rgba(60,40,10,0.10)]"
-        style={{ background: "#F8F5F0", border: "1px solid #E0DAD0" }}
+      <motion.div
+        className="rounded-[12px] overflow-hidden h-full"
+        style={{
+          background: "#131109",
+          border: `1px solid ${isBuy ? "rgba(34,197,94,0.18)" : "#2A2420"}`,
+        }}
+        whileHover={{
+          y: -4,
+          boxShadow: isBuy
+            ? "0 12px 40px rgba(34,197,94,0.14), 0 4px 12px rgba(0,0,0,0.5)"
+            : "0 12px 40px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.3)",
+          borderColor: isBuy ? "rgba(34,197,94,0.35)" : "rgba(242,237,230,0.12)",
+        }}
+        transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
       >
         {/* Image */}
-        <div className="relative h-[140px] overflow-hidden flex-shrink-0">
-          <img
+        <div className="relative h-[148px] overflow-hidden flex-shrink-0">
+          <motion.img
             src={p.image}
             alt={p.name}
             referrerPolicy="no-referrer"
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+            className="w-full h-full object-cover"
+            whileHover={{ scale: 1.04 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           />
-          {/* Platform dot — glass pill bottom-left */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background: "linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.55) 100%)",
+            }}
+          />
+
+          {/* Platform pill */}
           <div className="absolute bottom-2.5 left-3">
             <span
               className="inline-flex items-center gap-1.5 text-[11px] font-medium"
               style={{
-                background: "rgba(0,0,0,0.45)",
-                backdropFilter: "blur(6px)",
-                color: "rgba(255,255,255,0.9)",
+                background: "rgba(0,0,0,0.55)",
+                backdropFilter: "blur(8px)",
+                color: "rgba(255,255,255,0.88)",
                 padding: "2px 8px",
                 borderRadius: 4,
+                border: "1px solid rgba(255,255,255,0.08)",
               }}
             >
               <PlatformDot platform={p.platform} light />
             </span>
           </div>
-          {/* Bottom-right: Best Buy or New badge */}
+
+          {/* Badge top-right */}
           {rec.label === "Best Buy" ? (
             <div className="absolute bottom-2.5 right-3">
               <span
                 className="inline-flex items-center gap-1 text-[10px] font-bold"
                 style={{
-                  background: "#16a34a",
+                  background: "#22c55e",
                   color: "#fff",
                   padding: "2px 7px",
                   borderRadius: 4,
@@ -62,7 +89,7 @@ export function PropertyCard({ property: p }: PropertyCardProps) {
               <span
                 className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-[0.4px]"
                 style={{
-                  background: "#2563eb",
+                  background: "#3b82f6",
                   color: "#fff",
                   padding: "2px 7px",
                   borderRadius: 4,
@@ -72,19 +99,23 @@ export function PropertyCard({ property: p }: PropertyCardProps) {
               </span>
             </div>
           ) : null}
-          {/* Score ring top-right */}
+
+          {/* Score ring */}
           <div className="absolute top-2.5 right-2.5">
             <div
               style={{
-                background: "rgba(255,255,255,0.92)",
+                background: "rgba(10,9,7,0.75)",
+                backdropFilter: "blur(6px)",
                 borderRadius: "50%",
-                padding: 2,
+                padding: 3,
+                border: "1px solid rgba(255,255,255,0.08)",
               }}
             >
               <ScoreRing score={p.overallScore} size={36} />
             </div>
           </div>
-          {/* Watchlist heart top-left */}
+
+          {/* Watchlist */}
           <div className="absolute top-2.5 left-2.5">
             <WatchlistButton propertyId={p.id} size={14} />
           </div>
@@ -92,30 +123,29 @@ export function PropertyCard({ property: p }: PropertyCardProps) {
 
         {/* Body */}
         <div className="p-4">
-          {/* Name + location */}
           <div className="mb-3">
             <div
-              className="text-[15px] font-normal leading-tight mb-1"
-              style={{ color: "#111", fontFamily: "var(--font-dm-serif)" }}
+              className="text-[15px] font-normal leading-tight mb-1 truncate"
+              style={{ color: "#F2EDE6", fontFamily: "var(--font-dm-serif)" }}
             >
               {p.name}
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-[11px]" style={{ color: "#a3a3a3" }}>
+              <span className="text-[11px]" style={{ color: "rgba(242,237,230,0.4)" }}>
                 {p.flag} {p.city}
               </span>
               <ValueTag status={p.fairValueStatus} />
             </div>
           </div>
 
-          {/* Stat grid — border-as-gap trick */}
+          {/* Stat grid */}
           <div
             className="rounded-[8px] overflow-hidden mb-3"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
               gap: 1,
-              background: "#E0DAD0",
+              background: "#2A2420",
             }}
           >
             {[
@@ -127,11 +157,11 @@ export function PropertyCard({ property: p }: PropertyCardProps) {
               <div
                 key={s.label}
                 className="px-3 py-2.5"
-                style={{ background: "#F8F5F0" }}
+                style={{ background: "#131109" }}
               >
                 <div
                   className="text-[9px] font-semibold uppercase tracking-[0.6px] mb-1"
-                  style={{ color: "#a3a3a3" }}
+                  style={{ color: "rgba(242,237,230,0.3)" }}
                 >
                   {s.label}
                 </div>
@@ -139,7 +169,7 @@ export function PropertyCard({ property: p }: PropertyCardProps) {
                   className="text-[14px] font-medium"
                   style={{
                     fontFamily: "var(--font-dm-mono)",
-                    color: s.green ? "#16a34a" : "#111",
+                    color: s.green ? "#22c55e" : "#F2EDE6",
                   }}
                 >
                   {s.value}
@@ -148,13 +178,12 @@ export function PropertyCard({ property: p }: PropertyCardProps) {
             ))}
           </div>
 
-          {/* Recommendation + watchlist */}
           <div className="flex items-center justify-between gap-2">
             <RecommendationBadge action={rec.action} reason={rec.reason} />
             <WatchlistButton propertyId={p.id} variant="full" />
           </div>
         </div>
-      </div>
+      </motion.div>
     </Link>
   );
 }

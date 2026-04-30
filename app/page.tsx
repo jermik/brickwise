@@ -140,13 +140,13 @@ export default function DecisionPage() {
         <div className="mb-8">
           <div
             className="text-[11px] font-medium mb-2"
-            style={{ color: "#a3a3a3", letterSpacing: "0.04em" }}
+            style={{ color: "rgba(242,237,230,0.4)", letterSpacing: "0.04em" }}
           >
             Decision Engine
           </div>
           <h1
             className="text-[30px] font-normal leading-[1.1] tracking-[-0.3px]"
-            style={{ color: "#111", fontFamily: "var(--font-dm-serif)" }}
+            style={{ color: "#F2EDE6", fontFamily: "var(--font-dm-serif)" }}
           >
             What to do right now
           </h1>
@@ -154,8 +154,8 @@ export default function DecisionPage() {
 
         {/* ── Coverage strip ── */}
         <div
-          className="flex flex-wrap items-center gap-3 mb-8 px-4 py-3 rounded-[10px]"
-          style={{ background: "#F2EEE6", border: "1px solid #E0DAD0" }}
+          className="reveal reveal-1 flex flex-wrap items-center gap-3 mb-8 px-4 py-3 rounded-[10px]"
+          style={{ background: "#1A1713", border: "1px solid #2A2420" }}
         >
           {[
             { value: String(PROPERTIES.length), label: "properties tracked" },
@@ -166,11 +166,11 @@ export default function DecisionPage() {
             <div key={s.label} className="flex items-center gap-1.5">
               <span
                 className="text-[13px] font-bold"
-                style={{ fontFamily: "var(--font-dm-mono)", color: "#111" }}
+                style={{ fontFamily: "var(--font-dm-mono)", color: "#F2EDE6" }}
               >
                 {s.value}
               </span>
-              <span className="text-[12px]" style={{ color: "#737373" }}>
+              <span className="text-[12px]" style={{ color: "rgba(242,237,230,0.45)" }}>
                 {s.label}
               </span>
               <span className="text-[#e5e5e5] ml-1.5">·</span>
@@ -178,13 +178,14 @@ export default function DecisionPage() {
           ))}
           <span
             className="text-[11px] font-medium ml-auto px-2.5 py-1 rounded-[5px]"
-            style={{ background: "#f0fdf4", color: "#15803d", border: "1px solid #d1fae5" }}
+            style={{ background: "rgba(34,197,94,0.08)", color: "#4ade80", border: "1px solid rgba(34,197,94,0.22)" }}
           >
             Curated · not scraped
           </span>
         </div>
 
         {/* ── Best pick today ── */}
+        <div className="reveal reveal-2">
         {bestPick && (() => {
           const rec = getRecommendation(bestPick, PROPERTIES);
           const conf = getConfidence(bestPick);
@@ -198,11 +199,11 @@ export default function DecisionPage() {
                 <div>
                   <div
                     className="text-[18px] font-normal"
-                    style={{ color: "#111", fontFamily: "var(--font-dm-serif)" }}
+                    style={{ color: "#F2EDE6", fontFamily: "var(--font-dm-serif)" }}
                   >
                     Best pick today
                   </div>
-                  <div className="text-[12px] mt-0.5" style={{ color: "#a3a3a3" }}>
+                  <div className="text-[12px] mt-0.5" style={{ color: "rgba(242,237,230,0.4)" }}>
                     One property. The strongest signal right now.
                   </div>
                 </div>
@@ -210,7 +211,7 @@ export default function DecisionPage() {
                   {bestPick.isNew && (
                     <span
                       className="text-[10px] font-bold px-2.5 py-1 rounded-[5px] uppercase tracking-[0.4px]"
-                      style={{ background: "#eff6ff", color: "#2563eb", border: "1px solid #bfdbfe" }}
+                      style={{ background: "rgba(59,130,246,0.08)", color: "#2563eb", border: "1px solid rgba(59,130,246,0.25)" }}
                     >
                       New
                     </span>
@@ -218,7 +219,7 @@ export default function DecisionPage() {
                   {urgency && (
                     <span
                       className="text-[10px] font-bold px-2.5 py-1 rounded-[5px] uppercase tracking-[0.4px]"
-                      style={{ background: "#fff0f0", color: "#dc2626", border: "1px solid #fecaca" }}
+                      style={{ background: "rgba(239,68,68,0.08)", color: "#dc2626", border: "1px solid rgba(239,68,68,0.2)" }}
                     >
                       {urgency}
                     </span>
@@ -226,7 +227,7 @@ export default function DecisionPage() {
                   {rec.label === "Best Buy" && (
                     <span
                       className="text-[11px] font-bold px-2.5 py-1 rounded-[5px]"
-                      style={{ background: "#16a34a", color: "#fff" }}
+                      style={{ background: "#22c55e", color: "#fff" }}
                     >
                       ★ Best Buy
                     </span>
@@ -237,7 +238,7 @@ export default function DecisionPage() {
               <Link href={`/property/${bestPick.id}`} className="block no-underline group">
                 <div
                   className="rounded-[12px] overflow-hidden transition-shadow duration-200 group-hover:shadow-[0_4px_24px_rgba(0,0,0,0.08)]"
-                  style={{ border: "1px solid #d1fae5", background: "#F8F5F0" }}
+                  style={{ border: "1px solid rgba(34,197,94,0.22)", background: "#131109" }}
                 >
                   <div className="flex flex-col sm:flex-row">
                     {/* Image */}
@@ -258,9 +259,11 @@ export default function DecisionPage() {
                       <div className="absolute top-3 right-3">
                         <div
                           style={{
-                            background: "rgba(255,255,255,0.92)",
+                            background: "rgba(10,9,7,0.75)",
+                            backdropFilter: "blur(6px)",
                             borderRadius: "50%",
-                            padding: 2,
+                            padding: 3,
+                            border: "1px solid rgba(255,255,255,0.08)",
                           }}
                         >
                           <ScoreRing score={bestPick.overallScore} size={40} />
@@ -289,12 +292,12 @@ export default function DecisionPage() {
                           <div className="min-w-0">
                             <div
                               className="text-[19px] font-normal truncate"
-                              style={{ color: "#111", fontFamily: "var(--font-dm-serif)" }}
+                              style={{ color: "#F2EDE6", fontFamily: "var(--font-dm-serif)" }}
                             >
                               {bestPick.name}
                             </div>
                             <div className="flex items-center gap-2 mt-0.5">
-                              <span className="text-[12px]" style={{ color: "#a3a3a3" }}>
+                              <span className="text-[12px]" style={{ color: "rgba(242,237,230,0.4)" }}>
                                 {bestPick.flag} {bestPick.city}
                               </span>
                               <ValueTag status={bestPick.fairValueStatus} />
@@ -309,12 +312,12 @@ export default function DecisionPage() {
                         {cmp.yieldDelta !== null && cmp.yieldDelta > 0 && (
                           <div
                             className="flex items-center gap-2 mt-3 px-3 py-2 rounded-[7px]"
-                            style={{ background: "#f0fdf4", border: "1px solid #d1fae5" }}
+                            style={{ background: "rgba(34,197,94,0.08)", border: "1px solid rgba(34,197,94,0.22)" }}
                           >
                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                              <path d="M6 2v8M2 6l4-4 4 4" stroke="#16a34a" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                              <path d="M6 2v8M2 6l4-4 4 4" stroke="#22c55e" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
-                            <span className="text-[11px]" style={{ color: "#15803d" }}>
+                            <span className="text-[11px]" style={{ color: "#4ade80" }}>
                               <strong>+{cmp.yieldDelta}pp</strong> above {bestPick.city} average ·{" "}
                               better than <strong>{cmp.betterThanPct}%</strong> of platform listings
                             </span>
@@ -324,22 +327,22 @@ export default function DecisionPage() {
                         {/* €1k calculator */}
                         <div
                           className="flex items-center gap-3 mt-3 px-3 py-2 rounded-[7px]"
-                          style={{ background: "#F2EEE6", border: "1px solid #E0DAD0" }}
+                          style={{ background: "#1A1713", border: "1px solid #2A2420" }}
                         >
-                          <span className="text-[11px]" style={{ color: "#737373" }}>
+                          <span className="text-[11px]" style={{ color: "rgba(242,237,230,0.45)" }}>
                             €1,000 invested →
                           </span>
                           <span
                             className="text-[13px] font-bold"
-                            style={{ fontFamily: "var(--font-dm-mono)", color: "#16a34a" }}
+                            style={{ fontFamily: "var(--font-dm-mono)", color: "#22c55e" }}
                           >
                             €{k1.monthly.toFixed(2)}/mo
                           </span>
-                          <span className="text-[11px]" style={{ color: "#a3a3a3" }}>
+                          <span className="text-[11px]" style={{ color: "rgba(242,237,230,0.4)" }}>
                             = €{k1.annual}/year
                           </span>
                           {k1.vsAvgMonthly > 0 && (
-                            <span className="text-[10px] font-medium px-1.5 py-0.5 rounded" style={{ background: "#f0fdf4", color: "#16a34a" }}>
+                            <span className="text-[10px] font-medium px-1.5 py-0.5 rounded" style={{ background: "rgba(34,197,94,0.08)", color: "#22c55e" }}>
                               +€{k1.vsAvgMonthly.toFixed(2)} vs avg
                             </span>
                           )}
@@ -349,7 +352,7 @@ export default function DecisionPage() {
                       {/* Stats grid */}
                       <div
                         className="rounded-[8px] overflow-hidden mt-4 grid grid-cols-2 sm:grid-cols-4"
-                        style={{ gap: 1, background: "#E0DAD0" }}
+                        style={{ gap: 1, background: "#2A2420" }}
                       >
                         {[
                           { label: "Net yield", value: `${bestPick.expectedYield}%`, green: true },
@@ -357,10 +360,10 @@ export default function DecisionPage() {
                           { label: "Token price", value: `€${bestPick.tokenPrice.toFixed(2)}` },
                           { label: "Occupancy", value: `${bestPick.occupancyRate}%` },
                         ].map((s) => (
-                          <div key={s.label} className="px-3 py-2.5" style={{ background: "#F8F5F0" }}>
+                          <div key={s.label} className="px-3 py-2.5" style={{ background: "#131109" }}>
                             <div
                               className="text-[9px] font-semibold uppercase tracking-[0.6px] mb-1"
-                              style={{ color: "#a3a3a3" }}
+                              style={{ color: "rgba(242,237,230,0.4)" }}
                             >
                               {s.label}
                             </div>
@@ -368,7 +371,7 @@ export default function DecisionPage() {
                               className="text-[13px] font-medium"
                               style={{
                                 fontFamily: "var(--font-dm-mono)",
-                                color: s.green ? "#16a34a" : "#111",
+                                color: s.green ? "#22c55e" : "#F2EDE6",
                               }}
                             >
                               {s.value}
@@ -381,7 +384,7 @@ export default function DecisionPage() {
                         <ConfidenceBadge confidence={conf} showReason={false} />
                         <div
                           className="text-[12px] font-semibold px-4 py-2 rounded-[7px] transition-opacity group-hover:opacity-80"
-                          style={{ background: "#111", color: "#fff" }}
+                          style={{ background: "#F2EDE6", color: "#0A0907" }}
                         >
                           View full analysis →
                         </div>
@@ -393,15 +396,16 @@ export default function DecisionPage() {
             </div>
           );
         })()}
+        </div>
 
         {/* ── Reality check ── */}
         {mistakes.length > 0 && (
-          <div className="mb-8">
+          <div className="reveal reveal-3 mb-8">
             <div className="mb-3.5">
-              <div className="text-[18px] font-normal" style={{ color: "#111", fontFamily: "var(--font-dm-serif)" }}>
+              <div className="text-[18px] font-normal" style={{ color: "#F2EDE6", fontFamily: "var(--font-dm-serif)" }}>
                 Reality check on your holdings
               </div>
-              <div className="text-[12px] mt-0.5" style={{ color: "#a3a3a3" }}>
+              <div className="text-[12px] mt-0.5" style={{ color: "rgba(242,237,230,0.4)" }}>
                 Patterns in your portfolio worth reconsidering
               </div>
             </div>
@@ -410,11 +414,11 @@ export default function DecisionPage() {
                 <div
                   key={i}
                   className="rounded-[10px] px-5 py-4 flex items-start gap-3.5"
-                  style={{ background: "#fffbeb", border: "1px solid #fde68a" }}
+                  style={{ background: "rgba(245,158,11,0.07)", border: "1px solid rgba(245,158,11,0.25)" }}
                 >
                   <div
                     className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center mt-0.5"
-                    style={{ background: "#fef3c7", border: "1px solid #fde68a" }}
+                    style={{ background: "rgba(245,158,11,0.1)", border: "1px solid rgba(245,158,11,0.25)" }}
                   >
                     <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
                       <path d="M6 1L11 10H1L6 1z" stroke="#d97706" strokeWidth="1.2" strokeLinejoin="round" />
@@ -423,10 +427,10 @@ export default function DecisionPage() {
                     </svg>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-[13px] font-semibold mb-0.5" style={{ color: "#92400e" }}>
+                    <div className="text-[13px] font-semibold mb-0.5" style={{ color: "#fcd34d" }}>
                       {m.message}
                     </div>
-                    <div className="text-[12px]" style={{ color: "#b45309" }}>
+                    <div className="text-[12px]" style={{ color: "#f59e0b" }}>
                       {m.detail}
                     </div>
                   </div>
@@ -441,10 +445,10 @@ export default function DecisionPage() {
           <div className="mb-8">
             <div className="flex items-center justify-between mb-3.5">
               <div>
-                <div className="text-[18px] font-normal" style={{ color: "#111", fontFamily: "var(--font-dm-serif)" }}>
+                <div className="text-[18px] font-normal" style={{ color: "#F2EDE6", fontFamily: "var(--font-dm-serif)" }}>
                   You could be earning more
                 </div>
-                <div className="text-[12px] mt-0.5" style={{ color: "#a3a3a3" }}>
+                <div className="text-[12px] mt-0.5" style={{ color: "rgba(242,237,230,0.4)" }}>
                   Same capital, higher-rated property — here's what you're leaving on the table
                 </div>
               </div>
@@ -454,23 +458,23 @@ export default function DecisionPage() {
                 <div
                   key={`${insight.held.id}-${insight.better.id}`}
                   className="rounded-[10px] p-5"
-                  style={{ background: "#F8F5F0", border: "1px solid #E0DAD0" }}
+                  style={{ background: "#131109", border: "1px solid #2A2420" }}
                 >
                   {/* Currently holding */}
                   <div className="flex items-start gap-3 mb-3">
                     <div className="flex-1 min-w-0">
                       <div
                         className="text-[10px] font-semibold uppercase tracking-[0.6px] mb-0.5"
-                        style={{ color: "#a3a3a3" }}
+                        style={{ color: "rgba(242,237,230,0.4)" }}
                       >
                         You currently hold
                       </div>
-                      <div className="text-[13px] font-semibold truncate" style={{ color: "#111" }}>
+                      <div className="text-[13px] font-semibold truncate" style={{ color: "#F2EDE6" }}>
                         {insight.held.name}
                       </div>
-                      <div className="text-[11px] mt-0.5" style={{ color: "#a3a3a3" }}>
+                      <div className="text-[11px] mt-0.5" style={{ color: "rgba(242,237,230,0.4)" }}>
                         {insight.held.flag} {insight.held.city} ·{" "}
-                        <span style={{ fontFamily: "var(--font-dm-mono)", color: "#b45309" }}>
+                        <span style={{ fontFamily: "var(--font-dm-mono)", color: "#f59e0b" }}>
                           {insight.held.expectedYield}%
                         </span>{" "}
                         yield
@@ -481,11 +485,11 @@ export default function DecisionPage() {
 
                   {/* Arrow */}
                   <div className="flex items-center gap-2 mb-3">
-                    <div className="flex-1 h-px" style={{ background: "#f0f0f0" }} />
+                    <div className="flex-1 h-px" style={{ background: "#242018" }} />
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <path d="M3 7h8M8 4l3 3-3 3" stroke="#16a34a" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M3 7h8M8 4l3 3-3 3" stroke="#22c55e" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
-                    <div className="flex-1 h-px" style={{ background: "#f0f0f0" }} />
+                    <div className="flex-1 h-px" style={{ background: "#242018" }} />
                   </div>
 
                   {/* Better option */}
@@ -493,16 +497,16 @@ export default function DecisionPage() {
                     <div className="flex-1 min-w-0">
                       <div
                         className="text-[10px] font-semibold uppercase tracking-[0.6px] mb-0.5"
-                        style={{ color: "#15803d" }}
+                        style={{ color: "#4ade80" }}
                       >
                         Better alternative available
                       </div>
-                      <div className="text-[13px] font-semibold truncate" style={{ color: "#111" }}>
+                      <div className="text-[13px] font-semibold truncate" style={{ color: "#F2EDE6" }}>
                         {insight.better.name}
                       </div>
-                      <div className="text-[11px] mt-0.5" style={{ color: "#a3a3a3" }}>
+                      <div className="text-[11px] mt-0.5" style={{ color: "rgba(242,237,230,0.4)" }}>
                         {insight.better.flag} {insight.better.city} ·{" "}
-                        <span style={{ fontFamily: "var(--font-dm-mono)", color: "#16a34a" }}>
+                        <span style={{ fontFamily: "var(--font-dm-mono)", color: "#22c55e" }}>
                           {insight.better.expectedYield}%
                         </span>{" "}
                         yield
@@ -518,41 +522,41 @@ export default function DecisionPage() {
                   {/* Impact: monthly + annual */}
                   <div
                     className="rounded-[7px] px-4 py-3 mb-3.5"
-                    style={{ background: "#f0fdf4", border: "1px solid #bbf7d0" }}
+                    style={{ background: "rgba(34,197,94,0.08)", border: "1px solid rgba(34,197,94,0.22)" }}
                   >
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-[11px] font-medium" style={{ color: "#15803d" }}>
+                      <span className="text-[11px] font-medium" style={{ color: "#4ade80" }}>
                         You could earn more
                       </span>
                       <span
                         className="text-[18px] font-bold"
-                        style={{ fontFamily: "var(--font-dm-mono)", color: "#16a34a" }}
+                        style={{ fontFamily: "var(--font-dm-mono)", color: "#22c55e" }}
                       >
                         +€{insight.deltaMonthly}/mo
                       </span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-[11px]" style={{ color: "#86efac" }}>
+                      <span className="text-[11px]" style={{ color: "rgba(74,222,128,0.6)" }}>
                         Same €{insight.investmentAmount.toLocaleString("de-DE")} investment
                       </span>
                       <span
                         className="text-[12px] font-semibold"
-                        style={{ fontFamily: "var(--font-dm-mono)", color: "#15803d" }}
+                        style={{ fontFamily: "var(--font-dm-mono)", color: "#4ade80" }}
                       >
                         +€{insight.deltaAnnual}/year
                       </span>
                     </div>
                   </div>
 
-                  <div className="text-[11px] mb-4" style={{ color: "#a3a3a3" }}>
+                  <div className="text-[11px] mb-4" style={{ color: "rgba(242,237,230,0.4)" }}>
                     Yield gap +{insight.deltaYield}pp · switching to {insight.better.name} would earn{" "}
-                    <strong style={{ color: "#555" }}>+€{insight.deltaAnnual} more this year</strong>
+                    <strong style={{ color: "rgba(242,237,230,0.7)" }}>+€{insight.deltaAnnual} more this year</strong>
                   </div>
 
                   <Link
                     href={`/property/${insight.better.id}`}
                     className="flex items-center justify-center gap-1.5 py-2.5 rounded-[7px] text-[12px] font-semibold no-underline transition-opacity hover:opacity-80"
-                    style={{ background: "#111", color: "#fff" }}
+                    style={{ background: "#F2EDE6", color: "#0A0907" }}
                   >
                     Switch to this property →
                   </Link>
@@ -567,17 +571,17 @@ export default function DecisionPage() {
           <div className="mb-8">
             <div className="flex items-center justify-between mb-3.5">
               <div>
-                <div className="text-[18px] font-normal" style={{ color: "#111", fontFamily: "var(--font-dm-serif)" }}>
+                <div className="text-[18px] font-normal" style={{ color: "#F2EDE6", fontFamily: "var(--font-dm-serif)" }}>
                   Other strong buys
                 </div>
-                <div className="text-[12px] mt-0.5" style={{ color: "#a3a3a3" }}>
+                <div className="text-[12px] mt-0.5" style={{ color: "rgba(242,237,230,0.4)" }}>
                   {buyProperties.length} more properties rated Buy · sorted by score
                 </div>
               </div>
               <Link
                 href="/analyzer"
                 className="text-[12px] font-medium no-underline px-3 py-[5px] rounded-[6px]"
-                style={{ color: "#111", border: "1px solid #ebebeb", background: "#fff" }}
+                style={{ color: "#F2EDE6", border: "1px solid #2A2420", background: "#1A1713" }}
               >
                 View all →
               </Link>
@@ -594,10 +598,10 @@ export default function DecisionPage() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-3.5">
             <div>
-              <div className="text-[18px] font-normal" style={{ color: "#111", fontFamily: "var(--font-dm-serif)" }}>
+              <div className="text-[18px] font-normal" style={{ color: "#F2EDE6", fontFamily: "var(--font-dm-serif)" }}>
                 Rankings
               </div>
-              <div className="text-[12px] mt-0.5" style={{ color: "#a3a3a3" }}>
+              <div className="text-[12px] mt-0.5" style={{ color: "rgba(242,237,230,0.4)" }}>
                 Every list ranks the same {PROPERTIES.length} properties — no padding, no duplicates
               </div>
             </div>
@@ -612,35 +616,35 @@ export default function DecisionPage() {
               <div
                 key={list.title}
                 className="rounded-[10px] overflow-hidden"
-                style={{ background: "#F8F5F0", border: "1px solid #E0DAD0" }}
+                style={{ background: "#131109", border: "1px solid #2A2420" }}
               >
-                <div className="px-4 py-3" style={{ borderBottom: "1px solid #EAE5DC" }}>
-                  <div className="text-[12px] font-bold" style={{ color: "#111" }}>{list.title}</div>
-                  <div className="text-[10px] mt-0.5" style={{ color: "#a3a3a3" }}>{list.sub}</div>
+                <div className="px-4 py-3" style={{ borderBottom: "1px solid #252018" }}>
+                  <div className="text-[12px] font-bold" style={{ color: "#F2EDE6" }}>{list.title}</div>
+                  <div className="text-[10px] mt-0.5" style={{ color: "rgba(242,237,230,0.4)" }}>{list.sub}</div>
                 </div>
                 {list.items.length === 0 ? (
-                  <div className="px-4 py-5 text-[11px] text-center" style={{ color: "#a3a3a3" }}>No properties in this category yet</div>
+                  <div className="px-4 py-5 text-[11px] text-center" style={{ color: "rgba(242,237,230,0.4)" }}>No properties in this category yet</div>
                 ) : (
                   list.items.map((p, i) => {
                     const cmp = getComparison(p, PROPERTIES);
                     const rec = getRecommendation(p, PROPERTIES);
-                    const recColor = rec.action === "Buy" ? "#16a34a" : rec.action === "Avoid" ? "#dc2626" : "#b45309";
+                    const recColor = rec.action === "Buy" ? "#22c55e" : rec.action === "Avoid" ? "#dc2626" : "#f59e0b";
                     return (
                       <Link key={p.id} href={`/property/${p.id}`} className="no-underline block">
                         <div
                           className="flex items-center gap-2.5 px-4 py-2.5 transition-colors hover:bg-[#fafafa]"
-                          style={{ borderBottom: "1px solid #f9f9f9" }}
+                          style={{ borderBottom: "1px solid #222018" }}
                         >
                           <span
                             className="text-[10px] font-bold w-4 flex-shrink-0 text-center"
-                            style={{ color: i === 0 ? "#16a34a" : "#c3c3c3" }}
+                            style={{ color: i === 0 ? "#22c55e" : "rgba(242,237,230,0.18)" }}
                           >
                             {i + 1}
                           </span>
                           <div className="flex-1 min-w-0">
-                            <div className="text-[11px] font-semibold truncate" style={{ color: "#111" }}>{p.name}</div>
+                            <div className="text-[11px] font-semibold truncate" style={{ color: "#F2EDE6" }}>{p.name}</div>
                             <div className="flex items-center gap-1 mt-0.5">
-                              <span className="text-[10px]" style={{ color: "#a3a3a3" }}>{p.flag} {p.city}</span>
+                              <span className="text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>{p.flag} {p.city}</span>
                               <span
                                 className="text-[9px] font-medium"
                                 style={{ color: recColor }}
@@ -652,12 +656,12 @@ export default function DecisionPage() {
                           <div className="flex-shrink-0 text-right">
                             <div
                               className="text-[12px] font-bold"
-                              style={{ fontFamily: "var(--font-dm-mono)", color: i === 0 ? "#16a34a" : "#111" }}
+                              style={{ fontFamily: "var(--font-dm-mono)", color: i === 0 ? "#22c55e" : "#F2EDE6" }}
                             >
                               {list.metric(p)}
                             </div>
                             {cmp.betterThanPct > 0 && (
-                              <div className="text-[9px]" style={{ color: "#a3a3a3" }}>
+                              <div className="text-[9px]" style={{ color: "rgba(242,237,230,0.4)" }}>
                                 top {100 - cmp.betterThanPct}%
                               </div>
                             )}
@@ -677,9 +681,9 @@ export default function DecisionPage() {
           {/* By city */}
           <div
             className="rounded-[10px] p-4"
-            style={{ background: "#F8F5F0", border: "1px solid #E0DAD0" }}
+            style={{ background: "#131109", border: "1px solid #2A2420" }}
           >
-            <div className="text-[12px] font-bold mb-3" style={{ color: "#111" }}>By city</div>
+            <div className="text-[12px] font-bold mb-3" style={{ color: "#F2EDE6" }}>By city</div>
             <div className="space-y-2">
               {byCityEntries.map(([city, count]) => (
                 <div key={city} className="flex items-center gap-2">
@@ -696,10 +700,10 @@ export default function DecisionPage() {
                     >
                       <div
                         className="h-full rounded-full"
-                        style={{ width: "100%", background: "#16a34a", opacity: 0.6 + (count / PROPERTIES.length) * 0.4 }}
+                        style={{ width: "100%", background: "#22c55e", opacity: 0.6 + (count / PROPERTIES.length) * 0.4 }}
                       />
                     </div>
-                    <span className="text-[11px] font-medium w-4 text-right" style={{ color: "#737373" }}>{count}</span>
+                    <span className="text-[11px] font-medium w-4 text-right" style={{ color: "rgba(242,237,230,0.45)" }}>{count}</span>
                   </div>
                 </div>
               ))}
@@ -709,19 +713,19 @@ export default function DecisionPage() {
           {/* By yield range */}
           <div
             className="rounded-[10px] p-4"
-            style={{ background: "#F8F5F0", border: "1px solid #E0DAD0" }}
+            style={{ background: "#131109", border: "1px solid #2A2420" }}
           >
-            <div className="text-[12px] font-bold mb-3" style={{ color: "#111" }}>By yield range</div>
+            <div className="text-[12px] font-bold mb-3" style={{ color: "#F2EDE6" }}>By yield range</div>
             <div className="space-y-2.5">
               {yieldBuckets.map((b) => (
                 <div key={b.label} className="flex items-center gap-2">
                   <div className="w-12 text-[11px] font-medium flex-shrink-0" style={{ color: "#333" }}>{b.label}</div>
-                  <div className="flex-1 h-5 rounded-[4px] overflow-hidden" style={{ background: "#f5f5f5" }}>
+                  <div className="flex-1 h-5 rounded-[4px] overflow-hidden" style={{ background: "#1A1510" }}>
                     <div
                       className="h-full rounded-[4px] flex items-center px-2"
                       style={{
                         width: `${Math.max(12, (b.count / PROPERTIES.length) * 100)}%`,
-                        background: b.label === "12%+" ? "#16a34a" : b.label === "10–12%" ? "#b45309" : "#d4d4d4",
+                        background: b.label === "12%+" ? "#22c55e" : b.label === "10–12%" ? "#f59e0b" : "#d4d4d4",
                         transition: "width 0.3s",
                       }}
                     >
@@ -731,9 +735,9 @@ export default function DecisionPage() {
                 </div>
               ))}
             </div>
-            <div className="mt-3 pt-3" style={{ borderTop: "1px solid #f5f5f5" }}>
-              <div className="text-[10px]" style={{ color: "#a3a3a3" }}>
-                Avg yield: <strong style={{ color: "#111" }}>{(PROPERTIES.reduce((s, p) => s + p.expectedYield, 0) / PROPERTIES.length).toFixed(1)}%</strong>
+            <div className="mt-3 pt-3" style={{ borderTop: "1px solid #252018" }}>
+              <div className="text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>
+                Avg yield: <strong style={{ color: "#F2EDE6" }}>{(PROPERTIES.reduce((s, p) => s + p.expectedYield, 0) / PROPERTIES.length).toFixed(1)}%</strong>
               </div>
             </div>
           </div>
@@ -741,17 +745,17 @@ export default function DecisionPage() {
           {/* By risk */}
           <div
             className="rounded-[10px] p-4"
-            style={{ background: "#F8F5F0", border: "1px solid #E0DAD0" }}
+            style={{ background: "#131109", border: "1px solid #2A2420" }}
           >
-            <div className="text-[12px] font-bold mb-3" style={{ color: "#111" }}>By risk level</div>
+            <div className="text-[12px] font-bold mb-3" style={{ color: "#F2EDE6" }}>By risk level</div>
             <div className="space-y-2.5">
-              {([["Low", "#16a34a"], ["Medium", "#b45309"]] as [keyof typeof riskCounts, string][]).map(([level, color]) => (
+              {([["Low", "#22c55e"], ["Medium", "#f59e0b"]] as [keyof typeof riskCounts, string][]).map(([level, color]) => (
                 <div key={level} className="flex items-center gap-2">
                   <div className="flex items-center gap-1.5 w-16 flex-shrink-0">
                     <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: color }} />
                     <span className="text-[11px] font-medium" style={{ color: "#333" }}>{level}</span>
                   </div>
-                  <div className="flex-1 h-5 rounded-[4px] overflow-hidden" style={{ background: "#f5f5f5" }}>
+                  <div className="flex-1 h-5 rounded-[4px] overflow-hidden" style={{ background: "#1A1510" }}>
                     <div
                       className="h-full rounded-[4px] flex items-center px-2"
                       style={{
@@ -766,8 +770,8 @@ export default function DecisionPage() {
                 </div>
               ))}
             </div>
-            <div className="mt-3 pt-3" style={{ borderTop: "1px solid #f5f5f5" }}>
-              <div className="text-[10px]" style={{ color: "#a3a3a3" }}>
+            <div className="mt-3 pt-3" style={{ borderTop: "1px solid #252018" }}>
+              <div className="text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>
                 {Math.round((riskCounts.Low / PROPERTIES.length) * 100)}% of listings rated Low risk
               </div>
             </div>
@@ -777,8 +781,8 @@ export default function DecisionPage() {
         {/* ── Platform coverage ── */}
         <div className="mb-8">
           <div className="mb-3.5">
-            <div className="text-[18px] font-normal" style={{ color: "#111", fontFamily: "var(--font-dm-serif)" }}>Platform coverage</div>
-            <div className="text-[12px] mt-0.5" style={{ color: "#a3a3a3" }}>
+            <div className="text-[18px] font-normal" style={{ color: "#F2EDE6", fontFamily: "var(--font-dm-serif)" }}>Platform coverage</div>
+            <div className="text-[12px] mt-0.5" style={{ color: "rgba(242,237,230,0.4)" }}>
               We track every listing manually. No scrapers, no feeds, no synthetic data.
             </div>
           </div>
@@ -787,7 +791,7 @@ export default function DecisionPage() {
               <div
                 key={p.name}
                 className="rounded-[10px] px-5 py-4 flex items-center gap-4"
-                style={{ background: "#F8F5F0", border: "1px solid #E0DAD0" }}
+                style={{ background: "#131109", border: "1px solid #2A2420" }}
               >
                 <div
                   className="w-8 h-8 rounded-full flex-shrink-0"
@@ -798,16 +802,16 @@ export default function DecisionPage() {
                   </div>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-[13px] font-bold" style={{ color: "#111" }}>{p.name}</div>
-                  <div className="text-[11px] mt-0.5" style={{ color: "#737373" }}>
+                  <div className="text-[13px] font-bold" style={{ color: "#F2EDE6" }}>{p.name}</div>
+                  <div className="text-[11px] mt-0.5" style={{ color: "rgba(242,237,230,0.45)" }}>
                     {p.total} properties · {p.verified > 0 ? `${p.verified} source-verified` : "verification in progress"}
                   </div>
                 </div>
                 <span
                   className="text-[9px] font-bold uppercase tracking-[0.5px] px-2 py-1 rounded-[4px] flex-shrink-0"
                   style={p.status === "verified"
-                    ? { background: "#f0fdf4", color: "#16a34a", border: "1px solid #d1fae5" }
-                    : { background: "#fff7ed", color: "#b45309", border: "1px solid #fed7aa" }
+                    ? { background: "rgba(34,197,94,0.08)", color: "#22c55e", border: "1px solid rgba(34,197,94,0.22)" }
+                    : { background: "rgba(245,158,11,0.08)", color: "#f59e0b", border: "1px solid rgba(245,158,11,0.25)" }
                   }
                 >
                   {p.status === "verified" ? "Verified" : "Partial"}
@@ -817,19 +821,19 @@ export default function DecisionPage() {
             {/* Coming soon slot */}
             <div
               className="rounded-[10px] px-5 py-4 flex items-center gap-4"
-              style={{ background: "#fafafa", border: "1px dashed #e5e5e5" }}
+              style={{ background: "#1C1815", border: "1px dashed #2A2420" }}
             >
               <div
                 className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center"
-                style={{ background: "#f5f5f5", border: "1.5px dashed #e5e5e5" }}
+                style={{ background: "#1A1510", border: "1.5px dashed #e5e5e5" }}
               >
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M6 2v8M2 6h8" stroke="#c3c3c3" strokeWidth="1.5" strokeLinecap="round" />
+                  <path d="M6 2v8M2 6h8" stroke="rgba(242,237,230,0.18)" strokeWidth="1.5" strokeLinecap="round" />
                 </svg>
               </div>
               <div>
-                <div className="text-[12px] font-semibold" style={{ color: "#a3a3a3" }}>More platforms coming</div>
-                <div className="text-[10px] mt-0.5" style={{ color: "#c3c3c3" }}>Blocksquare, Arrived, others</div>
+                <div className="text-[12px] font-semibold" style={{ color: "rgba(242,237,230,0.4)" }}>More platforms coming</div>
+                <div className="text-[10px] mt-0.5" style={{ color: "rgba(242,237,230,0.18)" }}>Blocksquare, Arrived, others</div>
               </div>
             </div>
           </div>
@@ -839,10 +843,10 @@ export default function DecisionPage() {
         {avoidProperties.length > 0 && (
           <div>
             <div className="mb-3.5">
-              <div className="text-[18px] font-normal" style={{ color: "#111", fontFamily: "var(--font-dm-serif)" }}>
+              <div className="text-[18px] font-normal" style={{ color: "#F2EDE6", fontFamily: "var(--font-dm-serif)" }}>
                 Properties to avoid
               </div>
-              <div className="text-[12px] mt-0.5" style={{ color: "#a3a3a3" }}>
+              <div className="text-[12px] mt-0.5" style={{ color: "rgba(242,237,230,0.4)" }}>
                 Token price, yield, or occupancy disqualifies these from consideration
               </div>
             </div>
@@ -854,7 +858,7 @@ export default function DecisionPage() {
                     key={p.id}
                     href={`/property/${p.id}`}
                     className="block no-underline rounded-[10px] overflow-hidden"
-                    style={{ border: "1px solid #fecdd3", background: "#fff" }}
+                    style={{ border: "1px solid rgba(239,68,68,0.2)", background: "#131109" }}
                   >
                     <div className="relative h-[120px] overflow-hidden">
                       <img
@@ -888,13 +892,13 @@ export default function DecisionPage() {
                           <div key={s.label}>
                             <div
                               className="text-[9px] font-semibold uppercase tracking-[0.5px] mb-0.5"
-                              style={{ color: "#a3a3a3" }}
+                              style={{ color: "rgba(242,237,230,0.4)" }}
                             >
                               {s.label}
                             </div>
                             <div
                               className="text-[12px] font-medium"
-                              style={{ fontFamily: "var(--font-dm-mono)", color: "#111" }}
+                              style={{ fontFamily: "var(--font-dm-mono)", color: "#F2EDE6" }}
                             >
                               {s.value}
                             </div>
@@ -921,7 +925,7 @@ export default function DecisionPage() {
         {/* Footer trust signal */}
         <div
           className="mt-10 pt-6 flex items-center gap-3"
-          style={{ borderTop: "1px solid #f0f0f0" }}
+          style={{ borderTop: "1px solid #242018" }}
         >
           <div className="w-1.5 h-1.5 rounded-full" style={{ background: "#d4d4d4" }} />
           <p className="text-[10px] leading-[1.6]" style={{ color: "#c4c4c4" }}>
