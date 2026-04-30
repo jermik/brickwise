@@ -319,6 +319,97 @@ function normaliseRealtApiRecord(rec) {
   };
 }
 
+// ── RealT: discover all product URLs via sitemap / WooCommerce API ───────
+async function fetchRealtProductUrls() {
+  // 1. Try paginated WordPress sitemaps (each holds ~100 URLs)
+  var discovered = [];
+  for (var page = 1; page <= 20; page++) {
+    var sitemapUrl = "https://realt.co/wp-sitemap-posts-product-" + page + ".xml";
+    try {
+      var ctrl = new AbortController();
+      var t = setTimeout(function() { ctrl.abort(); }, 12000);
+      var res = await fetch(sitemapUrl, {
+        headers: { "User-Agent": "brickwise-bot/1.0" },
+        signal: ctrl.signal,
+      });
+      clearTimeout(t);
+      if (!res.ok) break;
+      var text = await res.text();
+      var matches = text.match(/https:\/\/realt\.co\/product\/[^<"]+/g);
+      if (!matches || matches.length === 0) break;
+      for (var i = 0; i < matches.length; i++) discovered.push(matches[i].trim());
+      console.log("  Sitemap page " + page + ": " + matches.length + " URLs (total " + discovered.length + ")");
+    } catch (err) {
+      console.log("  Sitemap page " + page + " failed: " + err.message);
+      break;
+    }
+  }
+  if (discovered.length > 10) return [...new Set(discovered)];
+
+  // 2. Try main sitemap index
+  try {
+    var ctrl2 = new AbortController();
+    var t2 = setTimeout(function() { ctrl2.abort(); }, 12000);
+    var res2 = await fetch("https://realt.co/wp-sitemap.xml", {
+      headers: { "User-Agent": "brickwise-bot/1.0" },
+      signal: ctrl2.signal,
+    });
+    clearTimeout(t2);
+    if (res2.ok) {
+      var text2 = await res2.text();
+      var subMaps = text2.match(/https:\/\/realt\.co\/wp-sitemap-posts-product-\d+\.xml/g);
+      if (subMaps && subMaps.length > 0) {
+        console.log("  Found " + subMaps.length + " product sitemap(s) in index");
+        for (var si = 0; si < subMaps.length; si++) {
+          try {
+            var ctrl3 = new AbortController();
+            var t3 = setTimeout(function() { ctrl3.abort(); }, 12000);
+            var res3 = await fetch(subMaps[si], { headers: { "User-Agent": "brickwise-bot/1.0" }, signal: ctrl3.signal });
+            clearTimeout(t3);
+            if (!res3.ok) continue;
+            var text3 = await res3.text();
+            var m3 = text3.match(/https:\/\/realt\.co\/product\/[^<"]+/g);
+            if (m3) { for (var j = 0; j < m3.length; j++) discovered.push(m3[j].trim()); }
+          } catch(e) {}
+        }
+        if (discovered.length > 10) { console.log("  Sitemap index: " + discovered.length + " total URLs"); return [...new Set(discovered)]; }
+      }
+    }
+  } catch(err2) {
+    console.log("  Sitemap index failed: " + err2.message);
+  }
+
+  // 3. WooCommerce store API (public, no auth) — paginated
+  var wooUrls = [];
+  for (var wp = 1; wp <= 10; wp++) {
+    try {
+      var ctrl4 = new AbortController();
+      var t4 = setTimeout(function() { ctrl4.abort(); }, 12000);
+      var res4 = await fetch("https://realt.co/wp-json/wc/store/v1/products?per_page=100&page=" + wp, {
+        headers: { "Accept": "application/json", "User-Agent": "brickwise-bot/1.0" },
+        signal: ctrl4.signal,
+      });
+      clearTimeout(t4);
+      if (!res4.ok) break;
+      var products = await res4.json();
+      if (!Array.isArray(products) || products.length === 0) break;
+      for (var pi = 0; pi < products.length; pi++) {
+        if (products[pi].permalink) wooUrls.push(products[pi].permalink);
+      }
+      console.log("  WooCommerce page " + wp + ": " + products.length + " products (total " + wooUrls.length + ")");
+      if (products.length < 100) break;
+    } catch(e4) {
+      console.log("  WooCommerce page " + wp + " failed: " + e4.message);
+      break;
+    }
+  }
+  if (wooUrls.length > 10) return [...new Set(wooUrls)];
+
+  // 4. Static fallback — the known URLs already in the script
+  console.log("  All discovery methods failed — using " + Object.keys(STATIC_URL_TO_ID).length + " hardcoded URLs");
+  return Object.keys(STATIC_URL_TO_ID);
+}
+
 // ── RealT: Playwright fallback ────────────────────────────────────────────
 async function scrapeRealtPage(page, url) {
   try {
@@ -578,13 +669,16 @@ async function main() {
     }
     console.log("  API: " + realtItems.length + " usable records");
   } else {
-    console.log("  API unavailable — scraping static property pages...");
-    var staticUrls = Object.keys(STATIC_URL_TO_ID);
-    for (var si = 0; si < staticUrls.length; si++) {
-      var scraped = await scrapeRealtPage(page, staticUrls[si]);
+    console.log("  API unavailable — discovering URLs via sitemap...");
+    var allRealtUrls = await fetchRealtProductUrls();
+    console.log("  Scraping " + allRealtUrls.length + " RealT property pages...");
+    for (var si = 0; si < allRealtUrls.length; si++) {
+      var scraped = await scrapeRealtPage(page, allRealtUrls[si]);
       if (scraped) realtItems.push(scraped);
-      await page.waitForTimeout(1500);
+      if ((si + 1) % 10 === 0) console.log("  Progress: " + (si + 1) + "/" + allRealtUrls.length);
+      await page.waitForTimeout(800);
     }
+    console.log("  Scraped " + realtItems.length + " usable RealT properties");
   }
 
   for (var ii = 0; ii < realtItems.length; ii++) {
