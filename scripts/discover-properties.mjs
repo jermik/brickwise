@@ -243,6 +243,35 @@ async function fetchRealtApi() {
     console.log("  No REALT_API_KEY set — trying public fallbacks");
   }
 
+  // Try The Graph — RealToken subgraph on Gnosis chain (blockchain data, no geo-block)
+  try {
+    console.log("  Trying The Graph RealToken subgraph...");
+    var gqlQuery = JSON.stringify({
+      query: "{ realTokens(first:1000,where:{productType:\"real_estate_rental\"}){fullName shortName tokenPrice totalTokens annualPercentageYield grossRentYear netRentYear netRentMonth grossRentMonth constructionYear squareFeet imageLink rentedUnits totalUnits productType} }",
+    });
+    var gCtrl = new AbortController();
+    var gTimer = setTimeout(function() { gCtrl.abort(); }, 20000);
+    var gRes = await fetch("https://api.thegraph.com/subgraphs/name/realtoken-thegraph/realtokens-xdai", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: gqlQuery,
+      signal: gCtrl.signal,
+    });
+    clearTimeout(gTimer);
+    if (gRes.ok) {
+      var gData = await gRes.json();
+      var tokens = gData.data && gData.data.realTokens;
+      if (tokens && tokens.length > 0) {
+        console.log("  The Graph: got " + tokens.length + " RealTokens");
+        return tokens;
+      }
+    } else {
+      console.log("  The Graph HTTP " + gRes.status);
+    }
+  } catch (gErr) {
+    console.log("  The Graph failed: " + gErr.message);
+  }
+
   // Fallback: public proxies
   var fallbacks = [
     "https://ehpst.deno.dev/realt/api/token",
