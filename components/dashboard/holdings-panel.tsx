@@ -121,7 +121,7 @@ export function HoldingsPanel() {
               <img
                 src={prop.image}
                 alt={prop.name}
-                referrerPolicy="no-referrer"
+                referrerPolicy="no-referrer-when-downgrade"
                 className="w-9 h-9 rounded-[6px] object-cover flex-shrink-0"
               />
               <div className="flex-1 min-w-0">

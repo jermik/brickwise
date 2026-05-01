@@ -38,9 +38,9 @@ export function PropertyCard({ property: p }: PropertyCardProps) {
         {/* Image */}
         <div className="relative h-[148px] overflow-hidden flex-shrink-0">
           <motion.img
-            src={p.image}
+            src={p.image || "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=700&q=80&auto=format&fit=crop"}
             alt={p.name}
-            referrerPolicy="no-referrer"
+            referrerPolicy="no-referrer-when-downgrade"
             className="w-full h-full object-cover"
             whileHover={{ scale: 1.04 }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}

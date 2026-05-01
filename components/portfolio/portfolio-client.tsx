@@ -105,7 +105,7 @@ function AddHoldingModal({
                 <img
                   src={selected.image}
                   alt={selected.name}
-                  referrerPolicy="no-referrer"
+                  referrerPolicy="no-referrer-when-downgrade"
                   className="w-9 h-9 rounded-[5px] object-cover flex-shrink-0"
                 />
                 <div className="flex-1 min-w-0">
@@ -155,9 +155,9 @@ function AddHoldingModal({
                         }}
                       >
                         <img
-                          src={p.image}
+                          src={p.image || "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=400&q=80&auto=format&fit=crop"}
                           alt={p.name}
-                          referrerPolicy="no-referrer"
+                          referrerPolicy="no-referrer-when-downgrade"
                           className="w-8 h-8 rounded-[4px] object-cover flex-shrink-0"
                         />
                         <div className="flex-1 min-w-0">
@@ -501,9 +501,9 @@ export function PortfolioClient() {
               >
                 <Link href={`/property/${p.id}`} className="flex items-center gap-4 flex-1 min-w-0 no-underline">
                   <img
-                    src={p.image}
+                    src={p.image || "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=400&q=80&auto=format&fit=crop"}
                     alt={p.name}
-                    referrerPolicy="no-referrer"
+                    referrerPolicy="no-referrer-when-downgrade"
                     className="w-10 h-10 rounded-[7px] object-cover flex-shrink-0"
                   />
                   <div className="flex-1 min-w-0">
@@ -635,7 +635,7 @@ export function PortfolioClient() {
                 <img
                   src={m.better.image}
                   alt={m.better.name}
-                  referrerPolicy="no-referrer"
+                  referrerPolicy="no-referrer-when-downgrade"
                   className="w-10 h-10 rounded-[7px] object-cover flex-shrink-0 mt-0.5"
                 />
                 <div className="flex-1 min-w-0">

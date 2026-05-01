@@ -23,9 +23,9 @@ export function PropertyRow({ property: p }: { property: Property }) {
       >
         {/* Thumbnail */}
         <img
-          src={p.image}
+          src={p.image || "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=200&q=80&auto=format&fit=crop"}
           alt={p.name}
-          referrerPolicy="no-referrer"
+          referrerPolicy="no-referrer-when-downgrade"
           className="w-10 h-10 rounded-[6px] object-cover flex-shrink-0"
         />
 

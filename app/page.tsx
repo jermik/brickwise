@@ -246,7 +246,7 @@ export default function DecisionPage() {
                       <img
                         src={bestPick.image}
                         alt={bestPick.name}
-                        referrerPolicy="no-referrer"
+                        referrerPolicy="no-referrer-when-downgrade"
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                       />
                       <div
@@ -862,9 +862,9 @@ export default function DecisionPage() {
                   >
                     <div className="relative h-[120px] overflow-hidden">
                       <img
-                        src={p.image}
+                        src={p.image || "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=400&q=80&auto=format&fit=crop"}
                         alt={p.name}
-                        referrerPolicy="no-referrer"
+                        referrerPolicy="no-referrer-when-downgrade"
                         className="w-full h-full object-cover opacity-70"
                       />
                       <div
