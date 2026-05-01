@@ -59,8 +59,8 @@ export interface Holding {
   currentValue: number;
 }
 
-export type SortKey = "score" | "yield" | "price" | "monthly";
-export type ViewMode = "grid" | "list";
+export type SortKey = "score" | "yield" | "price" | "monthly" | "payback" | "occupancy" | "caprate";
+export type ViewMode = "grid" | "list" | "chart";
 
 export interface FilterState {
   minYield: number;
@@ -69,4 +69,6 @@ export interface FilterState {
   country: string;
   maxPrice: number | null;
   platform: Platform | "All";
+  propertyType: PropertyType | "All";
+  minOccupancy: number;
 }
