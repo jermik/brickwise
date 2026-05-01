@@ -348,95 +348,133 @@ function normaliseRealtApiRecord(rec) {
   };
 }
 
-// ── RealT: discover all product URLs via sitemap / WooCommerce API ───────
+// ── RealT: normalise a WooCommerce store/v1/products record ─────────────
+function normaliseWooProduct(p) {
+  var url = p.permalink || "";
+  if (!url || url.indexOf("realt.co/product/") === -1) return null;
+
+  var slug = url.replace(/.*\/product\//, "").replace(/\/$/, "");
+
+  // US properties end with -stateabbrev-zipcode (e.g. -mi-48224)
+  var isUS = /[a-z]{2}-\d{5}$/.test(slug);
+  if (!isUS) return null;
+
+  var rawName = (p.name || "").replace(/<[^>]+>/g, "").trim();
+  // Skip financial instruments
+  if (/factoring|profit.?share/i.test(rawName)) return null;
+
+  // Token price: WooCommerce stores price in minor units (cents)
+  var tokenPrice = null;
+  if (p.prices && p.prices.price !== undefined) {
+    var mu = typeof p.prices.currency_minor_unit === "number" ? p.prices.currency_minor_unit : 2;
+    var rawPrice = parseFloat(String(p.prices.price));
+    if (!isNaN(rawPrice) && rawPrice > 0) tokenPrice = rawPrice / Math.pow(10, mu);
+  }
+
+  // Attributes: RealT may store yield/rent as product attributes
+  var attrs = Array.isArray(p.attributes) ? p.attributes : [];
+  function findAttr(patterns) {
+    for (var ai = 0; ai < attrs.length; ai++) {
+      var n = String(attrs[ai].name || attrs[ai].id || "").toLowerCase();
+      for (var aj = 0; aj < patterns.length; aj++) {
+        if (n.indexOf(patterns[aj]) !== -1) return parseNum(attrs[ai].value);
+      }
+    }
+    return null;
+  }
+
+  var netYield    = findAttr(["annual percentage yield", "net yield", "expected yield", "net rent yield", "apy"]);
+  var grossYield  = findAttr(["gross yield", "gross rent year", "gross annual"]);
+  var monthlyRent = findAttr(["net rent month", "monthly rent", "gross rent month"]);
+  var totalTokens = findAttr(["total token"]);
+  var occupancy   = findAttr(["occupancy", "rented unit"]);
+  var yearBuilt   = findAttr(["year built", "construction year"]);
+  var squareFeet  = findAttr(["square feet", "sq ft", "surface"]);
+
+  // Also try short_description and description HTML
+  if (!netYield || !monthlyRent || !tokenPrice) {
+    var txt = ((p.short_description || "") + " " + (p.description || "")).replace(/<[^>]+>/g, " ");
+    if (!netYield) {
+      var ym = txt.match(/(?:net|annual|expected)\s+(?:yield|rent)[^%\d]*([\d.]+)\s*%/i);
+      if (ym) netYield = parseFloat(ym[1]);
+    }
+    if (!monthlyRent) {
+      var rm = txt.match(/monthly\s+rent[^$\d]*\$?([\d,]+)/i);
+      if (rm) monthlyRent = parseNum(rm[1]);
+    }
+    if (!tokenPrice) {
+      var tm = txt.match(/\$\s*([\d.]+)\s*(?:\/\s*token|per\s*token)/i);
+      if (tm) tokenPrice = parseFloat(tm[1]);
+    }
+  }
+
+  var city = extractCity(rawName);
+  return {
+    name: rawName, url: url, city: city,
+    tokenPrice: tokenPrice, expectedYield: netYield, grossYield: grossYield,
+    monthlyRent: monthlyRent, totalTokens: totalTokens,
+    occupancyRate: occupancy,
+    yearBuilt: yearBuilt ? parseInt(yearBuilt) : null,
+    squareFeet: squareFeet,
+  };
+}
+
+// ── RealT: discover product URLs with financial data ──────────────────────
 async function fetchRealtProductUrls() {
-  // 1. Try paginated WordPress sitemaps (each holds ~100 URLs)
+  // 1. WooCommerce store API — sorted oldest-first so US Detroit properties come up first
+  var wooProducts = [];
+  for (var wp = 1; wp <= 15; wp++) {
+    try {
+      var wCtrl = new AbortController();
+      var wTimer = setTimeout(function() { wCtrl.abort(); }, 25000);
+      var wRes = await fetch(
+        "https://realt.co/wp-json/wc/store/v1/products?per_page=100&page=" + wp + "&orderby=id&order=asc",
+        { headers: { "Accept": "application/json", "User-Agent": "brickwise-bot/1.0" }, signal: wCtrl.signal }
+      );
+      clearTimeout(wTimer);
+      if (!wRes.ok) { console.log("  WooCommerce page " + wp + " HTTP " + wRes.status); break; }
+      var batch = await wRes.json();
+      if (!Array.isArray(batch) || batch.length === 0) break;
+      var pageParsed = 0;
+      for (var pi = 0; pi < batch.length; pi++) {
+        var parsed = normaliseWooProduct(batch[pi]);
+        if (parsed) { wooProducts.push(parsed); pageParsed++; }
+      }
+      console.log("  WooCommerce page " + wp + ": " + batch.length + " products, " + pageParsed + " US rental (" + wooProducts.length + " total)");
+      if (batch.length < 100) break;
+    } catch (we) {
+      console.log("  WooCommerce page " + wp + " failed: " + we.message);
+      break;
+    }
+  }
+  if (wooProducts.length > 10) return wooProducts;
+
+  // 2. WordPress sitemaps (URL-only fallback)
   var discovered = [];
-  for (var page = 1; page <= 20; page++) {
-    var sitemapUrl = "https://realt.co/wp-sitemap-posts-product-" + page + ".xml";
+  for (var sPage = 1; sPage <= 20; sPage++) {
     try {
-      var ctrl = new AbortController();
-      var t = setTimeout(function() { ctrl.abort(); }, 12000);
-      var res = await fetch(sitemapUrl, {
-        headers: { "User-Agent": "brickwise-bot/1.0" },
-        signal: ctrl.signal,
+      var sCtrl = new AbortController();
+      var sTimer = setTimeout(function() { sCtrl.abort(); }, 12000);
+      var sRes = await fetch("https://realt.co/wp-sitemap-posts-product-" + sPage + ".xml", {
+        headers: { "User-Agent": "brickwise-bot/1.0" }, signal: sCtrl.signal,
       });
-      clearTimeout(t);
-      if (!res.ok) break;
-      var text = await res.text();
-      var matches = text.match(/https:\/\/realt\.co\/product\/[^<"]+/g);
-      if (!matches || matches.length === 0) break;
-      for (var i = 0; i < matches.length; i++) discovered.push(matches[i].trim());
-      console.log("  Sitemap page " + page + ": " + matches.length + " URLs (total " + discovered.length + ")");
-    } catch (err) {
-      console.log("  Sitemap page " + page + " failed: " + err.message);
+      clearTimeout(sTimer);
+      if (!sRes.ok) break;
+      var sText = await sRes.text();
+      var sMatches = sText.match(/https:\/\/realt\.co\/product\/[^<"]+/g);
+      if (!sMatches || sMatches.length === 0) break;
+      for (var si = 0; si < sMatches.length; si++) discovered.push({ url: sMatches[si].trim() });
+      console.log("  Sitemap page " + sPage + ": " + sMatches.length + " URLs (total " + discovered.length + ")");
+    } catch (se) {
+      console.log("  Sitemap page " + sPage + " failed: " + se.message);
       break;
     }
   }
-  if (discovered.length > 10) return [...new Set(discovered)];
+  if (discovered.length > 10) return discovered;
 
-  // 2. Try main sitemap index
-  try {
-    var ctrl2 = new AbortController();
-    var t2 = setTimeout(function() { ctrl2.abort(); }, 12000);
-    var res2 = await fetch("https://realt.co/wp-sitemap.xml", {
-      headers: { "User-Agent": "brickwise-bot/1.0" },
-      signal: ctrl2.signal,
-    });
-    clearTimeout(t2);
-    if (res2.ok) {
-      var text2 = await res2.text();
-      var subMaps = text2.match(/https:\/\/realt\.co\/wp-sitemap-posts-product-\d+\.xml/g);
-      if (subMaps && subMaps.length > 0) {
-        console.log("  Found " + subMaps.length + " product sitemap(s) in index");
-        for (var si = 0; si < subMaps.length; si++) {
-          try {
-            var ctrl3 = new AbortController();
-            var t3 = setTimeout(function() { ctrl3.abort(); }, 12000);
-            var res3 = await fetch(subMaps[si], { headers: { "User-Agent": "brickwise-bot/1.0" }, signal: ctrl3.signal });
-            clearTimeout(t3);
-            if (!res3.ok) continue;
-            var text3 = await res3.text();
-            var m3 = text3.match(/https:\/\/realt\.co\/product\/[^<"]+/g);
-            if (m3) { for (var j = 0; j < m3.length; j++) discovered.push(m3[j].trim()); }
-          } catch(e) {}
-        }
-        if (discovered.length > 10) { console.log("  Sitemap index: " + discovered.length + " total URLs"); return [...new Set(discovered)]; }
-      }
-    }
-  } catch(err2) {
-    console.log("  Sitemap index failed: " + err2.message);
-  }
-
-  // 3. WooCommerce store API (public, no auth) — paginated
-  var wooUrls = [];
-  for (var wp = 1; wp <= 10; wp++) {
-    try {
-      var ctrl4 = new AbortController();
-      var t4 = setTimeout(function() { ctrl4.abort(); }, 12000);
-      var res4 = await fetch("https://realt.co/wp-json/wc/store/v1/products?per_page=100&page=" + wp, {
-        headers: { "Accept": "application/json", "User-Agent": "brickwise-bot/1.0" },
-        signal: ctrl4.signal,
-      });
-      clearTimeout(t4);
-      if (!res4.ok) break;
-      var products = await res4.json();
-      if (!Array.isArray(products) || products.length === 0) break;
-      for (var pi = 0; pi < products.length; pi++) {
-        if (products[pi].permalink) wooUrls.push(products[pi].permalink);
-      }
-      console.log("  WooCommerce page " + wp + ": " + products.length + " products (total " + wooUrls.length + ")");
-      if (products.length < 100) break;
-    } catch(e4) {
-      console.log("  WooCommerce page " + wp + " failed: " + e4.message);
-      break;
-    }
-  }
-  if (wooUrls.length > 10) return [...new Set(wooUrls)];
-
-  // 4. Static fallback — the known URLs already in the script
+  // 3. Static fallback
   console.log("  All discovery methods failed — using " + Object.keys(STATIC_URL_TO_ID).length + " hardcoded URLs");
-  return Object.keys(STATIC_URL_TO_ID);
+  return Object.keys(STATIC_URL_TO_ID).map(function(u) { return { url: u }; });
 }
 
 // ── RealT: Playwright fallback ────────────────────────────────────────────
@@ -444,6 +482,50 @@ async function scrapeRealtPage(page, url) {
   try {
     await page.goto(url, { waitUntil: "networkidle", timeout: 40000 });
     await page.waitForTimeout(2000);
+
+    // 1. Try JSON-LD structured data (WooCommerce injects Product schema with price)
+    var tokenPrice = null;
+    try {
+      var ldData = await page.evaluate(function() {
+        var scripts = document.querySelectorAll('script[type="application/ld+json"]');
+        for (var i = 0; i < scripts.length; i++) {
+          try {
+            var d = JSON.parse(scripts[i].textContent);
+            if (d["@type"] === "Product") return d;
+            if (d["@graph"]) {
+              for (var j = 0; j < d["@graph"].length; j++) {
+                if (d["@graph"][j]["@type"] === "Product") return d["@graph"][j];
+              }
+            }
+          } catch(e) {}
+        }
+        return null;
+      });
+      if (ldData && ldData.offers) {
+        var offer = Array.isArray(ldData.offers) ? ldData.offers[0] : ldData.offers;
+        if (offer && offer.price) tokenPrice = parseNum(offer.price);
+      }
+    } catch(ldErr) {}
+
+    // 2. Try data attributes on elements (RealT may use data-* attributes)
+    var dataAttrs = null;
+    try {
+      dataAttrs = await page.evaluate(function() {
+        var result = {};
+        // WooCommerce product pages sometimes have a form with data attributes
+        var form = document.querySelector("form.cart, form[data-product_id], [data-product_variations]");
+        if (form) {
+          for (var k in form.dataset) result[k] = form.dataset[k];
+        }
+        // Also check for any element with a data-price attribute
+        var priced = document.querySelector("[data-price]");
+        if (priced) result["price"] = priced.dataset.price;
+        return Object.keys(result).length > 0 ? result : null;
+      });
+      if (dataAttrs && dataAttrs.price && !tokenPrice) tokenPrice = parseNum(dataAttrs.price);
+    } catch(daErr) {}
+
+    // 3. Fall back to innerText regex
     var bodyText = await page.evaluate(function() { return document.body.innerText; });
     function find(patterns) {
       for (var i = 0; i < patterns.length; i++) {
@@ -452,10 +534,10 @@ async function scrapeRealtPage(page, url) {
       }
       return null;
     }
-    var tokenPrice    = find([/Token\s*Price[^$\d]*\$?\s*([\d.,]+)/i, /Price\s*per\s*Token[^$\d]*\$?\s*([\d.,]+)/i, /\$\s*([\d.]+)\s*\/\s*[Tt]oken/]);
+    if (!tokenPrice) tokenPrice = find([/Token\s*Price[^$\d]*\$?\s*([\d.,]+)/i, /Price\s*per\s*Token[^$\d]*\$?\s*([\d.,]+)/i, /\$\s*([\d.]+)\s*\/\s*[Tt]oken/]);
     var grossYield    = find([/Gross\s*Rent[^%\d]*([\d.]+)\s*%/i, /Gross\s*Yield[^%\d]*([\d.]+)\s*%/i]);
-    var netYield      = find([/Net\s*Rent[^%\d]*([\d.]+)\s*%/i, /Net\s*Yield[^%\d]*([\d.]+)\s*%/i, /Expected\s*Yield[^%\d]*([\d.]+)\s*%/i]);
-    var monthlyRent   = find([/(?:Gross\s*)?Monthly\s*Rent[^$\d]*\$?\s*([\d,]+)/i]);
+    var netYield      = find([/Net\s*Rent[^%\d]*([\d.]+)\s*%/i, /Net\s*Yield[^%\d]*([\d.]+)\s*%/i, /Expected\s*Yield[^%\d]*([\d.]+)\s*%/i, /Annual\s*Percentage\s*Yield[^%\d]*([\d.]+)\s*%/i]);
+    var monthlyRent   = find([/(?:Net\s*)?Monthly\s*Rent[^$\d]*\$?\s*([\d,]+)/i, /Gross\s*Monthly\s*Rent[^$\d]*\$?\s*([\d,]+)/i]);
     var occupancyRate = find([/Occupancy[^%\d]*([\d.]+)\s*%/i, /Rented[^%\d]*([\d.]+)\s*%/i]);
     var yearBuiltM    = bodyText.match(/(?:Year\s*Built|Construction\s*Year)[:\s]*(\d{4})/i);
     var yearBuilt     = yearBuiltM ? parseInt(yearBuiltM[1]) : null;
@@ -698,16 +780,30 @@ async function main() {
     }
     console.log("  API: " + realtItems.length + " usable records");
   } else {
-    console.log("  API unavailable — discovering URLs via sitemap...");
-    var allRealtUrls = await fetchRealtProductUrls();
-    console.log("  Scraping " + allRealtUrls.length + " RealT property pages...");
-    for (var si = 0; si < allRealtUrls.length; si++) {
-      var scraped = await scrapeRealtPage(page, allRealtUrls[si]);
-      if (scraped) realtItems.push(scraped);
-      if ((si + 1) % 10 === 0) console.log("  Progress: " + (si + 1) + "/" + allRealtUrls.length);
-      await page.waitForTimeout(800);
+    console.log("  API unavailable — using WooCommerce discovery...");
+    var allRealtProducts = await fetchRealtProductUrls();
+
+    // Split: items that already have financial data vs those needing Playwright
+    var withData    = allRealtProducts.filter(function(item) { return item.tokenPrice || item.expectedYield; });
+    var withoutData = allRealtProducts.filter(function(item) { return !item.tokenPrice && !item.expectedYield; });
+    console.log("  " + withData.length + " with data direct, " + withoutData.length + " need scraping");
+
+    // Use WooCommerce data directly
+    for (var wi = 0; wi < withData.length; wi++) {
+      realtItems.push(withData[wi]);
     }
-    console.log("  Scraped " + realtItems.length + " usable RealT properties");
+
+    // Only Playwright-scrape products where WooCommerce gave no financial data
+    if (withoutData.length > 0) {
+      console.log("  Scraping " + withoutData.length + " pages without data...");
+      for (var si = 0; si < withoutData.length; si++) {
+        var scraped = await scrapeRealtPage(page, withoutData[si].url);
+        if (scraped) realtItems.push(scraped);
+        if ((si + 1) % 10 === 0) console.log("  Progress: " + (si + 1) + "/" + withoutData.length);
+        await page.waitForTimeout(800);
+      }
+    }
+    console.log("  Total usable RealT items: " + realtItems.length);
   }
 
   for (var ii = 0; ii < realtItems.length; ii++) {
