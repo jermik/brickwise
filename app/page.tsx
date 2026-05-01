@@ -8,6 +8,7 @@ import { ConfidenceBadge } from "@/components/ui/confidence-badge";
 import { ScoreRing } from "@/components/ui/score-ring";
 import { ValueTag } from "@/components/ui/value-tag";
 import { PlatformDot } from "@/components/ui/platform-dot";
+import { FallbackImg } from "@/components/ui/fallback-img";
 import { PROPERTIES, HOLDINGS } from "@/lib/data/properties";
 import {
   getRecommendation,
@@ -243,12 +244,11 @@ export default function DecisionPage() {
                   <div className="flex flex-col sm:flex-row">
                     {/* Image */}
                     <div className="relative sm:w-[260px] h-[200px] sm:h-auto flex-shrink-0 overflow-hidden">
-                      <img
-                        src={bestPick.image || "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=700&q=80&auto=format&fit=crop"}
+                      <FallbackImg
+                        src={bestPick.image}
                         alt={bestPick.name}
                         referrerPolicy="no-referrer-when-downgrade"
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-                        onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=700&q=80&auto=format&fit=crop"; }}
                       />
                       <div
                         className="absolute inset-0"
@@ -862,12 +862,12 @@ export default function DecisionPage() {
                     style={{ border: "1px solid rgba(239,68,68,0.2)", background: "#131109" }}
                   >
                     <div className="relative h-[120px] overflow-hidden">
-                      <img
-                        src={p.image || "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=400&q=80&auto=format&fit=crop"}
+                      <FallbackImg
+                        src={p.image}
                         alt={p.name}
                         referrerPolicy="no-referrer-when-downgrade"
                         className="w-full h-full object-cover opacity-70"
-                        onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=400&q=80&auto=format&fit=crop"; }}
+                        fallback="https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=400&q=80&auto=format&fit=crop"
                       />
                       <div
                         className="absolute inset-0"

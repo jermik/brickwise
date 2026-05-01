@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AppShell } from "@/components/layout/app-shell";
+import { PropertyHeroImage } from "@/components/property/property-hero-image";
 import { ScoreRing } from "@/components/ui/score-ring";
 import { ScoreBar } from "@/components/ui/score-bar";
 import { RiskBadge } from "@/components/ui/risk-badge";
@@ -139,7 +140,7 @@ export default async function PropertyDetailPage({
             {/* Hero image */}
             <div className="rounded-[12px] overflow-hidden" style={{ border: "1px solid #ebebeb" }}>
               <div className="relative h-[260px]">
-                <img src={p.image || "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=1200&q=80&auto=format&fit=crop"} alt={p.name} referrerPolicy="no-referrer-when-downgrade" className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=1200&q=80&auto=format&fit=crop"; }} />
+                <PropertyHeroImage src={p.image} alt={p.name} />
                 <div
                   className="absolute inset-0"
                   style={{
