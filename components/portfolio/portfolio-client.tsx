@@ -103,7 +103,7 @@ function AddHoldingModal({
                 style={{ background: "#1C1815", border: "1px solid #2A2420" }}
               >
                 <img
-                  src={selected.image}
+                  src={selected.image || "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=200&q=80&auto=format&fit=crop"}
                   alt={selected.name}
                   referrerPolicy="no-referrer-when-downgrade"
                   className="w-9 h-9 rounded-[5px] object-cover flex-shrink-0"
@@ -633,7 +633,7 @@ export function PortfolioClient() {
                 style={i < missed.length - 1 ? { borderBottom: "1px solid rgba(255,255,255,0.05)" } : undefined}
               >
                 <img
-                  src={m.better.image}
+                  src={m.better.image || "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=200&q=80&auto=format&fit=crop"}
                   alt={m.better.name}
                   referrerPolicy="no-referrer-when-downgrade"
                   className="w-10 h-10 rounded-[7px] object-cover flex-shrink-0 mt-0.5"

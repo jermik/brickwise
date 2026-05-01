@@ -244,7 +244,7 @@ export default function DecisionPage() {
                     {/* Image */}
                     <div className="relative sm:w-[260px] h-[200px] sm:h-auto flex-shrink-0 overflow-hidden">
                       <img
-                        src={bestPick.image}
+                        src={bestPick.image || "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=700&q=80&auto=format&fit=crop"}
                         alt={bestPick.name}
                         referrerPolicy="no-referrer-when-downgrade"
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
