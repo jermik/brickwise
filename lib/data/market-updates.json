@@ -1,5 +1,62 @@
 [
   {
+    "date": "2026-05-01",
+    "slug": "2026-05-01",
+    "title": "Tokenized Real Estate Market Update — May 1, 2026",
+    "summary": "The tokenized real estate market continues to offer accessible entry points for retail investors seeking passive income. Across 96 active listings on Lofty and RealT, the average net yield currently sits at 12.1%, reflecting a diverse range of residential properties primarily concentrated in US markets.\n\nTop performers this period include 15 Wilshire Blvd in Lubbock, delivering 29.65% net yield. Cleveland leads in listing volume with 15 available properties, offering investors meaningful diversification within a single metro area.\n\nInvestors should review occupancy rates, fee structures, and platform-specific terms before committing capital. Brickwise scores each property on yield, risk, neighborhood quality, and token fair value to help surface the most compelling opportunities at any given time.",
+    "highlights": [
+      "96 tokenized properties tracked across Lofty and RealT",
+      "Average net yield: 12.1% across all active listings",
+      "Top yield: 29.65% — 15 Wilshire Blvd, Lubbock",
+      "Cleveland leads with 15 available listings",
+      "Average Brickwise score: 73/100"
+    ],
+    "stats": {
+      "totalListings": 96,
+      "avgYield": 12.1,
+      "avgScore": 73,
+      "topYield": 29.65,
+      "topYieldCity": "Lubbock"
+    },
+    "topProperties": [
+      {
+        "id": 101,
+        "name": "11125 Lawnhaven Rd",
+        "yield": 15.15,
+        "score": 82,
+        "city": "Dallas"
+      },
+      {
+        "id": 110,
+        "name": "6601 E Hearn Rd",
+        "yield": 28.88,
+        "score": 82,
+        "city": "Scottsdale"
+      },
+      {
+        "id": 114,
+        "name": "4506 S Fallwood Ct",
+        "yield": 15.14,
+        "score": 82,
+        "city": "Columbia"
+      },
+      {
+        "id": 118,
+        "name": "581 San Francisco St",
+        "yield": 20.44,
+        "score": 82,
+        "city": "Las Cruces"
+      },
+      {
+        "id": 131,
+        "name": "1190 Ridgetop Ave",
+        "yield": 14.29,
+        "score": 82,
+        "city": "Las Cruces"
+      }
+    ]
+  },
+  {
     "date": "2026-04-30",
     "slug": "2026-04-30",
     "title": "Tokenized Real Estate Market Update — April 30, 2026",
