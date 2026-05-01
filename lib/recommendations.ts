@@ -33,6 +33,7 @@ function cityAvgYield(city: string, all: Property[]): number | null {
 }
 
 function scorePercentile(p: Property, all: Property[]): number {
+  if (all.length === 0) return 0;
   const below = all.filter((q) => q.overallScore < p.overallScore).length;
   return Math.round((below / all.length) * 100);
 }
@@ -146,7 +147,7 @@ export function getComparison(p: Property, allProperties: Property[]): Compariso
   const avg = cityAvgYield(p.city, allProperties);
   const delta = avg !== null ? +(p.expectedYield - avg).toFixed(1) : null;
   const pctile = scorePercentile(p, allProperties);
-  const betterThan = Math.round(
+  const betterThan = allProperties.length === 0 ? 0 : Math.round(
     (allProperties.filter((q) => q.overallScore < p.overallScore).length /
       allProperties.length) *
       100
@@ -259,17 +260,19 @@ export function getAvoidMistakes(
   }
 
   // Pattern 2 — yield gap vs top available
-  const avgHeld = +(held.reduce((s, p) => s + p.expectedYield, 0) / held.length).toFixed(1);
-  const topYield = Math.max(...buyPool.map((p) => p.expectedYield));
-  const topYieldProp = buyPool.find((p) => p.expectedYield === topYield)!;
-  const gap = +(topYield - avgHeld).toFixed(1);
-  if (gap >= 1.5) {
-    const totalHeld = holdings.reduce((s, h) => s + h.currentValue, 0);
-    const monthlyLost = Math.round((totalHeld * gap) / 1200);
-    insights.push({
-      message: `Holdings average ${avgHeld}% yield — ${gap}pp below best available`,
-      detail: `Switching to ${topYieldProp.name} (${topYield}%) would add ~€${monthlyLost}/month across your portfolio`,
-    });
+  if (buyPool.length > 0) {
+    const avgHeld = +(held.reduce((s, p) => s + p.expectedYield, 0) / held.length).toFixed(1);
+    const topYield = Math.max(...buyPool.map((p) => p.expectedYield));
+    const topYieldProp = buyPool.find((p) => p.expectedYield === topYield);
+    const gap = +(topYield - avgHeld).toFixed(1);
+    if (gap >= 1.5 && topYieldProp) {
+      const totalHeld = holdings.reduce((s, h) => s + h.currentValue, 0);
+      const monthlyLost = Math.round((totalHeld * gap) / 1200);
+      insights.push({
+        message: `Holdings average ${avgHeld}% yield — ${gap}pp below best available`,
+        detail: `Switching to ${topYieldProp.name} (${topYield}%) would add ~€${monthlyLost}/month across your portfolio`,
+      });
+    }
   }
 
   // Pattern 3 — overpriced holdings with undervalued Buy alternatives
@@ -341,7 +344,8 @@ export function getMissedInsights(
 
 // ── Split note text into bullet points ───────────────────────────────
 
-export function toPoints(text: string): string[] {
+export function toPoints(text: string | null | undefined): string[] {
+  if (!text) return [];
   return text
     .split(/\.\s+/)
     .map((s) => s.replace(/\.$/, "").trim())

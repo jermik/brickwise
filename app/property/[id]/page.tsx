@@ -70,9 +70,10 @@ export default async function PropertyDetailPage({
   if (!property) notFound();
   const p = property;
 
-  const totalFees = p.fees.propertyTax + p.fees.insurance + p.fees.management;
+  const fees = p.fees ?? { propertyTax: 0, insurance: 0, management: 0 };
+  const totalFees = fees.propertyTax + fees.insurance + fees.management;
   const netMonthly = p.monthlyRent - totalFees;
-  const share100 = 100 / p.totalTokens;
+  const share100 = p.totalTokens > 0 ? 100 / p.totalTokens : 0;
   const totalPropertyValue = Math.round(p.tokenPrice * p.totalTokens);
   const rec = getRecommendation(p, PROPERTIES);
   const conf = getConfidence(p);
@@ -649,9 +650,9 @@ export default async function PropertyDetailPage({
                 </span>
               </div>
               {[
-                { label: "Property tax", value: p.fees.propertyTax },
-                { label: "Insurance", value: p.fees.insurance },
-                { label: "Management", value: p.fees.management },
+                { label: "Property tax", value: fees.propertyTax },
+                { label: "Insurance", value: fees.insurance },
+                { label: "Management", value: fees.management },
               ].map(({ label, value }) => (
                 <div
                   key={label}
