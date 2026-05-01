@@ -480,11 +480,34 @@ async function fetchRealtProductUrls() {
 // ── RealT: Playwright fallback ────────────────────────────────────────────
 async function scrapeRealtPage(page, url) {
   try {
+    // Intercept any JSON responses the page makes (realt.co may fetch live token data)
+    var capturedApiData = null;
+    var responseHandler = async function(response) {
+      var rUrl = response.url();
+      if (!rUrl.match(/\.(js|css|png|jpg|svg|ico|woff|ttf|gif)(\?|$)/)) {
+        var ct = response.headers()["content-type"] || "";
+        if (ct.indexOf("application/json") !== -1) {
+          try {
+            var rText = await response.text();
+            if (rText.length > 50 && rText.indexOf("tokenPrice") !== -1 || rText.indexOf("annualPercentage") !== -1 || rText.indexOf("netRent") !== -1) {
+              var rJson = JSON.parse(rText);
+              capturedApiData = rJson;
+            }
+          } catch(re) {}
+        }
+      }
+    };
+    page.on("response", responseHandler);
+
     await page.goto(url, { waitUntil: "networkidle", timeout: 40000 });
     await page.waitForTimeout(2000);
+    page.off("response", responseHandler);
+
+    // Declare all variables up front so sections can fill them in order
+    var tokenPrice = null, netYield = null, grossYield = null, monthlyRent = null;
+    var occupancyRate = null, yearBuilt = null, squareFeet = null, totalTokens = null;
 
     // 1. Try JSON-LD structured data (WooCommerce injects Product schema with price)
-    var tokenPrice = null;
     try {
       var ldData = await page.evaluate(function() {
         var scripts = document.querySelectorAll('script[type="application/ld+json"]');
@@ -507,7 +530,19 @@ async function scrapeRealtPage(page, url) {
       }
     } catch(ldErr) {}
 
-    // 2. Try data attributes on elements (RealT may use data-* attributes)
+    // 2. Use intercepted API response if available
+    if (capturedApiData) {
+      try {
+        var apiNorm = normaliseRealtApiRecord(capturedApiData);
+        if (apiNorm.expectedYield) netYield = apiNorm.expectedYield;
+        if (apiNorm.grossYield) grossYield = apiNorm.grossYield;
+        if (apiNorm.monthlyRent) monthlyRent = apiNorm.monthlyRent;
+        if (apiNorm.tokenPrice && !tokenPrice) tokenPrice = apiNorm.tokenPrice;
+        if (apiNorm.occupancyRate) occupancyRate = apiNorm.occupancyRate;
+      } catch(apiErr) {}
+    }
+
+    // 3. Try data attributes on elements (RealT may use data-* attributes)
     var dataAttrs = null;
     try {
       dataAttrs = await page.evaluate(function() {
@@ -535,14 +570,14 @@ async function scrapeRealtPage(page, url) {
       return null;
     }
     if (!tokenPrice) tokenPrice = find([/Token\s*Price[^$\d]*\$?\s*([\d.,]+)/i, /Price\s*per\s*Token[^$\d]*\$?\s*([\d.,]+)/i, /\$\s*([\d.]+)\s*\/\s*[Tt]oken/]);
-    var grossYield    = find([/Gross\s*Rent[^%\d]*([\d.]+)\s*%/i, /Gross\s*Yield[^%\d]*([\d.]+)\s*%/i]);
-    var netYield      = find([/Net\s*Rent[^%\d]*([\d.]+)\s*%/i, /Net\s*Yield[^%\d]*([\d.]+)\s*%/i, /Expected\s*Yield[^%\d]*([\d.]+)\s*%/i, /Annual\s*Percentage\s*Yield[^%\d]*([\d.]+)\s*%/i]);
-    var monthlyRent   = find([/(?:Net\s*)?Monthly\s*Rent[^$\d]*\$?\s*([\d,]+)/i, /Gross\s*Monthly\s*Rent[^$\d]*\$?\s*([\d,]+)/i]);
-    var occupancyRate = find([/Occupancy[^%\d]*([\d.]+)\s*%/i, /Rented[^%\d]*([\d.]+)\s*%/i]);
-    var yearBuiltM    = bodyText.match(/(?:Year\s*Built|Construction\s*Year)[:\s]*(\d{4})/i);
-    var yearBuilt     = yearBuiltM ? parseInt(yearBuiltM[1]) : null;
-    var squareFeet    = find([/([\d,]+)\s*sq\.?\s*ft/i]);
-    var totalTokens   = find([/Total\s*Tokens?[:\s]*([\d,]+)/i]);
+    grossYield    = grossYield    || find([/Gross\s*Rent[^%\d]*([\d.]+)\s*%/i, /Gross\s*Yield[^%\d]*([\d.]+)\s*%/i]);
+    netYield      = netYield      || find([/Net\s*Rent[^%\d]*([\d.]+)\s*%/i, /Net\s*Yield[^%\d]*([\d.]+)\s*%/i, /Expected\s*Yield[^%\d]*([\d.]+)\s*%/i, /Annual\s*Percentage\s*Yield[^%\d]*([\d.]+)\s*%/i]);
+    monthlyRent   = monthlyRent   || find([/(?:Net\s*)?Monthly\s*Rent[^$\d]*\$?\s*([\d,]+)/i, /Gross\s*Monthly\s*Rent[^$\d]*\$?\s*([\d,]+)/i]);
+    occupancyRate = occupancyRate || find([/Occupancy[^%\d]*([\d.]+)\s*%/i, /Rented[^%\d]*([\d.]+)\s*%/i]);
+    var yearBuiltM = bodyText.match(/(?:Year\s*Built|Construction\s*Year)[:\s]*(\d{4})/i);
+    if (!yearBuilt && yearBuiltM) yearBuilt = parseInt(yearBuiltM[1]);
+    squareFeet  = squareFeet  || find([/([\d,]+)\s*sq\.?\s*ft/i]);
+    totalTokens = totalTokens || find([/Total\s*Tokens?[:\s]*([\d,]+)/i]);
     var slug          = url.replace(/.*\/product\//, "").replace(/\/$/, "");
     var cityMatch     = slug.match(/-([a-z-]+)-([a-z]{2})-\d{5}$/);
     var city          = cityMatch ? cityMatch[1].replace(/-/g, " ").replace(/\b\w/g, function(c) { return c.toUpperCase(); }) : "Unknown";
@@ -783,24 +818,34 @@ async function main() {
     console.log("  API unavailable — using WooCommerce discovery...");
     var allRealtProducts = await fetchRealtProductUrls();
 
-    // Split: items that already have financial data vs those needing Playwright
-    var withData    = allRealtProducts.filter(function(item) { return item.tokenPrice || item.expectedYield; });
-    var withoutData = allRealtProducts.filter(function(item) { return !item.tokenPrice && !item.expectedYield; });
-    console.log("  " + withData.length + " with data direct, " + withoutData.length + " need scraping");
+    // Only skip Playwright if we have BOTH tokenPrice AND yield
+    var withFullData = allRealtProducts.filter(function(item) { return item.tokenPrice && item.expectedYield; });
+    var needsYield   = allRealtProducts.filter(function(item) { return !(item.tokenPrice && item.expectedYield); });
+    console.log("  " + withFullData.length + " complete, " + needsYield.length + " need yield via Playwright");
 
-    // Use WooCommerce data directly
-    for (var wi = 0; wi < withData.length; wi++) {
-      realtItems.push(withData[wi]);
+    // Use WooCommerce data directly for complete items
+    for (var wi = 0; wi < withFullData.length; wi++) {
+      realtItems.push(withFullData[wi]);
     }
 
-    // Only Playwright-scrape products where WooCommerce gave no financial data
-    if (withoutData.length > 0) {
-      console.log("  Scraping " + withoutData.length + " pages without data...");
-      for (var si = 0; si < withoutData.length; si++) {
-        var scraped = await scrapeRealtPage(page, withoutData[si].url);
-        if (scraped) realtItems.push(scraped);
-        if ((si + 1) % 10 === 0) console.log("  Progress: " + (si + 1) + "/" + withoutData.length);
-        await page.waitForTimeout(800);
+    // Playwright-scrape items missing yield (cap at 150 to stay within CI time)
+    var toScrape = needsYield.slice(0, 150);
+    if (toScrape.length > 0) {
+      console.log("  Scraping " + toScrape.length + " pages for yield data...");
+      for (var si = 0; si < toScrape.length; si++) {
+        var existing = toScrape[si];
+        var scraped = await scrapeRealtPage(page, existing.url);
+        if (scraped) {
+          // Merge: keep WooCommerce tokenPrice if scraper didn't find one
+          if (!scraped.tokenPrice && existing.tokenPrice) scraped.tokenPrice = existing.tokenPrice;
+          if (!scraped.monthlyRent && existing.monthlyRent) scraped.monthlyRent = existing.monthlyRent;
+          realtItems.push(scraped);
+        } else if (existing.tokenPrice) {
+          // Still push even without yield — buildPropertyObject will use defaults
+          realtItems.push(existing);
+        }
+        if ((si + 1) % 10 === 0) console.log("  Progress: " + (si + 1) + "/" + toScrape.length);
+        await page.waitForTimeout(600);
       }
     }
     console.log("  Total usable RealT items: " + realtItems.length);
@@ -847,8 +892,8 @@ async function main() {
         }
       }
     } else {
-      if (!raw.tokenPrice || !raw.expectedYield) {
-        console.log("  Skipping " + raw.name + " — missing data");
+      if (!raw.tokenPrice) {
+        console.log("  Skipping " + raw.name + " — no token price");
         continue;
       }
       var newId = nextId++;
