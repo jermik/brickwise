@@ -3,18 +3,18 @@
     "date": "2026-05-01",
     "slug": "2026-05-01",
     "title": "Tokenized Real Estate Market Update — May 1, 2026",
-    "summary": "The tokenized real estate market continues to offer accessible entry points for retail investors seeking passive income. Across 101 active listings on Lofty and RealT, the average net yield currently sits at 12%, reflecting a diverse range of residential properties primarily concentrated in US markets.\n\nTop performers this period include 15 Wilshire Blvd in Lubbock, delivering 29.65% net yield. Cleveland leads in listing volume with 15 available properties, offering investors meaningful diversification within a single metro area.\n\nInvestors should review occupancy rates, fee structures, and platform-specific terms before committing capital. Brickwise scores each property on yield, risk, neighborhood quality, and token fair value to help surface the most compelling opportunities at any given time.",
+    "summary": "The tokenized real estate market continues to offer accessible entry points for retail investors seeking passive income. Across 248 active listings on Lofty and RealT, the average net yield currently sits at 10.8%, reflecting a diverse range of residential properties primarily concentrated in US markets.\n\nTop performers this period include 15 Wilshire Blvd in Lubbock, delivering 29.65% net yield. Cleveland leads in listing volume with 17 available properties, offering investors meaningful diversification within a single metro area.\n\nInvestors should review occupancy rates, fee structures, and platform-specific terms before committing capital. Brickwise scores each property on yield, risk, neighborhood quality, and token fair value to help surface the most compelling opportunities at any given time.",
     "highlights": [
-      "101 tokenized properties tracked across Lofty and RealT",
-      "Average net yield: 12% across all active listings",
+      "248 tokenized properties tracked across Lofty and RealT",
+      "Average net yield: 10.8% across all active listings",
       "Top yield: 29.65% — 15 Wilshire Blvd, Lubbock",
-      "Cleveland leads with 15 available listings",
-      "Average Brickwise score: 74/100"
+      "Cleveland leads with 17 available listings",
+      "Average Brickwise score: 73/100"
     ],
     "stats": {
-      "totalListings": 101,
-      "avgYield": 12,
-      "avgScore": 74,
+      "totalListings": 248,
+      "avgYield": 10.8,
+      "avgScore": 73,
       "topYield": 29.65,
       "topYieldCity": "Lubbock"
     },
