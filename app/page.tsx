@@ -689,7 +689,7 @@ export default function DecisionPage() {
               {byCityEntries.map(([city, count]) => (
                 <div key={city} className="flex items-center gap-2">
                   <div className="flex-1 min-w-0">
-                    <div className="text-[11px] font-medium truncate" style={{ color: "#333" }}>{city}</div>
+                    <div className="text-[11px] font-medium truncate" style={{ color: "rgba(242,237,230,0.7)" }}>{city}</div>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <div
@@ -720,7 +720,7 @@ export default function DecisionPage() {
             <div className="space-y-2.5">
               {yieldBuckets.map((b) => (
                 <div key={b.label} className="flex items-center gap-2">
-                  <div className="w-12 text-[11px] font-medium flex-shrink-0" style={{ color: "#333" }}>{b.label}</div>
+                  <div className="w-12 text-[11px] font-medium flex-shrink-0" style={{ color: "rgba(242,237,230,0.7)" }}>{b.label}</div>
                   <div className="flex-1 h-5 rounded-[4px] overflow-hidden" style={{ background: "#1A1510" }}>
                     <div
                       className="h-full rounded-[4px] flex items-center px-2"
@@ -754,7 +754,7 @@ export default function DecisionPage() {
                 <div key={level} className="flex items-center gap-2">
                   <div className="flex items-center gap-1.5 w-16 flex-shrink-0">
                     <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: color }} />
-                    <span className="text-[11px] font-medium" style={{ color: "#333" }}>{level}</span>
+                    <span className="text-[11px] font-medium" style={{ color: "rgba(242,237,230,0.7)" }}>{level}</span>
                   </div>
                   <div className="flex-1 h-5 rounded-[4px] overflow-hidden" style={{ background: "#1A1510" }}>
                     <div

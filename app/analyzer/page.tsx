@@ -20,7 +20,7 @@ export default function AnalyzerPage() {
   const [investInput, setInvestInput] = useState("1000");
   const [compareIds, setCompareIds] = useState<number[]>([]);
   const [compareOpen, setCompareOpen] = useState(false);
-  const compareMode = compareIds.length > 0;
+  const [compareActive, setCompareActive] = useState(false);
 
   const results = useMemo(
     () => filterAndSort(PROPERTIES, filters, sortKey),
@@ -49,6 +49,12 @@ export default function AnalyzerPage() {
     });
   }, []);
 
+  const exitCompare = useCallback(() => {
+    setCompareActive(false);
+    setCompareIds([]);
+    setCompareOpen(false);
+  }, []);
+
   const compareProperties = useMemo(
     () => compareIds.map((id) => PROPERTIES.find((p) => p.id === id)).filter(Boolean) as typeof PROPERTIES,
     [compareIds]
@@ -75,16 +81,37 @@ export default function AnalyzerPage() {
               </h1>
             </div>
 
-            {/* Stats row */}
-            {stats && (
-              <div className="flex items-center gap-6 flex-wrap">
-                <StatPill label="Properties" value={String(results.length)} />
-                <StatPill label="Avg Yield" value={`${stats.avgYield}%`} green />
-                <StatPill label="Best Yield" value={`${stats.bestYield}%`} green />
-                <StatPill label="Buy signals" value={String(stats.buyCount)} accent />
-                <StatPill label="Avg Score" value={String(stats.avgScore)} />
-              </div>
-            )}
+            <div className="flex items-center gap-4 flex-wrap">
+              {/* Stats row */}
+              {stats && (
+                <div className="flex items-center gap-6 flex-wrap">
+                  <StatPill label="Properties" value={String(results.length)} />
+                  <StatPill label="Avg Yield" value={`${stats.avgYield}%`} green />
+                  <StatPill label="Best Yield" value={`${stats.bestYield}%`} green />
+                  <StatPill label="Buy signals" value={String(stats.buyCount)} accent />
+                  <StatPill label="Avg Score" value={String(stats.avgScore)} />
+                </div>
+              )}
+
+              {/* Compare toggle */}
+              <button
+                className="flex items-center gap-1.5 text-[12px] font-semibold px-3 py-[7px] rounded-[7px] transition-all flex-shrink-0"
+                style={{
+                  background: compareActive ? "rgba(59,130,246,0.1)" : "#f5f5f5",
+                  border: `1px solid ${compareActive ? "rgba(59,130,246,0.4)" : "#e5e5e5"}`,
+                  color: compareActive ? "#3b82f6" : "#737373",
+                }}
+                onClick={() => {
+                  if (compareActive) { exitCompare(); } else { setCompareActive(true); }
+                }}
+              >
+                <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+                  <rect x="0.5" y="0.5" width="4" height="10" rx="1" stroke="currentColor" strokeWidth="1.2" />
+                  <rect x="6.5" y="0.5" width="4" height="10" rx="1" stroke="currentColor" strokeWidth="1.2" />
+                </svg>
+                {compareActive ? "Exit compare" : "Compare"}
+              </button>
+            </div>
           </div>
         </div>
 
@@ -124,7 +151,7 @@ export default function AnalyzerPage() {
         </div>
 
         {/* Compare mode bar */}
-        {compareMode && (
+        {compareActive && compareIds.length > 0 && (
           <div
             className="px-6 py-2.5 flex items-center gap-3"
             style={{ background: "#eff6ff", borderBottom: "1px solid #bfdbfe" }}
@@ -159,6 +186,13 @@ export default function AnalyzerPage() {
               >
                 Clear
               </button>
+              <button
+                className="text-[11px] px-2.5 py-1.5 rounded-[6px] transition-opacity hover:opacity-70"
+                style={{ background: "rgba(59,130,246,0.08)", color: "#93c5fd" }}
+                onClick={exitCompare}
+              >
+                Exit compare
+              </button>
             </div>
           </div>
         )}
@@ -176,30 +210,20 @@ export default function AnalyzerPage() {
           />
         </div>
 
-        {/* Compare mode hint in filter bar */}
-        <div
-          className="px-6 py-2 flex items-center gap-2"
-          style={{ background: "#fafafa", borderBottom: "1px solid #f0f0f0" }}
-        >
-          <button
-            className="flex items-center gap-1.5 text-[11px] font-medium px-2.5 py-1 rounded-[5px] transition-all"
-            style={{
-              background: compareMode ? "rgba(59,130,246,0.1)" : "transparent",
-              border: `1px solid ${compareMode ? "rgba(59,130,246,0.3)" : "#e5e5e5"}`,
-              color: compareMode ? "#3b82f6" : "#737373",
-            }}
-            onClick={() => {
-              if (compareMode) setCompareIds([]);
-            }}
+        {/* Compare mode active hint */}
+        {compareActive && compareIds.length === 0 && (
+          <div
+            className="px-6 py-2 flex items-center gap-2"
+            style={{ background: "rgba(59,130,246,0.04)", borderBottom: "1px solid rgba(59,130,246,0.12)" }}
           >
             <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
-              <rect x="0.5" y="0.5" width="4" height="10" rx="1" stroke="currentColor" strokeWidth="1.2" />
-              <rect x="6.5" y="0.5" width="4" height="10" rx="1" stroke="currentColor" strokeWidth="1.2" />
+              <rect x="0.5" y="0.5" width="4" height="10" rx="1" stroke="#3b82f6" strokeWidth="1.2" />
+              <rect x="6.5" y="0.5" width="4" height="10" rx="1" stroke="#3b82f6" strokeWidth="1.2" />
             </svg>
-            {compareMode ? `Comparing ${compareIds.length} · click to exit` : "Compare mode — click + on any card"}
-          </button>
-          <span className="text-[10px]" style={{ color: "#c4c4c4" }}>select up to 3 properties to compare side-by-side</span>
-        </div>
+            <span className="text-[11px] font-medium" style={{ color: "#3b82f6" }}>Compare mode on</span>
+            <span className="text-[11px]" style={{ color: "#93c5fd" }}>— click the + button on any card to add it to the comparison</span>
+          </div>
+        )}
 
         {/* Results */}
         <div className="flex-1 px-6 py-5 overflow-auto">
@@ -229,7 +253,7 @@ export default function AnalyzerPage() {
                 <PropertyCard
                   key={p.id}
                   property={p}
-                  compareMode={true}
+                  compareMode={compareActive}
                   isCompared={compareIds.includes(p.id)}
                   onCompareToggle={() => toggleCompare(p.id)}
                   investAmount={investAmount}
@@ -260,7 +284,7 @@ export default function AnalyzerPage() {
                 <PropertyRow
                   key={p.id}
                   property={p}
-                  compareMode={true}
+                  compareMode={compareActive}
                   isCompared={compareIds.includes(p.id)}
                   onCompareToggle={() => toggleCompare(p.id)}
                   investAmount={investAmount}
@@ -271,9 +295,9 @@ export default function AnalyzerPage() {
         </div>
 
         {/* Floating compare bar */}
-        {compareIds.length >= 2 && !compareOpen && (
+        {compareActive && compareIds.length >= 2 && !compareOpen && (
           <div
-            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center gap-3 px-5 py-3 rounded-full shadow-xl"
+            className="fixed bottom-6 left-1/2 lg:left-[calc(50%+110px)] -translate-x-1/2 z-40 flex items-center gap-3 px-5 py-3 rounded-full shadow-xl"
             style={{ background: "#111", border: "1px solid rgba(255,255,255,0.1)" }}
           >
             <span className="text-[13px] font-medium" style={{ color: "rgba(255,255,255,0.8)" }}>

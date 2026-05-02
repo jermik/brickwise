@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Property } from "@/lib/types";
 import { getRecommendation } from "@/lib/recommendations";
-import { calcPaybackYears, calcCapRate, calcFeeBurden, riskColor } from "@/lib/scoring";
+import { calcPaybackYears, calcCapRate, calcFeeBurden } from "@/lib/scoring";
 
 interface CompareDrawerProps {
   properties: Property[];
