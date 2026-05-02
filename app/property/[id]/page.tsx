@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AppShell } from "@/components/layout/app-shell";
 import { PropertyHeroImage } from "@/components/property/property-hero-image";
+import { FallbackImg } from "@/components/ui/fallback-img";
 import { ScoreRing } from "@/components/ui/score-ring";
 import { ScoreBar } from "@/components/ui/score-bar";
 import { RiskBadge } from "@/components/ui/risk-badge";
@@ -461,6 +462,61 @@ export default async function PropertyDetailPage({
                   : `${p.occupancyRate}% occupied — below 88% threshold. Income may vary significantly.`}
               </p>
             </div>
+
+            {/* Comparable properties */}
+            {(() => {
+              const comparables = PROPERTIES
+                .filter((cp) => cp.id !== p.id && (cp.city === p.city || cp.platform === p.platform))
+                .sort((a, b) => {
+                  const aCity = a.city === p.city ? 1 : 0;
+                  const bCity = b.city === p.city ? 1 : 0;
+                  if (aCity !== bCity) return bCity - aCity;
+                  return b.overallScore - a.overallScore;
+                })
+                .slice(0, 3);
+              if (!comparables.length) return null;
+              return (
+                <div className="rounded-[10px] overflow-hidden" style={{ border: "1px solid #ebebeb" }}>
+                  <div className="px-5 py-3.5" style={{ borderBottom: "1px solid #f5f5f5", background: "#fafafa" }}>
+                    <div className="text-[10px] font-semibold uppercase tracking-[0.6px]" style={{ color: "#a3a3a3" }}>
+                      Similar properties
+                    </div>
+                  </div>
+                  {comparables.map((cp, i) => {
+                    const crec = getRecommendation(cp, PROPERTIES);
+                    const recColor = crec.action === "Buy" ? "#16a34a" : crec.action === "Avoid" ? "#dc2626" : "#d97706";
+                    return (
+                      <Link
+                        key={cp.id}
+                        href={`/property/${cp.id}`}
+                        className="flex items-center gap-3 px-5 py-3 no-underline transition-colors hover:bg-[#fafafa]"
+                        style={{ borderBottom: i < comparables.length - 1 ? "1px solid #f5f5f5" : undefined, background: "#fff" }}
+                      >
+                        <FallbackImg
+                          src={cp.image}
+                          alt={cp.name}
+                          referrerPolicy="no-referrer-when-downgrade"
+                          className="w-10 h-10 rounded-[6px] object-cover flex-shrink-0"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <div className="text-[12px] font-semibold truncate mb-0.5" style={{ color: "#111" }}>{cp.name}</div>
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-[10px]" style={{ color: "#a3a3a3" }}>{cp.flag} {cp.city} · {cp.platform}</span>
+                            {cp.city === p.city && (
+                              <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: "#f0fdf4", color: "#16a34a" }}>Same city</span>
+                            )}
+                          </div>
+                        </div>
+                        <div className="text-right flex-shrink-0">
+                          <div className="text-[13px] font-semibold" style={{ fontFamily: "var(--font-dm-mono)", color: "#16a34a" }}>{cp.expectedYield}%</div>
+                          <div className="text-[9px] font-semibold" style={{ color: recColor }}>{crec.action}</div>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              );
+            })()}
 
             {/* Data source */}
             <div

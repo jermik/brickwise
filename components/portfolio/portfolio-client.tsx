@@ -474,6 +474,98 @@ export function PortfolioClient() {
           </div>
         )}
 
+        {/* Allocation chart + annual projection */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+          {/* Donut chart — allocation by property */}
+          {(() => {
+            const COLORS = ["#22c55e", "#3b82f6", "#f59e0b", "#8b5cf6", "#ec4899", "#14b8a6"];
+            let angle = -90;
+            const slices = holdingProps.map(({ h, p }, i) => {
+              const pct = totalValue > 0 ? h.currentValue / totalValue : 0;
+              const startAngle = angle;
+              const sweep = pct * 360;
+              angle += sweep;
+              const r = 42, ir = 26, cx = 56, cy = 56;
+              const toRad = (deg: number) => (deg * Math.PI) / 180;
+              const x1 = cx + r * Math.cos(toRad(startAngle));
+              const y1 = cy + r * Math.sin(toRad(startAngle));
+              const x2 = cx + r * Math.cos(toRad(startAngle + sweep));
+              const y2 = cy + r * Math.sin(toRad(startAngle + sweep));
+              const ix1 = cx + ir * Math.cos(toRad(startAngle));
+              const iy1 = cy + ir * Math.sin(toRad(startAngle));
+              const ix2 = cx + ir * Math.cos(toRad(startAngle + sweep));
+              const iy2 = cy + ir * Math.sin(toRad(startAngle + sweep));
+              const large = sweep > 180 ? 1 : 0;
+              const d = `M ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} L ${ix2} ${iy2} A ${ir} ${ir} 0 ${large} 0 ${ix1} ${iy1} Z`;
+              return { d, color: COLORS[i % COLORS.length], pct, name: p.name, value: h.currentValue };
+            });
+            return (
+              <div className="rounded-[10px] p-5" style={cardStyle}>
+                <div className="text-[12px] font-semibold mb-1" style={{ color: "#F2EDE6" }}>Allocation</div>
+                <div className="text-[11px] mb-4" style={{ color: "rgba(242,237,230,0.4)" }}>by market value</div>
+                <div className="flex items-center gap-4">
+                  <svg viewBox="0 0 112 112" width={80} height={80} className="flex-shrink-0">
+                    {slices.map((s, i) => (
+                      <path key={i} d={s.d} fill={s.color} opacity={0.9} />
+                    ))}
+                    <text x="56" y="53" textAnchor="middle" fontSize="8" fontWeight="600" fill="rgba(242,237,230,0.6)">
+                      total
+                    </text>
+                    <text x="56" y="63" textAnchor="middle" fontSize="9" fontWeight="700" fill="#F2EDE6">
+                      €{Math.round(totalValue / 1000)}k
+                    </text>
+                  </svg>
+                  <div className="flex-1 space-y-1.5 min-w-0">
+                    {slices.map((s, i) => (
+                      <div key={i} className="flex items-center gap-1.5 min-w-0">
+                        <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: s.color }} />
+                        <span className="text-[10px] truncate flex-1" style={{ color: "rgba(242,237,230,0.6)" }}>
+                          {holdingProps[i]?.p.name.split(" ").slice(0, 2).join(" ")}
+                        </span>
+                        <span className="text-[10px] font-semibold flex-shrink-0" style={{ fontFamily: "var(--font-dm-mono)", color: "rgba(242,237,230,0.5)" }}>
+                          {Math.round(s.pct * 100)}%
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+
+          {/* Annual projection */}
+          <div className="rounded-[10px] p-5 flex flex-col justify-between" style={cardStyle}>
+            <div>
+              <div className="text-[12px] font-semibold mb-1" style={{ color: "#F2EDE6" }}>Annual income projection</div>
+              <div className="text-[11px] mb-4" style={{ color: "rgba(242,237,230,0.4)" }}>based on current yields</div>
+            </div>
+            <div>
+              <div
+                className="text-[32px] font-medium leading-none tracking-[-1px] mb-1"
+                style={{ fontFamily: "var(--font-dm-mono)", color: "#22c55e" }}
+              >
+                €{(totalMonthly * 12).toLocaleString("de-DE")}
+              </div>
+              <div className="text-[12px] mb-4" style={{ color: "rgba(242,237,230,0.4)" }}>
+                per year · €{totalMonthly}/mo
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  { label: "Yield", value: `${weightedYield.toFixed(1)}%` },
+                  { label: "Holdings", value: String(holdings.length) },
+                  { label: "Daily avg", value: `€${(totalMonthly / 30).toFixed(2)}` },
+                  { label: "Per token", value: `€${holdingProps.length ? (totalMonthly / holdingProps.reduce((s, { h }) => s + h.tokens, 0)).toFixed(3) : "—"}` },
+                ].map((s) => (
+                  <div key={s.label} className="rounded-[6px] px-3 py-2" style={{ background: "rgba(255,255,255,0.03)" }}>
+                    <div className="text-[9px] uppercase tracking-[0.5px] mb-0.5" style={{ color: "rgba(242,237,230,0.3)" }}>{s.label}</div>
+                    <div className="text-[13px] font-semibold" style={{ fontFamily: "var(--font-dm-mono)", color: "#F2EDE6" }}>{s.value}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Holdings list */}
         <div className="rounded-[10px] overflow-hidden mb-5" style={cardStyle}>
           <div
