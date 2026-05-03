@@ -5,7 +5,7 @@
     "expectedYield": 8.7,
     "monthlyRent": 580,
     "occupancyRate": 94,
-    "lastUpdated": "2026-05-02",
+    "lastUpdated": "2026-05-03",
     "sourceVerified": true
   },
   "7": {
@@ -14,7 +14,7 @@
     "expectedYield": 10.6,
     "monthlyRent": 648,
     "occupancyRate": 89,
-    "lastUpdated": "2026-05-02",
+    "lastUpdated": "2026-05-03",
     "sourceVerified": true
   },
   "9": {
@@ -23,7 +23,7 @@
     "expectedYield": 8.2,
     "monthlyRent": 568,
     "occupancyRate": 91,
-    "lastUpdated": "2026-05-02",
+    "lastUpdated": "2026-05-03",
     "sourceVerified": true
   },
   "11": {
@@ -32,7 +32,7 @@
     "expectedYield": 12.3,
     "monthlyRent": 960,
     "occupancyRate": 99,
-    "lastUpdated": "2026-05-02",
+    "lastUpdated": "2026-05-03",
     "sourceVerified": true
   },
   "12": {
@@ -41,7 +41,7 @@
     "expectedYield": 10.81,
     "monthlyRent": 980,
     "occupancyRate": 94,
-    "lastUpdated": "2026-05-02",
+    "lastUpdated": "2026-05-03",
     "sourceVerified": true
   },
   "13": {
@@ -50,7 +50,7 @@
     "expectedYield": 11.54,
     "monthlyRent": 880,
     "occupancyRate": 97,
-    "lastUpdated": "2026-05-02",
+    "lastUpdated": "2026-05-03",
     "sourceVerified": true
   },
   "14": {
@@ -59,7 +59,7 @@
     "expectedYield": 11.81,
     "monthlyRent": 880,
     "occupancyRate": 97,
-    "lastUpdated": "2026-05-02",
+    "lastUpdated": "2026-05-03",
     "sourceVerified": true
   },
   "15": {
@@ -68,7 +68,7 @@
     "expectedYield": 11.81,
     "monthlyRent": 870,
     "occupancyRate": 97,
-    "lastUpdated": "2026-05-02",
+    "lastUpdated": "2026-05-03",
     "sourceVerified": true
   },
   "16": {
@@ -77,7 +77,7 @@
     "expectedYield": 11.87,
     "monthlyRent": 880,
     "occupancyRate": 97,
-    "lastUpdated": "2026-05-02",
+    "lastUpdated": "2026-05-03",
     "sourceVerified": true
   },
   "17": {
@@ -90,14 +90,14 @@
     "sourceVerified": false
   },
   "18": {
-    "tokenPrice": 23.32,
+    "tokenPrice": 16.96,
     "grossYield": 16.3,
-    "expectedYield": 20.31,
+    "expectedYield": 18.44,
     "monthlyRent": 680,
     "occupancyRate": 95,
-    "lastUpdated": "2026-05-02",
+    "lastUpdated": "2026-05-03",
     "sourceVerified": true,
-    "sourceUrl": "https://www.lofty.ai/property/2724-Chatsworth-St_Memphis-TN-38127"
+    "sourceUrl": "https://www.lofty.ai/property/432-W-Peebles-Rd_Memphis-TN-38109"
   },
   "19": {
     "tokenPrice": 50,
