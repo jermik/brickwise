@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, DM_Mono, DM_Serif_Display } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/next";
+import { Suspense } from "react";
+import { PageViewTracker } from "@/components/analytics/page-view-tracker";
 import "./globals.css";
 
 const inter = Inter({
@@ -122,15 +124,35 @@ export default function RootLayout({
         className={`${inter.variable} ${dmMono.variable} ${dmSerif.variable} h-full`}
       >
         <body className="h-full">
-          <link rel="preconnect" href="https://api.fontshare.com" />
+          {/* Preconnect before stylesheet request — cuts ~100ms on first load */}
+          <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
+          {/* Preload stylesheet as high-priority resource hint */}
+          <link
+            rel="preload"
+            as="style"
+            href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap"
+          />
+          {/* Load non-render-blocking: media=print swaps to all once loaded */}
           <link
             rel="stylesheet"
             href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap"
+            media="print"
+            // @ts-expect-error onLoad fires in browser only
+            onLoad="this.media='all'"
           />
+          <noscript>
+            <link
+              rel="stylesheet"
+              href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap"
+            />
+          </noscript>
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(globalSchema) }}
           />
+          <Suspense fallback={null}>
+            <PageViewTracker />
+          </Suspense>
           {children}
           <Analytics />
         </body>

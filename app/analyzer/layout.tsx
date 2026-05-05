@@ -38,6 +38,53 @@ export const metadata: Metadata = {
   },
 };
 
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://brickwise.pro/analyzer#webpage",
+  "name": `Browse ${count} Tokenized Properties — Filter by Yield, Risk & Platform`,
+  "url": "https://brickwise.pro/analyzer",
+  "description": `Compare ${count} tokenized real estate investments on Lofty and RealT. Filter by yield, risk, city, and platform. Find the best fractional property for your goals.`,
+  "isPartOf": { "@id": "https://brickwise.pro/#website" },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://brickwise.pro" },
+      { "@type": "ListItem", "position": 2, "name": "Property Analyzer", "item": "https://brickwise.pro/analyzer" },
+    ],
+  },
+};
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Brickwise Property Analyzer",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Web",
+  "url": "https://brickwise.pro/analyzer",
+  "description": `Free tool to filter and score ${count} tokenized real estate properties by yield, risk, city, and platform. Generates Buy/Hold/Avoid signals using a proprietary scoring model.`,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock",
+  },
+  "featureList": [
+    "Filter by yield, risk, city, and platform",
+    "Buy / Hold / Avoid signals",
+    "Fair value estimation",
+    "Monthly return calculator",
+    "Side-by-side property comparison",
+    "Covers RealT and Lofty",
+  ],
+};
+
 export default function AnalyzerLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
+      {children}
+    </>
+  );
 }

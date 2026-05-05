@@ -1,6 +1,9 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
+import { useScrollDepth } from "@/hooks/use-scroll-depth";
+import { useOutboundLinks } from "@/hooks/use-outbound-links";
+import { trackAnalyzerUsed, trackAnalyzerFiltered } from "@/lib/analytics";
 import { AppShell } from "@/components/layout/app-shell";
 import { PropertyFilters, DEFAULT_FILTERS } from "@/components/property/property-filters";
 import { PropertyCard } from "@/components/property/property-card";
@@ -13,6 +16,9 @@ import { getRecommendation } from "@/lib/recommendations";
 import { FilterState, SortKey, ViewMode } from "@/lib/types";
 
 export default function AnalyzerPage() {
+  useScrollDepth("analyzer");
+  useOutboundLinks();
+
   const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
   const [sortKey, setSortKey] = useState<SortKey>("score");
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
@@ -26,6 +32,16 @@ export default function AnalyzerPage() {
     () => filterAndSort(PROPERTIES, filters, sortKey),
     [filters, sortKey]
   );
+
+  // Fire analytics when filters change — debounced 800ms to avoid spam on slider drags
+  useEffect(() => {
+    const isDefault = JSON.stringify(filters) === JSON.stringify(DEFAULT_FILTERS);
+    if (isDefault) return;
+    const t = setTimeout(() => {
+      trackAnalyzerUsed(filters as unknown as Record<string, unknown>);
+    }, 800);
+    return () => clearTimeout(t);
+  }, [filters]);
 
   const stats = useMemo(() => {
     if (results.length === 0) return null;

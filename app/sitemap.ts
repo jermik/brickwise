@@ -9,15 +9,45 @@ interface MarketUpdate {
 
 const MARKET_UPDATES = marketUpdatesRaw as unknown as MarketUpdate[];
 
+const slugify = (city: string) => city.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://brickwise.pro";
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: base, lastModified: new Date(), changeFrequency: "daily", priority: 1 },
     { url: `${base}/analyzer`, lastModified: new Date(), changeFrequency: "daily", priority: 0.9 },
+    { url: `${base}/compare/realt-vs-lofty`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
+    { url: `${base}/learn`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.85 },
+    { url: `${base}/learn/what-is-tokenized-real-estate`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/learn/lofty-review`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/learn/realt-review`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/learn/how-to-invest-in-tokenized-real-estate`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/platform/realt`, lastModified: new Date(), changeFrequency: "daily", priority: 0.8 },
+    { url: `${base}/platform/lofty`, lastModified: new Date(), changeFrequency: "daily", priority: 0.8 },
     { url: `${base}/portfolio`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.6 },
     { url: `${base}/watchlist`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.5 },
   ];
+
+  const uniqueCities = [...new Set(PROPERTIES.map((p) => p.city))];
+  const cityRoutes: MetadataRoute.Sitemap = uniqueCities.map((city) => ({
+    url: `${base}/city/${slugify(city)}`,
+    lastModified: new Date(),
+    changeFrequency: "daily",
+    priority: 0.8,
+  }));
+
+  const rankingRoutes: MetadataRoute.Sitemap = [
+    "highest-yield",
+    "buy-signals",
+    "undervalued",
+    "new-listings",
+  ].map((cat) => ({
+    url: `${base}/rankings/${cat}`,
+    lastModified: new Date(),
+    changeFrequency: "daily",
+    priority: 0.85,
+  }));
 
   const propertyRoutes: MetadataRoute.Sitemap = PROPERTIES.map((p) => ({
     url: `${base}/property/${p.id}`,
@@ -45,5 +75,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...propertyRoutes, ...marketIndexRoute, ...marketRoutes];
+  return [...staticRoutes, ...rankingRoutes, ...cityRoutes, ...propertyRoutes, ...marketIndexRoute, ...marketRoutes];
 }

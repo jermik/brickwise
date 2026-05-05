@@ -114,6 +114,61 @@ const platformCoverage = [
 const verifiedCount = PROPERTIES.filter((p) => p.sourceVerified).length;
 
 export default function DecisionPage() {
+  const homeFaqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is tokenized real estate?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Tokenized real estate converts property ownership into blockchain tokens, letting investors buy fractional shares of rental properties from as little as $50. Each token entitles the holder to proportional rental income, paid out in USDC stablecoin. Platforms like RealT and Lofty issue these tokens on Ethereum and Algorand respectively.",
+        },
+      },
+      {
+        "@type": "Question",
+        "name": "What is Brickwise?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `Brickwise is an independent tokenized real estate analytics platform. We track ${PROPERTIES.length} properties across RealT and Lofty, score each one for yield, risk, neighborhood quality, and fair value, and give a clear buy/hold/avoid signal so investors know exactly which properties to act on.`,
+        },
+      },
+      {
+        "@type": "Question",
+        "name": "What is the average yield on tokenized real estate?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `Across the ${PROPERTIES.length} properties tracked by Brickwise, the average net yield is ${(PROPERTIES.reduce((s, p) => s + p.expectedYield, 0) / PROPERTIES.length).toFixed(1)}%. Individual properties range from below 6% to over 14%. Net yield is calculated after property management fees, insurance, and property tax.`,
+        },
+      },
+      {
+        "@type": "Question",
+        "name": "How does RealT work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "RealT acquires US rental properties through Delaware LLCs and issues ERC-20 tokens representing fractional ownership. Token holders receive weekly rental income in USDC proportional to their token stake. Tokens can be traded on Uniswap or RealT's RMM protocol. Founded in 2019, RealT is the largest tokenized real estate platform by property count.",
+        },
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between RealT and Lofty?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "RealT (realt.co) has the larger catalog and longer track record since 2019. Lofty (lofty.ai) offers a $50 minimum investment, near-instant liquidity via its Proactive Market Maker (PMM), and daily income payouts. See our full RealT vs Lofty comparison for a detailed breakdown.",
+        },
+      },
+      {
+        "@type": "Question",
+        "name": "Is tokenized real estate safe?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Both RealT and Lofty use SPV (Special Purpose Vehicle) structures, meaning investors hold real legal ownership in the underlying property through LLC shares. However, tokenized real estate carries real estate risk (vacancies, maintenance), platform operational risk, and liquidity risk. It is not a guaranteed investment. Brickwise scores each property for risk to help investors make informed decisions.",
+        },
+      },
+    ],
+  };
+
   const itemListSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -132,6 +187,7 @@ export default function DecisionPage() {
 
   return (
     <AppShell>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homeFaqSchema) }} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
