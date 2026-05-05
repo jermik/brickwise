@@ -121,7 +121,7 @@ export default function RealtReviewPage() {
   };
 
   return (
-    <AppShell>
+    <PublicShell>
       <FireEvent name="learn_page_viewed" params={{ slug: "realt-review" }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
@@ -382,6 +382,6 @@ export default function RealtReviewPage() {
         </p>
       </div>
       <StickyLearnCta label="sticky-cta-realt-review" />
-    </AppShell>
+    </PublicShell>
   );
 }

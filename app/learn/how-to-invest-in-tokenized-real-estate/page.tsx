@@ -177,7 +177,7 @@ export default function HowToInvestPage() {
   };
 
   return (
-    <AppShell>
+    <PublicShell>
       <FireEvent name="learn_page_viewed" params={{ slug: "how-to-invest-in-tokenized-real-estate" }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
@@ -394,6 +394,6 @@ export default function HowToInvestPage() {
         </p>
       </div>
       <StickyLearnCta label="sticky-cta-how-to-invest" />
-    </AppShell>
+    </PublicShell>
   );
 }

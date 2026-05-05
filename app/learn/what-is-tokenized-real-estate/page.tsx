@@ -147,7 +147,7 @@ export default function WhatIsTokenizedRealEstatePage() {
   };
 
   return (
-    <AppShell>
+    <PublicShell>
       <FireEvent name="learn_page_viewed" params={{ slug: "what-is-tokenized-real-estate" }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
@@ -527,6 +527,6 @@ export default function WhatIsTokenizedRealEstatePage() {
           This guide is for educational purposes only. Not financial advice. Always conduct your own research and consult a qualified financial advisor before investing.
         </p>
       </div>
-    </AppShell>
+    </PublicShell>
   );
 }
