@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AppShell } from "@/components/layout/app-shell";
+import { PublicShell } from "@/components/layout/public-shell";
 import { PROPERTIES } from "@/lib/data/properties";
 import { FireEvent } from "@/components/analytics/page-view-tracker";
 
@@ -147,7 +147,7 @@ export default function LoftyReviewPage() {
   };
 
   return (
-    <AppShell>
+    <PublicShell>
       <FireEvent name="learn_page_viewed" params={{ slug: "lofty-review" }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
@@ -469,6 +469,6 @@ export default function LoftyReviewPage() {
           This review is for educational purposes only. Not financial advice. Always conduct your own research and consult a qualified financial advisor before investing.
         </p>
       </div>
-    </AppShell>
+    </PublicShell>
   );
 }

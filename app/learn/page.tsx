@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AppShell } from "@/components/layout/app-shell";
+import { PublicShell } from "@/components/layout/public-shell";
 import { PROPERTIES } from "@/lib/data/properties";
 import { LEARN_ARTICLES } from "@/lib/learn-articles";
 
@@ -65,7 +65,7 @@ export default function LearnPage() {
   };
 
   return (
-    <AppShell>
+    <PublicShell>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }} />
 
       <div className="px-6 lg:px-10 py-8 max-w-[860px]">
@@ -180,6 +180,6 @@ export default function LearnPage() {
           </Link>
         </div>
       </div>
-    </AppShell>
+    </PublicShell>
   );
 }

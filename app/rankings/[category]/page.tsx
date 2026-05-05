@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AppShell } from "@/components/layout/app-shell";
+import { PublicShell } from "@/components/layout/public-shell";
 import { PROPERTIES } from "@/lib/data/properties";
 import { getRecommendation } from "@/lib/recommendations";
 
@@ -169,7 +169,7 @@ export default async function RankingsPage({ params }: Props) {
   const otherCategories = (Object.keys(CATEGORY_META) as Category[]).filter((c) => c !== category);
 
   return (
-    <AppShell>
+    <PublicShell>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
@@ -357,6 +357,6 @@ export default async function RankingsPage({ params }: Props) {
           Rankings refresh hourly. Scores are computed from yield, risk, neighborhood, and fair-value metrics. Not financial advice.
         </p>
       </div>
-    </AppShell>
+    </PublicShell>
   );
 }

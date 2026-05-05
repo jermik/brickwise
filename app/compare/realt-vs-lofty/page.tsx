@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AppShell } from "@/components/layout/app-shell";
+import { PublicShell } from "@/components/layout/public-shell";
 import { PROPERTIES } from "@/lib/data/properties";
 import { getRecommendation } from "@/lib/recommendations";
 import { FireEvent } from "@/components/analytics/page-view-tracker";
@@ -175,7 +175,7 @@ export default function CompareRealtVsLoftyPage() {
   const winnerColor = winner === "RealT" ? "#3b82f6" : "#f97316";
 
   return (
-    <AppShell>
+    <PublicShell>
       <FireEvent name="comparison_viewed" params={{ slug: "realt-vs-lofty" }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
@@ -637,6 +637,6 @@ export default function CompareRealtVsLoftyPage() {
           Data based on Brickwise analysis of {PROPERTIES.length} properties. Yields and scores are updated regularly but may not reflect real-time listings. Not financial advice. Always verify directly on realt.co and lofty.ai before investing.
         </p>
       </div>
-    </AppShell>
+    </PublicShell>
   );
 }

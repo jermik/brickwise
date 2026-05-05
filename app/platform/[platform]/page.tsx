@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AppShell } from "@/components/layout/app-shell";
+import { PublicShell } from "@/components/layout/public-shell";
 import { PROPERTIES } from "@/lib/data/properties";
 import { getRecommendation } from "@/lib/recommendations";
 import type { Platform } from "@/lib/types";
@@ -123,7 +123,7 @@ export default async function PlatformPage({ params }: Props) {
   };
 
   return (
-    <AppShell>
+    <PublicShell>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }} />
 
       <div className="px-6 lg:px-10 py-8 max-w-[860px]">
@@ -300,6 +300,6 @@ export default async function PlatformPage({ params }: Props) {
           </Link>
         </div>
       </div>
-    </AppShell>
+    </PublicShell>
   );
 }

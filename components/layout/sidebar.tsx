@@ -8,6 +8,13 @@ import { getBestPick } from "@/lib/recommendations";
 
 const topPick = getBestPick(PROPERTIES);
 
+const discoverItems = [
+  { href: '/learn', label: 'Learn' },
+  { href: '/compare/realt-vs-lofty', label: 'Compare' },
+  { href: '/rankings/highest-yield', label: 'Rankings' },
+  { href: '/market', label: 'Market' },
+];
+
 const navItems = [
   {
     href: "/",
@@ -131,6 +138,33 @@ export function Sidebar() {
               }}
             >
               <span style={{ opacity: active ? 1 : 0.5, color: active ? "#22c55e" : "currentColor" }}>{item.icon}</span>
+              {item.label}
+            </Link>
+          );
+        })}
+
+        {/* Discover */}
+        <div
+          className="text-[10px] font-semibold px-2.5 pb-2.5 pt-4 uppercase tracking-[1.2px]"
+          style={{ color: "rgba(255,255,255,0.25)" }}
+        >
+          Discover
+        </div>
+        {discoverItems.map((item) => {
+          const active = pathname === item.href || pathname.startsWith(item.href + '/');
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="w-full flex items-center gap-2.5 py-[9px] rounded-[7px] mb-0.5 text-[13px] transition-all duration-150 no-underline relative overflow-hidden"
+              style={{
+                padding: "9px 10px",
+                background: active ? "rgba(59,130,246,0.07)" : "transparent",
+                color: active ? "#bfdbfe" : "rgba(255,255,255,0.45)",
+                fontWeight: active ? 600 : 400,
+                borderLeft: active ? "2px solid #3b82f6" : "2px solid transparent",
+              }}
+            >
               {item.label}
             </Link>
           );

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AppShell } from "@/components/layout/app-shell";
+import { PublicShell } from "@/components/layout/public-shell";
 import { EmailCapture } from "@/components/ui/email-capture";
 import { PROPERTIES } from "@/lib/data/properties";
 import { getRecommendation } from "@/lib/recommendations";
@@ -106,7 +106,7 @@ const lastUpdatedFmt = lastUpdated
 
 export default function MarketPage() {
   return (
-    <AppShell>
+    <PublicShell>
       <div className="px-6 lg:px-10 py-8 max-w-[1100px]">
 
         {/* ── Header ── */}
@@ -520,6 +520,6 @@ export default function MarketPage() {
         </div>
 
       </div>
-    </AppShell>
+    </PublicShell>
   );
 }

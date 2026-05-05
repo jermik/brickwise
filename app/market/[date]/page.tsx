@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AppShell } from "@/components/layout/app-shell";
+import { PublicShell } from "@/components/layout/public-shell";
 import marketUpdatesRaw from "@/lib/data/market-updates.json";
 
 interface MarketUpdate {
@@ -99,7 +99,7 @@ export default async function MarketDatePage({
   };
 
   return (
-    <AppShell>
+    <PublicShell>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
@@ -282,6 +282,6 @@ export default async function MarketDatePage({
           </a>
         </div>
       </div>
-    </AppShell>
+    </PublicShell>
   );
 }
