@@ -49,4 +49,7 @@ design-reference/
 *.tsbuildinfo
 next-env.d.ts
 
+# CRM local data (personal lead database — do not commit)
+/data/crm/
+
 .vercel

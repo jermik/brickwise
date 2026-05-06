@@ -4,6 +4,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/next";
 import { Suspense } from "react";
 import { PageViewTracker } from "@/components/analytics/page-view-tracker";
+import { NonBlockingStylesheet } from "@/components/layout/non-blocking-stylesheet";
 import "./globals.css";
 
 const inter = Inter({
@@ -132,14 +133,11 @@ export default function RootLayout({
             as="style"
             href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap"
           />
-          {/* Load non-render-blocking: media=print swaps to all once loaded */}
-          <link
-            rel="stylesheet"
+          {/* Load non-render-blocking: media=print swaps to all once loaded.
+              Client Component because React 19 Server Components can't pass
+              function event handlers to DOM. */}
+          <NonBlockingStylesheet
             href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap"
-            media="print"
-            onLoad={(e) => {
-              (e.currentTarget as HTMLLinkElement).media = "all";
-            }}
           />
           <noscript>
             <link
