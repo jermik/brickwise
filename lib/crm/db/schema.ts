@@ -7,11 +7,14 @@ import type { AuditChecklist } from "../types";
 export const leadStatusEnum = pgEnum("lead_status", [
   "new",
   "researched",
+  "audit_ready",
   "contacted",
   "replied",
   "meeting_booked",
+  "proposal_sent",
   "won",
   "lost",
+  "do_not_contact",
 ]);
 
 export const consentStatusEnum = pgEnum("consent_status", [
@@ -53,11 +56,15 @@ export const leads = pgTable(
 
     websiteScore: integer("website_score"),
     seoScore: integer("seo_score"),
+    conversionScore: integer("conversion_score"),
     automationScore: integer("automation_score"),
     auditSummary: text("audit_summary"),
     auditChecklist: jsonb("audit_checklist").$type<AuditChecklist | null>(),
+    topProblems: jsonb("top_problems").$type<string[] | null>(),
+    topImprovements: jsonb("top_improvements").$type<string[] | null>(),
 
     proposalEmail: text("proposal_email"),
+    proposalFollowUpEmail: text("proposal_follow_up_email"),
     proposalLinkedIn: text("proposal_linkedin"),
     proposalCallScript: text("proposal_call_script"),
     proposalBullets: text("proposal_bullets"),

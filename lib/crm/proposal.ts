@@ -1,103 +1,138 @@
-import type { Lead } from "./types";
+import type { Lead, OfferId } from "./types";
+import { getOffer } from "./types";
+import {
+  computeTopProblems,
+  computeTopImprovements,
+  suggestOffer,
+  computeAllScores,
+} from "./scoring";
 
-interface ProposalOutput {
+export interface ProposalOutput {
   emailDraft: string;
+  followUpEmailDraft: string;
   linkedInDraft: string;
   callScript: string;
   bulletPoints: string;
-  suggestedOffer: string;
+  topProblems: string[];
+  topImprovements: string[];
+  suggestedOffer: OfferId;
   estimatedValue: number;
 }
 
-function getIssues(lead: Lead): string[] {
-  const issues: string[] = [];
-  if (!lead.auditChecklist) return issues;
-  const c = lead.auditChecklist;
-  if (!c.isMobileFriendly) issues.push("the site isn't fully mobile-friendly");
-  if (!c.hasLocalSEOTitle) issues.push("the page title doesn't mention your city or service");
-  if (!c.hasMetaDescription) issues.push("there's no meta description helping you show up in Google");
-  if (!c.hasClearCTA) issues.push("visitors have no clear next step to take");
-  if (!c.hasContactForm) issues.push("there's no easy way for customers to get in touch online");
-  if (!c.hasServicePages) issues.push("individual services don't have dedicated pages");
-  if (!c.hasCityLandingPage) issues.push("there's no landing page targeting your local area");
-  if (!c.hasBookingOpportunity) issues.push("there's no online booking to capture leads 24/7");
-  return issues;
+const PREMIUM_CATEGORIES = ["dentist", "real estate", "accountant", "physiotherapist", "lawyer", "vet"];
+
+function valueForOffer(offerId: OfferId, category: string): number {
+  const isPremium = PREMIUM_CATEGORIES.some((c) => category.toLowerCase().includes(c));
+  const m = isPremium ? 1.4 : 1;
+  switch (offerId) {
+    case "starter":
+      return Math.round(2000 * m);
+    case "local_seo":
+      return Math.round(1200 * m);
+    case "automation":
+      return Math.round(1300 * m);
+    case "growth":
+      return Math.round(4500 * m);
+    case "growth_plus_automation":
+      return Math.round(6500 * m);
+    default:
+      return Math.round(2500 * m);
+  }
 }
 
-function getSuggestedOffer(lead: Lead): string {
-  const wscore = lead.websiteScore ?? 0;
-  const ascore = lead.automationScore ?? 0;
-  if (wscore < 40) return "Starter Website";
-  if (wscore < 70) return "Growth Website";
-  if (ascore < 60) return "Automation Add-on";
-  return "Growth Website + Automation Add-on";
-}
-
-function getEstimatedValue(lead: Lead): number {
-  const offer = getSuggestedOffer(lead);
-  const category = lead.category.toLowerCase();
-  const premiumCategories = ["dentist", "real estate", "accountant", "physiotherapist"];
-  const isPremium = premiumCategories.some((c) => category.includes(c));
-  const multiplier = isPremium ? 1.4 : 1;
-  if (offer.includes("Growth") && offer.includes("Automation")) return Math.round(6500 * multiplier);
-  if (offer.includes("Growth")) return Math.round(4500 * multiplier);
-  if (offer.includes("Automation")) return Math.round(1200 * multiplier);
-  return Math.round(2000 * multiplier);
-}
+const OPT_OUT_LINE = `If this is not relevant, no worries — just reply "no thanks" and I will not contact you again.`;
 
 export function generateProposal(lead: Lead): ProposalOutput {
-  const issues = getIssues(lead);
-  const suggestedOffer = getSuggestedOffer(lead);
-  const estimatedValue = getEstimatedValue(lead);
-  const issue1 = issues[0] ?? "the website could convert more visitors";
-  const issue2 = issues[1] ?? "local SEO could be improved";
+  const checklist = lead.auditChecklist;
+  const problems = checklist ? computeTopProblems(checklist) : [];
+  const improvements = checklist ? computeTopImprovements(checklist) : [];
+  const offerId = checklist ? suggestOffer(checklist) : "growth";
+  const offer = getOffer(offerId);
+  const estimatedValue = valueForOffer(offerId, lead.category);
+  const scores = checklist ? computeAllScores(checklist) : null;
+
+  const issue1 = problems[0] ?? "the website could be working harder for the business";
+  const issue2 = problems[1] ?? "local SEO has room to improve";
+
   const city = lead.city;
   const name = lead.businessName;
   const cat = lead.category.toLowerCase();
+
+  // ── Initial outreach email ────────────────────────────────────────────────
 
   const emailDraft = `Subject: Quick website note for ${name}
 
 Hi,
 
-I was browsing ${cat} businesses in ${city} and came across ${name}. I noticed ${issue1}, and ${issue2} — both fairly quick fixes that can make a real difference for local search and new customer enquiries.
+I was looking at ${cat} businesses in ${city} and came across ${name}. I noticed ${issue1}, and ${issue2} — both are likely opportunities, and based on the website review there are a few specific things that could help.
 
-I put together a short free audit with a few specific suggestions. Would you like me to send it over?
-
-No strings attached — happy to share what I found and let you decide if it's worth a conversation.
+I put together a short free audit with a couple of concrete suggestions. Would you like me to send it over? No obligation — happy to share what I found and let you decide if it is worth a conversation.
 
 [Your Name]
 [Your Agency]
-[Your Email / Phone]
+[Email · Phone]
 
-P.S. You can unsubscribe from my messages at any time by replying "no thanks".`;
+${OPT_OUT_LINE}`;
 
-  const linkedInDraft = `Hi [Name], I was looking at ${cat} businesses in ${city} and noticed ${name}'s website has a couple of quick wins — ${issue1.replace("the ", "")} and a local SEO gap. Happy to share a short free audit if useful. No pitch, just findings.`;
+  // ── Follow-up email (sent ~3 days after initial) ──────────────────────────
+
+  const followUpEmailDraft = `Subject: Following up — ${name} website note
+
+Hi,
+
+I sent you a short note a few days back about ${name}'s website. Wanted to gently follow up in case my email didn't reach the right person.
+
+The free audit I mentioned still stands — it's a couple of paragraphs covering the two or three things that could help most. No pitch, no commitment.
+
+Happy to share, or close the loop if not relevant.
+
+[Your Name]
+
+${OPT_OUT_LINE}`;
+
+  // ── LinkedIn / DM message ─────────────────────────────────────────────────
+
+  const linkedInDraft = `Hi [Name], I was looking at ${cat} businesses in ${city} and noticed ${name}'s website has a couple of likely quick wins — specifically around ${issue1.replace(/^the /, "")}. Happy to share a short free audit if useful. No pitch, just findings.`;
+
+  // ── Phone call script ─────────────────────────────────────────────────────
 
   const callScript = `Opening:
-"Hi, could I speak with the owner or manager? Thanks. Hi, my name is [Your Name] — I work with local businesses in ${city} on their websites and online visibility. I was actually looking at your site earlier and spotted a couple of things that might be holding you back from getting more calls through Google. Do you have 90 seconds?"
+"Hi, could I speak with the owner or manager? Thanks. Hi, my name is [Your Name] — I work with local businesses in ${city} on their websites and online visibility. I was looking at your site earlier and spotted a couple of things that might be holding you back from getting more enquiries through Google. Do you have 90 seconds?"
 
 If yes:
-"I noticed ${issue1}, and ${issue2}. Both are fixable and can make a real difference for local rankings. I've put together a short free audit — no charge, no obligation. Could I email it over?"
+"I noticed ${issue1}, and ${issue2}. Both look fixable and could help with local visibility. I've put together a short free audit — no charge, no obligation. Could I email it over?"
 
 If they ask what you sell:
-"I help ${cat} businesses like yours get more enquiries from Google — through better websites, local SEO, and sometimes a bit of automation so you're not missing leads. But right now I just want to share the audit — you can decide from there."
+"I help ${cat} businesses get more enquiries from Google — through better websites, local SEO, and sometimes a bit of automation so leads don't slip through. Right now I just want to share the audit so you can decide from there."
 
 Close:
-"Great — what's the best email to send it to?"`;
+"Great — what's the best email to send it to?"
 
-  const bulletPoints = `• ${name} currently scores ${lead.websiteScore ?? "–"}/100 on website quality, ${lead.seoScore ?? "–"}/100 on local SEO
-• Top issues: ${issues.slice(0, 3).join("; ") || "general improvements possible"}
-• Recommended offer: ${suggestedOffer}
-• Estimated project value: €${estimatedValue.toLocaleString()}
-• Quick wins: ${issues.slice(0, 2).join(", ") || "conversion and SEO optimisation"}
-• Potential outcome: more Google visibility, more local enquiries, 24/7 lead capture`;
+If no:
+"Totally fine — I won't bother you again. Have a good day."`;
+
+  // ── Bullet points (for proposal docs / decks) ─────────────────────────────
+
+  const bulletPoints = [
+    scores
+      ? `• ${name} scores: website ${scores.websiteScore}/100, SEO ${scores.seoScore}/100, conversion ${scores.conversionScore}/100, automation ${scores.automationScore}/100`
+      : `• ${name} — audit pending`,
+    `• Top problems: ${problems.length > 0 ? problems.slice(0, 3).join("; ") : "general improvements possible"}`,
+    `• Top improvements: ${improvements.length > 0 ? improvements.slice(0, 3).join("; ") : "TBD after audit"}`,
+    `• Recommended offer: ${offer?.name ?? "Growth Website"}`,
+    `• Estimated project value: €${estimatedValue.toLocaleString()}`,
+    `• Likely outcome: more local search visibility, more enquiries, less manual admin`,
+  ].join("\n");
 
   return {
     emailDraft,
+    followUpEmailDraft,
     linkedInDraft,
     callScript,
     bulletPoints,
-    suggestedOffer,
+    topProblems: problems,
+    topImprovements: improvements,
+    suggestedOffer: offerId,
     estimatedValue,
   };
 }

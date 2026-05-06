@@ -64,10 +64,14 @@ function rowToLead(
     unsubscribed: row.unsubscribed,
     websiteScore: row.websiteScore ?? undefined,
     seoScore: row.seoScore ?? undefined,
+    conversionScore: row.conversionScore ?? undefined,
     automationScore: row.automationScore ?? undefined,
     auditSummary: row.auditSummary ?? undefined,
     auditChecklist: row.auditChecklist ?? undefined,
+    topProblems: row.topProblems ?? undefined,
+    topImprovements: row.topImprovements ?? undefined,
     proposalEmail: row.proposalEmail ?? undefined,
+    proposalFollowUpEmail: row.proposalFollowUpEmail ?? undefined,
     proposalLinkedIn: row.proposalLinkedIn ?? undefined,
     proposalCallScript: row.proposalCallScript ?? undefined,
     proposalBullets: row.proposalBullets ?? undefined,
@@ -182,14 +186,16 @@ export async function updateLead(
     "businessName", "category", "city", "province", "website", "email",
     "contactPageUrl", "phone", "googleMapsUrl", "notes", "status",
     "consentStatus", "doNotContact", "unsubscribed",
-    "websiteScore", "seoScore", "automationScore", "auditSummary",
-    "proposalEmail", "proposalLinkedIn", "proposalCallScript",
+    "websiteScore", "seoScore", "conversionScore", "automationScore", "auditSummary",
+    "proposalEmail", "proposalFollowUpEmail", "proposalLinkedIn", "proposalCallScript",
     "proposalBullets", "proposalOffer", "estimatedValue",
   ];
   for (const k of directFields) {
     if (patch[k] !== undefined) setValues[k] = patch[k];
   }
   if (patch.auditChecklist !== undefined) setValues.auditChecklist = patch.auditChecklist;
+  if (patch.topProblems !== undefined) setValues.topProblems = patch.topProblems;
+  if (patch.topImprovements !== undefined) setValues.topImprovements = patch.topImprovements;
   if (patch.lastContactedAt !== undefined) {
     setValues.lastContactedAt = isoToDate(patch.lastContactedAt);
   }
@@ -223,16 +229,21 @@ export async function logContact(
   leadId: string,
   type: ContactType,
   message: string | undefined,
-): Promise<{ contact: ContactRecord; followUp: FollowUpRecord }> {
+  skipFollowUp = false,
+): Promise<{ contact: ContactRecord; followUp: FollowUpRecord | null }> {
   const sentAt = new Date();
-  const followUpDate = new Date();
-  followUpDate.setDate(followUpDate.getDate() + 3);
 
   const [contactRow] = await db
     .insert(contacts)
     .values({ id: uid(), leadId, type, message: message ?? null, sentAt })
     .returning();
 
+  if (skipFollowUp) {
+    return { contact: rowToContact(contactRow), followUp: null };
+  }
+
+  const followUpDate = new Date();
+  followUpDate.setDate(followUpDate.getDate() + 3);
   const [followUpRow] = await db
     .insert(followUps)
     .values({ id: uid(), leadId, dueAt: followUpDate, completed: false })

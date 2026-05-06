@@ -5,6 +5,7 @@ import { StatusBadge } from "@/components/crm/status-badge";
 import { ScoreBar } from "@/components/crm/score-bar";
 import { ContactLogger } from "@/components/crm/contact-logger";
 import { StatusUpdater } from "@/components/crm/status-updater";
+import { LeadActions } from "@/components/crm/lead-actions";
 
 function fmt(iso?: string | null) {
   if (!iso) return "—";
@@ -168,13 +169,34 @@ export default async function LeadDetailPage({
                   Edit audit
                 </Link>
               </div>
-              <ScoreBar label="Website score" value={lead.websiteScore} />
-              <ScoreBar label="SEO score" value={lead.seoScore} color="#60a5fa" />
-              <ScoreBar label="Automation opportunity" value={lead.automationScore} color="#a78bfa" />
+              <ScoreBar label="Website" value={lead.websiteScore} color="#f59e0b" />
+              <ScoreBar label="Local SEO" value={lead.seoScore} color="#60a5fa" />
+              <ScoreBar label="Conversion" value={lead.conversionScore} color="#a78bfa" />
+              <ScoreBar label="Automation opportunity" value={lead.automationScore} color="#34d399" />
               {lead.auditSummary && (
-                <p className="text-xs pt-1" style={{ color: "rgba(242,237,230,0.6)", borderTop: "1px solid #2A2420" }}>
+                <p className="text-xs pt-2" style={{ color: "rgba(242,237,230,0.6)", borderTop: "1px solid #2A2420" }}>
                   {lead.auditSummary}
                 </p>
+              )}
+              {((lead.topProblems?.length ?? 0) > 0 || (lead.topImprovements?.length ?? 0) > 0) && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 pt-2">
+                  {lead.topProblems && lead.topProblems.length > 0 && (
+                    <div className="rounded p-3 space-y-1" style={{ background: "rgba(248,113,113,0.05)", border: "1px solid rgba(248,113,113,0.18)" }}>
+                      <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "#f87171" }}>Top problems</p>
+                      <ol className="text-[11px] space-y-0.5" style={{ color: "rgba(242,237,230,0.7)" }}>
+                        {lead.topProblems.map((p, i) => (<li key={i}>{i + 1}. {p}</li>))}
+                      </ol>
+                    </div>
+                  )}
+                  {lead.topImprovements && lead.topImprovements.length > 0 && (
+                    <div className="rounded p-3 space-y-1" style={{ background: "rgba(16,185,129,0.05)", border: "1px solid rgba(16,185,129,0.18)" }}>
+                      <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "#10b981" }}>Top improvements</p>
+                      <ol className="text-[11px] space-y-0.5" style={{ color: "rgba(242,237,230,0.7)" }}>
+                        {lead.topImprovements.map((p, i) => (<li key={i}>{i + 1}. {p}</li>))}
+                      </ol>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
           )}
@@ -223,6 +245,11 @@ export default async function LeadDetailPage({
           {/* Status updater */}
           <div className="rounded-lg p-4 space-y-4" style={{ background: "#131109", border: "1px solid #2A2420" }}>
             <StatusUpdater lead={lead} />
+          </div>
+
+          {/* Manual offer override + delete */}
+          <div className="rounded-lg p-4" style={{ background: "#131109", border: "1px solid #2A2420" }}>
+            <LeadActions leadId={lead.id} currentOffer={lead.proposalOffer} />
           </div>
 
           {/* Follow-ups */}

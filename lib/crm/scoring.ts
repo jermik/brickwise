@@ -1,66 +1,115 @@
-import type { AuditChecklist } from "./types";
-import { AUDIT_SEO_FIELDS, AUDIT_AUTOMATION_FIELDS } from "./types";
+import type { AuditChecklist, AuditDimension, AuditFieldMeta, OfferId } from "./types";
+import { AUDIT_FIELDS, AUDIT_FIELDS_BY_DIMENSION } from "./types";
 
-const ALL_KEYS = [
-  "hasModernDesign",
-  "isMobileFriendly",
-  "loadsFast",
-  "hasClearCTA",
-  "hasContactForm",
-  "hasGoogleMapsLink",
-  "hasLocalSEOTitle",
-  "hasMetaDescription",
-  "hasServicePages",
-  "hasCityLandingPage",
-  "hasAnalytics",
-  "hasBookingOpportunity",
-] as (keyof AuditChecklist)[];
+// ── Per-dimension score (0-100) ─────────────────────────────────────────────
+
+function dimensionScore(checklist: AuditChecklist, dimension: AuditDimension): number {
+  const fields = AUDIT_FIELDS_BY_DIMENSION[dimension];
+  if (fields.length === 0) return 0;
+  let weighted = 0;
+  let totalWeight = 0;
+  for (const f of fields) {
+    totalWeight += f.impact;
+    if (checklist[f.key]) weighted += f.impact;
+  }
+  return Math.round((weighted / totalWeight) * 100);
+}
 
 export function computeWebsiteScore(c: AuditChecklist): number {
-  const passed = ALL_KEYS.filter((k) => c[k]).length;
-  return Math.round((passed / ALL_KEYS.length) * 100);
+  return dimensionScore(c, "website");
 }
 
 export function computeSEOScore(c: AuditChecklist): number {
-  const passed = AUDIT_SEO_FIELDS.filter((k) => c[k]).length;
-  return Math.round((passed / AUDIT_SEO_FIELDS.length) * 100);
+  return dimensionScore(c, "seo");
+}
+
+export function computeConversionScore(c: AuditChecklist): number {
+  return dimensionScore(c, "conversion");
 }
 
 export function computeAutomationScore(c: AuditChecklist): number {
-  const passed = AUDIT_AUTOMATION_FIELDS.filter((k) => c[k]).length;
-  return Math.round((passed / AUDIT_AUTOMATION_FIELDS.length) * 100);
+  return dimensionScore(c, "automation");
 }
+
+export function computeAllScores(c: AuditChecklist) {
+  return {
+    websiteScore: computeWebsiteScore(c),
+    seoScore: computeSEOScore(c),
+    conversionScore: computeConversionScore(c),
+    automationScore: computeAutomationScore(c),
+  };
+}
+
+// ── Top-3 problems / top-3 improvements ─────────────────────────────────────
+
+function unchecked(checklist: AuditChecklist): AuditFieldMeta[] {
+  return AUDIT_FIELDS.filter((f) => !checklist[f.key]);
+}
+
+function rankByImpact(fields: AuditFieldMeta[]): AuditFieldMeta[] {
+  return [...fields].sort((a, b) => b.impact - a.impact);
+}
+
+export function computeTopProblems(checklist: AuditChecklist, n = 3): string[] {
+  return rankByImpact(unchecked(checklist))
+    .slice(0, n)
+    .map((f) => f.problem);
+}
+
+export function computeTopImprovements(checklist: AuditChecklist, n = 3): string[] {
+  return rankByImpact(unchecked(checklist))
+    .slice(0, n)
+    .map((f) => f.improvement);
+}
+
+// ── Suggested offer ─────────────────────────────────────────────────────────
+
+export function suggestOffer(c: AuditChecklist): OfferId {
+  const w = computeWebsiteScore(c);
+  const s = computeSEOScore(c);
+  const a = computeAutomationScore(c);
+
+  // Very weak website → start with a Starter
+  if (w < 35) return "starter";
+
+  // Decent site but invisible in search → Local SEO Sprint
+  if (w >= 50 && s < 50) return "local_seo";
+
+  // Solid site, manual ops → Automation Add-on
+  if (w >= 60 && a < 50) return "automation";
+
+  // Multi-axis weakness with potential → Growth + Automation
+  if (w < 55 && a < 55) return "growth_plus_automation";
+
+  // Default upgrade path: Growth Website
+  return "growth";
+}
+
+// ── Audit summary ───────────────────────────────────────────────────────────
 
 export function generateAuditSummary(
   checklist: AuditChecklist,
   businessName: string,
-  category: string
+  category: string,
 ): string {
-  const missing: string[] = [];
-  if (!checklist.isMobileFriendly) missing.push("not mobile-friendly");
-  if (!checklist.hasLocalSEOTitle) missing.push("missing local SEO title");
-  if (!checklist.hasMetaDescription) missing.push("no meta description");
-  if (!checklist.hasClearCTA) missing.push("no clear call-to-action");
-  if (!checklist.hasContactForm) missing.push("no contact form");
-  if (!checklist.hasServicePages) missing.push("no dedicated service pages");
-  if (!checklist.hasCityLandingPage) missing.push("no city landing page");
-  if (!checklist.hasAnalytics) missing.push("analytics not detected");
-  if (!checklist.hasBookingOpportunity) missing.push("no booking system");
+  const scores = computeAllScores(checklist);
+  const dimensions: [string, number][] = [
+    ["website basics", scores.websiteScore],
+    ["local SEO", scores.seoScore],
+    ["conversion", scores.conversionScore],
+    ["automation", scores.automationScore],
+  ];
+  const weakest = dimensions.sort((a, b) => a[1] - b[1])[0];
 
-  if (missing.length === 0) {
-    return `${businessName}'s website is well-optimised. Main opportunity: conversion rate and automation improvements.`;
+  const overall = Math.round(
+    (scores.websiteScore + scores.seoScore + scores.conversionScore + scores.automationScore) / 4,
+  );
+
+  if (overall >= 80) {
+    return `${businessName} is in good shape overall (${overall}/100). The biggest remaining opportunity is in ${weakest[0]}.`;
   }
-
-  const top = missing.slice(0, 3);
-  return `${businessName} (${category}): website is ${top.join(", ")}. ${
-    missing.length > 3 ? `Plus ${missing.length - 3} more improvements possible.` : ""
-  }`.trim();
-}
-
-export function computeAllScores(checklist: AuditChecklist) {
-  return {
-    websiteScore: computeWebsiteScore(checklist),
-    seoScore: computeSEOScore(checklist),
-    automationScore: computeAutomationScore(checklist),
-  };
+  if (overall >= 55) {
+    return `${businessName} (${category}) has a working site but real upside in ${weakest[0]} (${weakest[1]}/100).`;
+  }
+  return `${businessName} (${category}) has clear improvement opportunities, especially in ${weakest[0]} (${weakest[1]}/100). Several quick wins available.`;
 }

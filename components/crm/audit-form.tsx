@@ -3,40 +3,50 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { saveAuditAction } from "@/lib/crm/actions";
-import { AUDIT_CHECKLIST_LABELS, type AuditChecklist, type Lead } from "@/lib/crm/types";
-import { computeAllScores } from "@/lib/crm/scoring";
+import {
+  AUDIT_FIELDS_BY_DIMENSION,
+  DIMENSION_LABELS,
+  DIMENSION_COLORS,
+  EMPTY_AUDIT_CHECKLIST,
+  type AuditChecklist,
+  type AuditChecklistKey,
+  type AuditDimension,
+  type Lead,
+} from "@/lib/crm/types";
+import {
+  computeAllScores,
+  computeTopProblems,
+  computeTopImprovements,
+} from "@/lib/crm/scoring";
 import { ScoreBar } from "./score-bar";
 
 interface AuditFormProps {
   lead: Lead;
 }
 
-const DEFAULT_CHECKLIST: AuditChecklist = {
-  hasModernDesign: false,
-  isMobileFriendly: false,
-  loadsFast: false,
-  hasClearCTA: false,
-  hasContactForm: false,
-  hasGoogleMapsLink: false,
-  hasLocalSEOTitle: false,
-  hasMetaDescription: false,
-  hasServicePages: false,
-  hasCityLandingPage: false,
-  hasAnalytics: false,
-  hasBookingOpportunity: false,
-};
+const DIMS: AuditDimension[] = ["website", "seo", "conversion", "automation"];
 
 export function AuditForm({ lead }: AuditFormProps) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [checklist, setChecklist] = useState<AuditChecklist>(
-    lead.auditChecklist ?? DEFAULT_CHECKLIST
+    lead.auditChecklist ?? EMPTY_AUDIT_CHECKLIST,
   );
 
   const scores = computeAllScores(checklist);
+  const topProblems = computeTopProblems(checklist);
+  const topImprovements = computeTopImprovements(checklist);
 
-  function toggle(key: keyof AuditChecklist) {
+  function toggle(key: AuditChecklistKey) {
     setChecklist((c) => ({ ...c, [key]: !c[key] }));
+  }
+
+  function setAllInDimension(dim: AuditDimension, value: boolean) {
+    const updates: Partial<AuditChecklist> = {};
+    for (const f of AUDIT_FIELDS_BY_DIMENSION[dim]) {
+      updates[f.key] = value;
+    }
+    setChecklist((c) => ({ ...c, ...updates }));
   }
 
   function handleSave() {
@@ -45,21 +55,6 @@ export function AuditForm({ lead }: AuditFormProps) {
       router.push(`/crm/leads/${lead.id}`);
     });
   }
-
-  const groups: { title: string; keys: (keyof AuditChecklist)[] }[] = [
-    {
-      title: "Website quality",
-      keys: ["hasModernDesign", "isMobileFriendly", "loadsFast", "hasClearCTA"],
-    },
-    {
-      title: "Local SEO",
-      keys: ["hasLocalSEOTitle", "hasMetaDescription", "hasServicePages", "hasCityLandingPage", "hasGoogleMapsLink"],
-    },
-    {
-      title: "Automation & conversion",
-      keys: ["hasContactForm", "hasAnalytics", "hasBookingOpportunity"],
-    },
-  ];
 
   return (
     <div className="space-y-6">
@@ -71,46 +66,39 @@ export function AuditForm({ lead }: AuditFormProps) {
         <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
           Live scores
         </p>
-        <ScoreBar label="Website score" value={scores.websiteScore} />
-        <ScoreBar label="SEO score" value={scores.seoScore} color="#60a5fa" />
-        <ScoreBar label="Automation opportunity" value={scores.automationScore} color="#a78bfa" />
+        <ScoreBar label="Website basics" value={scores.websiteScore} color={DIMENSION_COLORS.website} />
+        <ScoreBar label="Local SEO" value={scores.seoScore} color={DIMENSION_COLORS.seo} />
+        <ScoreBar label="Conversion" value={scores.conversionScore} color={DIMENSION_COLORS.conversion} />
+        <ScoreBar label="Automation opportunity" value={scores.automationScore} color={DIMENSION_COLORS.automation} />
       </div>
 
-      {/* Checklist groups */}
-      {groups.map((group) => (
-        <section key={group.title} className="space-y-3">
-          <h3 className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
-            {group.title}
-          </h3>
-          <div className="space-y-2">
-            {group.keys.map((key) => (
-              <label
-                key={key}
-                className="flex items-center gap-3 cursor-pointer rounded-md px-3 py-2.5 transition-colors"
-                style={{
-                  background: checklist[key] ? "rgba(16,185,129,0.06)" : "rgba(255,255,255,0.02)",
-                  border: `1px solid ${checklist[key] ? "rgba(16,185,129,0.2)" : "#2A2420"}`,
-                }}
-              >
-                <input
-                  type="checkbox"
-                  checked={checklist[key]}
-                  onChange={() => toggle(key)}
-                  style={{ accentColor: "#10b981", width: 14, height: 14 }}
-                />
-                <span className="text-sm" style={{ color: checklist[key] ? "#F2EDE6" : "rgba(242,237,230,0.6)" }}>
-                  {AUDIT_CHECKLIST_LABELS[key]}
-                </span>
-                <span className="ml-auto font-mono text-[10px]" style={{ color: checklist[key] ? "#10b981" : "rgba(242,237,230,0.3)" }}>
-                  {checklist[key] ? "✓ present" : "✗ missing"}
-                </span>
-              </label>
-            ))}
+      {/* Top problems / improvements live preview */}
+      {topProblems.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="rounded-lg p-4 space-y-2" style={{ background: "rgba(248,113,113,0.06)", border: "1px solid rgba(248,113,113,0.2)" }}>
+            <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "#f87171" }}>
+              Top 3 problems
+            </p>
+            <ol className="space-y-1.5 text-xs" style={{ color: "rgba(242,237,230,0.75)" }}>
+              {topProblems.map((p, i) => (
+                <li key={i}>{i + 1}. {p}</li>
+              ))}
+            </ol>
           </div>
-        </section>
-      ))}
+          <div className="rounded-lg p-4 space-y-2" style={{ background: "rgba(16,185,129,0.06)", border: "1px solid rgba(16,185,129,0.2)" }}>
+            <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "#10b981" }}>
+              Top 3 improvements
+            </p>
+            <ol className="space-y-1.5 text-xs" style={{ color: "rgba(242,237,230,0.75)" }}>
+              {topImprovements.map((p, i) => (
+                <li key={i}>{i + 1}. {p}</li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      )}
 
-      {/* Website link hint */}
+      {/* Website link helper */}
       {lead.website && (
         <a
           href={lead.website}
@@ -123,8 +111,78 @@ export function AuditForm({ lead }: AuditFormProps) {
         </a>
       )}
 
+      {/* Checklist groups */}
+      {DIMS.map((dim) => {
+        const fields = AUDIT_FIELDS_BY_DIMENSION[dim];
+        const passed = fields.filter((f) => checklist[f.key]).length;
+        return (
+          <section key={dim} className="space-y-3">
+            <div className="flex items-center justify-between">
+              <h3
+                className="font-mono text-[11px] tracking-widest uppercase flex items-center gap-2"
+                style={{ color: DIMENSION_COLORS[dim] }}
+              >
+                <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: DIMENSION_COLORS[dim] }} />
+                {DIMENSION_LABELS[dim]}
+                <span className="font-mono text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>
+                  {passed}/{fields.length}
+                </span>
+              </h3>
+              <div className="flex gap-1">
+                <button
+                  type="button"
+                  onClick={() => setAllInDimension(dim, true)}
+                  className="text-[10px] px-2 py-0.5 rounded"
+                  style={{ background: "rgba(255,255,255,0.04)", color: "rgba(242,237,230,0.5)", border: "1px solid #2A2420" }}
+                >
+                  all
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAllInDimension(dim, false)}
+                  className="text-[10px] px-2 py-0.5 rounded"
+                  style={{ background: "rgba(255,255,255,0.04)", color: "rgba(242,237,230,0.5)", border: "1px solid #2A2420" }}
+                >
+                  none
+                </button>
+              </div>
+            </div>
+            <div className="space-y-1.5">
+              {fields.map((field) => (
+                <label
+                  key={field.key}
+                  className="flex items-center gap-3 cursor-pointer rounded-md px-3 py-2 transition-colors"
+                  style={{
+                    background: checklist[field.key] ? "rgba(16,185,129,0.05)" : "rgba(255,255,255,0.02)",
+                    border: `1px solid ${checklist[field.key] ? "rgba(16,185,129,0.18)" : "#2A2420"}`,
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={checklist[field.key]}
+                    onChange={() => toggle(field.key)}
+                    style={{ accentColor: "#10b981", width: 14, height: 14 }}
+                  />
+                  <span className="text-sm flex-1" style={{ color: checklist[field.key] ? "#F2EDE6" : "rgba(242,237,230,0.6)" }}>
+                    {field.label}
+                  </span>
+                  {field.impact === 3 && (
+                    <span className="font-mono text-[10px] px-1.5 py-0.5 rounded" style={{ background: "rgba(245,158,11,0.12)", color: "#f59e0b" }}>
+                      high
+                    </span>
+                  )}
+                  <span className="font-mono text-[10px]" style={{ color: checklist[field.key] ? "#10b981" : "rgba(242,237,230,0.3)" }}>
+                    {checklist[field.key] ? "✓" : "✗"}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </section>
+        );
+      })}
+
       {/* Save */}
-      <div className="flex gap-3 pt-2">
+      <div className="flex gap-3 pt-2 sticky bottom-0 py-3" style={{ background: "linear-gradient(to top, #0A0907 60%, transparent)" }}>
         <button
           onClick={handleSave}
           disabled={pending}
