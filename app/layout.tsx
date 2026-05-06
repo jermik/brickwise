@@ -137,8 +137,9 @@ export default function RootLayout({
             rel="stylesheet"
             href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap"
             media="print"
-            // @ts-expect-error onLoad fires in browser only
-            onLoad="this.media='all'"
+            onLoad={(e) => {
+              (e.currentTarget as HTMLLinkElement).media = "all";
+            }}
           />
           <noscript>
             <link
