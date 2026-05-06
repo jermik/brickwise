@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 
 const NAV = [
   { href: "/crm", label: "Dashboard", icon: "▦", exact: true },
+  { href: "/crm/discovery", label: "Discovery", icon: "✦" },
   { href: "/crm/leads", label: "Leads", icon: "◈" },
   { href: "/crm/follow-ups", label: "Follow-ups", icon: "◷" },
   { href: "/crm/offers", label: "Offers", icon: "◎" },
@@ -25,15 +26,33 @@ export function CRMSidebar() {
     >
       {/* Brand */}
       <div className="px-2 md:px-5 mb-4 md:mb-8">
-        <p className="hidden md:block font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.35)" }}>
-          Brickwise
-        </p>
-        <h2 className="hidden md:block font-display text-lg" style={{ color: "#F2EDE6" }}>
-          Outreach CRM
-        </h2>
-        <div className="md:hidden flex justify-center font-display text-xl" style={{ color: "#f59e0b" }}>
-          B
-        </div>
+        <Link href="/growthos" className="hidden md:flex items-center gap-2 group">
+          <span
+            className="inline-flex items-center justify-center w-7 h-7 rounded-md font-display text-base"
+            style={{
+              background: "rgba(245,158,11,0.12)",
+              color: "#f59e0b",
+              border: "1px solid rgba(245,158,11,0.25)",
+            }}
+          >
+            G
+          </span>
+          <span className="font-display text-lg tracking-tight" style={{ color: "#F2EDE6" }}>
+            GrowthOS
+          </span>
+        </Link>
+        <Link href="/growthos" className="md:hidden flex justify-center" title="GrowthOS">
+          <span
+            className="inline-flex items-center justify-center w-8 h-8 rounded-md font-display text-base"
+            style={{
+              background: "rgba(245,158,11,0.12)",
+              color: "#f59e0b",
+              border: "1px solid rgba(245,158,11,0.25)",
+            }}
+          >
+            G
+          </span>
+        </Link>
       </div>
 
       {/* Nav */}
@@ -60,12 +79,15 @@ export function CRMSidebar() {
       </nav>
 
       {/* Footer */}
-      <div className="hidden md:block px-5 pt-4" style={{ borderTop: "1px solid #2A2420" }}>
+      <div className="hidden md:block px-5 pt-4 space-y-2" style={{ borderTop: "1px solid #2A2420" }}>
         <p className="text-[10px] leading-relaxed" style={{ color: "rgba(242,237,230,0.3)" }}>
           Max 10 outreach/day.
           <br />
           Always personalise. Never bulk send.
         </p>
+        <Link href="/growthos" className="text-[10px] underline" style={{ color: "rgba(242,237,230,0.4)" }}>
+          About GrowthOS →
+        </Link>
       </div>
     </aside>
   );

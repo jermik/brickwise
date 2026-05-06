@@ -26,13 +26,16 @@ import {
 } from "./scoring";
 import { generateProposal } from "./proposal";
 import { parseCSV } from "./csv";
+import { searchBusinesses, dedupeKey, type DiscoveredBusiness } from "./discovery";
+import { quickCheckWebsite, checkToPartialChecklist } from "./website-analyzer";
 import type {
   LeadCreateInput,
   LeadStatus,
   AuditChecklist,
   ContactType,
+  BusinessCategory,
 } from "./types";
-import { MAX_DAILY_OUTREACH, MAX_PENDING_FOLLOW_UPS } from "./types";
+import { EMPTY_AUDIT_CHECKLIST, MAX_DAILY_OUTREACH, MAX_PENDING_FOLLOW_UPS } from "./types";
 
 // ── Lead CRUD ──────────────────────────────────────────────────────────────
 
@@ -245,6 +248,198 @@ export async function unsubscribeLeadAction(id: string): Promise<void> {
   await updateLead(id, { unsubscribed: true, consentStatus: "unsubscribed" });
   revalidatePath("/crm");
   revalidatePath(`/crm/leads/${id}`);
+}
+
+// ── Lead discovery (Nominatim + Overpass) ─────────────────────────────────
+
+// Simple sliding-window rate limit, in-memory. For a single-tenant CRM this
+// is plenty. Resets on cold start (which is fine — discovery is human-paced).
+const RATE_BUCKETS: Map<string, number[]> = new Map();
+const DISCOVERY_RATE_LIMIT = 10;
+const DISCOVERY_WINDOW_MS = 60_000;
+
+function rateOk(key: string): boolean {
+  const now = Date.now();
+  const arr = (RATE_BUCKETS.get(key) ?? []).filter(
+    (t) => now - t < DISCOVERY_WINDOW_MS,
+  );
+  if (arr.length >= DISCOVERY_RATE_LIMIT) return false;
+  arr.push(now);
+  RATE_BUCKETS.set(key, arr);
+  return true;
+}
+
+export interface DiscoveryResult {
+  businesses: DiscoveredBusiness[];
+  geocoded: string | null;
+  error?: string;
+}
+
+export async function discoverLeadsAction(
+  country: string,
+  city: string,
+  category: BusinessCategory,
+): Promise<DiscoveryResult> {
+  if (!country || !city || !category) {
+    return { businesses: [], geocoded: null, error: "Country, city, and category are required." };
+  }
+  const rateKey = `discover:${country}:${city.toLowerCase()}`;
+  if (!rateOk(rateKey)) {
+    return {
+      businesses: [],
+      geocoded: null,
+      error: `Rate limit reached (${DISCOVERY_RATE_LIMIT}/min). Wait a minute before searching ${city} again.`,
+    };
+  }
+
+  try {
+    const { results, geocoded } = await searchBusinesses(city, country, category);
+
+    // Mark already-imported businesses so the UI can flag them.
+    const existing = await readLeads();
+    const websiteSet = new Set<string>();
+    const nameSet = new Set<string>();
+    for (const l of existing) {
+      const k = dedupeKey({ businessName: l.businessName, city: l.city, website: l.website });
+      if (k.websiteKey) websiteSet.add(k.websiteKey);
+      nameSet.add(k.nameKey);
+    }
+    const enriched = results.map((b) => {
+      const k = dedupeKey(b);
+      const already = (k.websiteKey && websiteSet.has(k.websiteKey)) || nameSet.has(k.nameKey);
+      return { ...b, alreadyImported: already };
+    });
+
+    return { businesses: enriched, geocoded };
+  } catch (e) {
+    return {
+      businesses: [],
+      geocoded: null,
+      error: e instanceof Error ? e.message : "Discovery failed.",
+    };
+  }
+}
+
+export interface ImportResult {
+  imported: number;
+  skipped: number;
+  analyzed: number;
+  errors: string[];
+}
+
+export async function importDiscoveredAction(
+  businesses: DiscoveredBusiness[],
+  options: { autoAnalyze?: boolean } = {},
+): Promise<ImportResult> {
+  const errors: string[] = [];
+  if (businesses.length === 0) {
+    return { imported: 0, skipped: 0, analyzed: 0, errors: ["Select at least one business."] };
+  }
+
+  // Build dedupe sets from existing leads + within this batch.
+  const existing = await readLeads();
+  const websiteSet = new Set<string>();
+  const nameSet = new Set<string>();
+  for (const l of existing) {
+    const k = dedupeKey({ businessName: l.businessName, city: l.city, website: l.website });
+    if (k.websiteKey) websiteSet.add(k.websiteKey);
+    nameSet.add(k.nameKey);
+  }
+
+  const toInsert: { input: LeadCreateInput; sourceWebsite?: string; sourceCity: string }[] = [];
+  let skipped = 0;
+
+  for (const b of businesses) {
+    const k = dedupeKey(b);
+    if ((k.websiteKey && websiteSet.has(k.websiteKey)) || nameSet.has(k.nameKey)) {
+      skipped++;
+      continue;
+    }
+    if (k.websiteKey) websiteSet.add(k.websiteKey);
+    nameSet.add(k.nameKey);
+
+    toInsert.push({
+      sourceWebsite: b.website,
+      sourceCity: b.city,
+      input: {
+        businessName: b.businessName,
+        category: b.category,
+        city: b.city,
+        province: b.province,
+        website: b.website,
+        phone: b.phone,
+        email: b.email,
+        googleMapsUrl: b.googleMapsUrl,
+        notes: b.address ? `Address: ${b.address}` : undefined,
+        status: "new",
+        consentStatus: "none",
+        doNotContact: false,
+        unsubscribed: false,
+      },
+    });
+  }
+
+  if (toInsert.length === 0) {
+    return { imported: 0, skipped, analyzed: 0, errors };
+  }
+
+  const imported = await bulkInsertLeads(toInsert.map((t) => t.input));
+
+  // Optional auto-analyze: run lightweight HTTP checks on each imported lead
+  // with a website. Concurrency capped to 3 to be polite to remote sites.
+  let analyzed = 0;
+  if (options.autoAnalyze) {
+    const insertedLeads = (await readLeads()).slice(0, imported * 3); // generous slice
+    const newlyImported = insertedLeads.filter((l) =>
+      toInsert.some(
+        (t) =>
+          t.input.businessName === l.businessName &&
+          t.input.city === l.city &&
+          (t.input.website ?? null) === (l.website ?? null),
+      ),
+    );
+
+    const concurrency = 3;
+    for (let i = 0; i < newlyImported.length; i += concurrency) {
+      const batch = newlyImported.slice(i, i + concurrency);
+      const results = await Promise.allSettled(
+        batch.map(async (lead) => {
+          if (!lead.website) return false;
+          const check = await quickCheckWebsite(lead.website, lead.city);
+          if (!check) return false;
+          const partial = checkToPartialChecklist(check);
+          const merged: AuditChecklist = {
+            ...EMPTY_AUDIT_CHECKLIST,
+            ...(lead.auditChecklist ?? {}),
+            ...partial,
+          };
+          await saveAuditAction(lead.id, merged);
+          return true;
+        }),
+      );
+      analyzed += results.filter((r) => r.status === "fulfilled" && r.value).length;
+    }
+  }
+
+  revalidatePath("/crm");
+  revalidatePath("/crm/leads");
+  return { imported, skipped, analyzed, errors };
+}
+
+export async function quickAnalyzeLeadAction(leadId: string): Promise<{ ok: boolean; error?: string }> {
+  const lead = await findLead(leadId);
+  if (!lead) return { ok: false, error: "Lead not found." };
+  if (!lead.website) return { ok: false, error: "Lead has no website to analyse." };
+  const check = await quickCheckWebsite(lead.website, lead.city);
+  if (!check) return { ok: false, error: "Could not reach the website." };
+  const partial = checkToPartialChecklist(check);
+  const merged: AuditChecklist = {
+    ...EMPTY_AUDIT_CHECKLIST,
+    ...(lead.auditChecklist ?? {}),
+    ...partial,
+  };
+  await saveAuditAction(leadId, merged);
+  return { ok: true };
 }
 
 // Re-export reads so pages can call them
