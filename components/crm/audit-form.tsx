@@ -29,6 +29,7 @@ const DIMS: AuditDimension[] = ["website", "seo", "conversion", "automation"];
 export function AuditForm({ lead }: AuditFormProps) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
+  const [error, setError] = useState("");
   const [checklist, setChecklist] = useState<AuditChecklist>(
     lead.auditChecklist ?? EMPTY_AUDIT_CHECKLIST,
   );
@@ -50,9 +51,14 @@ export function AuditForm({ lead }: AuditFormProps) {
   }
 
   function handleSave() {
+    setError("");
     startTransition(async () => {
-      await saveAuditAction(lead.id, checklist);
-      router.push(`/crm/leads/${lead.id}`);
+      try {
+        await saveAuditAction(lead.id, checklist);
+        router.push(`/crm/leads/${lead.id}`);
+      } catch (e) {
+        setError(e instanceof Error ? e.message : "Failed to save audit. Try again.");
+      }
     });
   }
 
@@ -180,6 +186,12 @@ export function AuditForm({ lead }: AuditFormProps) {
           </section>
         );
       })}
+
+      {error && (
+        <p className="text-sm px-3 py-2 rounded" style={{ background: "rgba(248,113,113,0.1)", color: "#f87171", border: "1px solid rgba(248,113,113,0.2)" }}>
+          {error}
+        </p>
+      )}
 
       {/* Save */}
       <div className="flex gap-3 pt-2 sticky bottom-0 py-3" style={{ background: "linear-gradient(to top, #0A0907 60%, transparent)" }}>

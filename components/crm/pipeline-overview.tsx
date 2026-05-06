@@ -8,9 +8,11 @@ interface PipelineOverviewProps {
 const PIPELINE: LeadStatus[] = [
   "new",
   "researched",
+  "audit_ready",
   "contacted",
   "replied",
   "meeting_booked",
+  "proposal_sent",
   "won",
 ];
 
