@@ -23,19 +23,19 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     severity: "high",
     dimension: "website",
     whyItMatters: "De meeste lokale zoekopdrachten gebeuren op telefoons. Een gebroken mobiele weergave zorgt ervoor dat bezoekers afhaken voordat ze überhaupt het aanbod zien.",
-    likelyImpact: "Kan een groot deel van de mobiele bezoekers verliezen.",
+    likelyImpact: "Kan ervoor zorgen dat een groot deel van de mobiele bezoekers afhaakt.",
     suggestedFix: "Implementeer een responsive layout. Test op echte apparaten. Zorg voor tap-targets van 48px+ en lettertypes van 16px+.",
     difficulty: "medium",
     implementation: { minHours: 6, maxHours: 16 },
     outreachAngle: "Begin met de mobiele ervaring — concrete, makkelijk te demonstreren kritiek met grote impact.",
-    clientFriendlyExplanation: "De meeste mensen vinden lokale bedrijven via hun telefoon. De site is op dit moment lastig te gebruiken op mobiel, wat betekent dat klanten kunnen afhaken nog vóór ze bij de boekingsstap komen.",
+    clientFriendlyExplanation: "De meeste mensen vinden lokale bedrijven via hun telefoon. De site is op dit moment lastig te gebruiken op mobiel, waardoor klanten kunnen afhaken voordat ze bij de boekingsstap komen.",
   },
   loadsFast: {
     title: "Trage laadtijd",
     severity: "high",
     dimension: "website",
     whyItMatters: "Snelheid beïnvloedt zowel het geduld van bezoekers als de positie in Google. Elke extra seconde laadtijd verhoogt het bouncepercentage merkbaar.",
-    likelyImpact: "Kan bezoekers en zichtbaarheid in zoekresultaten kosten.",
+    likelyImpact: "Kan bezoekers laten afhaken en de positie in zoekresultaten verlagen.",
     suggestedFix: "Comprimeer afbeeldingen (WebP/AVIF), stel niet-kritieke scripts uit, schakel caching in, kies indien nodig snellere hosting.",
     difficulty: "easy",
     implementation: { minHours: 3, maxHours: 8 },
@@ -47,12 +47,12 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     severity: "high",
     dimension: "website",
     whyItMatters: "Zonder een duidelijke vervolgstap haken bezoekers af die anders zouden hebben geconverteerd. De UX-aanpassing met de hoogste hefboom.",
-    likelyImpact: "Kan geïnteresseerde bezoekers verliezen die niet weten wat de volgende stap is.",
+    likelyImpact: "Kan ervoor zorgen dat geïnteresseerde bezoekers afhaken omdat ze niet weten wat de volgende stap is.",
     suggestedFix: "Plaats één duidelijke primaire actie boven de vouw (Boek nu / Vraag offerte aan / Bel). Herhaal op logische punten lager op de pagina.",
     difficulty: "easy",
     implementation: { minHours: 2, maxHours: 5 },
     outreachAngle: "Loop samen door de homepage en vraag wat de bedoelde volgende stap is — meestal onduidelijk.",
-    clientFriendlyExplanation: "Bezoekers landen op de site en weten niet wat ze moeten doen. Een duidelijke primaire actie — zoals 'Boek nu' — toevoegen is een van de meest impactvolle aanpassingen.",
+    clientFriendlyExplanation: "Bezoekers komen op de site en weten niet wat de volgende stap is. Een duidelijke primaire actie — zoals 'Boek nu' — toevoegen is een van de aanpassingen met de meeste impact.",
   },
   hasContactForm: {
     title: "Geen online contactformulier",
@@ -100,7 +100,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     difficulty: "easy",
     implementation: { minHours: 2, maxHours: 4 },
     outreachAngle: "Reviews zijn overtuigingsgoud — makkelijke toevoeging, zichtbaar verschil.",
-    clientFriendlyExplanation: "Klanten vergelijken jou met concurrenten. Als hun site reviews toont en de jouwe niet, begin je elke vergelijking op achterstand.",
+    clientFriendlyExplanation: "Klanten vergelijken jou met concurrenten. Als hun site reviews laat zien en die van jou niet, begin je elke vergelijking op achterstand.",
   },
   hasServicePages: {
     title: "Geen aparte dienstpagina's",
@@ -138,7 +138,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     difficulty: "easy",
     implementation: { minHours: 1, maxHours: 2 },
     outreachAngle: "View Source op de homepage — de ontbrekende lokale titel is concreet en makkelijk te tonen.",
-    clientFriendlyExplanation: "De paginatitel — wat je in de blauwe link in Google ziet — vermeldt niet wat je doet of waar. Dat is het eerste signaal dat Google gebruikt om je lokaal te ranken.",
+    clientFriendlyExplanation: "De paginatitel — wat je in de blauwe link in Google ziet — vermeldt niet wat je doet of waar je gevestigd bent. Dat is een van de eerste signalen die Google gebruikt om lokale zoekresultaten te ranken.",
   },
   hasMetaDescription: {
     title: "Geen meta-omschrijving",
@@ -186,7 +186,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     difficulty: "easy",
     implementation: { minHours: 2, maxHours: 4 },
     outreachAngle: "Toon dat de homepage de stad niet noemt — concreet bewijs.",
-    clientFriendlyExplanation: "De tekst noemt je stad niet. Wanneer iemand zoekt op '[dienst] in [jouw stad]', wil Google pagina's zien die die stad ook daadwerkelijk benoemen.",
+    clientFriendlyExplanation: "De tekst noemt je stad niet. Wanneer iemand zoekt op '[dienst] in [jouw stad]', toont Google bij voorkeur pagina's die die stad ook daadwerkelijk vermelden.",
   },
   hasInternalLinks: {
     title: "Weinig of geen interne links",
@@ -210,7 +210,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     difficulty: "easy",
     implementation: { minHours: 1, maxHours: 3 },
     outreachAngle: "Kritiek — open hiermee. Dit is de bevinding die direct aandacht trekt.",
-    clientFriendlyExplanation: "De site lijkt Google te vertellen om hem niet te tonen. Dit is de belangrijkste fix — zonder dit doet de rest er niet toe.",
+    clientFriendlyExplanation: "De site lijkt Google de instructie te geven om hem niet te tonen in zoekresultaten. Dit is de belangrijkste fix — zonder dit kan de rest van de optimalisaties weinig effect hebben.",
   },
   hasSchemaMarkup: {
     title: "Geen LocalBusiness-schema",
@@ -234,7 +234,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     difficulty: "medium",
     implementation: { minHours: 4, maxHours: 12 },
     outreachAngle: "Open hiermee voor elk lokaal bedrijf. Universele behoefte, grote zichtbare impact.",
-    clientFriendlyExplanation: "Het Google Bedrijfsprofiel — de paneel naast je vermelding in zoekresultaten — heeft werk nodig. Dit is de grootste lokale-zoekhefboom voor elk bedrijf.",
+    clientFriendlyExplanation: "Het Google Bedrijfsprofiel — het paneel dat naast je vermelding in zoekresultaten verschijnt — heeft aandacht nodig. Dit is de belangrijkste factor voor lokale zichtbaarheid voor vrijwel elk lokaal bedrijf.",
   },
 
   // ── Conversion ──────────────────────────────────────────────────────
@@ -248,7 +248,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     difficulty: "medium",
     implementation: { minHours: 3, maxHours: 8 },
     outreachAngle: "Open de pagina en vraag: in 5 seconden, wat doet dit bedrijf? Antwoord is meestal onduidelijk.",
-    clientFriendlyExplanation: "Wanneer iemand op de homepage komt, moet binnen vijf seconden duidelijk zijn wat je doet, voor wie en waarom het ertoe doet. Op dit moment is dat niet helder.",
+    clientFriendlyExplanation: "Wanneer iemand op de homepage komt, moet binnen vijf seconden duidelijk zijn wat je doet, voor wie en waarom dat de moeite waard is. Op dit moment is dat niet helder.",
   },
   lowContactFriction: {
     title: "Contact opnemen kost te veel stappen",
@@ -272,7 +272,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     difficulty: "medium",
     implementation: { minHours: 4, maxHours: 8 },
     outreachAngle: "Frame als zowel klantbeleving als tijdsbesparing.",
-    clientFriendlyExplanation: "Klanten kunnen zichzelf niet boeken; ze moeten mailen of bellen. Dat betekent dat je de mensen mist die laat 's avonds beslissen, en het levert jou extra administratie op.",
+    clientFriendlyExplanation: "Klanten kunnen niet zelf boeken; ze moeten mailen of bellen. Daardoor mis je mensen die buiten kantoortijden beslissen, en kost het jou extra tijd aan plannen en mailwisselingen.",
   },
   hasAboveFoldCTA: {
     title: "Primaire CTA verborgen onder de vouw",
@@ -322,7 +322,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     difficulty: "medium",
     implementation: { minHours: 4, maxHours: 8 },
     outreachAngle: "Open met de tijdwinst — meestal 5+ uur per week terug.",
-    clientFriendlyExplanation: "Op dit moment vraagt elke boeking heen-en-weer. Een online boekingswidget laat klanten zichzelf helpen buiten kantoortijden en bespaart enkele uren per week.",
+    clientFriendlyExplanation: "Op dit moment vraagt elke boeking handmatige communicatie. Een online boekingswidget laat klanten zelf afspraken maken buiten kantoortijden en bespaart enkele uren per week aan administratie.",
   },
   hasQuoteAutomation: {
     title: "Geen offerte-automatisering",
@@ -394,6 +394,6 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     difficulty: "medium",
     implementation: { minHours: 6, maxHours: 16 },
     outreachAngle: "Premium-add-on — focus op grotere klanten.",
-    clientFriendlyExplanation: "Een eenvoudig gedeeld dashboard voor je team — boekingen van vandaag, recente leads, kerncijfers — bespaart dagelijkse frictie en geeft iedereen dezelfde weergave.",
+    clientFriendlyExplanation: "Een eenvoudig gedeeld dashboard voor het team — boekingen van vandaag, recente leads, belangrijkste cijfers — bespaart dagelijkse zoektijd en geeft iedereen hetzelfde overzicht.",
   },
 };

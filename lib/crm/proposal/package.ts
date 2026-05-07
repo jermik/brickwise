@@ -60,8 +60,8 @@ export interface ProposalPackage {
 // agency wanting to fork the tone) only has to touch one place.
 
 interface LocaleStrings {
+  /** Returns a full clause that fits the executive-summary sentence pattern. */
   ratingPhrase: (score: number) => string;
-  dimensionPhrase: (label: string, score: number) => string;
   dimensionLabels: Record<"mobile" | "conversion" | "localSeo" | "speed" | "trust" | "copy", string>;
   executiveSummary: (lead: Lead, audit: RichAuditData) => string;
   subjectVariants: (lead: Lead) => string[];
@@ -100,24 +100,21 @@ type UpgradeKey =
   | "analytics";
 
 const STRINGS_EN: LocaleStrings = {
+  // Returns a full clause that drops cleanly into:
+  //   "After reviewing X's website, ${phrase} (N/100 overall, ...)."
   ratingPhrase: (score) => {
-    if (score >= 80) return "in good shape";
-    if (score >= 60) return "reasonable but with clear room for improvement";
-    if (score >= 40) return "underperforming in several visible areas";
-    return "showing significant room for improvement";
-  },
-  dimensionPhrase: (label, score) => {
-    if (score >= 70) return `${label} is solid`;
-    if (score >= 40) return `${label} has room to improve`;
-    return `${label} is a clear opportunity`;
+    if (score >= 80) return "the site appears to be in good shape";
+    if (score >= 60) return "the site looks reasonable but has clear room to improve";
+    if (score >= 40) return "there's clear room for improvement in several areas";
+    return "there appears to be significant room for improvement";
   },
   dimensionLabels: {
-    mobile: "mobile usability",
-    conversion: "conversion flow",
-    localSeo: "local visibility",
+    mobile: "the mobile experience",
+    conversion: "how visitors convert into enquiries",
+    localSeo: "local search visibility",
     speed: "page speed",
-    trust: "trust signals",
-    copy: "copy clarity",
+    trust: "trust signals on the site",
+    copy: "the clarity of the copy",
   },
   executiveSummary: (lead, audit) => {
     const overall = audit.scores.overall;
@@ -133,14 +130,11 @@ const STRINGS_EN: LocaleStrings = {
     const weakest = dims.sort((a, b) => a[1] - b[1]).slice(0, 2);
     const callOut = weakest.map(([label]) => label).join(" and ");
     return [
-      `After reviewing ${lead.businessName}'s website, the site appears ${phrase} (${overall}/100 overall, based on visible website signals).`,
+      `After reviewing ${lead.businessName}'s website, ${phrase} (${overall}/100 overall, based on visible website signals).`,
       ``,
-      `The most prominent opportunities are around ${callOut}. ` +
-        `${STRINGS_EN.dimensionPhrase("Mobile experience", audit.scores.mobile)}, ` +
-        `${STRINGS_EN.dimensionPhrase("conversion flow", audit.scores.conversion)}, and ` +
-        `${STRINGS_EN.dimensionPhrase("local SEO", audit.scores.localSeo)}.`,
+      `The clearest opportunities seem to be around ${callOut}.`,
       ``,
-      `These observations are based on visible website signals only — no internal analytics or private data. Each finding below comes with a short explanation of why it matters and a suggested fix.`,
+      `These observations are based on what's visible on the site — no internal analytics or private data. Each finding below comes with a short explanation of why it matters and a suggested fix.`,
     ].join("\n");
   },
   subjectVariants: (lead) => [
@@ -153,22 +147,22 @@ const STRINGS_EN: LocaleStrings = {
     const obs2 = audit.topPriority[1];
     const observation1 = obs1
       ? obs1.clientFriendlyExplanation
-      : "There appear to be a couple of areas where the site could be working harder.";
+      : "There seem to be a couple of areas where the site could be working harder for you.";
     const observation2 = obs2
       ? obs2.clientFriendlyExplanation
-      : "These look like quick wins that don't require a full rebuild.";
+      : "Both look like the kind of thing that's fixable without rebuilding the site.";
     return [
       `Hi,`,
       ``,
-      `I was looking at ${lead.businessName}'s website and noticed a few areas worth flagging.`,
+      `I had a quick look at ${lead.businessName}'s website and a couple of things stood out.`,
       ``,
-      `Two specific observations, based on visible website signals:`,
+      `Two observations, based on what's visible on the site:`,
       ``,
       `1. ${observation1}`,
       ``,
       `2. ${observation2}`,
       ``,
-      `Both look fixable. The most impactful starting point for the site appears to be ${topUpgradeTitle.toLowerCase()}.`,
+      `Both look fixable. The strongest starting point on the site at the moment seems to be ${topUpgradeTitle.toLowerCase()}.`,
       ``,
       `Would it be useful if I sent over a short free audit with the full picture and a couple of specific suggestions? No obligation — just findings you can use.`,
       ``,
@@ -181,9 +175,9 @@ const STRINGS_EN: LocaleStrings = {
   followUpBody: (lead) => [
     `Hi,`,
     ``,
-    `Just following up on the note I sent earlier about ${lead.businessName}'s website.`,
+    `Just a short follow-up on my earlier note about ${lead.businessName}'s website.`,
     ``,
-    `If a short free audit would be useful, I'm happy to send it over — and if not, no worries at all, I won't follow up further.`,
+    `If a short free audit would be useful, I'm happy to share it. If not, no worries — I'll leave it there.`,
     ``,
     `Best,`,
     `[Your Name]`,
@@ -258,24 +252,21 @@ const STRINGS_EN: LocaleStrings = {
 };
 
 const STRINGS_NL: LocaleStrings = {
+  // Full clause that fits:
+  //   "Op basis van zichtbare signalen ${phrase} (totaalscore N/100)."
   ratingPhrase: (score) => {
-    if (score >= 80) return "in goede staat";
-    if (score >= 60) return "redelijk maar met duidelijke ruimte voor verbetering";
-    if (score >= 40) return "op meerdere zichtbare punten onder de maat";
-    return "duidelijke ruimte voor verbetering";
-  },
-  dimensionPhrase: (label, score) => {
-    if (score >= 70) return `${label} is in orde`;
-    if (score >= 40) return `${label} heeft ruimte voor verbetering`;
-    return `${label} is een duidelijke kans`;
+    if (score >= 80) return "lijkt de site er goed bij te staan";
+    if (score >= 60) return "lijkt de site redelijk in orde, met enkele duidelijke kansen om beter te worden";
+    if (score >= 40) return "lijkt er op meerdere zichtbare punten ruimte voor verbetering te liggen";
+    return "lijkt er behoorlijk wat ruimte voor verbetering te liggen";
   },
   dimensionLabels: {
-    mobile: "mobiele bruikbaarheid",
-    conversion: "conversieflow",
-    localSeo: "lokale zichtbaarheid",
-    speed: "laadsnelheid",
-    trust: "vertrouwenssignalen",
-    copy: "tekstduidelijkheid",
+    mobile: "de mobiele gebruikservaring",
+    conversion: "de manier waarop bezoekers worden omgezet naar aanvragen",
+    localSeo: "de lokale zichtbaarheid in zoekresultaten",
+    speed: "de laadsnelheid",
+    trust: "de vertrouwenssignalen op de site",
+    copy: "de helderheid van de teksten",
   },
   executiveSummary: (lead, audit) => {
     const overall = audit.scores.overall;
@@ -291,42 +282,39 @@ const STRINGS_NL: LocaleStrings = {
     const weakest = dims.sort((a, b) => a[1] - b[1]).slice(0, 2);
     const callOut = weakest.map(([label]) => label).join(" en ");
     return [
-      `Na een korte review van de website van ${lead.businessName} lijkt de site ${phrase} (totaalscore ${overall}/100, op basis van zichtbare signalen op de website).`,
+      `Ik heb kort gekeken naar de website van ${lead.businessName}. Op basis van zichtbare signalen ${phrase} (totaalscore ${overall}/100).`,
       ``,
-      `De grootste kansen liggen rond ${callOut}. ` +
-        `${STRINGS_NL.dimensionPhrase("Mobiele ervaring", audit.scores.mobile)}, ` +
-        `${STRINGS_NL.dimensionPhrase("conversieflow", audit.scores.conversion)} en ` +
-        `${STRINGS_NL.dimensionPhrase("lokale SEO", audit.scores.localSeo)}.`,
+      `De grootste kansen lijken te liggen bij ${callOut}.`,
       ``,
-      `Deze observaties zijn gebaseerd op zichtbare signalen op de website — geen interne analytics of privégegevens. Bij elk punt hieronder staat een korte uitleg waarom het ertoe doet en een mogelijke verbetering.`,
+      `Deze observaties zijn gebaseerd op wat zichtbaar is op de website — geen interne analytics of privégegevens. Bij elk punt hieronder staat een korte uitleg waarom het ertoe doet en een mogelijke verbetering.`,
     ].join("\n");
   },
   subjectVariants: (lead) => [
     `Korte notitie over de website van ${lead.businessName}`,
-    `${lead.businessName} — een paar observaties die het delen waard zijn`,
-    `Een paar dingen op de website van ${lead.businessName} die opvielen`,
+    `${lead.businessName} — een paar observaties die ik wilde delen`,
+    `Een paar dingen die opvielen op de website van ${lead.businessName}`,
   ],
   outreachBody: (lead, audit, topUpgradeTitle) => {
     const obs1 = audit.topPriority[0];
     const obs2 = audit.topPriority[1];
     const observation1 = obs1
       ? obs1.clientFriendlyExplanation
-      : "Er lijken een paar punten te zijn waar de site harder voor je kan werken.";
+      : "Er lijken een paar punten te zijn waar de site nog harder voor je zou kunnen werken.";
     const observation2 = obs2
       ? obs2.clientFriendlyExplanation
-      : "Beide lijken haalbare verbeteringen zonder dat de site herbouwd hoeft te worden.";
+      : "Beide lijken haalbaar om aan te pakken zonder dat de site herbouwd hoeft te worden.";
     return [
       `Hi,`,
       ``,
-      `Ik nam een korte kijk op de website van ${lead.businessName} en wilde een paar observaties delen.`,
+      `Ik heb kort gekeken naar de website van ${lead.businessName} en wilde graag een paar observaties met je delen.`,
       ``,
-      `Twee concrete punten, op basis van zichtbare signalen op de website:`,
+      `Twee dingen vielen op, op basis van zichtbare signalen op de website:`,
       ``,
       `1. ${observation1}`,
       ``,
       `2. ${observation2}`,
       ``,
-      `Beide lijken oplosbaar. Het meest impactvolle startpunt voor de site lijkt op dit moment ${topUpgradeTitle.toLowerCase()} te zijn.`,
+      `Beide lijken oplosbaar. Het meest impactvolle startpunt op dit moment lijkt ${topUpgradeTitle.toLowerCase()} te zijn.`,
       ``,
       `Zou het nuttig zijn als ik een korte gratis audit toestuur met het volledige beeld en een paar concrete suggesties? Geen verplichting — alleen observaties die je kunt gebruiken.`,
       ``,
@@ -339,9 +327,9 @@ const STRINGS_NL: LocaleStrings = {
   followUpBody: (lead) => [
     `Hi,`,
     ``,
-    `Een korte vervolg op het bericht van eerder over de website van ${lead.businessName}.`,
+    `Even een korte vervolg op mijn vorige bericht over de website van ${lead.businessName}.`,
     ``,
-    `Mocht een korte gratis audit nuttig zijn, dan stuur ik die graag op. Zo niet, dan laat ik je verder met rust.`,
+    `Mocht een korte gratis audit nuttig zijn, dan stuur ik die graag op. Zo niet, geen probleem — dan laat ik het hierbij.`,
     ``,
     `Met vriendelijke groet,`,
     `[Jouw naam]`,
@@ -352,38 +340,38 @@ const STRINGS_NL: LocaleStrings = {
   upgradeCopy: {
     mobile: {
       title: "Mobiele optimalisatie",
-      shortExplanation: "Herbouw de responsive layout, verbeter tap-targets en vereenvoudig de mobiele navigatie.",
-      expectedBenefit: "De meeste lokale zoekopdrachten gebeuren op telefoons — mobiel oplossen kan aanvragen merkbaar verhogen.",
+      shortExplanation: "Verbeter de responsive layout, vergroot tap-targets en vereenvoudig de mobiele navigatie.",
+      expectedBenefit: "De meeste lokale zoekopdrachten gebeuren op telefoons — verbeteringen op mobiel kunnen helpen om meer aanvragen uit websitebezoekers te halen.",
     },
     conversion: {
       title: "CTA- en conversieverbetering",
-      shortExplanation: "Voeg een duidelijke primaire CTA boven de vouw toe, vereenvoudig het contactpad en plaats een sticky mobiele CTA.",
-      expectedBenefit: "Bezoekers die nu afhaken krijgen een duidelijke vervolgstap — de UX-aanpassing met de hoogste hefboom.",
+      shortExplanation: "Plaats een duidelijke primaire actie boven de vouw, vereenvoudig het contactproces en voeg een sticky CTA toe op mobiel.",
+      expectedBenefit: "Bezoekers die nu afhaken krijgen een duidelijke vervolgstap — een van de aanpassingen met de meeste impact.",
     },
     speed: {
       title: "Snelheidsoptimalisatie",
-      shortExplanation: "Comprimeer afbeeldingen (WebP/AVIF), stel niet-kritieke scripts uit, schakel caching in, kies indien nodig snellere hosting.",
-      expectedBenefit: "Snelheid beïnvloedt zowel bouncepercentage als de Google-positie. Elke seconde telt.",
+      shortExplanation: "Comprimeer afbeeldingen (WebP/AVIF), stel niet-kritieke scripts uit, schakel caching in en kies indien nodig snellere hosting.",
+      expectedBenefit: "Laadsnelheid beïnvloedt zowel het bouncepercentage als de positie in Google. Elke seconde maakt verschil.",
     },
     trust: {
       title: "Vertrouwen en bewijs versterken",
-      shortExplanation: "Embed Google-reviews, plaats klantbeoordelingen, zorg dat adres + telefoon + Bedrijfsprofiel zichtbaar zijn.",
-      expectedBenefit: "Reviews zijn de sterkste overtuigingshefboom voor lokale dienstverleners — kan de conversie merkbaar verhogen.",
+      shortExplanation: "Plaats Google-reviews, voeg klantverhalen toe en zorg dat adres, telefoon en Bedrijfsprofiel goed zichtbaar zijn.",
+      expectedBenefit: "Reviews zijn vaak doorslaggevend voor lokale dienstverleners — kunnen de conversie merkbaar verhogen.",
     },
     localSeo: {
       title: "Lokale SEO-verbetering",
-      shortExplanation: "Verbeter title-tags, voeg stad-/regio-pagina's toe, optimaliseer het Bedrijfsprofiel en voeg LocalBusiness-schema toe.",
-      expectedBenefit: "Lokale SEO is de grootste hefboom voor zichtbaarheid op '[dienst] in [stad]'-zoekopdrachten.",
+      shortExplanation: "Verbeter de title-tags, voeg stad- of regiopagina's toe, optimaliseer het Bedrijfsprofiel en voeg LocalBusiness-schema toe.",
+      expectedBenefit: "Lokale SEO is de belangrijkste factor voor zichtbaarheid op '[dienst] in [stad]'-zoekopdrachten.",
     },
     booking: {
       title: "Boekings- en aanvraagflow",
-      shortExplanation: "Voeg een online boekingswidget toe, automatische bevestigingsmails en een offerteformulier.",
-      expectedBenefit: "Vangt boekingen na sluitingstijd op en verlaagt heen-en-weer-administratie.",
+      shortExplanation: "Voeg een online boekingswidget toe, met automatische bevestigingsmails en een offerteformulier.",
+      expectedBenefit: "Vangt boekingen op buiten kantoortijden en bespaart tijd op handmatige planning en mailwisselingen.",
     },
     copy: {
       title: "Hero en copy vernieuwen",
-      shortExplanation: "Herschrijf de hero zodat dienst + doelgroep + waarde binnen 5 seconden duidelijk zijn.",
-      expectedBenefit: "Bezoekers die nu vertrekken zonder het aanbod te begrijpen, blijven nu betrokken.",
+      shortExplanation: "Herschrijf de hero zodat dienst, doelgroep en waarde binnen vijf seconden duidelijk zijn.",
+      expectedBenefit: "Bezoekers die nu vertrekken zonder het aanbod te begrijpen, weten meteen waar ze zijn en wat ze kunnen verwachten.",
     },
     design: {
       title: "Homepage herontwerp",
@@ -392,8 +380,8 @@ const STRINGS_NL: LocaleStrings = {
     },
     analytics: {
       title: "Analytics opzetten",
-      shortExplanation: "Installeer GA4 + Search Console + event-tracking op CTA's.",
-      expectedBenefit: "Zonder analytics is elke marketingbeslissing een gok. Dit is het fundament waarop alles bouwt.",
+      shortExplanation: "Installeer GA4, Search Console en event-tracking op de belangrijkste CTA's.",
+      expectedBenefit: "Zonder analytics is elke marketingkeuze een aanname. Dit is het fundament waarop de rest gebouwd wordt.",
     },
   },
   fullProposalLabels: {
