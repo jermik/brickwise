@@ -193,8 +193,8 @@ export function AuditForm({ lead }: AuditFormProps) {
         </p>
       )}
 
-      {/* Save */}
-      <div className="flex gap-3 pt-2 sticky bottom-0 py-3" style={{ background: "linear-gradient(to top, #0A0907 60%, transparent)" }}>
+      {/* Save + Make Proposal */}
+      <div className="flex flex-wrap gap-3 pt-2 sticky bottom-0 py-3" style={{ background: "linear-gradient(to top, #0A0907 60%, transparent)" }}>
         <button
           onClick={handleSave}
           disabled={pending}
@@ -203,6 +203,14 @@ export function AuditForm({ lead }: AuditFormProps) {
         >
           {pending ? "Saving audit…" : "Save audit"}
         </button>
+        <a
+          href={`/crm/leads/${lead.id}/proposal-package`}
+          className="px-5 py-2.5 rounded text-sm font-medium"
+          style={{ background: "rgba(245,158,11,0.12)", color: "#f59e0b", border: "1px solid rgba(245,158,11,0.3)" }}
+          title="Save the audit first if you've made changes — then generate the proposal package"
+        >
+          Make Proposal →
+        </a>
         <button
           onClick={() => router.back()}
           className="px-5 py-2.5 rounded text-sm"

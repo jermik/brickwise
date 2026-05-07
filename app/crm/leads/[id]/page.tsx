@@ -100,11 +100,18 @@ export default async function LeadDetailPage({
             Website audit
           </Link>
           <Link
-            href={`/crm/leads/${id}/proposal`}
+            href={`/crm/leads/${id}/proposal-package`}
             className="px-3 py-2 rounded text-sm font-medium"
             style={{ background: "#f59e0b", color: "#0A0907" }}
           >
-            Proposal →
+            Make Proposal →
+          </Link>
+          <Link
+            href={`/crm/leads/${id}/proposal`}
+            className="px-3 py-2 rounded text-sm"
+            style={{ background: "rgba(255,255,255,0.06)", color: "rgba(242,237,230,0.7)", border: "1px solid #2A2420" }}
+          >
+            Drafts
           </Link>
         </div>
       </div>
