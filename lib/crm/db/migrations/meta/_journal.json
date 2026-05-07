@@ -43,6 +43,13 @@
       "when": 1778188070830,
       "tag": "0005_lead_google_rating_socials",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1778189331702,
+      "tag": "0006_lead_discovery_metadata",
+      "breakpoints": true
     }
   ]
 }

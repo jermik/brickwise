@@ -62,6 +62,10 @@ function rowToLead(
     googleRating: row.googleRating ?? undefined,
     socials: row.socials ?? undefined,
     notes: row.notes ?? undefined,
+    source: row.source ?? undefined,
+    discoveryQuery: row.discoveryQuery ?? undefined,
+    discoveryCity: row.discoveryCity ?? undefined,
+    discoveryNiche: row.discoveryNiche ?? undefined,
     status: row.status,
     lastContactedAt: row.lastContactedAt?.toISOString(),
     nextFollowUpAt: row.nextFollowUpAt?.toISOString(),
@@ -144,6 +148,10 @@ export async function createLead(input: LeadCreateInput): Promise<Lead> {
       googleRating: input.googleRating ?? null,
       socials: input.socials ?? null,
       notes: input.notes ?? null,
+      source: input.source ?? null,
+      discoveryQuery: input.discoveryQuery ?? null,
+      discoveryCity: input.discoveryCity ?? null,
+      discoveryNiche: input.discoveryNiche ?? null,
       status: input.status,
       lastContactedAt: isoToDate(input.lastContactedAt),
       nextFollowUpAt: isoToDate(input.nextFollowUpAt),
@@ -202,6 +210,7 @@ export async function updateLead(
     "websiteScore", "seoScore", "conversionScore", "automationScore", "auditSummary",
     "proposalEmail", "proposalFollowUpEmail", "proposalLinkedIn", "proposalCallScript",
     "proposalBullets", "proposalOffer", "estimatedValue",
+    "source", "discoveryQuery", "discoveryCity", "discoveryNiche",
   ];
   for (const k of directFields) {
     if (patch[k] !== undefined) setValues[k] = patch[k];

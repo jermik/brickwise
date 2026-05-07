@@ -27,6 +27,11 @@ import {
 import { generateProposal } from "./proposal";
 import { parseCSV } from "./csv";
 import { searchBusinesses, dedupeKey, type DiscoveredBusiness } from "./discovery";
+import { findBusinesses, type DiscoveredBusinessV2, type DiscoveryResultV2 } from "./discovery/places";
+import {
+  importDiscoveredBusiness,
+  type ImportDiscoveredResult,
+} from "./discovery/import";
 import { quickCheckWebsite, checkToPartialChecklist } from "./website-analyzer";
 import { generateContent } from "./content/generator";
 import { computeRichAudit } from "./audit";
@@ -501,6 +506,108 @@ export async function deleteContentIdeaAction(id: string): Promise<void> {
   await deleteContentIdeaStore(id);
   revalidatePath("/crm/content");
   redirect("/crm/content");
+}
+
+// ── Find Businesses (Google Places New) ──────────────────────────────────
+
+const FIND_BUCKETS: Map<string, number[]> = new Map();
+const FIND_RATE_LIMIT = 10; // searches / minute / niche+city
+const FIND_WINDOW_MS = 60_000;
+
+function findRateOk(key: string): boolean {
+  const now = Date.now();
+  const arr = (FIND_BUCKETS.get(key) ?? []).filter(
+    (t) => now - t < FIND_WINDOW_MS,
+  );
+  if (arr.length >= FIND_RATE_LIMIT) return false;
+  arr.push(now);
+  FIND_BUCKETS.set(key, arr);
+  return true;
+}
+
+export async function findBusinessesAction(
+  niche: string,
+  city: string,
+  limit = 20,
+): Promise<DiscoveryResultV2> {
+  const n = (niche ?? "").trim();
+  const c = (city ?? "").trim();
+  if (!n || !c) {
+    return {
+      ok: false,
+      query: "",
+      results: [],
+      error: "Niche and city are required.",
+    };
+  }
+  const key = `find:${n.toLowerCase()}:${c.toLowerCase()}`;
+  if (!findRateOk(key)) {
+    return {
+      ok: false,
+      query: `${n} in ${c}`,
+      results: [],
+      error: `Rate limit reached (${FIND_RATE_LIMIT}/min). Try again in a minute.`,
+    };
+  }
+  const result = await findBusinesses({ niche: n, city: c, limit });
+
+  // Annotate already-imported flag so the card can show a soft state. We
+  // match on normalised website domain or (name + city) to mirror import
+  // dedupe rules.
+  const existing = await readLeads();
+  const existingDomains = new Set<string>();
+  const existingNames = new Set<string>();
+  for (const l of existing) {
+    if (l.website) {
+      try {
+        const u = new URL(/^https?:\/\//i.test(l.website) ? l.website : `https://${l.website}`);
+        existingDomains.add(u.hostname.toLowerCase().replace(/^www\./, ""));
+      } catch {
+        /* ignore */
+      }
+    }
+    existingNames.add(`${l.businessName.toLowerCase()}|${l.city.toLowerCase()}`);
+  }
+  const annotated: DiscoveredBusinessV2[] = result.results.map((b) => {
+    let domain = "";
+    if (b.websiteUri) {
+      try {
+        domain = new URL(b.websiteUri).hostname.toLowerCase().replace(/^www\./, "");
+      } catch {
+        /* ignore */
+      }
+    }
+    const nameKey = `${b.businessName.toLowerCase()}|${c.toLowerCase()}`;
+    const alreadyImported =
+      (domain.length > 0 && existingDomains.has(domain)) || existingNames.has(nameKey);
+    return { ...b, alreadyImported };
+  });
+  return { ...result, results: annotated };
+}
+
+export interface ImportDiscoveredBusinessInput {
+  business: DiscoveredBusinessV2;
+  niche: string;
+  city: string;
+  query: string;
+  enrich?: boolean;
+}
+
+export async function importDiscoveredBusinessAction(
+  input: ImportDiscoveredBusinessInput,
+): Promise<ImportDiscoveredResult> {
+  const result = await importDiscoveredBusiness(input.business, {
+    niche: input.niche,
+    city: input.city,
+    query: input.query,
+    enrich: input.enrich ?? true,
+  });
+  if (result.kind === "created") {
+    revalidatePath("/crm");
+    revalidatePath("/crm/leads");
+    revalidatePath("/crm/discovery");
+  }
+  return result;
 }
 
 // Re-export reads so pages can call them

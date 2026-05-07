@@ -93,6 +93,12 @@ export interface Lead {
   googleRating?: number;
   socials?: string[];
   notes?: string;
+
+  /** Discovery metadata: where this lead came from. */
+  source?: string;
+  discoveryQuery?: string;
+  discoveryCity?: string;
+  discoveryNiche?: string;
   status: LeadStatus;
   lastContactedAt?: string;
   nextFollowUpAt?: string;

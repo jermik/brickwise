@@ -52,6 +52,12 @@ export const leads = pgTable(
     googleRating: real("google_rating"),
     socials: jsonb("socials").$type<string[] | null>(),
     notes: text("notes"),
+
+    // ── Discovery metadata (where did this lead come from?) ─────────────
+    source: text("source"),
+    discoveryQuery: text("discovery_query"),
+    discoveryCity: text("discovery_city"),
+    discoveryNiche: text("discovery_niche"),
     status: leadStatusEnum("status").notNull().default("new"),
     lastContactedAt: timestamp("last_contacted_at", { withTimezone: true }),
     nextFollowUpAt: timestamp("next_follow_up_at", { withTimezone: true }),
