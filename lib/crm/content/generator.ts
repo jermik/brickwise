@@ -7,6 +7,7 @@ import {
   type RenderScene,
 } from "./types";
 import { CONTENT_TEMPLATES, type ContentTemplate, type RawScene } from "./templates";
+import { assignVisualConfig } from "./visual-intelligence";
 
 // ── Variable substitution ──────────────────────────────────────────────────
 
@@ -124,13 +125,37 @@ function maybeSubstituteList(
   return list?.map((s) => substitute(s, vars));
 }
 
-function buildScenes(rawScenes: RawScene[], vars: Record<string, string>): RenderScene[] {
+function buildScenes(
+  rawScenes: RawScene[],
+  vars: Record<string, string>,
+  angle: GenerateContentInput["angle"],
+): RenderScene[] {
   let cursor = 0;
+  const total = rawScenes.length;
   return rawScenes.map((raw, i): RenderScene => {
     const order = i + 1;
     const id = `scene_${String(order).padStart(3, "0")}`;
     const start = cursor;
     cursor += raw.durationSeconds;
+
+    // Deterministic visual intelligence.
+    const onscreenText = substitute(raw.onscreen, vars);
+    const voiceover = substitute(raw.voiceover, vars);
+    const visualConfig = assignVisualConfig({
+      angle,
+      sceneIndex: i,
+      totalScenes: total,
+      voiceover,
+      onscreenText,
+      vars: {
+        city: vars.city,
+        niche: vars.niche,
+        nichePlural: vars.niche_plural,
+        n: vars.n,
+      },
+      ctaTargetUrl: raw.ctaTargetUrl,
+    });
+
     return {
       // Identity + legacy / required fields
       id,
@@ -139,12 +164,13 @@ function buildScenes(rawScenes: RawScene[], vars: Record<string, string>): Rende
       startSeconds: start,
       endSeconds: cursor,
       durationSeconds: raw.durationSeconds,
-      onscreenText: substitute(raw.onscreen, vars),
-      voiceover: substitute(raw.voiceover, vars),
+      onscreenText,
+      voiceover,
       bRoll: substitute(raw.bRoll, vars),
 
-      // Render passthrough — only set when the template provides a hint.
-      visualType: raw.visualType,
+      // Render passthrough — template hint wins; visualConfig provides the
+      // intelligent default when the template stays silent.
+      visualType: raw.visualType ?? visualConfig.visualType,
       visualEntry: raw.visualEntry,
       visualExit: raw.visualExit,
 
@@ -176,6 +202,9 @@ function buildScenes(rawScenes: RawScene[], vars: Record<string, string>): Rende
       soundEffect: raw.soundEffect,
       soundEffectAtMs: raw.soundEffectAtMs,
       pauseAfter: raw.pauseAfter,
+
+      // Structured visual intelligence — deterministic per (template, scene).
+      visualConfig,
     };
   });
 }
@@ -186,7 +215,7 @@ export function generateContent(input: GenerateContentInput): ContentPackage {
   const template: ContentTemplate = CONTENT_TEMPLATES[input.angle];
   const vars = buildVars(input);
 
-  const scenes = buildScenes(template.scenes, vars);
+  const scenes = buildScenes(template.scenes, vars, input.angle);
   const totalSeconds = scenes.reduce((acc, s) => acc + (s.endSeconds - s.startSeconds), 0);
   const platformRecommended = recommendedDurationSeconds(input.platform);
 

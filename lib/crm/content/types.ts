@@ -41,6 +41,7 @@ export interface ScriptScene {
 }
 
 export type VisualType =
+  // ── Step 2 base set ────────────────────────────────────────────────────
   | "screen_recording"   // operator-recorded screen capture
   | "screenshot"          // static product image
   | "stock_footage"       // sourced from stock library
@@ -48,7 +49,19 @@ export type VisualType =
   | "text_card"           // pure text on solid/gradient background
   | "broll_montage"       // multi-clip mix
   | "product_demo"        // GrowthOS UI capture, tied to route
-  | "image_grid";         // composed grid of images / cards
+  | "image_grid"          // composed grid of images / cards
+  // ── Step 3 visual intelligence variants ────────────────────────────────
+  | "google_maps"         // map view of the city / business location
+  | "website_scroll"      // scrolling capture of a prospect's site
+  | "website_audit"       // audit panel with annotations / scores
+  | "title_card"          // bold title slate (hook / chapter break)
+  | "city_broll"          // generic city/locality footage
+  | "analytics_overlay"   // numbers / charts / score rings overlay
+  | "mobile_recording"    // mobile-frame capture of a site or app
+  | "text_only"           // text-on-background composition
+  | "cta"                 // dedicated CTA scene
+  | "split_screen"        // two visuals side-by-side
+  | "browser_navigation"; // cursor-driven UI walk-through
 
 export type SceneTransition =
   | "cut"
@@ -161,6 +174,94 @@ export type SoundEffect =
   | "alert"
   | "ambient_drone";
 
+// ── Visual intelligence (Step 3) ──────────────────────────────────────────
+//
+// `SceneVisualConfig` is a structured superset of the flat render fields on
+// `RenderScene`. The generator computes it deterministically per (template,
+// scene index, total scenes) — no randomness, no AI, fully reproducible.
+// The legacy `visualType` / `transitionType` / `overlayText` fields on
+// RenderScene are kept and mirrored from the config for ergonomic access.
+
+/** Per-scene narrative role. Drives default visual assignment. */
+export type SceneRole =
+  | "hook"          // opening — pattern interrupt
+  | "setup"         // context / step intro
+  | "demo"          // product walkthrough
+  | "data"          // numbers / scores / results
+  | "audit"         // prospect-site critique
+  | "story"         // narrative beat
+  | "transition"    // bridge between sections
+  | "cta";          // closing call-to-action
+
+/** Pacing intensity — drives cut frequency + visual energy. */
+export type PacingIntensity = "low" | "medium" | "high";
+
+/** Animation suggestion for the scene's primary element. */
+export type AnimationHint =
+  | "zoom_in"
+  | "fast_cut"
+  | "pan"
+  | "shake"
+  | "subtitle_pop"
+  | "highlight_circle"
+  | "cursor_focus";
+
+/** Transition suggestion between scenes (Step 3 short list). */
+export type TransitionHint =
+  | "hard_cut"
+  | "blur"
+  | "swipe"
+  | "zoom_transition"
+  | "flash";
+
+export interface OverlayHeadline {
+  text: string;
+  position?: OverlayPosition;
+  style?: "default" | "bold" | "outlined";
+}
+
+export interface StatCallout {
+  label: string;             // e.g. "leads"
+  value: string;             // e.g. "20"
+  position?: OverlayPosition;
+}
+
+export interface CtaOverlay {
+  text: string;              // e.g. "Link in bio"
+  ctaType: CtaType;
+  emphasis?: boolean;
+}
+
+export interface SceneSourceHints {
+  stockFootageQuery?: string;
+  screenshotPath?: string;
+  routePath?: string;        // GrowthOS route to record (e.g. /crm/discovery)
+  websiteUrl?: string;       // prospect site for audit/scroll/mobile
+  location?: string;         // for google_maps / city_broll (e.g. "Rotterdam")
+}
+
+export interface SceneVisualConfig {
+  visualType: VisualType;
+  role: SceneRole;
+
+  animation: { hint?: AnimationHint; durationMs?: number };
+  transition: { hint?: TransitionHint; durationMs?: number };
+
+  pacing: {
+    intensity: PacingIntensity;
+    retentionScore: number;        // 0–100
+    patternInterrupt: boolean;
+  };
+
+  overlays: {
+    headline?: OverlayHeadline;
+    statistics?: StatCallout[];
+    cta?: CtaOverlay;
+  };
+
+  sourceHints?: SceneSourceHints;
+}
+
 export interface SubtitleCue {
   startMs: number;
   endMs: number;
@@ -256,6 +357,14 @@ export interface RenderScene extends ScriptScene {
 
   // ── Escape hatch for future Remotion props ─────────────────────────────
   remotionProps?: Record<string, unknown>;
+
+  // ── Visual intelligence (Step 3) ───────────────────────────────────────
+  // Structured visual config — deterministically assigned by the generator
+  // based on template + scene role. The flat fields above (`visualType`,
+  // `transitionType`, `overlayText`, `cameraDirection`, `animationType`)
+  // are mirrored from this config for ergonomic access by Remotion
+  // components that don't need the full structure.
+  visualConfig?: SceneVisualConfig;
 }
 
 // ─────────────────────────────────────────────────────────────────────────
