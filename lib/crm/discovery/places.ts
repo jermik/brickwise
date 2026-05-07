@@ -144,11 +144,21 @@ export async function findBusinesses(
       if (!res.ok) {
         const text = await res.text().catch(() => "");
         console.error("[discovery.places] http.error", { status: res.status, body: text.slice(0, 400) });
+        let friendly = `Places API returned ${res.status}.`;
+        if (res.status === 401 || res.status === 403) {
+          friendly =
+            "Google rejected the request. Confirm GOOGLE_PLACES_API_KEY is set, the key has access to Places API (New), and the project has billing enabled.";
+        } else if (res.status === 429) {
+          friendly =
+            "Google Places quota reached for now. Wait a minute and try again, or check your Cloud project quota.";
+        } else if (res.status >= 500) {
+          friendly = "Google Places is temporarily unavailable. Try again shortly.";
+        }
         return {
           ok: collected.length > 0,
           query: textQuery,
           results: collected,
-          error: `Places API returned ${res.status}.`,
+          error: friendly,
         };
       }
 

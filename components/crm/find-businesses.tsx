@@ -10,6 +10,8 @@ import type { DiscoveredBusinessV2 } from "@/lib/crm/discovery/places";
 
 type LimitOption = 10 | 25 | 50;
 
+const LIMIT_OPTIONS: LimitOption[] = [10, 25, 50];
+
 type CardState =
   | { kind: "idle" }
   | { kind: "importing" }
@@ -44,7 +46,7 @@ export function FindBusinesses() {
 
   const [niche, setNiche] = useState("");
   const [city, setCity] = useState("");
-  const [limit, setLimit] = useState<LimitOption>(20 as unknown as LimitOption);
+  const [limit, setLimit] = useState<LimitOption>(25);
   const [enrich, setEnrich] = useState(true);
 
   const [results, setResults] = useState<DiscoveredBusinessV2[]>([]);
@@ -210,10 +212,11 @@ export function FindBusinesses() {
               onChange={(e) => setLimit(Number(e.target.value) as LimitOption)}
               style={{ ...inputStyle, padding: "6px 10px", fontSize: 12 }}
             >
-              <option value={10}>10 results</option>
-              <option value={20}>20 results</option>
-              <option value={25}>25 results</option>
-              <option value={50}>50 results</option>
+              {LIMIT_OPTIONS.map((n) => (
+                <option key={n} value={n}>
+                  {n} results
+                </option>
+              ))}
             </select>
             <button
               type="submit"
