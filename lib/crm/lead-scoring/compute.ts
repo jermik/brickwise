@@ -1,6 +1,7 @@
 import type { Lead, LeadStatus } from "../types";
 import type { RichAuditData, IssueSeverity } from "../audit/types";
 import type { LeadScore, LeadScoreBreakdown, LeadScoreCategory } from "./types";
+import { sanitizeCopyOutput } from "../copy/sanitize";
 
 // ─────────────────────────────────────────────────────────────────────────
 // Deterministic lead-quality scoring. Pure function over (Lead, RichAudit).
@@ -136,13 +137,13 @@ function buildContactReasons(
     reasons.push(`${lead.category} is a premium-value niche.`);
   }
   if (breakdown.cityOpportunity >= 9) {
-    reasons.push(`${lead.city} is less saturated than major metros — easier to win.`);
+    reasons.push(`${lead.city} is less saturated than major metros, easier to win.`);
   }
   if (breakdown.outreachPotential >= 12) {
-    reasons.push("Has full contact info — direct outreach is straightforward.");
+    reasons.push("Has full contact info, direct outreach is straightforward.");
   }
   if (audit && audit.scores.overall < 50) {
-    reasons.push(`Overall site health is ${audit.scores.overall}/100 — clear room to add value.`);
+    reasons.push(`Overall site health is ${audit.scores.overall}/100, clear room to add value.`);
   }
   return reasons.slice(0, 5);
 }
@@ -165,7 +166,7 @@ function buildAuditHook(audit: RichAuditData | undefined, lead: Lead): string {
 
 function buildFirstMessageIdea(lead: Lead, audit: RichAuditData | undefined): string {
   const hook = buildAuditHook(audit, lead);
-  return `${hook}\n\nWould you be open to a quick free audit? No pitch — just findings.\n\nIf this isn't relevant, no worries — I will not contact you again.`;
+  return `${hook}\n\nWould you be open to a quick free audit? No pitch, just findings.\n\nIf this isn't relevant, no worries, I will not contact you again.`;
 }
 
 function suggestOfferFromAudit(audit: RichAuditData | undefined): string {
@@ -182,12 +183,12 @@ function recommendedContentIdea(lead: Lead, audit: RichAuditData | undefined): s
   const niche = lead.category.toLowerCase();
   const city = lead.city;
   if (audit && audit.scores.overall < 45) {
-    return `Audit breakdown video for a ${niche} in ${city} — show 3 visible website signals worth fixing. Keep it educational, no callout.`;
+    return `Audit breakdown video for a ${niche} in ${city}, show 3 visible website signals worth fixing. Keep it educational, no callout.`;
   }
   if (audit && audit.scores.localSeo < 50) {
-    return `Local SEO 60-second walkthrough — what makes a ${niche} in ${city} rank locally.`;
+    return `Local SEO 60-second walkthrough, what makes a ${niche} in ${city} rank locally.`;
   }
-  return `"How I find local ${niche} clients in ${city}" — soft education content, drives inbound rather than outbound.`;
+  return `"How I find local ${niche} clients in ${city}", soft education content, drives inbound rather than outbound.`;
 }
 
 // ── Public API ────────────────────────────────────────────────────────────
@@ -218,12 +219,12 @@ export function computeLeadScore(lead: Lead, audit?: RichAuditData): LeadScore {
     score,
     category,
     breakdown,
-    topContactReasons: buildContactReasons(lead, audit, breakdown),
-    outreachAngle: buildOutreachAngle(audit),
+    topContactReasons: buildContactReasons(lead, audit, breakdown).map(sanitizeCopyOutput),
+    outreachAngle: sanitizeCopyOutput(buildOutreachAngle(audit)),
     suggestedOffer: suggestOfferFromAudit(audit),
-    firstMessageIdea: buildFirstMessageIdea(lead, audit),
-    auditHook: buildAuditHook(audit, lead),
-    recommendedContentIdea: recommendedContentIdea(lead, audit),
+    firstMessageIdea: sanitizeCopyOutput(buildFirstMessageIdea(lead, audit)),
+    auditHook: sanitizeCopyOutput(buildAuditHook(audit, lead)),
+    recommendedContentIdea: sanitizeCopyOutput(recommendedContentIdea(lead, audit)),
     generatedAt: new Date().toISOString(),
   };
 }

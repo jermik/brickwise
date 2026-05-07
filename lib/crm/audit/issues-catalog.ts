@@ -1,7 +1,7 @@
-// Issue catalog — one entry per AuditChecklist key. When a check is FALSE
+// Issue catalog, one entry per AuditChecklist key. When a check is FALSE
 // in the checklist, the corresponding catalog entry surfaces as an
 // AuditIssue. Wording follows compliance rules: "could", "potential",
-// "based on visible signals" — no guarantees, no fake numbers.
+// "based on visible signals", no guarantees, no fake numbers.
 
 import type { IssueCatalog } from "./types";
 
@@ -16,7 +16,7 @@ export const ISSUE_CATALOG: IssueCatalog = {
     suggestedFix: "Refresh typography, spacing, and colour palette. Move to a current design system or rebuild on a modern stack if needed.",
     difficulty: "medium",
     implementation: { minHours: 8, maxHours: 24 },
-    outreachAngle: "Mention that the visual design feels dated — easiest objection to surface without sounding negative.",
+    outreachAngle: "Mention that the visual design feels dated, easiest objection to surface without sounding negative.",
     clientFriendlyExplanation: "Your site looks dated, which can make visitors trust you less even if your service is excellent. A visual refresh signals an active, modern business.",
   },
   isMobileFriendly: {
@@ -28,7 +28,7 @@ export const ISSUE_CATALOG: IssueCatalog = {
     suggestedFix: "Implement a responsive layout. Test on real devices. Ensure tap targets are 48px+ and font sizes 16px+.",
     difficulty: "medium",
     implementation: { minHours: 6, maxHours: 16 },
-    outreachAngle: "Open by noting their mobile experience needs work — a high-impact, easy-to-defend critique.",
+    outreachAngle: "Open by noting their mobile experience needs work, a high-impact, easy-to-defend critique.",
     clientFriendlyExplanation: "Most people find local businesses on their phone. Right now your site is hard to use on mobile, which means you may be losing customers before they ever reach the booking step.",
   },
   loadsFast: {
@@ -40,7 +40,7 @@ export const ISSUE_CATALOG: IssueCatalog = {
     suggestedFix: "Compress images (WebP/AVIF), defer non-critical scripts, enable caching, move to faster hosting if needed.",
     difficulty: "easy",
     implementation: { minHours: 3, maxHours: 8 },
-    outreachAngle: "Show their PageSpeed score — concrete, third-party, hard to dismiss.",
+    outreachAngle: "Show their PageSpeed score, concrete, third-party, hard to dismiss.",
     clientFriendlyExplanation: "Your site loads slowly. People expect pages to open in under three seconds; longer than that and they leave. This also affects your Google ranking.",
   },
   hasClearCTA: {
@@ -52,8 +52,8 @@ export const ISSUE_CATALOG: IssueCatalog = {
     suggestedFix: "Add one prominent primary action above the fold (Book Now / Get a Quote / Call). Repeat at logical points down the page.",
     difficulty: "easy",
     implementation: { minHours: 2, maxHours: 5 },
-    outreachAngle: "Walk through the homepage and ask what the intended next step is — usually unclear.",
-    clientFriendlyExplanation: "Visitors land on your site and don't know what to do next. Adding a clear primary action — like 'Book Now' — is one of the highest-impact changes you can make.",
+    outreachAngle: "Walk through the homepage and ask what the intended next step is, usually unclear.",
+    clientFriendlyExplanation: "Visitors land on your site and don't know what to do next. Adding a clear primary action, like 'Book Now', is one of the highest-impact changes you can make.",
   },
   hasContactForm: {
     title: "No online contact form",
@@ -64,7 +64,7 @@ export const ISSUE_CATALOG: IssueCatalog = {
     suggestedFix: "Add a 3-field contact form (name / email / message). Auto-acknowledgement email helps.",
     difficulty: "easy",
     implementation: { minHours: 2, maxHours: 4 },
-    outreachAngle: "Note that the only contact option is a phone number — limiting in 2026.",
+    outreachAngle: "Note that the only contact option is a phone number, limiting in 2026.",
     clientFriendlyExplanation: "Some customers don't want to call until they have more info. A simple contact form catches those leads who would otherwise leave without contacting you.",
   },
   hasPhoneVisible: {
@@ -76,8 +76,8 @@ export const ISSUE_CATALOG: IssueCatalog = {
     suggestedFix: "Display the phone number prominently in the header. On mobile, make it a tap-to-call link.",
     difficulty: "easy",
     implementation: { minHours: 1, maxHours: 2 },
-    outreachAngle: "Mention that the phone number is hard to find — most visitors won't scroll to find it.",
-    clientFriendlyExplanation: "Your phone number is hard to find. For a local business, the phone is often the fastest path to a booking — making it visible everywhere is a quick win.",
+    outreachAngle: "Mention that the phone number is hard to find, most visitors won't scroll to find it.",
+    clientFriendlyExplanation: "Your phone number is hard to find. For a local business, the phone is often the fastest path to a booking, making it visible everywhere is a quick win.",
   },
   hasGoogleMapsLink: {
     title: "No Google Maps / address link",
@@ -100,7 +100,7 @@ export const ISSUE_CATALOG: IssueCatalog = {
     suggestedFix: "Embed Google review widget, or feature 3–5 customer testimonials on the homepage.",
     difficulty: "easy",
     implementation: { minHours: 2, maxHours: 4 },
-    outreachAngle: "Reviews are persuasion gold — easy add, big visible difference.",
+    outreachAngle: "Reviews are persuasion gold, easy add, big visible difference.",
     clientFriendlyExplanation: "Customers compare you to competitors. If their site shows reviews and yours doesn't, you start every comparison at a disadvantage.",
   },
   hasServicePages: {
@@ -112,7 +112,7 @@ export const ISSUE_CATALOG: IssueCatalog = {
     suggestedFix: "Create one page per main service with focused copy and a service-specific CTA.",
     difficulty: "medium",
     implementation: { minHours: 4, maxHours: 12 },
-    outreachAngle: "Pair with the local SEO angle — service pages are the SEO foundation.",
+    outreachAngle: "Pair with the local SEO angle, service pages are the SEO foundation.",
     clientFriendlyExplanation: "Right now Google sees one page about everything. With a separate page for each service, each can rank for its own searches.",
   },
   hasCityLandingPage: {
@@ -124,7 +124,7 @@ export const ISSUE_CATALOG: IssueCatalog = {
     suggestedFix: "Create a [Service] in [City] page targeting the area, with location-specific copy and reviews.",
     difficulty: "medium",
     implementation: { minHours: 3, maxHours: 8 },
-    outreachAngle: "Frame as missing local SEO opportunity — concrete and local-specific.",
+    outreachAngle: "Frame as missing local SEO opportunity, concrete and local-specific.",
     clientFriendlyExplanation: "When someone searches '[your service] in [your city]', you want to be the answer. A dedicated local page tells Google you specifically serve that area.",
   },
 
@@ -135,22 +135,22 @@ export const ISSUE_CATALOG: IssueCatalog = {
     dimension: "seo",
     whyItMatters: "Title tags are the single strongest local-SEO signal Google reads.",
     likelyImpact: "Could be invisible for local searches that should be easy wins.",
-    suggestedFix: "Rewrite to format: '[Service] in [City] — [Business Name]'.",
+    suggestedFix: "Rewrite to format: '[Service] in [City], [Business Name]'.",
     difficulty: "easy",
     implementation: { minHours: 1, maxHours: 2 },
-    outreachAngle: "View Source the homepage — the missing local title is concrete and easy to show.",
-    clientFriendlyExplanation: "Your page title — what shows up in Google's blue link — doesn't mention what you do or where you do it. That's the first signal Google uses to rank you locally.",
+    outreachAngle: "View Source the homepage, the missing local title is concrete and easy to show.",
+    clientFriendlyExplanation: "Your page title, what shows up in Google's blue link, doesn't mention what you do or where you do it. That's the first signal Google uses to rank you locally.",
   },
   hasMetaDescription: {
     title: "No meta description",
     severity: "medium",
     dimension: "seo",
-    whyItMatters: "Without a meta description, Google writes its own — usually poorly. Affects click-through, not rank directly.",
+    whyItMatters: "Without a meta description, Google writes its own, usually poorly. Affects click-through, not rank directly.",
     likelyImpact: "Could be losing search clicks even when ranking is acceptable.",
     suggestedFix: "Write a 150-character description featuring main service, city, and a soft hook.",
     difficulty: "easy",
     implementation: { minHours: 1, maxHours: 2 },
-    outreachAngle: "Easy quick-win addition — pair with title fix.",
+    outreachAngle: "Easy quick-win addition, pair with title fix.",
     clientFriendlyExplanation: "The grey text Google shows under your link is auto-generated and often unhelpful. Writing it yourself improves click-through.",
   },
   hasH1: {
@@ -174,7 +174,7 @@ export const ISSUE_CATALOG: IssueCatalog = {
     suggestedFix: "Restructure headings: one H1, H2 per section, H3 per sub-section.",
     difficulty: "easy",
     implementation: { minHours: 1, maxHours: 3 },
-    outreachAngle: "Polish item — bundle into a broader content-cleanup project.",
+    outreachAngle: "Polish item, bundle into a broader content-cleanup project.",
     clientFriendlyExplanation: "Headings on your site are inconsistent, which makes the page harder for Google and accessibility tools to understand.",
   },
   hasLocalKeywords: {
@@ -186,7 +186,7 @@ export const ISSUE_CATALOG: IssueCatalog = {
     suggestedFix: "Naturally weave the city, neighborhoods, and region into the body copy. Don't keyword-stuff.",
     difficulty: "easy",
     implementation: { minHours: 2, maxHours: 4 },
-    outreachAngle: "Show the homepage doesn't mention the city — concrete proof.",
+    outreachAngle: "Show the homepage doesn't mention the city, concrete proof.",
     clientFriendlyExplanation: "Your copy doesn't mention your city. When someone searches '[service] in [your city]', Google wants pages that actually mention that city.",
   },
   hasInternalLinks: {
@@ -198,7 +198,7 @@ export const ISSUE_CATALOG: IssueCatalog = {
     suggestedFix: "Link related service pages and city pages to each other in the body content.",
     difficulty: "easy",
     implementation: { minHours: 2, maxHours: 4 },
-    outreachAngle: "Polish item — package with broader SEO sprint.",
+    outreachAngle: "Polish item, package with broader SEO sprint.",
     clientFriendlyExplanation: "Linking related pages of your own site helps Google understand which content matters and keeps visitors browsing longer.",
   },
   isIndexable: {
@@ -210,8 +210,8 @@ export const ISSUE_CATALOG: IssueCatalog = {
     suggestedFix: "Remove noindex meta and robots.txt blocks. Submit sitemap to Search Console. Verify crawl in Search Console URL Inspection.",
     difficulty: "easy",
     implementation: { minHours: 1, maxHours: 3 },
-    outreachAngle: "Critical — lead with this. It's the kind of finding that grabs immediate attention.",
-    clientFriendlyExplanation: "Your site appears to be telling Google not to show it. This is the most important fix on the list — without it nothing else matters.",
+    outreachAngle: "Critical, lead with this. It's the kind of finding that grabs immediate attention.",
+    clientFriendlyExplanation: "Your site appears to be telling Google not to show it. This is the most important fix on the list, without it nothing else matters.",
   },
   hasSchemaMarkup: {
     title: "No LocalBusiness schema markup",
@@ -222,8 +222,8 @@ export const ISSUE_CATALOG: IssueCatalog = {
     suggestedFix: "Add LocalBusiness JSON-LD with hours, address, phone, geo, and review schema.",
     difficulty: "easy",
     implementation: { minHours: 2, maxHours: 4 },
-    outreachAngle: "Show competitors with rich results — concrete differentiation.",
-    clientFriendlyExplanation: "Adding structured data tells Google detailed info about your business — hours, phone, address — which can show directly in search results.",
+    outreachAngle: "Show competitors with rich results, concrete differentiation.",
+    clientFriendlyExplanation: "Adding structured data tells Google detailed info about your business, hours, phone, address, which can show directly in search results.",
   },
   hasGoogleBusinessProfile: {
     title: "Google Business Profile gap",
@@ -235,7 +235,7 @@ export const ISSUE_CATALOG: IssueCatalog = {
     difficulty: "medium",
     implementation: { minHours: 4, maxHours: 12 },
     outreachAngle: "Lead with this for any local business. Universal need, big visible impact.",
-    clientFriendlyExplanation: "Your Google Business Profile — the panel that shows up next to your listing in search — needs work. This is the single biggest local-search lever for any business.",
+    clientFriendlyExplanation: "Your Google Business Profile, the panel that shows up next to your listing in search, needs work. This is the single biggest local-search lever for any business.",
   },
 
   // ── Conversion ──────────────────────────────────────────────────────
@@ -260,7 +260,7 @@ export const ISSUE_CATALOG: IssueCatalog = {
     suggestedFix: "Shorten contact to 3 fields max. Add a one-click phone CTA on mobile.",
     difficulty: "easy",
     implementation: { minHours: 1, maxHours: 3 },
-    outreachAngle: "Walk the contact path together — usually 5+ steps.",
+    outreachAngle: "Walk the contact path together, usually 5+ steps.",
     clientFriendlyExplanation: "Right now reaching out to you takes more steps than it needs to. Each extra step quietly loses a percentage of leads.",
   },
   lowBookingFriction: {
@@ -284,8 +284,8 @@ export const ISSUE_CATALOG: IssueCatalog = {
     suggestedFix: "Move the main CTA into the hero section, visible without scrolling.",
     difficulty: "easy",
     implementation: { minHours: 1, maxHours: 2 },
-    outreachAngle: "Open on desktop AND mobile — show the missing CTA in both views.",
-    clientFriendlyExplanation: "The action you want visitors to take needs to be visible without scrolling. Right now they have to scroll to find it — many won't.",
+    outreachAngle: "Open on desktop AND mobile, show the missing CTA in both views.",
+    clientFriendlyExplanation: "The action you want visitors to take needs to be visible without scrolling. Right now they have to scroll to find it, many won't.",
   },
   hasMobileCTA: {
     title: "No sticky / tap-to-call CTA on mobile",
@@ -296,7 +296,7 @@ export const ISSUE_CATALOG: IssueCatalog = {
     suggestedFix: "Add a sticky tap-to-call or Book Now button at the bottom of the mobile viewport.",
     difficulty: "easy",
     implementation: { minHours: 2, maxHours: 4 },
-    outreachAngle: "Concrete and mobile-specific — easy demo.",
+    outreachAngle: "Concrete and mobile-specific, easy demo.",
     clientFriendlyExplanation: "On mobile, the action button disappears as soon as visitors scroll. A sticky bottom button keeps the path to contacting you always visible.",
   },
   hasLeadCapture: {
@@ -309,7 +309,7 @@ export const ISSUE_CATALOG: IssueCatalog = {
     difficulty: "easy",
     implementation: { minHours: 2, maxHours: 4 },
     outreachAngle: "Frame as catching long-tail leads who'd otherwise vanish.",
-    clientFriendlyExplanation: "Most visitors aren't ready to book today. Offering something low-commitment — like a free quote — captures the ones who would otherwise leave with nothing.",
+    clientFriendlyExplanation: "Most visitors aren't ready to book today. Offering something low-commitment, like a free quote, captures the ones who would otherwise leave with nothing.",
   },
 
   // ── Automation ──────────────────────────────────────────────────────
@@ -322,7 +322,7 @@ export const ISSUE_CATALOG: IssueCatalog = {
     suggestedFix: "Set up a booking widget (Calendly / Setmore / Square / niche-specific tool).",
     difficulty: "medium",
     implementation: { minHours: 4, maxHours: 8 },
-    outreachAngle: "Lead with the time savings — usually 5+ hours per week back.",
+    outreachAngle: "Lead with the time savings, usually 5+ hours per week back.",
     clientFriendlyExplanation: "Right now every booking needs a back-and-forth. An online booking widget lets customers self-serve outside business hours and saves you several hours a week.",
   },
   hasQuoteAutomation: {
@@ -334,7 +334,7 @@ export const ISSUE_CATALOG: IssueCatalog = {
     suggestedFix: "Build a quote-request form with auto-reply confirming receipt + expected response time.",
     difficulty: "easy",
     implementation: { minHours: 2, maxHours: 4 },
-    outreachAngle: "Frame as 'never let a lead go cold' — universally appealing.",
+    outreachAngle: "Frame as 'never let a lead go cold', universally appealing.",
     clientFriendlyExplanation: "When someone requests a quote, they want immediate confirmation. An automatic acknowledgement keeps them engaged while you prepare the actual reply.",
   },
   hasInvoiceAutomation: {
@@ -346,7 +346,7 @@ export const ISSUE_CATALOG: IssueCatalog = {
     suggestedFix: "Connect Stripe / Xero / QuickBooks to auto-generate and send invoices on completion.",
     difficulty: "medium",
     implementation: { minHours: 3, maxHours: 8 },
-    outreachAngle: "Time + cash-flow angle — both quantifiable.",
+    outreachAngle: "Time + cash-flow angle, both quantifiable.",
     clientFriendlyExplanation: "Manual invoicing slows you down and delays payment. Connecting an automated tool gets invoices out instantly and reduces the admin loop.",
   },
   hasReminderEmails: {
@@ -358,7 +358,7 @@ export const ISSUE_CATALOG: IssueCatalog = {
     suggestedFix: "Add SMS / email reminders 24h before each appointment via the booking system.",
     difficulty: "easy",
     implementation: { minHours: 1, maxHours: 3 },
-    outreachAngle: "Easy ROI calculation — reminders pay for themselves quickly.",
+    outreachAngle: "Easy ROI calculation, reminders pay for themselves quickly.",
     clientFriendlyExplanation: "When customers forget appointments, you lose the slot AND the revenue. Automated reminders reduce no-shows significantly with no manual effort.",
   },
   hasFollowUpAutomation: {
@@ -382,7 +382,7 @@ export const ISSUE_CATALOG: IssueCatalog = {
     suggestedFix: "Install GA4 + Google Search Console. Add event tracking for key CTAs.",
     difficulty: "easy",
     implementation: { minHours: 1, maxHours: 3 },
-    outreachAngle: "Quick foundational fix — bundle into any project.",
+    outreachAngle: "Quick foundational fix, bundle into any project.",
     clientFriendlyExplanation: "Right now there's no way to see what's working on your site. Adding analytics lets you decide based on real data instead of guessing.",
   },
   hasInternalDashboard: {
@@ -394,7 +394,7 @@ export const ISSUE_CATALOG: IssueCatalog = {
     suggestedFix: "Build a small internal dashboard showing today's bookings + recent leads in one view.",
     difficulty: "medium",
     implementation: { minHours: 6, maxHours: 16 },
-    outreachAngle: "Premium add-on — focus on bigger clients.",
-    clientFriendlyExplanation: "A simple shared dashboard for your team — today's bookings, recent leads, key numbers — saves daily friction and gives everyone the same view.",
+    outreachAngle: "Premium add-on, focus on bigger clients.",
+    clientFriendlyExplanation: "A simple shared dashboard for your team, today's bookings, recent leads, key numbers, saves daily friction and gives everyone the same view.",
   },
 };

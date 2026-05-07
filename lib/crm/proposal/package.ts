@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────
-// Proposal Package — locale-aware (en | nl).
+// Proposal Package, locale-aware (en | nl).
 //
 // Pure deterministic derivation from Lead + RichAudit + LeadScore. No
 // machine translation; Dutch prose is hand-authored. Same inputs always
@@ -11,6 +11,7 @@ import type { AuditIssue, IssueSeverity, RichAuditData } from "../audit/types";
 import type { LeadScore } from "../lead-scoring/types";
 import { buildLocalizedIssues, type Locale } from "../audit";
 import { OFFER_TEMPLATES, getOffer } from "../types";
+import { sanitizeCopyOutput } from "../copy/sanitize";
 
 export type { Locale };
 
@@ -134,12 +135,12 @@ const STRINGS_EN: LocaleStrings = {
       ``,
       `The clearest opportunities seem to be around ${callOut}.`,
       ``,
-      `These observations are based on what's visible on the site — no internal analytics or private data. Each finding below comes with a short explanation of why it matters and a suggested fix.`,
+      `These observations are based on what's visible on the site, no internal analytics or private data. Each finding below comes with a short explanation of why it matters and a suggested fix.`,
     ].join("\n");
   },
   subjectVariants: (lead) => [
     `Quick note about ${lead.businessName}'s website`,
-    `${lead.businessName} — a couple of observations worth sharing`,
+    `${lead.businessName}, a couple of observations worth sharing`,
     `Found a few things worth flagging on the ${lead.businessName} site`,
   ],
   outreachBody: (lead, audit, topUpgradeTitle) => {
@@ -164,7 +165,7 @@ const STRINGS_EN: LocaleStrings = {
       ``,
       `Both look fixable. The strongest starting point on the site at the moment seems to be ${topUpgradeTitle.toLowerCase()}.`,
       ``,
-      `Would it be useful if I sent over a short free audit with the full picture and a couple of specific suggestions? No obligation — just findings you can use.`,
+      `Would it be useful if I sent over a short free audit with the full picture and a couple of specific suggestions? No obligation, just findings you can use.`,
       ``,
       `Best,`,
       `[Your Name]`,
@@ -177,24 +178,24 @@ const STRINGS_EN: LocaleStrings = {
     ``,
     `Just a short follow-up on my earlier note about ${lead.businessName}'s website.`,
     ``,
-    `If a short free audit would be useful, I'm happy to share it. If not, no worries — I'll leave it there.`,
+    `If a short free audit would be useful, I'm happy to share it. If not, no worries, I'll leave it there.`,
     ``,
     `Best,`,
     `[Your Name]`,
     ``,
     STRINGS_EN.optOut,
   ].join("\n"),
-  optOut: `If this isn't relevant, no worries — just reply "no thanks" and I won't contact you again.`,
+  optOut: `If this isn't relevant, no worries, just reply "no thanks" and I won't contact you again.`,
   upgradeCopy: {
     mobile: {
       title: "Mobile optimisation",
       shortExplanation: "Rebuild the responsive layout, fix tap targets, and simplify mobile navigation.",
-      expectedBenefit: "Most local searches happen on phones — fixing mobile could meaningfully improve enquiries.",
+      expectedBenefit: "Most local searches happen on phones, fixing mobile could meaningfully improve enquiries.",
     },
     conversion: {
       title: "CTA + conversion restructuring",
       shortExplanation: "Add a clear primary CTA above the fold, simplify the contact path, and add a sticky mobile CTA.",
-      expectedBenefit: "Visitors who currently bounce will have a defined next step — the highest-leverage UX fix.",
+      expectedBenefit: "Visitors who currently bounce will have a defined next step, the highest-leverage UX fix.",
     },
     speed: {
       title: "Speed optimisation",
@@ -204,7 +205,7 @@ const STRINGS_EN: LocaleStrings = {
     trust: {
       title: "Trust signal redesign",
       shortExplanation: "Embed Google reviews, surface customer testimonials, ensure address + phone + Google Business profile are prominent.",
-      expectedBenefit: "Reviews are the strongest persuasion lever for local services — could meaningfully shift the conversion rate.",
+      expectedBenefit: "Reviews are the strongest persuasion lever for local services, could meaningfully shift the conversion rate.",
     },
     localSeo: {
       title: "Local SEO sprint",
@@ -223,7 +224,7 @@ const STRINGS_EN: LocaleStrings = {
     },
     design: {
       title: "Homepage redesign",
-      shortExplanation: "Refresh visual design — modern typography, spacing, colour palette, and layout.",
+      shortExplanation: "Refresh visual design, modern typography, spacing, colour palette, and layout.",
       expectedBenefit: "Stronger first impression. Builds trust before visitors read a single word.",
     },
     analytics: {
@@ -233,7 +234,7 @@ const STRINGS_EN: LocaleStrings = {
     },
   },
   fullProposalLabels: {
-    title: (name) => `Website improvement proposal — ${name}`,
+    title: (name) => `Website improvement proposal, ${name}`,
     executiveSummary: "Executive summary",
     priorityIssues: "Priority issues",
     recommendedUpgrades: "Recommended upgrades",
@@ -286,12 +287,12 @@ const STRINGS_NL: LocaleStrings = {
       ``,
       `De grootste kansen lijken te liggen bij ${callOut}.`,
       ``,
-      `Deze observaties zijn gebaseerd op wat zichtbaar is op de website — geen interne analytics of privégegevens. Bij elk punt hieronder staat een korte uitleg waarom het ertoe doet en een mogelijke verbetering.`,
+      `Deze observaties zijn gebaseerd op wat zichtbaar is op de website, geen interne analytics of privégegevens. Bij elk punt hieronder staat een korte uitleg waarom het ertoe doet en een mogelijke verbetering.`,
     ].join("\n");
   },
   subjectVariants: (lead) => [
     `Korte notitie over de website van ${lead.businessName}`,
-    `${lead.businessName} — een paar observaties die ik wilde delen`,
+    `${lead.businessName}, een paar observaties die ik wilde delen`,
     `Een paar dingen die opvielen op de website van ${lead.businessName}`,
   ],
   outreachBody: (lead, audit, topUpgradeTitle) => {
@@ -316,7 +317,7 @@ const STRINGS_NL: LocaleStrings = {
       ``,
       `Beide lijken oplosbaar. Het meest impactvolle startpunt op dit moment lijkt ${topUpgradeTitle.toLowerCase()} te zijn.`,
       ``,
-      `Zou het nuttig zijn als ik een korte gratis audit toestuur met het volledige beeld en een paar concrete suggesties? Geen verplichting — alleen observaties die je kunt gebruiken.`,
+      `Zou het nuttig zijn als ik een korte gratis audit toestuur met het volledige beeld en een paar concrete suggesties? Geen verplichting, alleen observaties die je kunt gebruiken.`,
       ``,
       `Met vriendelijke groet,`,
       `[Jouw naam]`,
@@ -329,24 +330,24 @@ const STRINGS_NL: LocaleStrings = {
     ``,
     `Even een korte vervolg op mijn vorige bericht over de website van ${lead.businessName}.`,
     ``,
-    `Mocht een korte gratis audit nuttig zijn, dan stuur ik die graag op. Zo niet, geen probleem — dan laat ik het hierbij.`,
+    `Mocht een korte gratis audit nuttig zijn, dan stuur ik die graag op. Zo niet, geen probleem, dan laat ik het hierbij.`,
     ``,
     `Met vriendelijke groet,`,
     `[Jouw naam]`,
     ``,
     STRINGS_NL.optOut,
   ].join("\n"),
-  optOut: `Mocht dit niet relevant zijn, geen probleem — laat het me weten en ik neem geen verder contact op.`,
+  optOut: `Mocht dit niet relevant zijn, geen probleem, laat het me weten en ik neem geen verder contact op.`,
   upgradeCopy: {
     mobile: {
       title: "Mobiele optimalisatie",
       shortExplanation: "Verbeter de responsive layout, vergroot tap-targets en vereenvoudig de mobiele navigatie.",
-      expectedBenefit: "De meeste lokale zoekopdrachten gebeuren op telefoons — verbeteringen op mobiel kunnen helpen om meer aanvragen uit websitebezoekers te halen.",
+      expectedBenefit: "De meeste lokale zoekopdrachten gebeuren op telefoons, verbeteringen op mobiel kunnen helpen om meer aanvragen uit websitebezoekers te halen.",
     },
     conversion: {
       title: "CTA- en conversieverbetering",
       shortExplanation: "Plaats een duidelijke primaire actie boven de vouw, vereenvoudig het contactproces en voeg een sticky CTA toe op mobiel.",
-      expectedBenefit: "Bezoekers die nu afhaken krijgen een duidelijke vervolgstap — een van de aanpassingen met de meeste impact.",
+      expectedBenefit: "Bezoekers die nu afhaken krijgen een duidelijke vervolgstap, een van de aanpassingen met de meeste impact.",
     },
     speed: {
       title: "Snelheidsoptimalisatie",
@@ -356,7 +357,7 @@ const STRINGS_NL: LocaleStrings = {
     trust: {
       title: "Vertrouwen en bewijs versterken",
       shortExplanation: "Plaats Google-reviews, voeg klantverhalen toe en zorg dat adres, telefoon en Bedrijfsprofiel goed zichtbaar zijn.",
-      expectedBenefit: "Reviews zijn vaak doorslaggevend voor lokale dienstverleners — kunnen de conversie merkbaar verhogen.",
+      expectedBenefit: "Reviews zijn vaak doorslaggevend voor lokale dienstverleners, kunnen de conversie merkbaar verhogen.",
     },
     localSeo: {
       title: "Lokale SEO-verbetering",
@@ -375,7 +376,7 @@ const STRINGS_NL: LocaleStrings = {
     },
     design: {
       title: "Homepage herontwerp",
-      shortExplanation: "Ververs het visuele ontwerp — moderne typografie, ruimte, kleurpalet en layout.",
+      shortExplanation: "Ververs het visuele ontwerp, moderne typografie, ruimte, kleurpalet en layout.",
       expectedBenefit: "Sterkere eerste indruk. Bouwt vertrouwen op nog vóór bezoekers iets gelezen hebben.",
     },
     analytics: {
@@ -385,7 +386,7 @@ const STRINGS_NL: LocaleStrings = {
     },
   },
   fullProposalLabels: {
-    title: (name) => `Voorstel websiteverbetering — ${name}`,
+    title: (name) => `Voorstel websiteverbetering, ${name}`,
     executiveSummary: "Samenvatting",
     priorityIssues: "Belangrijkste aandachtspunten",
     recommendedUpgrades: "Aanbevolen verbeteringen",
@@ -416,11 +417,11 @@ function severityRank(s: IssueSeverity): number {
 
 function buildPriorityProblems(issues: AuditIssue[]): PriorityProblem[] {
   return issues.slice(0, 5).map((issue) => ({
-    title: issue.title,
+    title: sanitizeCopyOutput(issue.title),
     severity: issue.severity,
-    whyItMatters: issue.whyItMatters,
-    potentialImpact: issue.likelyImpact,
-    howToImprove: issue.suggestedFix,
+    whyItMatters: sanitizeCopyOutput(issue.whyItMatters),
+    potentialImpact: sanitizeCopyOutput(issue.likelyImpact),
+    howToImprove: sanitizeCopyOutput(issue.suggestedFix),
   }));
 }
 
@@ -497,9 +498,9 @@ function buildRecommendedUpgrades(
     const offer = getOffer(offerId);
     const copy = strings.upgradeCopy[key];
     return {
-      title: copy.title,
-      shortExplanation: copy.shortExplanation,
-      expectedBenefit: copy.expectedBenefit,
+      title: sanitizeCopyOutput(copy.title),
+      shortExplanation: sanitizeCopyOutput(copy.shortExplanation),
+      expectedBenefit: sanitizeCopyOutput(copy.expectedBenefit),
       difficulty: UPGRADE_DIFFICULTY[key],
       priority: UPGRADE_PRIORITY[key],
       estimatedHours: UPGRADE_HOURS[key],
@@ -539,7 +540,7 @@ function buildFullProposalText(pkg: ProposalPackage, strings: LocaleStrings): st
   lines.push("");
   pkg.recommendedUpgrades.forEach((u) => {
     const offer = u.relatedOfferName && u.relatedOfferPrice
-      ? ` — ${L.fitsIn(u.relatedOfferName, u.relatedOfferPrice)}`
+      ? `, ${L.fitsIn(u.relatedOfferName, u.relatedOfferPrice)}`
       : "";
     const prio = u.priority === 1 ? L.priorityHigh : u.priority === 2 ? L.priorityMid : L.priorityLow;
     lines.push(`### ${u.title}  [${prio} · ${L.difficultyLabels[u.difficulty]}]${offer}`);
@@ -589,22 +590,27 @@ export function generateProposalPackage(
   const outreachBody = strings.outreachBody(lead, localisedAudit, topUpgradeTitle);
   const followUpBody = strings.followUpBody(lead);
 
+  const cleanSubject = sanitizeCopyOutput(subject);
   const pkg: ProposalPackage = {
     locale,
     generatedAt: new Date().toISOString(),
     lead: { id: lead.id, businessName: lead.businessName, city: lead.city, category: lead.category },
-    executiveSummary,
+    executiveSummary: sanitizeCopyOutput(executiveSummary),
     priorityProblems,
     recommendedUpgrades,
-    outreachEmail: { subject, body: outreachBody, recipient: lead.email },
+    outreachEmail: {
+      subject: cleanSubject,
+      body: sanitizeCopyOutput(outreachBody),
+      recipient: lead.email,
+    },
     followUpEmail: {
-      subject: locale === "nl" ? `Re: ${subject}` : `Re: ${subject}`,
-      body: followUpBody,
+      subject: `Re: ${cleanSubject}`,
+      body: sanitizeCopyOutput(followUpBody),
       recipient: lead.email,
     },
     fullProposalText: "",
   };
-  pkg.fullProposalText = buildFullProposalText(pkg, strings);
+  pkg.fullProposalText = sanitizeCopyOutput(buildFullProposalText(pkg, strings));
   return pkg;
 }
 

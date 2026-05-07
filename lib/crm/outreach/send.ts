@@ -14,6 +14,7 @@ import { count, eq, gte } from "drizzle-orm";
 import { db } from "../db/client";
 import { leads as leadsTable, outreachSends } from "../db/schema";
 import { sendEmail } from "@/lib/email/send";
+import { sanitizeCopyOutput } from "../copy/sanitize";
 
 export interface SendOutreachInput {
   leadId: string;
@@ -45,8 +46,8 @@ export async function sendOutreachEmail(
   input: SendOutreachInput,
 ): Promise<SendOutreachResult> {
   const recipient = (input.recipient ?? "").trim();
-  const subject = (input.subject ?? "").trim();
-  const body = (input.body ?? "").trim();
+  const subject = sanitizeCopyOutput((input.subject ?? "").trim());
+  const body = sanitizeCopyOutput((input.body ?? "").trim());
 
   // ── Validation ────────────────────────────────────────────────────────
   if (!input.leadId) {

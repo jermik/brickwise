@@ -1,4 +1,4 @@
-// Native Dutch business phrasing — calm, professional, direct.
+// Native Dutch business phrasing, calm, professional, direct.
 // NOT a literal translation of the English catalog.
 // Keeps compliance language: "kan", "mogelijk", "op basis van zichtbare signalen".
 
@@ -15,7 +15,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     suggestedFix: "Ververs typografie, ruimte en kleurpalet. Eventueel overstappen op een modern ontwerpsysteem of een herbouw indien nodig.",
     difficulty: "medium",
     implementation: { minHours: 8, maxHours: 24 },
-    outreachAngle: "Begin met de observatie dat het visuele ontwerp gedateerd aandoet — een zachte, makkelijk te onderbouwen ingang.",
+    outreachAngle: "Begin met de observatie dat het visuele ontwerp gedateerd aandoet, een zachte, makkelijk te onderbouwen ingang.",
     clientFriendlyExplanation: "De site oogt gedateerd, wat bezoekers onbewust minder vertrouwen kan geven, ongeacht de kwaliteit van de dienst. Een visuele opfrissing geeft direct een actiever en moderner gevoel.",
   },
   isMobileFriendly: {
@@ -27,7 +27,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     suggestedFix: "Implementeer een responsive layout. Test op echte apparaten. Zorg voor tap-targets van 48px+ en lettertypes van 16px+.",
     difficulty: "medium",
     implementation: { minHours: 6, maxHours: 16 },
-    outreachAngle: "Begin met de mobiele ervaring — concrete, makkelijk te demonstreren kritiek met grote impact.",
+    outreachAngle: "Begin met de mobiele ervaring, concrete, makkelijk te demonstreren kritiek met grote impact.",
     clientFriendlyExplanation: "De meeste mensen vinden lokale bedrijven via hun telefoon. De site is op dit moment lastig te gebruiken op mobiel, waardoor klanten kunnen afhaken voordat ze bij de boekingsstap komen.",
   },
   loadsFast: {
@@ -39,7 +39,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     suggestedFix: "Comprimeer afbeeldingen (WebP/AVIF), stel niet-kritieke scripts uit, schakel caching in, kies indien nodig snellere hosting.",
     difficulty: "easy",
     implementation: { minHours: 3, maxHours: 8 },
-    outreachAngle: "Laat de PageSpeed-score zien — concreet, onafhankelijk en moeilijk te negeren.",
+    outreachAngle: "Laat de PageSpeed-score zien, concreet, onafhankelijk en moeilijk te negeren.",
     clientFriendlyExplanation: "De site laadt traag. Bezoekers verwachten dat een pagina binnen drie seconden zichtbaar is; daarna haken ze af. Dit beïnvloedt ook de positie in Google.",
   },
   hasClearCTA: {
@@ -51,8 +51,8 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     suggestedFix: "Plaats één duidelijke primaire actie boven de vouw (Boek nu / Vraag offerte aan / Bel). Herhaal op logische punten lager op de pagina.",
     difficulty: "easy",
     implementation: { minHours: 2, maxHours: 5 },
-    outreachAngle: "Loop samen door de homepage en vraag wat de bedoelde volgende stap is — meestal onduidelijk.",
-    clientFriendlyExplanation: "Bezoekers komen op de site en weten niet wat de volgende stap is. Een duidelijke primaire actie — zoals 'Boek nu' — toevoegen is een van de aanpassingen met de meeste impact.",
+    outreachAngle: "Loop samen door de homepage en vraag wat de bedoelde volgende stap is, meestal onduidelijk.",
+    clientFriendlyExplanation: "Bezoekers komen op de site en weten niet wat de volgende stap is. Een duidelijke primaire actie, zoals 'Boek nu', toevoegen is een van de aanpassingen met de meeste impact.",
   },
   hasContactForm: {
     title: "Geen online contactformulier",
@@ -63,7 +63,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     suggestedFix: "Voeg een formulier van 3 velden toe (naam / e-mail / bericht). Een automatische bevestigingsmail helpt.",
     difficulty: "easy",
     implementation: { minHours: 2, maxHours: 4 },
-    outreachAngle: "Wijs erop dat de enige contactoptie een telefoonnummer is — beperkend in 2026.",
+    outreachAngle: "Wijs erop dat de enige contactoptie een telefoonnummer is, beperkend in 2026.",
     clientFriendlyExplanation: "Sommige klanten willen niet bellen voordat ze meer informatie hebben. Een eenvoudig contactformulier vangt die leads op die anders zonder contact zouden vertrekken.",
   },
   hasPhoneVisible: {
@@ -75,8 +75,8 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     suggestedFix: "Toon het telefoonnummer prominent in de header. Maak het op mobiel een tap-to-call-link.",
     difficulty: "easy",
     implementation: { minHours: 1, maxHours: 2 },
-    outreachAngle: "Het telefoonnummer is lastig te vinden — bezoekers scrollen er niet voor.",
-    clientFriendlyExplanation: "Het telefoonnummer is lastig te vinden. Voor een lokaal bedrijf is bellen vaak de snelste route naar een boeking — direct zichtbaar maken is een quick win.",
+    outreachAngle: "Het telefoonnummer is lastig te vinden, bezoekers scrollen er niet voor.",
+    clientFriendlyExplanation: "Het telefoonnummer is lastig te vinden. Voor een lokaal bedrijf is bellen vaak de snelste route naar een boeking, direct zichtbaar maken is een quick win.",
   },
   hasGoogleMapsLink: {
     title: "Geen kaart of adresverwijzing",
@@ -99,7 +99,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     suggestedFix: "Voeg een Google-review-widget toe of plaats 3–5 klantbeoordelingen op de homepage.",
     difficulty: "easy",
     implementation: { minHours: 2, maxHours: 4 },
-    outreachAngle: "Reviews zijn overtuigingsgoud — makkelijke toevoeging, zichtbaar verschil.",
+    outreachAngle: "Reviews zijn overtuigingsgoud, makkelijke toevoeging, zichtbaar verschil.",
     clientFriendlyExplanation: "Klanten vergelijken jou met concurrenten. Als hun site reviews laat zien en die van jou niet, begin je elke vergelijking op achterstand.",
   },
   hasServicePages: {
@@ -111,7 +111,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     suggestedFix: "Maak één pagina per hoofddienst, met gerichte tekst en een dienst-specifieke CTA.",
     difficulty: "medium",
     implementation: { minHours: 4, maxHours: 12 },
-    outreachAngle: "Combineer met lokale SEO — dienstpagina's zijn de basis daarvan.",
+    outreachAngle: "Combineer met lokale SEO, dienstpagina's zijn de basis daarvan.",
     clientFriendlyExplanation: "Op dit moment ziet Google één pagina over alles. Met aparte pagina's per dienst kan elk daarvan op zijn eigen zoekopdrachten ranken.",
   },
   hasCityLandingPage: {
@@ -123,7 +123,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     suggestedFix: "Maak een [Dienst] in [Stad]-pagina met locatie-specifieke tekst en reviews.",
     difficulty: "medium",
     implementation: { minHours: 3, maxHours: 8 },
-    outreachAngle: "Frame als gemiste lokale SEO-kans — concreet en lokaal.",
+    outreachAngle: "Frame als gemiste lokale SEO-kans, concreet en lokaal.",
     clientFriendlyExplanation: "Wanneer iemand zoekt op '[dienst] in [stad]', wil je het antwoord zijn. Een aparte lokale pagina vertelt Google dat je specifiek dat gebied bedient.",
   },
 
@@ -134,22 +134,22 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     dimension: "seo",
     whyItMatters: "De titel-tag is het sterkste lokale SEO-signaal dat Google leest.",
     likelyImpact: "Kan onzichtbaar maken voor lokale zoekopdrachten die makkelijke winsten zouden zijn.",
-    suggestedFix: "Herschrijf naar het format: '[Dienst] in [Stad] — [Bedrijfsnaam]'.",
+    suggestedFix: "Herschrijf naar het format: '[Dienst] in [Stad], [Bedrijfsnaam]'.",
     difficulty: "easy",
     implementation: { minHours: 1, maxHours: 2 },
-    outreachAngle: "View Source op de homepage — de ontbrekende lokale titel is concreet en makkelijk te tonen.",
-    clientFriendlyExplanation: "De paginatitel — wat je in de blauwe link in Google ziet — vermeldt niet wat je doet of waar je gevestigd bent. Dat is een van de eerste signalen die Google gebruikt om lokale zoekresultaten te ranken.",
+    outreachAngle: "View Source op de homepage, de ontbrekende lokale titel is concreet en makkelijk te tonen.",
+    clientFriendlyExplanation: "De paginatitel, wat je in de blauwe link in Google ziet, vermeldt niet wat je doet of waar je gevestigd bent. Dat is een van de eerste signalen die Google gebruikt om lokale zoekresultaten te ranken.",
   },
   hasMetaDescription: {
     title: "Geen meta-omschrijving",
     severity: "medium",
     dimension: "seo",
-    whyItMatters: "Zonder meta-omschrijving schrijft Google er zelf één — meestal slecht. Beïnvloedt clickthrough, niet direct de ranking.",
+    whyItMatters: "Zonder meta-omschrijving schrijft Google er zelf één, meestal slecht. Beïnvloedt clickthrough, niet direct de ranking.",
     likelyImpact: "Kan klikken vanuit zoekresultaten missen, zelfs bij goede positie.",
     suggestedFix: "Schrijf een omschrijving van ~150 tekens met hoofddienst, stad en een zachte hook.",
     difficulty: "easy",
     implementation: { minHours: 1, maxHours: 2 },
-    outreachAngle: "Eenvoudige quick win — combineer met de titelfix.",
+    outreachAngle: "Eenvoudige quick win, combineer met de titelfix.",
     clientFriendlyExplanation: "De grijze tekst die Google onder je link toont, is automatisch gegenereerd en vaak weinig nuttig. Zelf schrijven verbetert de doorklikratio.",
   },
   hasH1: {
@@ -173,7 +173,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     suggestedFix: "Herstructureer headings: één H1, H2 per sectie, H3 per subsectie.",
     difficulty: "easy",
     implementation: { minHours: 1, maxHours: 3 },
-    outreachAngle: "Polishpunt — neem mee in een bredere content-opschoning.",
+    outreachAngle: "Polishpunt, neem mee in een bredere content-opschoning.",
     clientFriendlyExplanation: "De headings op de site zijn inconsistent, wat de pagina lastiger maakt voor Google en toegankelijkheidstools.",
   },
   hasLocalKeywords: {
@@ -185,7 +185,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     suggestedFix: "Verwerk de stad, wijken en regio natuurlijk in de hoofdtekst. Niet stuffen.",
     difficulty: "easy",
     implementation: { minHours: 2, maxHours: 4 },
-    outreachAngle: "Toon dat de homepage de stad niet noemt — concreet bewijs.",
+    outreachAngle: "Toon dat de homepage de stad niet noemt, concreet bewijs.",
     clientFriendlyExplanation: "De tekst noemt je stad niet. Wanneer iemand zoekt op '[dienst] in [jouw stad]', toont Google bij voorkeur pagina's die die stad ook daadwerkelijk vermelden.",
   },
   hasInternalLinks: {
@@ -197,7 +197,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     suggestedFix: "Link gerelateerde dienst- en stadpagina's onderling vanuit de body-tekst.",
     difficulty: "easy",
     implementation: { minHours: 2, maxHours: 4 },
-    outreachAngle: "Polishpunt — pak op binnen een bredere SEO-sprint.",
+    outreachAngle: "Polishpunt, pak op binnen een bredere SEO-sprint.",
     clientFriendlyExplanation: "Het onderling linken van eigen pagina's helpt Google te begrijpen welke inhoud belangrijk is en houdt bezoekers langer op de site.",
   },
   isIndexable: {
@@ -209,8 +209,8 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     suggestedFix: "Verwijder noindex-meta en robots.txt-blocks. Stuur sitemap in via Search Console. Verifieer crawl via URL Inspection.",
     difficulty: "easy",
     implementation: { minHours: 1, maxHours: 3 },
-    outreachAngle: "Kritiek — open hiermee. Dit is de bevinding die direct aandacht trekt.",
-    clientFriendlyExplanation: "De site lijkt Google de instructie te geven om hem niet te tonen in zoekresultaten. Dit is de belangrijkste fix — zonder dit kan de rest van de optimalisaties weinig effect hebben.",
+    outreachAngle: "Kritiek, open hiermee. Dit is de bevinding die direct aandacht trekt.",
+    clientFriendlyExplanation: "De site lijkt Google de instructie te geven om hem niet te tonen in zoekresultaten. Dit is de belangrijkste fix, zonder dit kan de rest van de optimalisaties weinig effect hebben.",
   },
   hasSchemaMarkup: {
     title: "Geen LocalBusiness-schema",
@@ -221,8 +221,8 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     suggestedFix: "Voeg LocalBusiness JSON-LD toe met openingstijden, adres, telefoon, geo en review-schema.",
     difficulty: "easy",
     implementation: { minHours: 2, maxHours: 4 },
-    outreachAngle: "Toon concurrenten met rich results — concrete onderscheiding.",
-    clientFriendlyExplanation: "Gestructureerde data toevoegen vertelt Google specifieke info over je bedrijf — openingstijden, telefoon, adres — die direct in de zoekresultaten kan verschijnen.",
+    outreachAngle: "Toon concurrenten met rich results, concrete onderscheiding.",
+    clientFriendlyExplanation: "Gestructureerde data toevoegen vertelt Google specifieke info over je bedrijf, openingstijden, telefoon, adres, die direct in de zoekresultaten kan verschijnen.",
   },
   hasGoogleBusinessProfile: {
     title: "Lacune in Google Bedrijfsprofiel",
@@ -234,7 +234,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     difficulty: "medium",
     implementation: { minHours: 4, maxHours: 12 },
     outreachAngle: "Open hiermee voor elk lokaal bedrijf. Universele behoefte, grote zichtbare impact.",
-    clientFriendlyExplanation: "Het Google Bedrijfsprofiel — het paneel dat naast je vermelding in zoekresultaten verschijnt — heeft aandacht nodig. Dit is de belangrijkste factor voor lokale zichtbaarheid voor vrijwel elk lokaal bedrijf.",
+    clientFriendlyExplanation: "Het Google Bedrijfsprofiel, het paneel dat naast je vermelding in zoekresultaten verschijnt, heeft aandacht nodig. Dit is de belangrijkste factor voor lokale zichtbaarheid voor vrijwel elk lokaal bedrijf.",
   },
 
   // ── Conversion ──────────────────────────────────────────────────────
@@ -259,7 +259,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     suggestedFix: "Beperk contactopname tot 3 velden. Voeg op mobiel een one-click bel-CTA toe.",
     difficulty: "easy",
     implementation: { minHours: 1, maxHours: 3 },
-    outreachAngle: "Loop samen het contactproces door — meestal 5+ stappen.",
+    outreachAngle: "Loop samen het contactproces door, meestal 5+ stappen.",
     clientFriendlyExplanation: "Op dit moment kost contact opnemen meer stappen dan nodig. Elke extra stap kost stilletjes een percentage leads.",
   },
   lowBookingFriction: {
@@ -283,8 +283,8 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     suggestedFix: "Plaats de hoofd-CTA in de hero-sectie, zichtbaar zonder scrollen.",
     difficulty: "easy",
     implementation: { minHours: 1, maxHours: 2 },
-    outreachAngle: "Open op desktop EN mobiel — toon de ontbrekende CTA in beide weergaven.",
-    clientFriendlyExplanation: "De actie die je wilt dat bezoekers nemen, moet zichtbaar zijn zonder dat ze hoeven scrollen. Op dit moment moeten ze ervoor scrollen — velen doen dat niet.",
+    outreachAngle: "Open op desktop EN mobiel, toon de ontbrekende CTA in beide weergaven.",
+    clientFriendlyExplanation: "De actie die je wilt dat bezoekers nemen, moet zichtbaar zijn zonder dat ze hoeven scrollen. Op dit moment moeten ze ervoor scrollen, velen doen dat niet.",
   },
   hasMobileCTA: {
     title: "Geen sticky / tap-to-call CTA op mobiel",
@@ -295,7 +295,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     suggestedFix: "Voeg een sticky tap-to-call of 'Boek nu'-knop toe onderaan het mobiele beeldscherm.",
     difficulty: "easy",
     implementation: { minHours: 2, maxHours: 4 },
-    outreachAngle: "Concreet en mobiel-specifiek — makkelijk te tonen.",
+    outreachAngle: "Concreet en mobiel-specifiek, makkelijk te tonen.",
     clientFriendlyExplanation: "Op mobiel verdwijnt de actieknop zodra bezoekers scrollen. Een sticky onderkant-knop houdt de route naar contact altijd zichtbaar.",
   },
   hasLeadCapture: {
@@ -308,7 +308,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     difficulty: "easy",
     implementation: { minHours: 2, maxHours: 4 },
     outreachAngle: "Frame als het opvangen van long-tail-leads die anders zouden verdwijnen.",
-    clientFriendlyExplanation: "De meeste bezoekers zijn vandaag nog niet klaar om te boeken. Iets laagdrempeligs aanbieden — zoals een gratis offerte — vangt degenen op die anders zonder iets zouden vertrekken.",
+    clientFriendlyExplanation: "De meeste bezoekers zijn vandaag nog niet klaar om te boeken. Iets laagdrempeligs aanbieden, zoals een gratis offerte, vangt degenen op die anders zonder iets zouden vertrekken.",
   },
 
   // ── Automation ──────────────────────────────────────────────────────
@@ -321,7 +321,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     suggestedFix: "Zet een boekingswidget op (Calendly / Setmore / Square / niche-tool).",
     difficulty: "medium",
     implementation: { minHours: 4, maxHours: 8 },
-    outreachAngle: "Open met de tijdwinst — meestal 5+ uur per week terug.",
+    outreachAngle: "Open met de tijdwinst, meestal 5+ uur per week terug.",
     clientFriendlyExplanation: "Op dit moment vraagt elke boeking handmatige communicatie. Een online boekingswidget laat klanten zelf afspraken maken buiten kantoortijden en bespaart enkele uren per week aan administratie.",
   },
   hasQuoteAutomation: {
@@ -333,7 +333,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     suggestedFix: "Bouw een offerteformulier met automatische ontvangstbevestiging + verwachte responstijd.",
     difficulty: "easy",
     implementation: { minHours: 2, maxHours: 4 },
-    outreachAngle: "Frame als 'laat geen lead koud worden' — universeel aansprekend.",
+    outreachAngle: "Frame als 'laat geen lead koud worden', universeel aansprekend.",
     clientFriendlyExplanation: "Wanneer iemand een offerte aanvraagt, wil diegene direct bevestiging. Een automatische bevestiging houdt ze betrokken terwijl jij het echte antwoord voorbereidt.",
   },
   hasInvoiceAutomation: {
@@ -345,7 +345,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     suggestedFix: "Koppel Stripe / Moneybird / Exact om facturen automatisch te genereren en versturen bij oplevering.",
     difficulty: "medium",
     implementation: { minHours: 3, maxHours: 8 },
-    outreachAngle: "Tijd + cashflow-invalshoek — beide kwantificeerbaar.",
+    outreachAngle: "Tijd + cashflow-invalshoek, beide kwantificeerbaar.",
     clientFriendlyExplanation: "Handmatig factureren vertraagt en stelt betalingen uit. Een geautomatiseerde tool koppelen verstuurt facturen direct en verkleint de adminlus.",
   },
   hasReminderEmails: {
@@ -357,7 +357,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     suggestedFix: "Voeg SMS/e-mail-herinneringen 24u voor elke afspraak toe via het boekingssysteem.",
     difficulty: "easy",
     implementation: { minHours: 1, maxHours: 3 },
-    outreachAngle: "Eenvoudige ROI-berekening — herinneringen verdienen zichzelf snel terug.",
+    outreachAngle: "Eenvoudige ROI-berekening, herinneringen verdienen zichzelf snel terug.",
     clientFriendlyExplanation: "Wanneer klanten afspraken vergeten, verlies je de plek én de omzet. Geautomatiseerde herinneringen verminderen no-shows aanzienlijk zonder handmatige inspanning.",
   },
   hasFollowUpAutomation: {
@@ -381,7 +381,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     suggestedFix: "Installeer GA4 + Google Search Console. Voeg event-tracking toe op belangrijke CTA's.",
     difficulty: "easy",
     implementation: { minHours: 1, maxHours: 3 },
-    outreachAngle: "Snelle fundamentele fix — bundel binnen elk project.",
+    outreachAngle: "Snelle fundamentele fix, bundel binnen elk project.",
     clientFriendlyExplanation: "Op dit moment is er geen manier om te zien wat werkt op de site. Analytics toevoegen laat je beslissen op basis van echte data in plaats van gokken.",
   },
   hasInternalDashboard: {
@@ -393,7 +393,7 @@ export const ISSUE_CATALOG_NL: IssueCatalog = {
     suggestedFix: "Bouw een klein intern dashboard dat boekingen van vandaag + recente leads in één weergave toont.",
     difficulty: "medium",
     implementation: { minHours: 6, maxHours: 16 },
-    outreachAngle: "Premium-add-on — focus op grotere klanten.",
-    clientFriendlyExplanation: "Een eenvoudig gedeeld dashboard voor het team — boekingen van vandaag, recente leads, belangrijkste cijfers — bespaart dagelijkse zoektijd en geeft iedereen hetzelfde overzicht.",
+    outreachAngle: "Premium-add-on, focus op grotere klanten.",
+    clientFriendlyExplanation: "Een eenvoudig gedeeld dashboard voor het team, boekingen van vandaag, recente leads, belangrijkste cijfers, bespaart dagelijkse zoektijd en geeft iedereen hetzelfde overzicht.",
   },
 };
