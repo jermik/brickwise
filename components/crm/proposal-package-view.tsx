@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import type { ProposalPackage, OutreachEmail } from "@/lib/crm/proposal/package";
+import type { ProposalPackage, OutreachEmail, Locale } from "@/lib/crm/proposal/package";
 
 interface Props {
-  pkg: ProposalPackage;
+  packages: Record<Locale, ProposalPackage>;
 }
 
 const SEVERITY_COLOR: Record<string, string> = {
@@ -44,8 +44,18 @@ function CopyButton({ text, label = "Copy", small = false }: { text: string; lab
   );
 }
 
-function EmailBlock({ title, email, defaultRecipient }: { title: string; email: OutreachEmail; defaultRecipient: string }) {
-  const [recipient, setRecipient] = useState(email.recipient ?? defaultRecipient ?? "");
+function EmailBlockControlled({
+  title,
+  email,
+  recipient,
+  onRecipientChange,
+}: {
+  title: string;
+  email: OutreachEmail;
+  recipient: string;
+  onRecipientChange: (v: string) => void;
+}) {
+  const setRecipient = onRecipientChange;
   return (
     <div className="rounded-lg p-4 space-y-3" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid #2A2420" }}>
       <div className="flex items-center justify-between">
@@ -128,11 +138,17 @@ function EmailBlock({ title, email, defaultRecipient }: { title: string; email: 
   );
 }
 
-export function ProposalPackageView({ pkg }: Props) {
+export function ProposalPackageView({ packages }: Props) {
+  const [locale, setLocale] = useState<Locale>("en");
+  const pkg = packages[locale];
+
+  // Recipient state lives at this level so it persists across language toggles.
+  const [recipient, setRecipient] = useState<string>(packages.en.outreachEmail.recipient ?? "");
+
   return (
     <div className="space-y-6">
       {/* Header / actions */}
-      <div className="rounded-lg p-4 flex items-center justify-between" style={{ background: "#131109", border: "1px solid rgba(245,158,11,0.25)" }}>
+      <div className="rounded-lg p-4 flex flex-wrap items-center justify-between gap-3" style={{ background: "#131109", border: "1px solid rgba(245,158,11,0.25)" }}>
         <div>
           <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "#f59e0b" }}>
             Proposal package
@@ -141,7 +157,23 @@ export function ProposalPackageView({ pkg }: Props) {
             Demo-quality, deterministic. Review every section before sending.
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
+          {/* Language selector — toggles which package is shown / copied. */}
+          <div className="flex rounded-md p-0.5" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid #2A2420" }}>
+            {(["en", "nl"] as const).map((loc) => (
+              <button
+                key={loc}
+                onClick={() => setLocale(loc)}
+                className="px-2.5 py-1 rounded text-xs font-mono"
+                style={{
+                  background: locale === loc ? "rgba(245,158,11,0.18)" : "transparent",
+                  color: locale === loc ? "#f59e0b" : "rgba(242,237,230,0.55)",
+                }}
+              >
+                {loc === "en" ? "English" : "Nederlands"}
+              </button>
+            ))}
+          </div>
           <CopyButton text={pkg.fullProposalText} label="Copy entire proposal" />
         </div>
       </div>
@@ -248,8 +280,18 @@ export function ProposalPackageView({ pkg }: Props) {
         <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.5)" }}>
           4 · Outreach
         </p>
-        <EmailBlock title="Initial email" email={pkg.outreachEmail} defaultRecipient={pkg.outreachEmail.recipient ?? ""} />
-        <EmailBlock title="Follow-up email" email={pkg.followUpEmail} defaultRecipient={pkg.followUpEmail.recipient ?? ""} />
+        <EmailBlockControlled
+          title={locale === "nl" ? "Eerste e-mail" : "Initial email"}
+          email={pkg.outreachEmail}
+          recipient={recipient}
+          onRecipientChange={setRecipient}
+        />
+        <EmailBlockControlled
+          title={locale === "nl" ? "Vervolgmail" : "Follow-up email"}
+          email={pkg.followUpEmail}
+          recipient={recipient}
+          onRecipientChange={setRecipient}
+        />
       </section>
 
       {/* Compliance reminder */}

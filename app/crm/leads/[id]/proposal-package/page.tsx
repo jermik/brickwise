@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { findLead } from "@/lib/crm/store";
 import { generateProposalPackage } from "@/lib/crm/proposal/package";
+import type { Locale } from "@/lib/crm/proposal/package";
 import { ProposalPackageView } from "@/components/crm/proposal-package-view";
 
 export default async function ProposalPackagePage({
@@ -13,7 +14,11 @@ export default async function ProposalPackagePage({
   const lead = await findLead(id);
   if (!lead) notFound();
 
-  const pkg = generateProposalPackage(lead, lead.richAudit, lead.leadScoreData);
+  // Generate both locales server-side so the client can toggle without a refetch.
+  const en = generateProposalPackage(lead, lead.richAudit, lead.leadScoreData, { locale: "en" });
+  const nl = generateProposalPackage(lead, lead.richAudit, lead.leadScoreData, { locale: "nl" });
+  const pkg = en;
+  const packages = en && nl ? ({ en, nl } as Record<Locale, NonNullable<typeof en>>) : null;
 
   return (
     <div className="px-8 py-8 max-w-4xl space-y-6">
@@ -51,7 +56,7 @@ export default async function ProposalPackagePage({
         </div>
       )}
 
-      {pkg && <ProposalPackageView pkg={pkg} />}
+      {packages && <ProposalPackageView packages={packages} />}
     </div>
   );
 }

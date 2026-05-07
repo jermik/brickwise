@@ -1,15 +1,18 @@
 // ─────────────────────────────────────────────────────────────────────────
-// Proposal Package — MVP "Make Proposal" feature.
+// Proposal Package — locale-aware (en | nl).
 //
-// Pure deterministic derivation from the existing Lead + RichAudit +
-// LeadScore. No new DB columns; no LLM; same inputs always produce the
-// same output. The page that renders this is `/crm/leads/[id]/proposal-package`.
+// Pure deterministic derivation from Lead + RichAudit + LeadScore. No
+// machine translation; Dutch prose is hand-authored. Same inputs always
+// produce the same output for a given locale.
 // ─────────────────────────────────────────────────────────────────────────
 
 import type { Lead } from "../types";
 import type { AuditIssue, IssueSeverity, RichAuditData } from "../audit/types";
 import type { LeadScore } from "../lead-scoring/types";
+import { buildLocalizedIssues, type Locale } from "../audit";
 import { OFFER_TEMPLATES, getOffer } from "../types";
+
+export type { Locale };
 
 // ── Types ─────────────────────────────────────────────────────────────────
 
@@ -26,9 +29,9 @@ export interface RecommendedUpgrade {
   shortExplanation: string;
   expectedBenefit: string;
   difficulty: "easy" | "medium" | "hard";
-  priority: 1 | 2 | 3;        // 1 = highest
+  priority: 1 | 2 | 3;
   estimatedHours: { min: number; max: number };
-  relatedOfferId?: string;     // OFFER_TEMPLATES.id, if applicable
+  relatedOfferId?: string;
   relatedOfferName?: string;
   relatedOfferPrice?: string;
 }
@@ -36,331 +39,146 @@ export interface RecommendedUpgrade {
 export interface OutreachEmail {
   subject: string;
   body: string;
-  recipient?: string;          // pre-filled from lead.email
+  recipient?: string;
 }
 
 export interface ProposalPackage {
+  locale: Locale;
   generatedAt: string;
   lead: { id: string; businessName: string; city: string; category: string };
-
   executiveSummary: string;
   priorityProblems: PriorityProblem[];
   recommendedUpgrades: RecommendedUpgrade[];
-
   outreachEmail: OutreachEmail;
   followUpEmail: OutreachEmail;
-
-  /** Single combined plain-text version for "copy entire proposal". */
   fullProposalText: string;
 }
 
-// ── Helpers ──────────────────────────────────────────────────────────────
-
-function ratingPhrase(score: number): string {
-  if (score >= 80) return "in good shape";
-  if (score >= 60) return "reasonable but with clear room for improvement";
-  if (score >= 40) return "underperforming in several visible areas";
-  return "showing significant room for improvement";
-}
-
-function dimensionPhrase(label: string, score: number): string {
-  if (score >= 70) return `${label} is solid`;
-  if (score >= 40) return `${label} has room to improve`;
-  return `${label} is a clear opportunity`;
-}
-
-function severityToPriority(s: IssueSeverity): 1 | 2 | 3 {
-  if (s === "critical" || s === "high") return 1;
-  if (s === "medium") return 2;
-  return 3;
-}
-
-function difficultyOf(issue: AuditIssue): "easy" | "medium" | "hard" {
-  return issue.difficulty;
-}
-
-// ── Section 1 — Executive summary ────────────────────────────────────────
-
-function buildExecutiveSummary(
-  lead: Lead,
-  audit: RichAuditData,
-): string {
-  const overall = audit.scores.overall;
-  const phrase = ratingPhrase(overall);
-
-  // Identify the two weakest dimensions for the summary call-out.
-  const dims: [string, number][] = [
-    ["mobile usability", audit.scores.mobile],
-    ["conversion flow", audit.scores.conversion],
-    ["local visibility", audit.scores.localSeo],
-    ["page speed", audit.scores.speed],
-    ["trust signals", audit.scores.trust],
-    ["copy clarity", audit.scores.copyClarity],
-  ];
-  const weakest = dims.sort((a, b) => a[1] - b[1]).slice(0, 2);
-  const callOut = weakest.map(([label]) => label).join(" and ");
-
-  return [
-    `After reviewing ${lead.businessName}'s website, the site appears ${phrase} (${overall}/100 overall, based on visible website signals).`,
-    ``,
-    `The most prominent opportunities are around ${callOut}. ` +
-      `${dimensionPhrase("Mobile experience", audit.scores.mobile)}, ` +
-      `${dimensionPhrase("conversion flow", audit.scores.conversion)}, and ` +
-      `${dimensionPhrase("local SEO", audit.scores.localSeo)}.`,
-    ``,
-    `These observations are based on visible website signals only — no internal analytics or private data. ` +
-      `Each finding below comes with a short explanation of why it matters and a suggested fix.`,
-  ].join("\n");
-}
-
-// ── Section 2 — Priority problems ────────────────────────────────────────
-
-function buildPriorityProblems(audit: RichAuditData): PriorityProblem[] {
-  // Take top 5 from the already-ranked audit.issues list.
-  return audit.issues.slice(0, 5).map((issue) => ({
-    title: issue.title,
-    severity: issue.severity,
-    whyItMatters: issue.whyItMatters,
-    potentialImpact: issue.likelyImpact,
-    howToImprove: issue.suggestedFix,
-  }));
-}
-
-// ── Section 3 — Recommended upgrades ─────────────────────────────────────
+// ── Locale strings ────────────────────────────────────────────────────────
 //
-// Map weak audit dimensions to concrete agency offers. Priority is
-// derived from how weak each dimension is — weaker = higher priority.
+// All visible prose is collected here per locale so a translator (or an
+// agency wanting to fork the tone) only has to touch one place.
 
-interface UpgradeRule {
-  threshold: number;            // include only if dimension score < threshold
-  title: string;
-  shortExplanation: string;
-  expectedBenefit: string;
-  difficulty: "easy" | "medium" | "hard";
-  estimatedHours: { min: number; max: number };
-  relatedOfferId?: string;
-}
-
-function ruleFromDimension(
-  dim: keyof RichAuditData["scores"],
-  score: number,
-): UpgradeRule | null {
-  switch (dim) {
-    case "mobile":
-      if (score >= 70) return null;
-      return {
-        threshold: 70,
-        title: "Mobile optimisation",
-        shortExplanation: "Rebuild the responsive layout, fix tap targets, and simplify mobile navigation.",
-        expectedBenefit: "Most local searches happen on phones — fixing mobile could meaningfully improve enquiries.",
-        difficulty: "medium",
-        estimatedHours: { min: 6, max: 16 },
-        relatedOfferId: "growth",
-      };
-    case "conversion":
-      if (score >= 70) return null;
-      return {
-        threshold: 70,
-        title: "CTA + conversion restructuring",
-        shortExplanation: "Add a clear primary CTA above the fold, simplify the contact path, and add a sticky mobile CTA.",
-        expectedBenefit: "Visitors who currently bounce will have a defined next step — the highest-leverage UX fix.",
-        difficulty: "easy",
-        estimatedHours: { min: 4, max: 10 },
-        relatedOfferId: "growth",
-      };
-    case "speed":
-      if (score >= 70) return null;
-      return {
-        threshold: 70,
-        title: "Speed optimisation",
-        shortExplanation: "Compress images (WebP/AVIF), defer non-critical scripts, enable caching, switch to faster hosting if needed.",
-        expectedBenefit: "Page speed affects both bounce rate and Google ranking. Each second matters.",
-        difficulty: "easy",
-        estimatedHours: { min: 3, max: 8 },
-        relatedOfferId: "local_seo",
-      };
-    case "trust":
-      if (score >= 70) return null;
-      return {
-        threshold: 70,
-        title: "Trust signal redesign",
-        shortExplanation: "Embed Google reviews, surface customer testimonials, ensure address + phone + Google Business profile are prominent.",
-        expectedBenefit: "Reviews are the strongest persuasion lever for local services — could meaningfully shift the conversion rate.",
-        difficulty: "easy",
-        estimatedHours: { min: 3, max: 8 },
-        relatedOfferId: "growth",
-      };
-    case "localSeo":
-      if (score >= 70) return null;
-      return {
-        threshold: 70,
-        title: "Local SEO sprint",
-        shortExplanation: "Fix title tags, add city/region landing pages, complete Google Business Profile, add LocalBusiness schema markup.",
-        expectedBenefit: "Local SEO is the single biggest lever for visibility on '[service] in [city]' searches.",
-        difficulty: "medium",
-        estimatedHours: { min: 8, max: 20 },
-        relatedOfferId: "local_seo",
-      };
-    case "bookingFriction":
-      if (score >= 70) return null;
-      return {
-        threshold: 70,
-        title: "Booking flow implementation",
-        shortExplanation: "Add an online booking widget, auto-acknowledgement emails, and a quote request form.",
-        expectedBenefit: "Captures bookings outside business hours and reduces back-and-forth admin.",
-        difficulty: "medium",
-        estimatedHours: { min: 4, max: 12 },
-        relatedOfferId: "automation",
-      };
-    case "copyClarity":
-      if (score >= 70) return null;
-      return {
-        threshold: 70,
-        title: "Hero + copy refresh",
-        shortExplanation: "Rewrite the hero so service + audience + value are clear within 5 seconds.",
-        expectedBenefit: "Visitors who currently leave without understanding the offer will engage instead.",
-        difficulty: "medium",
-        estimatedHours: { min: 4, max: 10 },
-        relatedOfferId: "growth",
-      };
-    case "designQuality":
-      if (score >= 70) return null;
-      return {
-        threshold: 70,
-        title: "Homepage redesign",
-        shortExplanation: "Refresh visual design — modern typography, spacing, colour palette, and layout.",
-        expectedBenefit: "Stronger first impression. Builds trust before visitors read a single word.",
-        difficulty: "hard",
-        estimatedHours: { min: 16, max: 40 },
-        relatedOfferId: "growth",
-      };
-    default:
-      return null;
-  }
-}
-
-function buildRecommendedUpgrades(audit: RichAuditData): RecommendedUpgrade[] {
-  const rules: UpgradeRule[] = [];
-
-  for (const dim of [
-    "conversion",
-    "mobile",
-    "localSeo",
-    "trust",
-    "bookingFriction",
-    "speed",
-    "copyClarity",
-    "designQuality",
-  ] as const) {
-    const score = audit.scores[dim];
-    const rule = ruleFromDimension(dim, score);
-    if (rule) rules.push(rule);
-  }
-
-  // Always include analytics setup if hasAnalytics check failed and the list is short
-  if (rules.length < 3 && audit.issues.some((i) => i.key === "hasAnalytics")) {
-    rules.push({
-      threshold: 100,
-      title: "Analytics setup",
-      shortExplanation: "Install GA4 + Search Console + key event tracking on CTAs.",
-      expectedBenefit: "Without analytics, every marketing decision is guesswork. This is the foundation everything else builds on.",
-      difficulty: "easy",
-      estimatedHours: { min: 1, max: 3 },
-      relatedOfferId: "local_seo",
-    });
-  }
-
-  // Rank by priority: priority 1 = mobile/conversion/local-SEO when present;
-  // priority 2 = speed/trust/booking; priority 3 = copy/design tweaks.
-  const PRIORITY_OF: Record<string, 1 | 2 | 3> = {
-    "Mobile optimisation": 1,
-    "CTA + conversion restructuring": 1,
-    "Local SEO sprint": 1,
-    "Speed optimisation": 2,
-    "Trust signal redesign": 2,
-    "Booking flow implementation": 2,
-    "Hero + copy refresh": 3,
-    "Homepage redesign": 3,
-    "Analytics setup": 2,
+interface LocaleStrings {
+  ratingPhrase: (score: number) => string;
+  dimensionPhrase: (label: string, score: number) => string;
+  dimensionLabels: Record<"mobile" | "conversion" | "localSeo" | "speed" | "trust" | "copy", string>;
+  executiveSummary: (lead: Lead, audit: RichAuditData) => string;
+  subjectVariants: (lead: Lead) => string[];
+  outreachBody: (lead: Lead, audit: RichAuditData, topUpgradeTitle: string) => string;
+  followUpBody: (lead: Lead) => string;
+  optOut: string;
+  upgradeCopy: Record<UpgradeKey, { title: string; shortExplanation: string; expectedBenefit: string }>;
+  fullProposalLabels: {
+    title: (name: string) => string;
+    executiveSummary: string;
+    priorityIssues: string;
+    recommendedUpgrades: string;
+    why: string;
+    impact: string;
+    fix: string;
+    benefit: string;
+    work: string;
+    fitsIn: (offerName: string, price: string) => string;
+    footer: string;
+    priorityHigh: string;
+    priorityMid: string;
+    priorityLow: string;
+    difficultyLabels: Record<"easy" | "medium" | "hard", string>;
   };
-
-  const sorted = rules.sort(
-    (a, b) => (PRIORITY_OF[a.title] ?? 3) - (PRIORITY_OF[b.title] ?? 3),
-  );
-
-  return sorted.slice(0, 5).map((r): RecommendedUpgrade => {
-    const offer = getOffer(r.relatedOfferId);
-    return {
-      title: r.title,
-      shortExplanation: r.shortExplanation,
-      expectedBenefit: r.expectedBenefit,
-      difficulty: r.difficulty,
-      priority: PRIORITY_OF[r.title] ?? 3,
-      estimatedHours: r.estimatedHours,
-      relatedOfferId: r.relatedOfferId,
-      relatedOfferName: offer?.name,
-      relatedOfferPrice: offer?.price,
-    };
-  });
 }
 
-// ── Section 4 — Outreach email ───────────────────────────────────────────
+type UpgradeKey =
+  | "mobile"
+  | "conversion"
+  | "speed"
+  | "trust"
+  | "localSeo"
+  | "booking"
+  | "copy"
+  | "design"
+  | "analytics";
 
-function buildSubject(lead: Lead, audit: RichAuditData): string {
-  const top = audit.topPriority[0];
-  if (!top) return `Quick website note for ${lead.businessName}`;
-  // Subject lines that read like a personal observation, not a pitch.
-  const variants = [
+const STRINGS_EN: LocaleStrings = {
+  ratingPhrase: (score) => {
+    if (score >= 80) return "in good shape";
+    if (score >= 60) return "reasonable but with clear room for improvement";
+    if (score >= 40) return "underperforming in several visible areas";
+    return "showing significant room for improvement";
+  },
+  dimensionPhrase: (label, score) => {
+    if (score >= 70) return `${label} is solid`;
+    if (score >= 40) return `${label} has room to improve`;
+    return `${label} is a clear opportunity`;
+  },
+  dimensionLabels: {
+    mobile: "mobile usability",
+    conversion: "conversion flow",
+    localSeo: "local visibility",
+    speed: "page speed",
+    trust: "trust signals",
+    copy: "copy clarity",
+  },
+  executiveSummary: (lead, audit) => {
+    const overall = audit.scores.overall;
+    const phrase = STRINGS_EN.ratingPhrase(overall);
+    const dims: [string, number][] = [
+      [STRINGS_EN.dimensionLabels.mobile, audit.scores.mobile],
+      [STRINGS_EN.dimensionLabels.conversion, audit.scores.conversion],
+      [STRINGS_EN.dimensionLabels.localSeo, audit.scores.localSeo],
+      [STRINGS_EN.dimensionLabels.speed, audit.scores.speed],
+      [STRINGS_EN.dimensionLabels.trust, audit.scores.trust],
+      [STRINGS_EN.dimensionLabels.copy, audit.scores.copyClarity],
+    ];
+    const weakest = dims.sort((a, b) => a[1] - b[1]).slice(0, 2);
+    const callOut = weakest.map(([label]) => label).join(" and ");
+    return [
+      `After reviewing ${lead.businessName}'s website, the site appears ${phrase} (${overall}/100 overall, based on visible website signals).`,
+      ``,
+      `The most prominent opportunities are around ${callOut}. ` +
+        `${STRINGS_EN.dimensionPhrase("Mobile experience", audit.scores.mobile)}, ` +
+        `${STRINGS_EN.dimensionPhrase("conversion flow", audit.scores.conversion)}, and ` +
+        `${STRINGS_EN.dimensionPhrase("local SEO", audit.scores.localSeo)}.`,
+      ``,
+      `These observations are based on visible website signals only — no internal analytics or private data. Each finding below comes with a short explanation of why it matters and a suggested fix.`,
+    ].join("\n");
+  },
+  subjectVariants: (lead) => [
     `Quick note about ${lead.businessName}'s website`,
     `${lead.businessName} — a couple of observations worth sharing`,
     `Found a few things worth flagging on the ${lead.businessName} site`,
-  ];
-  // Deterministic selection — same lead always gets the same subject.
-  const hash = lead.id.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
-  return variants[hash % variants.length];
-}
-
-function buildOutreachBody(
-  lead: Lead,
-  audit: RichAuditData,
-  upgrades: RecommendedUpgrade[],
-): string {
-  const obs1 = audit.topPriority[0];
-  const obs2 = audit.topPriority[1];
-
-  const observation1 = obs1
-    ? obs1.clientFriendlyExplanation
-    : "There appear to be a couple of areas where the site could be working harder.";
-  const observation2 = obs2
-    ? obs2.clientFriendlyExplanation
-    : "These look like quick wins that don't require a full rebuild.";
-
-  const topUpgrade = upgrades[0]?.title.toLowerCase() ?? "a focused improvement plan";
-
-  return [
-    `Hi,`,
-    ``,
-    `I was looking at ${lead.businessName}'s website and noticed a few areas worth flagging.`,
-    ``,
-    `Two specific observations, based on visible website signals:`,
-    ``,
-    `1. ${observation1}`,
-    ``,
-    `2. ${observation2}`,
-    ``,
-    `Both look fixable. The most impactful starting point for the site appears to be ${topUpgrade}.`,
-    ``,
-    `Would it be useful if I sent over a short free audit with the full picture and a couple of specific suggestions? No obligation — just findings you can use.`,
-    ``,
-    `Best,`,
-    `[Your Name]`,
-    ``,
-    `If this isn't relevant, no worries — just reply "no thanks" and I won't contact you again.`,
-  ].join("\n");
-}
-
-function buildFollowUpBody(lead: Lead): string {
-  return [
+  ],
+  outreachBody: (lead, audit, topUpgradeTitle) => {
+    const obs1 = audit.topPriority[0];
+    const obs2 = audit.topPriority[1];
+    const observation1 = obs1
+      ? obs1.clientFriendlyExplanation
+      : "There appear to be a couple of areas where the site could be working harder.";
+    const observation2 = obs2
+      ? obs2.clientFriendlyExplanation
+      : "These look like quick wins that don't require a full rebuild.";
+    return [
+      `Hi,`,
+      ``,
+      `I was looking at ${lead.businessName}'s website and noticed a few areas worth flagging.`,
+      ``,
+      `Two specific observations, based on visible website signals:`,
+      ``,
+      `1. ${observation1}`,
+      ``,
+      `2. ${observation2}`,
+      ``,
+      `Both look fixable. The most impactful starting point for the site appears to be ${topUpgradeTitle.toLowerCase()}.`,
+      ``,
+      `Would it be useful if I sent over a short free audit with the full picture and a couple of specific suggestions? No obligation — just findings you can use.`,
+      ``,
+      `Best,`,
+      `[Your Name]`,
+      ``,
+      STRINGS_EN.optOut,
+    ].join("\n");
+  },
+  followUpBody: (lead) => [
     `Hi,`,
     ``,
     `Just following up on the note I sent earlier about ${lead.businessName}'s website.`,
@@ -370,87 +188,435 @@ function buildFollowUpBody(lead: Lead): string {
     `Best,`,
     `[Your Name]`,
     ``,
-    `If this isn't relevant, no worries — just reply "no thanks" and I won't contact you again.`,
-  ].join("\n");
+    STRINGS_EN.optOut,
+  ].join("\n"),
+  optOut: `If this isn't relevant, no worries — just reply "no thanks" and I won't contact you again.`,
+  upgradeCopy: {
+    mobile: {
+      title: "Mobile optimisation",
+      shortExplanation: "Rebuild the responsive layout, fix tap targets, and simplify mobile navigation.",
+      expectedBenefit: "Most local searches happen on phones — fixing mobile could meaningfully improve enquiries.",
+    },
+    conversion: {
+      title: "CTA + conversion restructuring",
+      shortExplanation: "Add a clear primary CTA above the fold, simplify the contact path, and add a sticky mobile CTA.",
+      expectedBenefit: "Visitors who currently bounce will have a defined next step — the highest-leverage UX fix.",
+    },
+    speed: {
+      title: "Speed optimisation",
+      shortExplanation: "Compress images (WebP/AVIF), defer non-critical scripts, enable caching, switch to faster hosting if needed.",
+      expectedBenefit: "Page speed affects both bounce rate and Google ranking. Each second matters.",
+    },
+    trust: {
+      title: "Trust signal redesign",
+      shortExplanation: "Embed Google reviews, surface customer testimonials, ensure address + phone + Google Business profile are prominent.",
+      expectedBenefit: "Reviews are the strongest persuasion lever for local services — could meaningfully shift the conversion rate.",
+    },
+    localSeo: {
+      title: "Local SEO sprint",
+      shortExplanation: "Fix title tags, add city/region landing pages, complete Google Business Profile, add LocalBusiness schema markup.",
+      expectedBenefit: "Local SEO is the single biggest lever for visibility on '[service] in [city]' searches.",
+    },
+    booking: {
+      title: "Booking flow implementation",
+      shortExplanation: "Add an online booking widget, auto-acknowledgement emails, and a quote request form.",
+      expectedBenefit: "Captures bookings outside business hours and reduces back-and-forth admin.",
+    },
+    copy: {
+      title: "Hero + copy refresh",
+      shortExplanation: "Rewrite the hero so service + audience + value are clear within 5 seconds.",
+      expectedBenefit: "Visitors who currently leave without understanding the offer will engage instead.",
+    },
+    design: {
+      title: "Homepage redesign",
+      shortExplanation: "Refresh visual design — modern typography, spacing, colour palette, and layout.",
+      expectedBenefit: "Stronger first impression. Builds trust before visitors read a single word.",
+    },
+    analytics: {
+      title: "Analytics setup",
+      shortExplanation: "Install GA4 + Search Console + key event tracking on CTAs.",
+      expectedBenefit: "Without analytics, every marketing decision is guesswork. This is the foundation everything else builds on.",
+    },
+  },
+  fullProposalLabels: {
+    title: (name) => `Website improvement proposal — ${name}`,
+    executiveSummary: "Executive summary",
+    priorityIssues: "Priority issues",
+    recommendedUpgrades: "Recommended upgrades",
+    why: "Why it matters",
+    impact: "Potential impact",
+    fix: "How to improve",
+    benefit: "Expected benefit",
+    work: "Estimated work",
+    fitsIn: (name, price) => `fits within "${name}" (${price})`,
+    footer: "Based on visible website signals only. Generated by Brickwise.",
+    priorityHigh: "Priority 1",
+    priorityMid: "Priority 2",
+    priorityLow: "Priority 3",
+    difficultyLabels: { easy: "easy", medium: "medium", hard: "hard" },
+  },
+};
+
+const STRINGS_NL: LocaleStrings = {
+  ratingPhrase: (score) => {
+    if (score >= 80) return "in goede staat";
+    if (score >= 60) return "redelijk maar met duidelijke ruimte voor verbetering";
+    if (score >= 40) return "op meerdere zichtbare punten onder de maat";
+    return "duidelijke ruimte voor verbetering";
+  },
+  dimensionPhrase: (label, score) => {
+    if (score >= 70) return `${label} is in orde`;
+    if (score >= 40) return `${label} heeft ruimte voor verbetering`;
+    return `${label} is een duidelijke kans`;
+  },
+  dimensionLabels: {
+    mobile: "mobiele bruikbaarheid",
+    conversion: "conversieflow",
+    localSeo: "lokale zichtbaarheid",
+    speed: "laadsnelheid",
+    trust: "vertrouwenssignalen",
+    copy: "tekstduidelijkheid",
+  },
+  executiveSummary: (lead, audit) => {
+    const overall = audit.scores.overall;
+    const phrase = STRINGS_NL.ratingPhrase(overall);
+    const dims: [string, number][] = [
+      [STRINGS_NL.dimensionLabels.mobile, audit.scores.mobile],
+      [STRINGS_NL.dimensionLabels.conversion, audit.scores.conversion],
+      [STRINGS_NL.dimensionLabels.localSeo, audit.scores.localSeo],
+      [STRINGS_NL.dimensionLabels.speed, audit.scores.speed],
+      [STRINGS_NL.dimensionLabels.trust, audit.scores.trust],
+      [STRINGS_NL.dimensionLabels.copy, audit.scores.copyClarity],
+    ];
+    const weakest = dims.sort((a, b) => a[1] - b[1]).slice(0, 2);
+    const callOut = weakest.map(([label]) => label).join(" en ");
+    return [
+      `Na een korte review van de website van ${lead.businessName} lijkt de site ${phrase} (totaalscore ${overall}/100, op basis van zichtbare signalen op de website).`,
+      ``,
+      `De grootste kansen liggen rond ${callOut}. ` +
+        `${STRINGS_NL.dimensionPhrase("Mobiele ervaring", audit.scores.mobile)}, ` +
+        `${STRINGS_NL.dimensionPhrase("conversieflow", audit.scores.conversion)} en ` +
+        `${STRINGS_NL.dimensionPhrase("lokale SEO", audit.scores.localSeo)}.`,
+      ``,
+      `Deze observaties zijn gebaseerd op zichtbare signalen op de website — geen interne analytics of privégegevens. Bij elk punt hieronder staat een korte uitleg waarom het ertoe doet en een mogelijke verbetering.`,
+    ].join("\n");
+  },
+  subjectVariants: (lead) => [
+    `Korte notitie over de website van ${lead.businessName}`,
+    `${lead.businessName} — een paar observaties die het delen waard zijn`,
+    `Een paar dingen op de website van ${lead.businessName} die opvielen`,
+  ],
+  outreachBody: (lead, audit, topUpgradeTitle) => {
+    const obs1 = audit.topPriority[0];
+    const obs2 = audit.topPriority[1];
+    const observation1 = obs1
+      ? obs1.clientFriendlyExplanation
+      : "Er lijken een paar punten te zijn waar de site harder voor je kan werken.";
+    const observation2 = obs2
+      ? obs2.clientFriendlyExplanation
+      : "Beide lijken haalbare verbeteringen zonder dat de site herbouwd hoeft te worden.";
+    return [
+      `Hi,`,
+      ``,
+      `Ik nam een korte kijk op de website van ${lead.businessName} en wilde een paar observaties delen.`,
+      ``,
+      `Twee concrete punten, op basis van zichtbare signalen op de website:`,
+      ``,
+      `1. ${observation1}`,
+      ``,
+      `2. ${observation2}`,
+      ``,
+      `Beide lijken oplosbaar. Het meest impactvolle startpunt voor de site lijkt op dit moment ${topUpgradeTitle.toLowerCase()} te zijn.`,
+      ``,
+      `Zou het nuttig zijn als ik een korte gratis audit toestuur met het volledige beeld en een paar concrete suggesties? Geen verplichting — alleen observaties die je kunt gebruiken.`,
+      ``,
+      `Met vriendelijke groet,`,
+      `[Jouw naam]`,
+      ``,
+      STRINGS_NL.optOut,
+    ].join("\n");
+  },
+  followUpBody: (lead) => [
+    `Hi,`,
+    ``,
+    `Een korte vervolg op het bericht van eerder over de website van ${lead.businessName}.`,
+    ``,
+    `Mocht een korte gratis audit nuttig zijn, dan stuur ik die graag op. Zo niet, dan laat ik je verder met rust.`,
+    ``,
+    `Met vriendelijke groet,`,
+    `[Jouw naam]`,
+    ``,
+    STRINGS_NL.optOut,
+  ].join("\n"),
+  optOut: `Mocht dit niet relevant zijn, geen probleem — laat het me weten en ik neem geen verder contact op.`,
+  upgradeCopy: {
+    mobile: {
+      title: "Mobiele optimalisatie",
+      shortExplanation: "Herbouw de responsive layout, verbeter tap-targets en vereenvoudig de mobiele navigatie.",
+      expectedBenefit: "De meeste lokale zoekopdrachten gebeuren op telefoons — mobiel oplossen kan aanvragen merkbaar verhogen.",
+    },
+    conversion: {
+      title: "CTA- en conversieverbetering",
+      shortExplanation: "Voeg een duidelijke primaire CTA boven de vouw toe, vereenvoudig het contactpad en plaats een sticky mobiele CTA.",
+      expectedBenefit: "Bezoekers die nu afhaken krijgen een duidelijke vervolgstap — de UX-aanpassing met de hoogste hefboom.",
+    },
+    speed: {
+      title: "Snelheidsoptimalisatie",
+      shortExplanation: "Comprimeer afbeeldingen (WebP/AVIF), stel niet-kritieke scripts uit, schakel caching in, kies indien nodig snellere hosting.",
+      expectedBenefit: "Snelheid beïnvloedt zowel bouncepercentage als de Google-positie. Elke seconde telt.",
+    },
+    trust: {
+      title: "Vertrouwen en bewijs versterken",
+      shortExplanation: "Embed Google-reviews, plaats klantbeoordelingen, zorg dat adres + telefoon + Bedrijfsprofiel zichtbaar zijn.",
+      expectedBenefit: "Reviews zijn de sterkste overtuigingshefboom voor lokale dienstverleners — kan de conversie merkbaar verhogen.",
+    },
+    localSeo: {
+      title: "Lokale SEO-verbetering",
+      shortExplanation: "Verbeter title-tags, voeg stad-/regio-pagina's toe, optimaliseer het Bedrijfsprofiel en voeg LocalBusiness-schema toe.",
+      expectedBenefit: "Lokale SEO is de grootste hefboom voor zichtbaarheid op '[dienst] in [stad]'-zoekopdrachten.",
+    },
+    booking: {
+      title: "Boekings- en aanvraagflow",
+      shortExplanation: "Voeg een online boekingswidget toe, automatische bevestigingsmails en een offerteformulier.",
+      expectedBenefit: "Vangt boekingen na sluitingstijd op en verlaagt heen-en-weer-administratie.",
+    },
+    copy: {
+      title: "Hero en copy vernieuwen",
+      shortExplanation: "Herschrijf de hero zodat dienst + doelgroep + waarde binnen 5 seconden duidelijk zijn.",
+      expectedBenefit: "Bezoekers die nu vertrekken zonder het aanbod te begrijpen, blijven nu betrokken.",
+    },
+    design: {
+      title: "Homepage herontwerp",
+      shortExplanation: "Ververs het visuele ontwerp — moderne typografie, ruimte, kleurpalet en layout.",
+      expectedBenefit: "Sterkere eerste indruk. Bouwt vertrouwen op nog vóór bezoekers iets gelezen hebben.",
+    },
+    analytics: {
+      title: "Analytics opzetten",
+      shortExplanation: "Installeer GA4 + Search Console + event-tracking op CTA's.",
+      expectedBenefit: "Zonder analytics is elke marketingbeslissing een gok. Dit is het fundament waarop alles bouwt.",
+    },
+  },
+  fullProposalLabels: {
+    title: (name) => `Voorstel websiteverbetering — ${name}`,
+    executiveSummary: "Samenvatting",
+    priorityIssues: "Belangrijkste aandachtspunten",
+    recommendedUpgrades: "Aanbevolen verbeteringen",
+    why: "Waarom dit ertoe doet",
+    impact: "Mogelijke impact",
+    fix: "Hoe dit te verbeteren",
+    benefit: "Verwacht resultaat",
+    work: "Geschatte tijd",
+    fitsIn: (name, price) => `past binnen "${name}" (${price})`,
+    footer: "Op basis van zichtbare signalen op de website. Gegenereerd door Brickwise.",
+    priorityHigh: "Prioriteit 1",
+    priorityMid: "Prioriteit 2",
+    priorityLow: "Prioriteit 3",
+    difficultyLabels: { easy: "eenvoudig", medium: "gemiddeld", hard: "complex" },
+  },
+};
+
+const STRINGS_BY_LOCALE: Record<Locale, LocaleStrings> = {
+  en: STRINGS_EN,
+  nl: STRINGS_NL,
+};
+
+// ── Builders ──────────────────────────────────────────────────────────────
+
+function severityRank(s: IssueSeverity): number {
+  return s === "critical" ? 4 : s === "high" ? 3 : s === "medium" ? 2 : 1;
 }
 
-// ── Combined plain-text export ───────────────────────────────────────────
+function buildPriorityProblems(issues: AuditIssue[]): PriorityProblem[] {
+  return issues.slice(0, 5).map((issue) => ({
+    title: issue.title,
+    severity: issue.severity,
+    whyItMatters: issue.whyItMatters,
+    potentialImpact: issue.likelyImpact,
+    howToImprove: issue.suggestedFix,
+  }));
+}
 
-function buildFullProposalText(pkg: ProposalPackage): string {
+const UPGRADE_PRIORITY: Record<UpgradeKey, 1 | 2 | 3> = {
+  mobile: 1,
+  conversion: 1,
+  localSeo: 1,
+  speed: 2,
+  trust: 2,
+  booking: 2,
+  analytics: 2,
+  copy: 3,
+  design: 3,
+};
+
+const UPGRADE_DIFFICULTY: Record<UpgradeKey, "easy" | "medium" | "hard"> = {
+  mobile: "medium",
+  conversion: "easy",
+  speed: "easy",
+  trust: "easy",
+  localSeo: "medium",
+  booking: "medium",
+  copy: "medium",
+  design: "hard",
+  analytics: "easy",
+};
+
+const UPGRADE_HOURS: Record<UpgradeKey, { min: number; max: number }> = {
+  mobile: { min: 6, max: 16 },
+  conversion: { min: 4, max: 10 },
+  speed: { min: 3, max: 8 },
+  trust: { min: 3, max: 8 },
+  localSeo: { min: 8, max: 20 },
+  booking: { min: 4, max: 12 },
+  copy: { min: 4, max: 10 },
+  design: { min: 16, max: 40 },
+  analytics: { min: 1, max: 3 },
+};
+
+const UPGRADE_OFFER: Record<UpgradeKey, string> = {
+  mobile: "growth",
+  conversion: "growth",
+  speed: "local_seo",
+  trust: "growth",
+  localSeo: "local_seo",
+  booking: "automation",
+  copy: "growth",
+  design: "growth",
+  analytics: "local_seo",
+};
+
+function selectUpgradeKeys(audit: RichAuditData): UpgradeKey[] {
+  const out: UpgradeKey[] = [];
+  if (audit.scores.mobile < 70) out.push("mobile");
+  if (audit.scores.conversion < 70) out.push("conversion");
+  if (audit.scores.localSeo < 70) out.push("localSeo");
+  if (audit.scores.trust < 70) out.push("trust");
+  if (audit.scores.bookingFriction < 70) out.push("booking");
+  if (audit.scores.speed < 70) out.push("speed");
+  if (audit.scores.copyClarity < 70) out.push("copy");
+  if (audit.scores.designQuality < 70) out.push("design");
+  if (out.length < 3 && audit.issues.some((i) => i.key === "hasAnalytics")) out.push("analytics");
+  // Stable priority order, then top 5
+  out.sort((a, b) => UPGRADE_PRIORITY[a] - UPGRADE_PRIORITY[b]);
+  return out.slice(0, 5);
+}
+
+function buildRecommendedUpgrades(
+  audit: RichAuditData,
+  strings: LocaleStrings,
+): RecommendedUpgrade[] {
+  return selectUpgradeKeys(audit).map((key): RecommendedUpgrade => {
+    const offerId = UPGRADE_OFFER[key];
+    const offer = getOffer(offerId);
+    const copy = strings.upgradeCopy[key];
+    return {
+      title: copy.title,
+      shortExplanation: copy.shortExplanation,
+      expectedBenefit: copy.expectedBenefit,
+      difficulty: UPGRADE_DIFFICULTY[key],
+      priority: UPGRADE_PRIORITY[key],
+      estimatedHours: UPGRADE_HOURS[key],
+      relatedOfferId: offerId,
+      relatedOfferName: offer?.name,
+      relatedOfferPrice: offer?.price,
+    };
+  });
+}
+
+function buildSubject(lead: Lead, strings: LocaleStrings): string {
+  const variants = strings.subjectVariants(lead);
+  const hash = lead.id.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
+  return variants[hash % variants.length];
+}
+
+function buildFullProposalText(pkg: ProposalPackage, strings: LocaleStrings): string {
+  const L = strings.fullProposalLabels;
   const lines: string[] = [];
-  lines.push(`# Website improvement proposal — ${pkg.lead.businessName}`);
+  lines.push(`# ${L.title(pkg.lead.businessName)}`);
   lines.push(`${pkg.lead.category} · ${pkg.lead.city}`);
   lines.push("");
-  lines.push("## Executive summary");
+  lines.push(`## ${L.executiveSummary}`);
   lines.push("");
   lines.push(pkg.executiveSummary);
   lines.push("");
-  lines.push("## Priority issues");
+  lines.push(`## ${L.priorityIssues}`);
   lines.push("");
   pkg.priorityProblems.forEach((p, i) => {
     lines.push(`### ${i + 1}. ${p.title}  [${p.severity.toUpperCase()}]`);
-    lines.push(`**Why it matters:** ${p.whyItMatters}`);
-    lines.push(`**Potential impact:** ${p.potentialImpact}`);
-    lines.push(`**How to improve:** ${p.howToImprove}`);
+    lines.push(`**${L.why}:** ${p.whyItMatters}`);
+    lines.push(`**${L.impact}:** ${p.potentialImpact}`);
+    lines.push(`**${L.fix}:** ${p.howToImprove}`);
     lines.push("");
   });
-  lines.push("## Recommended upgrades");
+  lines.push(`## ${L.recommendedUpgrades}`);
   lines.push("");
   pkg.recommendedUpgrades.forEach((u) => {
-    const offer = u.relatedOfferName ? ` — fits within "${u.relatedOfferName}" (${u.relatedOfferPrice ?? ""})` : "";
-    lines.push(`### ${u.title}  [Priority ${u.priority} · ${u.difficulty}]${offer}`);
-    lines.push(`${u.shortExplanation}`);
-    lines.push(`*Expected benefit:* ${u.expectedBenefit}`);
-    lines.push(`*Estimated work:* ${u.estimatedHours.min}–${u.estimatedHours.max} hours`);
+    const offer = u.relatedOfferName && u.relatedOfferPrice
+      ? ` — ${L.fitsIn(u.relatedOfferName, u.relatedOfferPrice)}`
+      : "";
+    const prio = u.priority === 1 ? L.priorityHigh : u.priority === 2 ? L.priorityMid : L.priorityLow;
+    lines.push(`### ${u.title}  [${prio} · ${L.difficultyLabels[u.difficulty]}]${offer}`);
+    lines.push(u.shortExplanation);
+    lines.push(`*${L.benefit}:* ${u.expectedBenefit}`);
+    lines.push(`*${L.work}:* ${u.estimatedHours.min}–${u.estimatedHours.max}h`);
     lines.push("");
   });
   lines.push("---");
   lines.push("");
-  lines.push("Based on visible website signals only. Generated by Brickwise.");
+  lines.push(L.footer);
   return lines.join("\n");
 }
 
-// ── Main entrypoint ──────────────────────────────────────────────────────
+// ── Main entrypoint ───────────────────────────────────────────────────────
+
+export interface GeneratePackageOptions {
+  locale?: Locale;
+}
 
 export function generateProposalPackage(
   lead: Lead,
   audit: RichAuditData | undefined,
   _score?: LeadScore,
+  options: GeneratePackageOptions = {},
 ): ProposalPackage | null {
   if (!audit) return null;
+  const locale: Locale = options.locale ?? "en";
+  const strings = STRINGS_BY_LOCALE[locale];
 
-  const priorityProblems = buildPriorityProblems(audit);
-  const recommendedUpgrades = buildRecommendedUpgrades(audit);
-  const executiveSummary = buildExecutiveSummary(lead, audit);
+  // Localise the issue list from the lead's checklist; fall back to whatever
+  // is on the audit if the checklist isn't available (legacy rows).
+  const issues = lead.auditChecklist
+    ? buildLocalizedIssues(lead.auditChecklist, locale)
+    : audit.issues;
+  const localisedAudit: RichAuditData = {
+    ...audit,
+    issues,
+    topPriority: issues.slice(0, 3),
+  };
 
-  const subject = buildSubject(lead, audit);
-  const outreachBody = buildOutreachBody(lead, audit, recommendedUpgrades);
-  const followUpBody = buildFollowUpBody(lead);
+  const recommendedUpgrades = buildRecommendedUpgrades(localisedAudit, strings);
+  const priorityProblems = buildPriorityProblems(issues);
+  const executiveSummary = strings.executiveSummary(lead, localisedAudit);
+  const subject = buildSubject(lead, strings);
+  const topUpgradeTitle = recommendedUpgrades[0]?.title ?? strings.upgradeCopy.conversion.title;
+  const outreachBody = strings.outreachBody(lead, localisedAudit, topUpgradeTitle);
+  const followUpBody = strings.followUpBody(lead);
 
   const pkg: ProposalPackage = {
+    locale,
     generatedAt: new Date().toISOString(),
-    lead: {
-      id: lead.id,
-      businessName: lead.businessName,
-      city: lead.city,
-      category: lead.category,
-    },
+    lead: { id: lead.id, businessName: lead.businessName, city: lead.city, category: lead.category },
     executiveSummary,
     priorityProblems,
     recommendedUpgrades,
-    outreachEmail: {
-      subject,
-      body: outreachBody,
-      recipient: lead.email,
-    },
+    outreachEmail: { subject, body: outreachBody, recipient: lead.email },
     followUpEmail: {
-      subject: `Re: ${subject}`,
+      subject: locale === "nl" ? `Re: ${subject}` : `Re: ${subject}`,
       body: followUpBody,
       recipient: lead.email,
     },
     fullProposalText: "",
   };
-  pkg.fullProposalText = buildFullProposalText(pkg);
+  pkg.fullProposalText = buildFullProposalText(pkg, strings);
   return pkg;
 }
 
