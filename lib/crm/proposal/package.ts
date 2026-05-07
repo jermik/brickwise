@@ -27,6 +27,8 @@ export interface PriorityProblem {
 }
 
 export interface RecommendedUpgrade {
+  /** Stable upgrade key — use this to drive scope selection / prompt generation. */
+  key: UpgradeKey;
   title: string;
   shortExplanation: string;
   expectedBenefit: string;
@@ -90,7 +92,7 @@ interface LocaleStrings {
   };
 }
 
-type UpgradeKey =
+export type UpgradeKey =
   | "mobile"
   | "conversion"
   | "speed"
@@ -495,6 +497,7 @@ function buildRecommendedUpgrades(
     const offer = getOffer(offerId);
     const copy = strings.upgradeCopy[key];
     return {
+      key,
       title: sanitizeCopyOutput(copy.title),
       shortExplanation: sanitizeCopyOutput(copy.shortExplanation),
       expectedBenefit: sanitizeCopyOutput(copy.expectedBenefit),

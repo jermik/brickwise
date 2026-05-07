@@ -1,10 +1,24 @@
 "use client";
 
-import { useState } from "react";
-import type { ProposalPackage, OutreachEmail, Locale } from "@/lib/crm/proposal/package";
+import { useState, useMemo } from "react";
+import type {
+  ProposalPackage,
+  OutreachEmail,
+  Locale,
+  UpgradeKey,
+} from "@/lib/crm/proposal/package";
+import {
+  buildImplementationPrompt,
+  PLATFORM_OPTIONS,
+  ACCESS_OPTIONS,
+  type PlatformOption,
+  type AccessOption,
+} from "@/lib/crm/proposal/implementation-prompt";
 
 interface Props {
   packages: Record<Locale, ProposalPackage>;
+  /** Lead website — surfaced in the implementation prompt's client context. */
+  leadWebsite?: string;
 }
 
 const SEVERITY_COLOR: Record<string, string> = {
@@ -223,12 +237,48 @@ function EmailBlockControlled({
   );
 }
 
-export function ProposalPackageView({ packages }: Props) {
+export function ProposalPackageView({ packages, leadWebsite }: Props) {
   const [locale, setLocale] = useState<Locale>("en");
   const pkg = packages[locale];
 
   // Recipient state lives at this level so it persists across language toggles.
   const [recipient, setRecipient] = useState<string>(packages.en.outreachEmail.recipient ?? "");
+
+  // ── Implementation scope state ────────────────────────────────────────
+  const [scope, setScope] = useState<Set<UpgradeKey>>(new Set());
+  const [platform, setPlatform] = useState<PlatformOption>("Unknown / other");
+  const [access, setAccess] = useState<AccessOption>("Not yet shared");
+  const [prompt, setPrompt] = useState<string | null>(null);
+  const [promptVersion, setPromptVersion] = useState(0);
+
+  function toggleScope(key: UpgradeKey) {
+    setScope((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  }
+
+  function generatePrompt() {
+    const text = buildImplementationPrompt({
+      pkg,
+      selectedKeys: pkg.recommendedUpgrades
+        .map((u) => u.key)
+        .filter((k) => scope.has(k)),
+      platform,
+      access,
+      websiteUri: leadWebsite,
+    });
+    setPrompt(text);
+    setPromptVersion((v) => v + 1);
+  }
+
+  const allScope = useMemo(
+    () => pkg.recommendedUpgrades.map((u) => u.key),
+    [pkg],
+  );
+  const allChecked = allScope.length > 0 && allScope.every((k) => scope.has(k));
 
   return (
     <div className="space-y-6">
@@ -360,10 +410,161 @@ export function ProposalPackageView({ packages }: Props) {
         </div>
       </section>
 
-      {/* Section 4 — Outreach email */}
+      {/* Section 4 — Implementation scope */}
+      <section className="rounded-lg p-5 space-y-4" style={{ background: "#131109", border: "1px solid #2A2420" }}>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.5)" }}>
+            4 · Implementation scope
+          </p>
+          {pkg.recommendedUpgrades.length > 0 && (
+            <button
+              type="button"
+              onClick={() => {
+                setScope(allChecked ? new Set() : new Set(allScope));
+              }}
+              className="text-xs px-2.5 py-1 rounded"
+              style={{
+                background: "rgba(255,255,255,0.06)",
+                color: "rgba(242,237,230,0.7)",
+                border: "1px solid #2A2420",
+              }}
+            >
+              {allChecked ? "Deselect all" : `Select all (${allScope.length})`}
+            </button>
+          )}
+        </div>
+
+        <p className="text-xs" style={{ color: "rgba(242,237,230,0.55)" }}>
+          Tick the upgrades the client agreed to, pick the platform + access level, then generate one mega-prompt for Claude Code.
+        </p>
+
+        {pkg.recommendedUpgrades.length === 0 ? (
+          <p className="text-xs" style={{ color: "rgba(242,237,230,0.4)" }}>
+            No upgrades to select — every dimension is already healthy.
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            {pkg.recommendedUpgrades.map((u) => {
+              const checked = scope.has(u.key);
+              return (
+                <label
+                  key={u.key}
+                  className="flex items-start gap-2 rounded-md px-3 py-2 cursor-pointer transition-colors"
+                  style={{
+                    background: checked ? "rgba(245,158,11,0.06)" : "rgba(255,255,255,0.02)",
+                    border: `1px solid ${checked ? "rgba(245,158,11,0.3)" : "#2A2420"}`,
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={() => toggleScope(u.key)}
+                    style={{ accentColor: "#f59e0b", marginTop: 3 }}
+                  />
+                  <span className="flex-1 min-w-0">
+                    <span className="block text-sm" style={{ color: "#F2EDE6" }}>{u.title}</span>
+                    <span className="block text-[11px]" style={{ color: "rgba(242,237,230,0.5)" }}>
+                      {u.estimatedHours.min}–{u.estimatedHours.max}h · P{u.priority} · {DIFFICULTY_LABEL[u.difficulty]}
+                    </span>
+                  </span>
+                </label>
+              );
+            })}
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+          <div className="space-y-1">
+            <label className="text-xs" style={{ color: "rgba(242,237,230,0.5)" }}>CMS / platform</label>
+            <select
+              value={platform}
+              onChange={(e) => setPlatform(e.target.value as PlatformOption)}
+              style={{
+                background: "#0A0907",
+                border: "1px solid #2A2420",
+                color: "#F2EDE6",
+                borderRadius: 6,
+                padding: "8px 10px",
+                fontSize: 13,
+                outline: "none",
+                width: "100%",
+              }}
+            >
+              {PLATFORM_OPTIONS.map((p) => <option key={p} value={p}>{p}</option>)}
+            </select>
+          </div>
+          <div className="space-y-1">
+            <label className="text-xs" style={{ color: "rgba(242,237,230,0.5)" }}>Access available</label>
+            <select
+              value={access}
+              onChange={(e) => setAccess(e.target.value as AccessOption)}
+              style={{
+                background: "#0A0907",
+                border: "1px solid #2A2420",
+                color: "#F2EDE6",
+                borderRadius: 6,
+                padding: "8px 10px",
+                fontSize: 13,
+                outline: "none",
+                width: "100%",
+              }}
+            >
+              {ACCESS_OPTIONS.map((p) => <option key={p} value={p}>{p}</option>)}
+            </select>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={generatePrompt}
+            disabled={scope.size === 0}
+            className="px-4 py-2 rounded text-sm font-medium"
+            style={{
+              background: scope.size === 0 ? "rgba(245,158,11,0.25)" : "#f59e0b",
+              color: "#0A0907",
+              opacity: scope.size === 0 ? 0.6 : 1,
+            }}
+          >
+            {prompt ? "Regenerate prompt" : "Get implementation prompt"}
+          </button>
+          {prompt && (
+            <CopyButton text={prompt} label="Copy prompt" />
+          )}
+        </div>
+
+        {prompt && (
+          <div className="space-y-1.5">
+            <p className="font-mono text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>
+              Prompt v{promptVersion} · {prompt.length.toLocaleString()} chars
+            </p>
+            <textarea
+              key={promptVersion}
+              readOnly
+              value={prompt}
+              style={{
+                background: "#0A0907",
+                border: "1px solid #2A2420",
+                color: "#F2EDE6",
+                borderRadius: 8,
+                padding: 14,
+                fontSize: 12.5,
+                lineHeight: 1.55,
+                fontFamily: "var(--font-dm-mono)",
+                width: "100%",
+                minHeight: 360,
+                resize: "vertical",
+                outline: "none",
+              }}
+            />
+          </div>
+        )}
+      </section>
+
+      {/* Section 5 — Outreach email */}
       <section className="rounded-lg p-5 space-y-3" style={{ background: "#131109", border: "1px solid #2A2420" }}>
         <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.5)" }}>
-          4 · Outreach
+          5 · Outreach
         </p>
         <EmailBlockControlled
           title={locale === "nl" ? "Eerste e-mail" : "Initial email"}

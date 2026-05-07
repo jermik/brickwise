@@ -56,7 +56,7 @@ export default async function ProposalPackagePage({
         </div>
       )}
 
-      {packages && <ProposalPackageView packages={packages} />}
+      {packages && <ProposalPackageView packages={packages} leadWebsite={lead.website} />}
     </div>
   );
 }
