@@ -2,6 +2,8 @@ import { pgTable, text, integer, boolean, timestamp, jsonb, pgEnum, index } from
 import { relations } from "drizzle-orm";
 import type { AuditChecklist } from "../types";
 import type { RenderScene } from "../content/types";
+import type { RichAuditData } from "../audit/types";
+import type { LeadScore } from "../lead-scoring/types";
 
 // ── Enums ──────────────────────────────────────────────────────────────────
 
@@ -63,6 +65,13 @@ export const leads = pgTable(
     auditChecklist: jsonb("audit_checklist").$type<AuditChecklist | null>(),
     topProblems: jsonb("top_problems").$type<string[] | null>(),
     topImprovements: jsonb("top_improvements").$type<string[] | null>(),
+
+    // ── Step 4 — rich multi-dimension audit data (additive) ─────────────
+    richAudit: jsonb("rich_audit").$type<RichAuditData | null>(),
+
+    // ── Step 5 — deterministic lead-quality scoring (additive) ──────────
+    leadScore: integer("lead_score"),
+    leadScoreData: jsonb("lead_score_data").$type<LeadScore | null>(),
 
     proposalEmail: text("proposal_email"),
     proposalFollowUpEmail: text("proposal_follow_up_email"),

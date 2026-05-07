@@ -6,6 +6,8 @@ import { ScoreBar } from "@/components/crm/score-bar";
 import { ContactLogger } from "@/components/crm/contact-logger";
 import { StatusUpdater } from "@/components/crm/status-updater";
 import { LeadActions } from "@/components/crm/lead-actions";
+import { AuditReports } from "@/components/crm/audit-reports";
+import { LEAD_SCORE_CATEGORY_CONFIG } from "@/lib/crm/lead-scoring";
 
 function fmt(iso?: string | null) {
   if (!iso) return "—";
@@ -69,12 +71,24 @@ export default async function LeadDetailPage({
               </span>
             )}
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-wrap">
             <span className="text-sm" style={{ color: "rgba(242,237,230,0.55)" }}>
               {lead.category} · {lead.city}
               {lead.province ? `, ${lead.province}` : ""}
             </span>
             <StatusBadge status={lead.status} />
+            {lead.leadScoreData && (() => {
+              const cfg = LEAD_SCORE_CATEGORY_CONFIG[lead.leadScoreData.category];
+              return (
+                <span
+                  className="font-mono text-[10px] tracking-widest uppercase px-2 py-0.5 rounded"
+                  style={{ background: cfg.bg, color: cfg.color, border: `1px solid ${cfg.color}33` }}
+                  title={`Lead opportunity score: ${lead.leadScoreData.score}/100`}
+                >
+                  {cfg.label} · {lead.leadScoreData.score}
+                </span>
+              );
+            })()}
           </div>
         </div>
         <div className="flex gap-2">
@@ -178,6 +192,31 @@ export default async function LeadDetailPage({
                   {lead.auditSummary}
                 </p>
               )}
+              {lead.richAudit && (
+                <details className="rounded p-3" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid #2A2420" }}>
+                  <summary className="cursor-pointer font-mono text-[10px] tracking-widest uppercase flex justify-between" style={{ color: "rgba(242,237,230,0.5)" }}>
+                    <span>Detailed scores · {lead.richAudit.scores.overall}/100 overall</span>
+                    <span style={{ color: "#f59e0b" }}>+</span>
+                  </summary>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-3 text-xs">
+                    {([
+                      ["Conversion",  lead.richAudit.scores.conversion],
+                      ["Mobile",      lead.richAudit.scores.mobile],
+                      ["Speed",       lead.richAudit.scores.speed],
+                      ["Trust",       lead.richAudit.scores.trust],
+                      ["Local SEO",   lead.richAudit.scores.localSeo],
+                      ["Booking",     lead.richAudit.scores.bookingFriction],
+                      ["Copy",        lead.richAudit.scores.copyClarity],
+                      ["Design",      lead.richAudit.scores.designQuality],
+                    ] as [string, number][]).map(([label, score]) => (
+                      <div key={label} className="flex items-center justify-between rounded px-2 py-1.5" style={{ background: "#0A0907", border: "1px solid #2A2420" }}>
+                        <span style={{ color: "rgba(242,237,230,0.55)" }}>{label}</span>
+                        <span className="font-mono" style={{ color: score >= 70 ? "#10b981" : score >= 40 ? "#f59e0b" : "#f87171" }}>{score}</span>
+                      </div>
+                    ))}
+                  </div>
+                </details>
+              )}
               {((lead.topProblems?.length ?? 0) > 0 || (lead.topImprovements?.length ?? 0) > 0) && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 pt-2">
                   {lead.topProblems && lead.topProblems.length > 0 && (
@@ -200,6 +239,9 @@ export default async function LeadDetailPage({
               )}
             </div>
           )}
+
+          {/* Audit reports — 4 copy-ready outreach formats */}
+          <AuditReports lead={lead} />
 
           {/* Log contact */}
           {!lead.doNotContact && !lead.unsubscribed && (

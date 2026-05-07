@@ -29,6 +29,8 @@ import { parseCSV } from "./csv";
 import { searchBusinesses, dedupeKey, type DiscoveredBusiness } from "./discovery";
 import { quickCheckWebsite, checkToPartialChecklist } from "./website-analyzer";
 import { generateContent } from "./content/generator";
+import { computeRichAudit } from "./audit";
+import { computeLeadScore } from "./lead-scoring";
 import {
   createContentIdea,
   updateContentStatus,
@@ -128,12 +130,21 @@ export async function saveAuditAction(
   const nextStatus: LeadStatus | undefined =
     lead.status === "new" || lead.status === "researched" ? "audit_ready" : undefined;
 
+  // Step 4 — rich multi-dimension audit data
+  const richAudit = computeRichAudit(checklist);
+  // Step 5 — deterministic lead-quality score (depends on the rich audit)
+  const updatedLead = { ...lead, auditChecklist: checklist, richAudit };
+  const leadScoreData = computeLeadScore(updatedLead, richAudit);
+
   await updateLead(id, {
     ...scores,
     auditSummary: summary,
     auditChecklist: checklist,
     topProblems,
     topImprovements,
+    richAudit,
+    leadScore: leadScoreData.score,
+    leadScoreData,
     proposalOffer: lead.proposalOffer ?? suggestedOffer, // pre-fill if not manually set
     ...(nextStatus ? { status: nextStatus } : {}),
   });

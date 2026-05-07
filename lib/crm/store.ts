@@ -74,6 +74,9 @@ function rowToLead(
     auditChecklist: row.auditChecklist ?? undefined,
     topProblems: row.topProblems ?? undefined,
     topImprovements: row.topImprovements ?? undefined,
+    richAudit: row.richAudit ?? undefined,
+    leadScore: row.leadScore ?? undefined,
+    leadScoreData: row.leadScoreData ?? undefined,
     proposalEmail: row.proposalEmail ?? undefined,
     proposalFollowUpEmail: row.proposalFollowUpEmail ?? undefined,
     proposalLinkedIn: row.proposalLinkedIn ?? undefined,
@@ -200,6 +203,9 @@ export async function updateLead(
   if (patch.auditChecklist !== undefined) setValues.auditChecklist = patch.auditChecklist;
   if (patch.topProblems !== undefined) setValues.topProblems = patch.topProblems;
   if (patch.topImprovements !== undefined) setValues.topImprovements = patch.topImprovements;
+  if (patch.richAudit !== undefined) setValues.richAudit = patch.richAudit;
+  if (patch.leadScore !== undefined) setValues.leadScore = patch.leadScore;
+  if (patch.leadScoreData !== undefined) setValues.leadScoreData = patch.leadScoreData;
   if (patch.lastContactedAt !== undefined) {
     setValues.lastContactedAt = isoToDate(patch.lastContactedAt);
   }

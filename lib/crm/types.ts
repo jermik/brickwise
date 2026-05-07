@@ -106,6 +106,12 @@ export interface Lead {
   auditChecklist?: AuditChecklist;
   topProblems?: string[];
   topImprovements?: string[];
+  /** Step 4 — multi-dimension audit + structured issues. */
+  richAudit?: import("./audit/types").RichAuditData;
+  /** Step 5 — deterministic lead-quality score (0–100). */
+  leadScore?: number;
+  /** Step 5 — full breakdown / outreach metadata. */
+  leadScoreData?: import("./lead-scoring/types").LeadScore;
 
   proposalEmail?: string;
   proposalFollowUpEmail?: string;
