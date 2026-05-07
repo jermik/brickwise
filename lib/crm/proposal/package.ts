@@ -12,6 +12,7 @@ import type { LeadScore } from "../lead-scoring/types";
 import { buildLocalizedIssues, type Locale } from "../audit";
 import { OFFER_TEMPLATES, getOffer } from "../types";
 import { sanitizeCopyOutput } from "../copy/sanitize";
+import { signoffLines } from "../sender";
 
 export type { Locale };
 
@@ -167,8 +168,7 @@ const STRINGS_EN: LocaleStrings = {
       ``,
       `Would it be useful if I sent over a short free audit with the full picture and a couple of specific suggestions? No obligation, just findings you can use.`,
       ``,
-      `Best,`,
-      `[Your Name]`,
+      ...signoffLines("en"),
       ``,
       STRINGS_EN.optOut,
     ].join("\n");
@@ -180,8 +180,7 @@ const STRINGS_EN: LocaleStrings = {
     ``,
     `If a short free audit would be useful, I'm happy to share it. If not, no worries, I'll leave it there.`,
     ``,
-    `Best,`,
-    `[Your Name]`,
+    ...signoffLines("en"),
     ``,
     STRINGS_EN.optOut,
   ].join("\n"),
@@ -319,8 +318,7 @@ const STRINGS_NL: LocaleStrings = {
       ``,
       `Zou het nuttig zijn als ik een korte gratis audit toestuur met het volledige beeld en een paar concrete suggesties? Geen verplichting, alleen observaties die je kunt gebruiken.`,
       ``,
-      `Met vriendelijke groet,`,
-      `[Jouw naam]`,
+      ...signoffLines("nl"),
       ``,
       STRINGS_NL.optOut,
     ].join("\n");
@@ -332,8 +330,7 @@ const STRINGS_NL: LocaleStrings = {
     ``,
     `Mocht een korte gratis audit nuttig zijn, dan stuur ik die graag op. Zo niet, geen probleem, dan laat ik het hierbij.`,
     ``,
-    `Met vriendelijke groet,`,
-    `[Jouw naam]`,
+    ...signoffLines("nl"),
     ``,
     STRINGS_NL.optOut,
   ].join("\n"),

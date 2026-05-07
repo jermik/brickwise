@@ -6,6 +6,7 @@ import type { Lead } from "../types";
 import type { RichAuditData } from "./types";
 import type { LeadScore } from "../lead-scoring/types";
 import { sanitizeCopyOutput } from "../copy/sanitize";
+import { signoffLines } from "../sender";
 
 export type ReportFormat = "dm" | "email" | "full" | "content_idea";
 
@@ -57,9 +58,7 @@ export function generateEmailReport(
     "",
     `Would that be useful? No obligation, and you can decide where to take it from there.`,
     "",
-    `Best,`,
-    `[Your Name]`,
-    `[Your Agency]`,
+    ...signoffLines("en"),
     "",
     OPT_OUT_LINE,
   ].join("\n");

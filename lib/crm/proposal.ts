@@ -7,6 +7,7 @@ import {
   computeAllScores,
 } from "./scoring";
 import { sanitizeCopyOutput } from "./copy/sanitize";
+import { buildSignoff, DEFAULT_SENDER } from "./sender";
 
 export interface ProposalOutput {
   emailDraft: string;
@@ -69,9 +70,7 @@ I was looking at ${cat} businesses in ${city} and came across ${name}. I noticed
 
 I put together a short free audit with a couple of concrete suggestions. Would you like me to send it over? No obligation, happy to share what I found and let you decide if it is worth a conversation.
 
-[Your Name]
-[Your Agency]
-[Email · Phone]
+${buildSignoff("en")}
 
 ${OPT_OUT_LINE}`;
 
@@ -87,7 +86,7 @@ The free audit I mentioned still stands, it's a couple of paragraphs covering th
 
 Happy to share, or close the loop if not relevant.
 
-[Your Name]
+${buildSignoff("en")}
 
 ${OPT_OUT_LINE}`;
 
@@ -98,7 +97,7 @@ ${OPT_OUT_LINE}`;
   // ── Phone call script ─────────────────────────────────────────────────────
 
   const callScript = `Opening:
-"Hi, could I speak with the owner or manager? Thanks. Hi, my name is [Your Name], I work with local businesses in ${city} on their websites and online visibility. I was looking at your site earlier and spotted a couple of things that might be holding you back from getting more enquiries through Google. Do you have 90 seconds?"
+"Hi, could I speak with the owner or manager? Thanks. Hi, my name is ${DEFAULT_SENDER.name}, I work with local businesses in ${city} on their websites and online visibility. I was looking at your site earlier and spotted a couple of things that might be holding you back from getting more enquiries through Google. Do you have 90 seconds?"
 
 If yes:
 "I noticed ${issue1}, and ${issue2}. Both look fixable and could help with local visibility. I've put together a short free audit, no charge, no obligation. Could I email it over?"
