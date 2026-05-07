@@ -1,4 +1,16 @@
-import type { ContentAngle } from "./types";
+import type {
+  AnimationType,
+  CameraDirection,
+  ContentAngle,
+  CtaType,
+  EntryAnimation,
+  ExitAnimation,
+  OverlayPosition,
+  SceneTransition,
+  SoundEffect,
+  SubtitleStyle,
+  VisualType,
+} from "./types";
 
 // Template definitions for the GrowthOS content engine. Each template is
 // pure data — the generator substitutes {placeholders} at render time.
@@ -22,10 +34,45 @@ import type { ContentAngle } from "./types";
 //   {n}               "20" (default)
 
 export interface RawScene {
+  // Narrative core (always required)
   durationSeconds: number;
   onscreen: string;
   voiceover: string;
   bRoll: string;
+
+  // ── Optional render hints (passed through to RenderScene at generation
+  // time). Strings marked SUBST are run through {placeholder} substitution.
+
+  visualType?: VisualType;
+  visualEntry?: EntryAnimation;
+  visualExit?: ExitAnimation;
+
+  overlayText?: string;                // SUBST
+  overlayPosition?: OverlayPosition;
+  overlayEntry?: EntryAnimation;
+  overlayExit?: ExitAnimation;
+  overlayStartMs?: number;
+  overlayDurationMs?: number;
+
+  transitionType?: SceneTransition;
+  transitionDurationMs?: number;
+
+  stockFootageQuery?: string;          // SUBST
+  productRoutePath?: string;           // hint for what to screen-record
+  screenshotUrl?: string;
+
+  ctaType?: CtaType;
+  ctaTargetUrl?: string;
+
+  subtitleStyle?: SubtitleStyle;
+
+  // Scene-level motion + emphasis (Remotion-aware)
+  cameraDirection?: CameraDirection;
+  animationType?: AnimationType;
+  emphasisWords?: string[];           // each entry SUBST'd individually
+  soundEffect?: SoundEffect;
+  soundEffectAtMs?: number;
+  pauseAfter?: number;                // seconds (fractional OK)
 }
 
 export interface ContentTemplate {
@@ -61,10 +108,19 @@ const TEMPLATE_A: ContentTemplate = {
   scenes: [
     {
       durationSeconds: 3,
-      onscreen: "{n} {niche_upper}S · {city_upper} · 2 MIN",
+      onscreen: "{n} {niche_upper} · {city_upper} · 2 MIN",
       voiceover:
         "I just found {n} {niche_plural} in {city} whose websites could be losing them clients — and it took 2 minutes.",
       bRoll: "Screen recording: GrowthOS Discovery filter form opens",
+      // Render hints
+      visualType: "screen_recording",
+      productRoutePath: "/crm/discovery",
+      overlayText: "{n} {niche_upper}\n{city_upper}\n2 MIN",
+      overlayPosition: "center",
+      overlayEntry: "spring_pop",
+      overlayExit: "fade_out",
+      visualEntry: "fade_in",
+      subtitleStyle: "burned_in",
     },
     {
       durationSeconds: 9,
@@ -72,6 +128,13 @@ const TEMPLATE_A: ContentTemplate = {
       voiceover:
         "I picked the country, the city {city}, and the niche {niche_lower}.",
       bRoll: "Discovery filter being filled in: Country dropdown, city field, niche dropdown",
+      visualType: "product_demo",
+      productRoutePath: "/crm/discovery",
+      overlayText: "1. Pick country + city + niche",
+      overlayPosition: "top",
+      overlayEntry: "slide_down",
+      transitionType: "fade",
+      transitionDurationMs: 250,
     },
     {
       durationSeconds: 12,
@@ -79,6 +142,13 @@ const TEMPLATE_A: ContentTemplate = {
       voiceover:
         "GrowthOS pulled real local businesses from public OpenStreetMap data — names, websites, phone numbers, addresses. No scraping.",
       bRoll: "Results table populating with rows; cursor scrolling through",
+      visualType: "product_demo",
+      productRoutePath: "/crm/discovery",
+      overlayText: "2. OpenStreetMap finds local businesses",
+      overlayPosition: "top",
+      overlayEntry: "slide_down",
+      transitionType: "slide_left",
+      transitionDurationMs: 300,
     },
     {
       durationSeconds: 14,
@@ -86,6 +156,13 @@ const TEMPLATE_A: ContentTemplate = {
       voiceover:
         "I selected the ones with weak websites and imported them. GrowthOS auto-analysed each homepage — title tags, meta description, mobile, contact form — and gave each a score.",
       bRoll: "Imported leads list with score rings filling in",
+      visualType: "product_demo",
+      productRoutePath: "/crm/leads",
+      overlayText: "3. Auto-audit each site",
+      overlayPosition: "top",
+      overlayEntry: "slide_down",
+      transitionType: "slide_left",
+      transitionDurationMs: 300,
     },
     {
       durationSeconds: 17,
@@ -93,6 +170,13 @@ const TEMPLATE_A: ContentTemplate = {
       voiceover:
         "Now I have {n} {niche_plural} with audit scores, top problems, and a recommended offer for each. Based on visible website signals, these are real opportunities.",
       bRoll: "Lead detail page showing top-3 problems and suggested offer",
+      visualType: "product_demo",
+      productRoutePath: "/crm/leads",
+      overlayText: "4. See exactly who needs help",
+      overlayPosition: "top",
+      overlayEntry: "slide_down",
+      transitionType: "fade",
+      transitionDurationMs: 250,
     },
     {
       durationSeconds: 5,
@@ -100,6 +184,15 @@ const TEMPLATE_A: ContentTemplate = {
       voiceover:
         "If you sell websites or local SEO, try GrowthOS. Link in bio.",
       bRoll: "GrowthOS landing page hero",
+      visualType: "screen_recording",
+      productRoutePath: "/growthos",
+      overlayText: "Try GrowthOS",
+      overlayPosition: "center",
+      overlayEntry: "scale_in",
+      transitionType: "fade",
+      transitionDurationMs: 350,
+      ctaType: "link_in_bio",
+      ctaTargetUrl: "https://crm.brickwise.pro",
     },
   ],
   cta: "Link in bio. Try GrowthOS for your city.",

@@ -1,7 +1,7 @@
 import { pgTable, text, integer, boolean, timestamp, jsonb, pgEnum, index } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import type { AuditChecklist } from "../types";
-import type { ScriptScene } from "../content/types";
+import type { RenderScene } from "../content/types";
 
 // ── Enums ──────────────────────────────────────────────────────────────────
 
@@ -180,7 +180,7 @@ export const contentIdeas = pgTable(
     city: text("city").notNull(),
     angle: text("angle").notNull(),
     hook: text("hook").notNull(),
-    scriptScenes: jsonb("script_scenes").$type<ScriptScene[]>().notNull(),
+    scriptScenes: jsonb("script_scenes").$type<RenderScene[]>().notNull(),
     voiceover: text("voiceover"),
     subtitlesSrt: text("subtitles_srt"),
     captionsPlain: text("captions_plain"),

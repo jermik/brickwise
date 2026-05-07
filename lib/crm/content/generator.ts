@@ -4,7 +4,7 @@ import {
   type ContentPackage,
   type ContentPlatform,
   type GenerateContentInput,
-  type ScriptScene,
+  type RenderScene,
 } from "./types";
 import { CONTENT_TEMPLATES, type ContentTemplate, type RawScene } from "./templates";
 
@@ -56,7 +56,7 @@ function splitForSubtitles(voiceover: string, maxWords = 12): string[] {
   return cues;
 }
 
-function buildSrt(scenes: ScriptScene[]): string {
+function buildSrt(scenes: RenderScene[]): string {
   const cues: string[] = [];
   let cueIndex = 1;
   for (const scene of scenes) {
@@ -75,7 +75,7 @@ function buildSrt(scenes: ScriptScene[]): string {
   return cues.join("\n");
 }
 
-function buildPlainCaptions(scenes: ScriptScene[]): string {
+function buildPlainCaptions(scenes: RenderScene[]): string {
   return scenes.map((s) => s.voiceover).join("\n\n");
 }
 
@@ -113,18 +113,69 @@ function recommendedDurationSeconds(platform: ContentPlatform): number {
 
 // ── Scene timing ──────────────────────────────────────────────────────────
 
-function buildScenes(rawScenes: RawScene[], vars: Record<string, string>): ScriptScene[] {
+function maybeSubstitute(s: string | undefined, vars: Record<string, string>): string | undefined {
+  return s == null ? undefined : substitute(s, vars);
+}
+
+function maybeSubstituteList(
+  list: string[] | undefined,
+  vars: Record<string, string>,
+): string[] | undefined {
+  return list?.map((s) => substitute(s, vars));
+}
+
+function buildScenes(rawScenes: RawScene[], vars: Record<string, string>): RenderScene[] {
   let cursor = 0;
-  return rawScenes.map((raw, i) => {
+  return rawScenes.map((raw, i): RenderScene => {
+    const order = i + 1;
+    const id = `scene_${String(order).padStart(3, "0")}`;
     const start = cursor;
     cursor += raw.durationSeconds;
     return {
-      scene: i + 1,
+      // Identity + legacy / required fields
+      id,
+      order,
+      scene: order,
       startSeconds: start,
       endSeconds: cursor,
+      durationSeconds: raw.durationSeconds,
       onscreenText: substitute(raw.onscreen, vars),
       voiceover: substitute(raw.voiceover, vars),
       bRoll: substitute(raw.bRoll, vars),
+
+      // Render passthrough — only set when the template provides a hint.
+      visualType: raw.visualType,
+      visualEntry: raw.visualEntry,
+      visualExit: raw.visualExit,
+
+      overlayText: maybeSubstitute(raw.overlayText, vars),
+      overlayPosition: raw.overlayPosition,
+      overlayEntry: raw.overlayEntry,
+      overlayExit: raw.overlayExit,
+      overlayStartMs: raw.overlayStartMs,
+      overlayDurationMs: raw.overlayDurationMs,
+
+      // Default to "cut" between scenes (except before the first scene where
+      // there is nothing to transition from).
+      transitionType: raw.transitionType ?? (i === 0 ? undefined : "cut"),
+      transitionDurationMs: raw.transitionDurationMs,
+
+      stockFootageQuery: maybeSubstitute(raw.stockFootageQuery, vars),
+      productRoutePath: raw.productRoutePath,
+      screenshotUrl: raw.screenshotUrl,
+
+      ctaType: raw.ctaType,
+      ctaTargetUrl: raw.ctaTargetUrl,
+
+      subtitleStyle: raw.subtitleStyle,
+
+      // Scene-level motion + emphasis
+      cameraDirection: raw.cameraDirection,
+      animationType: raw.animationType,
+      emphasisWords: maybeSubstituteList(raw.emphasisWords, vars),
+      soundEffect: raw.soundEffect,
+      soundEffectAtMs: raw.soundEffectAtMs,
+      pauseAfter: raw.pauseAfter,
     };
   });
 }

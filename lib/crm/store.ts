@@ -18,6 +18,7 @@ import type {
   ContactType,
 } from "./types";
 import type { ContentIdea, ContentPackage, ContentPlatform, ContentStatus } from "./content/types";
+import { coerceRenderScene } from "./content/types";
 
 // ── Mappers (DB row → public type) ─────────────────────────────────────────
 
@@ -314,7 +315,10 @@ function rowToContentIdea(row: ContentIdeaRow): ContentIdea {
     city: row.city,
     angle: row.angle,
     hook: row.hook,
-    scriptScenes: row.scriptScenes,
+    // Coerce on read so legacy rows (pre-render-schema) become valid
+    // RenderScene[] without a DB migration. New rows pass through unchanged
+    // because their fields are already populated.
+    scriptScenes: row.scriptScenes.map((s, i) => coerceRenderScene(s, i + 1)),
     voiceover: row.voiceover ?? "",
     subtitlesSrt: row.subtitlesSrt ?? "",
     captionsPlain: row.captionsPlain ?? "",
