@@ -212,3 +212,31 @@ export const contentIdeas = pgTable(
 
 export type ContentIdeaRow = typeof contentIdeas.$inferSelect;
 export type ContentIdeaInsert = typeof contentIdeas.$inferInsert;
+
+// ── outreach_sends (single-send manual outreach audit trail) ──────────────
+
+export const outreachSends = pgTable(
+  "outreach_sends",
+  {
+    id: text("id").primaryKey(),
+    leadId: text("lead_id").notNull(),
+    recipient: text("recipient").notNull(),
+    subject: text("subject").notNull(),
+    body: text("body").notNull(),
+    /** "en" | "nl" — kept as text since the column is intentionally loose. */
+    locale: text("locale").notNull(),
+    sentAt: timestamp("sent_at", { withTimezone: true }).notNull().defaultNow(),
+    /** "sent" | "failed" — text rather than enum so locale/status can extend. */
+    status: text("status").notNull().default("sent"),
+    messageId: text("message_id"),
+    errorMessage: text("error_message"),
+    sentByUserId: text("sent_by_user_id"),
+  },
+  (t) => ({
+    leadIdx: index("outreach_sends_lead_idx").on(t.leadId),
+    sentAtIdx: index("outreach_sends_sent_at_idx").on(t.sentAt),
+  }),
+);
+
+export type OutreachSendRow = typeof outreachSends.$inferSelect;
+export type OutreachSendInsert = typeof outreachSends.$inferInsert;

@@ -44,18 +44,67 @@ function CopyButton({ text, label = "Copy", small = false }: { text: string; lab
   );
 }
 
+type SendStatus =
+  | { kind: "idle" }
+  | { kind: "sending" }
+  | { kind: "ok"; sentAt: string; from?: string }
+  | { kind: "error"; message: string };
+
 function EmailBlockControlled({
   title,
   email,
   recipient,
   onRecipientChange,
+  leadId,
+  locale,
 }: {
   title: string;
   email: OutreachEmail;
   recipient: string;
   onRecipientChange: (v: string) => void;
+  leadId: string;
+  locale: Locale;
 }) {
   const setRecipient = onRecipientChange;
+  const [status, setStatus] = useState<SendStatus>({ kind: "idle" });
+
+  async function handleSend() {
+    if (!recipient.trim()) {
+      setStatus({ kind: "error", message: locale === "nl" ? "Vul een ontvanger in." : "Recipient is required." });
+      return;
+    }
+    setStatus({ kind: "sending" });
+    try {
+      const res = await fetch("/api/outreach/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          leadId,
+          recipient: recipient.trim(),
+          subject: email.subject,
+          body: email.body,
+          locale,
+        }),
+      });
+      const data = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        error?: string;
+        sentAt?: string;
+        from?: string;
+      };
+      if (!res.ok || !data.ok) {
+        setStatus({ kind: "error", message: data.error ?? `Failed (${res.status}).` });
+        return;
+      }
+      setStatus({ kind: "ok", sentAt: data.sentAt ?? new Date().toISOString(), from: data.from });
+    } catch (e) {
+      setStatus({ kind: "error", message: e instanceof Error ? e.message : "Network error." });
+    }
+  }
+
+  const labelSendIdle = locale === "nl" ? "E-mail versturen" : "Send email";
+  const labelSending = locale === "nl" ? "Versturen…" : "Sending…";
+
   return (
     <div className="rounded-lg p-4 space-y-3" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid #2A2420" }}>
       <div className="flex items-center justify-between">
@@ -129,11 +178,47 @@ function EmailBlockControlled({
         <a
           href={`mailto:${recipient}?subject=${encodeURIComponent(email.subject)}&body=${encodeURIComponent(email.body)}`}
           className="px-3 py-1.5 rounded text-xs"
-          style={{ background: "#f59e0b", color: "#0A0907" }}
+          style={{ background: "rgba(255,255,255,0.06)", color: "#F2EDE6", border: "1px solid #2A2420" }}
         >
-          Open in mail client →
+          {locale === "nl" ? "Openen in mailprogramma →" : "Open in mail client →"}
         </a>
+        <button
+          type="button"
+          onClick={handleSend}
+          disabled={status.kind === "sending"}
+          className="px-3 py-1.5 rounded text-xs font-medium"
+          style={{
+            background: "#f59e0b",
+            color: "#0A0907",
+            opacity: status.kind === "sending" ? 0.6 : 1,
+          }}
+          title={locale === "nl"
+            ? "Verstuur direct via Resend vanuit growth@brickwise.pro"
+            : "Send directly via Resend from growth@brickwise.pro"}
+        >
+          {status.kind === "sending" ? labelSending : labelSendIdle}
+        </button>
       </div>
+
+      {/* Send-status banner — persists until next send. */}
+      {status.kind === "ok" && (
+        <div
+          className="rounded px-3 py-2 text-xs"
+          style={{ background: "rgba(16,185,129,0.08)", color: "#10b981", border: "1px solid rgba(16,185,129,0.25)" }}
+        >
+          {locale === "nl"
+            ? `E-mail verstuurd vanuit ${status.from ?? "growth@brickwise.pro"} op ${new Date(status.sentAt).toLocaleString("nl-NL")}.`
+            : `Email sent from ${status.from ?? "growth@brickwise.pro"} at ${new Date(status.sentAt).toLocaleString("en-GB")}.`}
+        </div>
+      )}
+      {status.kind === "error" && (
+        <div
+          className="rounded px-3 py-2 text-xs"
+          style={{ background: "rgba(248,113,113,0.08)", color: "#f87171", border: "1px solid rgba(248,113,113,0.25)" }}
+        >
+          {status.message}
+        </div>
+      )}
     </div>
   );
 }
@@ -285,12 +370,16 @@ export function ProposalPackageView({ packages }: Props) {
           email={pkg.outreachEmail}
           recipient={recipient}
           onRecipientChange={setRecipient}
+          leadId={pkg.lead.id}
+          locale={locale}
         />
         <EmailBlockControlled
           title={locale === "nl" ? "Vervolgmail" : "Follow-up email"}
           email={pkg.followUpEmail}
           recipient={recipient}
           onRecipientChange={setRecipient}
+          leadId={pkg.lead.id}
+          locale={locale}
         />
       </section>
 
