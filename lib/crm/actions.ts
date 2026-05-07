@@ -28,6 +28,20 @@ import { generateProposal } from "./proposal";
 import { parseCSV } from "./csv";
 import { searchBusinesses, dedupeKey, type DiscoveredBusiness } from "./discovery";
 import { quickCheckWebsite, checkToPartialChecklist } from "./website-analyzer";
+import { generateContent } from "./content/generator";
+import {
+  createContentIdea,
+  updateContentStatus,
+  deleteContentIdea as deleteContentIdeaStore,
+  findContentIdea,
+  readContentIdeas,
+} from "./store";
+import type {
+  ContentPlatform,
+  ContentStatus,
+  ContentAngle,
+  GenerateContentInput,
+} from "./content/types";
 import type {
   LeadCreateInput,
   LeadStatus,
@@ -442,5 +456,41 @@ export async function quickAnalyzeLeadAction(leadId: string): Promise<{ ok: bool
   return { ok: true };
 }
 
+// ── Content engine ────────────────────────────────────────────────────────
+
+export async function generateContentAction(
+  input: GenerateContentInput,
+): Promise<{ id: string } | { error: string }> {
+  if (!input.platform || !input.audience || !input.niche || !input.city || !input.angle) {
+    return { error: "All fields are required." };
+  }
+  const pkg = generateContent(input);
+  const idea = await createContentIdea({
+    pkg,
+    platform: input.platform,
+    audience: input.audience,
+    niche: input.niche,
+    city: input.city,
+    angle: input.angle,
+  });
+  revalidatePath("/crm/content");
+  return { id: idea.id };
+}
+
+export async function updateContentStatusAction(
+  id: string,
+  status: ContentStatus,
+): Promise<void> {
+  await updateContentStatus(id, status);
+  revalidatePath("/crm/content");
+  revalidatePath(`/crm/content/${id}`);
+}
+
+export async function deleteContentIdeaAction(id: string): Promise<void> {
+  await deleteContentIdeaStore(id);
+  revalidatePath("/crm/content");
+  redirect("/crm/content");
+}
+
 // Re-export reads so pages can call them
-export { readLeads, findLead };
+export { readLeads, findLead, readContentIdeas, findContentIdea };

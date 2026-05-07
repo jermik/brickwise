@@ -1,6 +1,7 @@
 import { pgTable, text, integer, boolean, timestamp, jsonb, pgEnum, index } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import type { AuditChecklist } from "../types";
+import type { ScriptScene } from "../content/types";
 
 // ── Enums ──────────────────────────────────────────────────────────────────
 
@@ -149,3 +150,56 @@ export type ContactRow = typeof contacts.$inferSelect;
 export type ContactInsert = typeof contacts.$inferInsert;
 export type FollowUpRow = typeof followUps.$inferSelect;
 export type FollowUpInsert = typeof followUps.$inferInsert;
+
+// ── content_ideas ──────────────────────────────────────────────────────────
+
+export const contentPlatformEnum = pgEnum("content_platform", [
+  "tiktok",
+  "instagram_reels",
+  "youtube_shorts",
+  "linkedin",
+  "x",
+]);
+
+export const contentStatusEnum = pgEnum("content_status", [
+  "idea",
+  "scripted",
+  "recorded",
+  "edited",
+  "posted",
+]);
+
+export const contentIdeas = pgTable(
+  "content_ideas",
+  {
+    id: text("id").primaryKey(),
+    title: text("title").notNull(),
+    platform: contentPlatformEnum("platform").notNull(),
+    audience: text("audience").notNull(),
+    niche: text("niche").notNull(),
+    city: text("city").notNull(),
+    angle: text("angle").notNull(),
+    hook: text("hook").notNull(),
+    scriptScenes: jsonb("script_scenes").$type<ScriptScene[]>().notNull(),
+    voiceover: text("voiceover"),
+    subtitlesSrt: text("subtitles_srt"),
+    captionsPlain: text("captions_plain"),
+    caption: text("caption").notNull(),
+    hashtags: text("hashtags").notNull(),
+    cta: text("cta").notNull(),
+    thumbnailText: text("thumbnail_text"),
+    pinnedComment: text("pinned_comment"),
+    durationSeconds: integer("duration_seconds").notNull(),
+    retentionNotes: text("retention_notes"),
+    status: contentStatusEnum("status").notNull().default("idea"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => ({
+    statusIdx: index("content_ideas_status_idx").on(t.status),
+    platformIdx: index("content_ideas_platform_idx").on(t.platform),
+  }),
+);
+
+export type ContentIdeaRow = typeof contentIdeas.$inferSelect;
+export type ContentIdeaInsert = typeof contentIdeas.$inferInsert;

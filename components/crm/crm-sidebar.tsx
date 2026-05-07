@@ -9,6 +9,7 @@ const NAV = [
   { href: "/crm/leads", label: "Leads", icon: "◈" },
   { href: "/crm/follow-ups", label: "Follow-ups", icon: "◷" },
   { href: "/crm/offers", label: "Offers", icon: "◎" },
+  { href: "/crm/content", label: "Content", icon: "▶" },
   { href: "/crm/leads/import", label: "Import CSV", icon: "↑" },
 ];
 

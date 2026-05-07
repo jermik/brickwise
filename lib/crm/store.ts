@@ -4,9 +4,11 @@ import {
   leads,
   contacts,
   followUps,
+  contentIdeas,
   type LeadRow,
   type ContactRow,
   type FollowUpRow,
+  type ContentIdeaRow,
 } from "./db/schema";
 import type {
   Lead,
@@ -15,6 +17,7 @@ import type {
   FollowUpRecord,
   ContactType,
 } from "./types";
+import type { ContentIdea, ContentPackage, ContentPlatform, ContentStatus } from "./content/types";
 
 // ── Mappers (DB row → public type) ─────────────────────────────────────────
 
@@ -297,4 +300,102 @@ export async function addFollowUp(
     .set({ nextFollowUpAt: dueAt, updatedAt: new Date() })
     .where(eq(leads.id, leadId));
   return rowToFollowUp(row);
+}
+
+// ── Content ideas ─────────────────────────────────────────────────────────
+
+function rowToContentIdea(row: ContentIdeaRow): ContentIdea {
+  return {
+    id: row.id,
+    title: row.title,
+    platform: row.platform,
+    audience: row.audience,
+    niche: row.niche,
+    city: row.city,
+    angle: row.angle,
+    hook: row.hook,
+    scriptScenes: row.scriptScenes,
+    voiceover: row.voiceover ?? "",
+    subtitlesSrt: row.subtitlesSrt ?? "",
+    captionsPlain: row.captionsPlain ?? "",
+    caption: row.caption,
+    hashtags: row.hashtags,
+    cta: row.cta,
+    thumbnailText: row.thumbnailText ?? "",
+    pinnedComment: row.pinnedComment ?? "",
+    durationSeconds: row.durationSeconds,
+    retentionNotes: row.retentionNotes ?? "",
+    status: row.status,
+    createdAt: row.createdAt.toISOString(),
+    updatedAt: row.updatedAt.toISOString(),
+  };
+}
+
+export async function readContentIdeas(): Promise<ContentIdea[]> {
+  const rows = await db.select().from(contentIdeas).orderBy(desc(contentIdeas.updatedAt));
+  return rows.map(rowToContentIdea);
+}
+
+export async function findContentIdea(id: string): Promise<ContentIdea | undefined> {
+  const rows = await db.select().from(contentIdeas).where(eq(contentIdeas.id, id)).limit(1);
+  if (rows.length === 0) return undefined;
+  return rowToContentIdea(rows[0]);
+}
+
+export async function createContentIdea(args: {
+  pkg: ContentPackage;
+  platform: ContentPlatform;
+  audience: string;
+  niche: string;
+  city: string;
+  angle: string;
+}): Promise<ContentIdea> {
+  const id = uid();
+  const now = new Date();
+  const [row] = await db
+    .insert(contentIdeas)
+    .values({
+      id,
+      title: args.pkg.title,
+      platform: args.platform,
+      audience: args.audience,
+      niche: args.niche,
+      city: args.city,
+      angle: args.angle,
+      hook: args.pkg.hook,
+      scriptScenes: args.pkg.scriptScenes,
+      voiceover: args.pkg.voiceover,
+      subtitlesSrt: args.pkg.subtitlesSrt,
+      captionsPlain: args.pkg.captionsPlain,
+      caption: args.pkg.caption,
+      hashtags: args.pkg.hashtags,
+      cta: args.pkg.cta,
+      thumbnailText: args.pkg.thumbnailText,
+      pinnedComment: args.pkg.pinnedComment,
+      durationSeconds: args.pkg.durationSeconds,
+      retentionNotes: args.pkg.retentionNotes,
+      status: "idea",
+      createdAt: now,
+      updatedAt: now,
+    })
+    .returning();
+  return rowToContentIdea(row);
+}
+
+export async function updateContentStatus(
+  id: string,
+  status: ContentStatus,
+): Promise<void> {
+  await db
+    .update(contentIdeas)
+    .set({ status, updatedAt: new Date() })
+    .where(eq(contentIdeas.id, id));
+}
+
+export async function deleteContentIdea(id: string): Promise<boolean> {
+  const deleted = await db
+    .delete(contentIdeas)
+    .where(eq(contentIdeas.id, id))
+    .returning({ id: contentIdeas.id });
+  return deleted.length > 0;
 }

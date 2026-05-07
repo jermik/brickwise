@@ -15,6 +15,13 @@
       "when": 1778102630815,
       "tag": "0001_phase3_statuses_and_audit",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1778110056782,
+      "tag": "0002_phase4_content_ideas",
+      "breakpoints": true
     }
   ]
 }
