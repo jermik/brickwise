@@ -603,6 +603,13 @@ export interface ContentPackage {
   pinnedComment: string;
   durationSeconds: number;
   retentionNotes: string;
+  /**
+   * Voiceover track + per-scene timing metadata (Step 4). Deterministically
+   * derived from `scriptScenes` at generation time. Until TTS is wired in,
+   * `segments[].audioUrl` is undefined and segment durations are estimates.
+   * See `lib/crm/content/voiceover.ts`.
+   */
+  voiceoverTrack?: import("./voiceover").VoiceoverTrack;
 }
 
 export interface ContentIdea extends ContentPackage {

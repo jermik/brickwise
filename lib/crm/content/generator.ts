@@ -8,6 +8,7 @@ import {
 } from "./types";
 import { CONTENT_TEMPLATES, type ContentTemplate, type RawScene } from "./templates";
 import { assignVisualConfig } from "./visual-intelligence";
+import { buildVoiceoverTrack } from "./voiceover";
 
 // ── Variable substitution ──────────────────────────────────────────────────
 
@@ -227,6 +228,13 @@ export function generateContent(input: GenerateContentInput): ContentPackage {
   const caption = tailorCaption(captionRaw, input.platform);
   const hashtags = tailorHashtags(template.hashtagsBase, vars.city_lower, input.platform);
 
+  // Build the full voiceover track from the scenes — deterministic,
+  // platform-tuned, ready for TTS rendering downstream.
+  const voiceoverTrack = buildVoiceoverTrack(scenes, {
+    platform: input.platform,
+    voiceProvider: "none",
+  });
+
   return {
     title: substitute(template.titleTemplate, vars),
     hook: substitute(template.hookTemplate, vars),
@@ -241,6 +249,7 @@ export function generateContent(input: GenerateContentInput): ContentPackage {
     pinnedComment: substitute(template.pinnedComment, vars),
     durationSeconds: Math.min(totalSeconds, platformRecommended),
     retentionNotes: template.retentionNotes,
+    voiceoverTrack,
   };
 }
 
