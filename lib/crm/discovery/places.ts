@@ -29,6 +29,10 @@ const MAX_PER_PAGE = 20; // Hard limit of the New Places API per page.
 export interface DiscoveryQuery {
   niche: string;
   city: string;
+  /** Optional country (free text or curated). Appended to the text query. */
+  country?: string;
+  /** ISO 3166-1 alpha-2 region code (e.g. "NL", "GR") for Places bias. */
+  regionCode?: string;
   /** Soft cap on returned results. Mapped to 1, 2, or 3 page fetches. */
   limit?: number;
 }
@@ -83,11 +87,14 @@ interface PlacesResponse {
   error?: { message?: string; status?: string };
 }
 
-function buildTextQuery(niche: string, city: string): string {
+function buildTextQuery(niche: string, city: string, country?: string): string {
   const n = niche.trim();
   const c = city.trim();
-  if (n && c) return `${n} in ${c}`;
-  return n || c;
+  const k = (country ?? "").trim();
+  if (n && c) {
+    return k ? `${n} in ${c}, ${k}` : `${n} in ${c}`;
+  }
+  return n || c || k;
 }
 
 function pageSizeForLimit(limit: number, pageIndex: number): number {
@@ -101,7 +108,7 @@ export async function findBusinesses(
   q: DiscoveryQuery,
 ): Promise<DiscoveryResultV2> {
   const apiKey = process.env.GOOGLE_PLACES_API_KEY;
-  const textQuery = buildTextQuery(q.niche, q.city);
+  const textQuery = buildTextQuery(q.niche, q.city, q.country);
   if (!textQuery) {
     return { ok: false, query: textQuery, results: [], error: "Niche or city is required." };
   }
@@ -128,6 +135,7 @@ export async function findBusinesses(
       if (pageSize <= 0) break;
 
       const body: Record<string, unknown> = { textQuery, pageSize };
+      if (q.regionCode) body.regionCode = q.regionCode.toLowerCase();
       if (pageToken) body.pageToken = pageToken;
 
       const res = await fetch(PLACES_TEXT_SEARCH_URL, {

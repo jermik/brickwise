@@ -525,13 +525,22 @@ function findRateOk(key: string): boolean {
   return true;
 }
 
+export interface FindBusinessesInput {
+  niche: string;
+  city: string;
+  country?: string;
+  regionCode?: string;
+  limit?: number;
+}
+
 export async function findBusinessesAction(
-  niche: string,
-  city: string,
-  limit = 20,
+  input: FindBusinessesInput,
 ): Promise<DiscoveryResultV2> {
-  const n = (niche ?? "").trim();
-  const c = (city ?? "").trim();
+  const n = (input.niche ?? "").trim();
+  const c = (input.city ?? "").trim();
+  const country = (input.country ?? "").trim() || undefined;
+  const regionCode = (input.regionCode ?? "").trim() || undefined;
+  const limit = input.limit ?? 25;
   if (!n || !c) {
     return {
       ok: false,
@@ -540,16 +549,16 @@ export async function findBusinessesAction(
       error: "Niche and city are required.",
     };
   }
-  const key = `find:${n.toLowerCase()}:${c.toLowerCase()}`;
+  const key = `find:${n.toLowerCase()}:${c.toLowerCase()}:${(country ?? "").toLowerCase()}`;
   if (!findRateOk(key)) {
     return {
       ok: false,
-      query: `${n} in ${c}`,
+      query: `${n} in ${c}${country ? `, ${country}` : ""}`,
       results: [],
       error: `Rate limit reached (${FIND_RATE_LIMIT}/min). Try again in a minute.`,
     };
   }
-  const result = await findBusinesses({ niche: n, city: c, limit });
+  const result = await findBusinesses({ niche: n, city: c, country, regionCode, limit });
 
   // Annotate already-imported flag so the card can show a soft state. We
   // match on normalised website domain or (name + city) to mirror import

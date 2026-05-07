@@ -1,12 +1,18 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import {
   findBusinessesAction,
   importDiscoveredBusinessAction,
 } from "@/lib/crm/actions";
 import type { DiscoveredBusinessV2 } from "@/lib/crm/discovery/places";
+import {
+  DISCOVERY_LOCATIONS,
+  DISCOVERY_NICHES,
+  OTHER_OPTION,
+  findCountry,
+} from "@/lib/crm/discovery/locations";
 
 type LimitOption = 10 | 25 | 50;
 
@@ -27,25 +33,31 @@ const inputStyle: React.CSSProperties = {
   padding: "10px 14px",
   fontSize: 14,
   outline: "none",
+  width: "100%",
 };
 
-const NICHE_PRESETS = [
-  "dentists",
-  "gyms",
-  "lawyers",
-  "barbers",
-  "physiotherapists",
-  "real estate agents",
-  "restaurants",
-  "accountants",
-];
+const smallInputStyle: React.CSSProperties = {
+  ...inputStyle,
+  padding: "6px 10px",
+  fontSize: 12,
+  width: "auto",
+};
 
 export function FindBusinesses() {
   const router = useRouter();
   const [searching, startSearch] = useTransition();
 
-  const [niche, setNiche] = useState("");
-  const [city, setCity] = useState("");
+  // Country (dropdown only — pick from curated list)
+  const [country, setCountry] = useState<string>(DISCOVERY_LOCATIONS[0].country);
+
+  // City (dropdown of country.cities + "Other" → reveals text input)
+  const [citySelect, setCitySelect] = useState<string>("");
+  const [cityCustom, setCityCustom] = useState<string>("");
+
+  // Niche (dropdown of presets + "Other" → reveals text input)
+  const [nicheSelect, setNicheSelect] = useState<string>("");
+  const [nicheCustom, setNicheCustom] = useState<string>("");
+
   const [limit, setLimit] = useState<LimitOption>(25);
   const [enrich, setEnrich] = useState(true);
 
@@ -56,14 +68,29 @@ export function FindBusinesses() {
   const [bulkBusy, setBulkBusy] = useState(false);
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
+  const countryConfig = useMemo(() => findCountry(country), [country]);
+  const cities = countryConfig?.cities ?? [];
+
+  const cityValue =
+    citySelect === OTHER_OPTION ? cityCustom.trim() : citySelect.trim();
+  const nicheValue =
+    nicheSelect === OTHER_OPTION ? nicheCustom.trim() : nicheSelect.trim();
+  const canSearch = cityValue.length > 0 && nicheValue.length > 0;
+
   function setCardState(id: string, state: CardState) {
     setCardStates((s) => ({ ...s, [id]: state }));
   }
 
+  function handleCountryChange(next: string) {
+    setCountry(next);
+    setCitySelect("");
+    setCityCustom("");
+  }
+
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
-    if (!niche.trim() || !city.trim()) {
-      setError("Type a niche and a city.");
+    if (!canSearch) {
+      setError("Pick a niche and a city.");
       return;
     }
     setError(null);
@@ -72,14 +99,20 @@ export function FindBusinesses() {
     setSelected(new Set());
     setQuery(null);
     startSearch(async () => {
-      const r = await findBusinessesAction(niche.trim(), city.trim(), limit);
+      const r = await findBusinessesAction({
+        niche: nicheValue,
+        city: cityValue,
+        country,
+        regionCode: countryConfig?.regionCode,
+        limit,
+      });
       if (!r.ok && r.results.length === 0) {
         setError(r.error ?? "Search failed.");
         return;
       }
       setQuery(r.query);
       setResults(r.results);
-      if (r.error) setError(r.error); // partial
+      if (r.error) setError(r.error);
     });
   }
 
@@ -88,9 +121,9 @@ export function FindBusinesses() {
     setCardState(business.externalId, { kind: "importing" });
     const res = await importDiscoveredBusinessAction({
       business,
-      niche: niche.trim(),
-      city: city.trim(),
-      query: query ?? `${niche.trim()} in ${city.trim()}`,
+      niche: nicheValue,
+      city: cityValue,
+      query: query ?? `${nicheValue} in ${cityValue}`,
       enrich,
     });
     if (res.kind === "created" && res.leadId) {
@@ -123,23 +156,14 @@ export function FindBusinesses() {
     );
     if (targets.length === 0) return;
     setBulkBusy(true);
-    let created = 0;
-    let dup = 0;
-    let failed = 0;
     for (const b of targets) {
-      // sequential to keep enrichment polite to remote sites
-      // (concurrency 1 is fine for a manual MVP review flow)
+      // sequential for politeness with enrichment fetches
       // eslint-disable-next-line no-await-in-loop
       await importOne(b);
-      const next = cardStates[b.externalId];
-      if (next?.kind === "imported") created++;
-      else if (next?.kind === "duplicate") dup++;
-      else if (next?.kind === "error") failed++;
     }
     setBulkBusy(false);
     setSelected(new Set());
     router.refresh();
-    console.log("[discovery.ui] bulk.import", { created, dup, failed });
   }
 
   const eligible = results.filter((r) => !r.alreadyImported);
@@ -155,82 +179,123 @@ export function FindBusinesses() {
         <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
           Find Businesses
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {/* Country */}
           <div className="space-y-1">
-            <label className="text-xs" style={{ color: "rgba(242,237,230,0.55)" }}>Niche</label>
-            <input
-              value={niche}
-              onChange={(e) => setNiche(e.target.value)}
-              placeholder="e.g. dentists"
-              style={{ ...inputStyle, width: "100%" }}
-              required
-              autoFocus
-            />
-          </div>
-          <div className="space-y-1">
-            <label className="text-xs" style={{ color: "rgba(242,237,230,0.55)" }}>City</label>
-            <input
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              placeholder="e.g. Rotterdam"
-              style={{ ...inputStyle, width: "100%" }}
-              required
-            />
-          </div>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-3 justify-between">
-          <div className="flex flex-wrap gap-1.5">
-            {NICHE_PRESETS.map((p) => (
-              <button
-                key={p}
-                type="button"
-                onClick={() => setNiche(p)}
-                className="text-xs px-2.5 py-1 rounded-full transition-colors"
-                style={{
-                  background: niche === p ? "rgba(245,158,11,0.16)" : "rgba(255,255,255,0.04)",
-                  color: niche === p ? "#f59e0b" : "rgba(242,237,230,0.55)",
-                  border: `1px solid ${niche === p ? "rgba(245,158,11,0.3)" : "#2A2420"}`,
-                }}
-              >
-                {p}
-              </button>
-            ))}
-          </div>
-          <div className="flex items-center gap-3">
-            <label className="flex items-center gap-1.5 text-xs cursor-pointer" style={{ color: "rgba(242,237,230,0.55)" }}>
-              <input
-                type="checkbox"
-                checked={enrich}
-                onChange={(e) => setEnrich(e.target.checked)}
-                style={{ accentColor: "#10b981" }}
-              />
-              Enrich socials/email on import
-            </label>
+            <label className="text-xs" style={{ color: "rgba(242,237,230,0.55)" }}>Country</label>
             <select
-              value={limit}
-              onChange={(e) => setLimit(Number(e.target.value) as LimitOption)}
-              style={{ ...inputStyle, padding: "6px 10px", fontSize: 12 }}
+              value={country}
+              onChange={(e) => handleCountryChange(e.target.value)}
+              style={inputStyle}
             >
-              {LIMIT_OPTIONS.map((n) => (
-                <option key={n} value={n}>
-                  {n} results
+              {DISCOVERY_LOCATIONS.map((c) => (
+                <option key={c.regionCode} value={c.country}>
+                  {c.country}
                 </option>
               ))}
             </select>
-            <button
-              type="submit"
-              disabled={searching}
-              className="px-5 py-2 rounded text-sm font-medium"
-              style={{
-                background: "#f59e0b",
-                color: "#0A0907",
-                opacity: searching ? 0.6 : 1,
-              }}
-            >
-              {searching ? "Searching…" : "Find businesses"}
-            </button>
           </div>
+
+          {/* City */}
+          <div className="space-y-1">
+            <label className="text-xs" style={{ color: "rgba(242,237,230,0.55)" }}>City</label>
+            <select
+              value={citySelect}
+              onChange={(e) => {
+                setCitySelect(e.target.value);
+                if (e.target.value !== OTHER_OPTION) setCityCustom("");
+              }}
+              style={inputStyle}
+              required
+            >
+              <option value="" disabled>
+                Pick a city…
+              </option>
+              {cities.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+              <option value={OTHER_OPTION}>Other (type your own)…</option>
+            </select>
+            {citySelect === OTHER_OPTION && (
+              <input
+                value={cityCustom}
+                onChange={(e) => setCityCustom(e.target.value)}
+                placeholder={`City in ${country}`}
+                style={inputStyle}
+                autoFocus
+              />
+            )}
+          </div>
+
+          {/* Niche */}
+          <div className="space-y-1">
+            <label className="text-xs" style={{ color: "rgba(242,237,230,0.55)" }}>Niche</label>
+            <select
+              value={nicheSelect}
+              onChange={(e) => {
+                setNicheSelect(e.target.value);
+                if (e.target.value !== OTHER_OPTION) setNicheCustom("");
+              }}
+              style={inputStyle}
+              required
+            >
+              <option value="" disabled>
+                Pick a niche…
+              </option>
+              {DISCOVERY_NICHES.map((n) => (
+                <option key={n} value={n}>
+                  {n}
+                </option>
+              ))}
+              <option value={OTHER_OPTION}>Other (type your own)…</option>
+            </select>
+            {nicheSelect === OTHER_OPTION && (
+              <input
+                value={nicheCustom}
+                onChange={(e) => setNicheCustom(e.target.value)}
+                placeholder="e.g. piano teachers"
+                style={inputStyle}
+                autoFocus
+              />
+            )}
+          </div>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3 justify-end">
+          <label className="flex items-center gap-1.5 text-xs cursor-pointer" style={{ color: "rgba(242,237,230,0.55)" }}>
+            <input
+              type="checkbox"
+              checked={enrich}
+              onChange={(e) => setEnrich(e.target.checked)}
+              style={{ accentColor: "#10b981" }}
+            />
+            Enrich socials/email on import
+          </label>
+          <select
+            value={limit}
+            onChange={(e) => setLimit(Number(e.target.value) as LimitOption)}
+            style={smallInputStyle}
+          >
+            {LIMIT_OPTIONS.map((n) => (
+              <option key={n} value={n}>
+                {n} results
+              </option>
+            ))}
+          </select>
+          <button
+            type="submit"
+            disabled={searching || !canSearch}
+            className="px-5 py-2 rounded text-sm font-medium"
+            style={{
+              background: "#f59e0b",
+              color: "#0A0907",
+              opacity: searching || !canSearch ? 0.6 : 1,
+            }}
+          >
+            {searching ? "Searching…" : "Find businesses"}
+          </button>
         </div>
       </form>
 
@@ -305,10 +370,10 @@ export function FindBusinesses() {
       {results.length === 0 && !searching && !error && (
         <div className="rounded-lg px-6 py-16 text-center" style={{ border: "2px dashed #2A2420" }}>
           <p className="text-sm" style={{ color: "rgba(242,237,230,0.5)" }}>
-            Type a niche and a city, then click <span style={{ color: "#f59e0b" }}>Find businesses</span>.
+            Pick a country, city, and niche, then click <span style={{ color: "#f59e0b" }}>Find businesses</span>.
           </p>
           <p className="text-[11px] mt-2" style={{ color: "rgba(242,237,230,0.3)" }}>
-            Powered by Google Places. Each card can be imported individually, or selected and imported in batch. No bulk send.
+            Powered by Google Places. Results scope to the country you pick. No bulk send.
           </p>
         </div>
       )}
