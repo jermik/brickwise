@@ -33,6 +33,7 @@ import {
   type ImportDiscoveredResult,
 } from "./discovery/import";
 import { quickCheckWebsite, checkToPartialChecklist } from "./website-analyzer";
+import { runAutoAudit, type AutoAuditResult } from "./audit/auto-audit";
 import { generateContent } from "./content/generator";
 import { computeRichAudit } from "./audit";
 import { computeLeadScore } from "./lead-scoring";
@@ -454,6 +455,26 @@ export async function importDiscoveredAction(
   revalidatePath("/crm");
   revalidatePath("/crm/leads");
   return { imported, skipped, analyzed, errors };
+}
+
+export async function runAutoAuditAction(
+  leadId: string,
+): Promise<AutoAuditResult> {
+  const lead = await findLead(leadId);
+  if (!lead) {
+    return {
+      ok: false,
+      error: "Lead not found.",
+      fetchedAt: new Date().toISOString(),
+      fields: {},
+      detectedTools: { booking: [], payments: [], emailAutomation: [], analytics: [] },
+    };
+  }
+  return runAutoAudit({
+    websiteUri: lead.website ?? "",
+    city: lead.city,
+    niche: lead.category,
+  });
 }
 
 export async function quickAnalyzeLeadAction(leadId: string): Promise<{ ok: boolean; error?: string }> {
