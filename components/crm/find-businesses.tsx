@@ -129,7 +129,8 @@ export function FindBusinesses() {
     if (res.kind === "created" && res.leadId) {
       setCardState(business.externalId, { kind: "imported", leadId: res.leadId });
       if (then === "audit") {
-        router.push(`/crm/leads/${res.leadId}/audit`);
+        // ?auto=1 tells the audit page to kick off Auto-audit on mount.
+        router.push(`/crm/leads/${res.leadId}/audit?auto=1`);
       }
     } else if (res.kind === "duplicate" && res.leadId) {
       setCardState(business.externalId, { kind: "duplicate", leadId: res.leadId });

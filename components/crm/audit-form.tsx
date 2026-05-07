@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useTransition, useEffect, useRef } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { saveAuditAction, runAutoAuditAction } from "@/lib/crm/actions";
 import {
   AUDIT_FIELDS_BY_DIMENSION,
@@ -48,11 +48,14 @@ const FIELD_DIMENSION = new Map<AuditChecklistKey, AuditDimension>(
 
 export function AuditForm({ lead }: AuditFormProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [pending, startTransition] = useTransition();
   const [autoBusy, startAuto] = useTransition();
   const [error, setError] = useState("");
   const [autoError, setAutoError] = useState("");
   const [auto, setAuto] = useState<AutoAuditResult | null>(null);
+  const [autoFromDiscovery, setAutoFromDiscovery] = useState(false);
+  const autoTriggeredRef = useRef(false);
   const [checklist, setChecklist] = useState<AuditChecklist>(
     lead.auditChecklist ?? EMPTY_AUDIT_CHECKLIST,
   );
@@ -115,7 +118,31 @@ export function AuditForm({ lead }: AuditFormProps) {
   function dismissAuto() {
     setAuto(null);
     setAutoError("");
+    setAutoFromDiscovery(false);
   }
+
+  // ── Auto-run when arriving from Discovery with ?auto=1 ────────────────
+  // Strips the query param so a refresh doesn't trigger another run.
+  // Guards against React StrictMode double-effect via a ref.
+  useEffect(() => {
+    if (autoTriggeredRef.current) return;
+    if (searchParams?.get("auto") !== "1") return;
+    if (!lead.website) return;
+    autoTriggeredRef.current = true;
+    setAutoFromDiscovery(true);
+
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("auto");
+      const cleaned = `${url.pathname}${url.search}${url.hash}`;
+      window.history.replaceState(null, "", cleaned);
+    }
+
+    runAuto();
+    // We intentionally only depend on searchParams — runAuto and lead are
+    // stable for this page lifetime, and we never want to fire twice.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   const noWebsite = !lead.website;
 
@@ -191,6 +218,15 @@ export function AuditForm({ lead }: AuditFormProps) {
             {autoBusy ? "Auditing…" : "Auto-audit website"}
           </button>
         </div>
+
+        {autoFromDiscovery && (
+          <p
+            className="text-xs px-3 py-2 rounded"
+            style={{ background: "rgba(96,165,250,0.08)", color: "#60a5fa", border: "1px solid rgba(96,165,250,0.25)" }}
+          >
+            Auto-audit ran from discovery. Review the suggestions before saving.
+          </p>
+        )}
 
         {autoError && (
           <p
