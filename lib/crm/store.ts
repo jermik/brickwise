@@ -59,6 +59,8 @@ function rowToLead(
     contactPageUrl: row.contactPageUrl ?? undefined,
     phone: row.phone ?? undefined,
     googleMapsUrl: row.googleMapsUrl ?? undefined,
+    googleRating: row.googleRating ?? undefined,
+    socials: row.socials ?? undefined,
     notes: row.notes ?? undefined,
     status: row.status,
     lastContactedAt: row.lastContactedAt?.toISOString(),
@@ -139,6 +141,8 @@ export async function createLead(input: LeadCreateInput): Promise<Lead> {
       contactPageUrl: input.contactPageUrl ?? null,
       phone: input.phone ?? null,
       googleMapsUrl: input.googleMapsUrl ?? null,
+      googleRating: input.googleRating ?? null,
+      socials: input.socials ?? null,
       notes: input.notes ?? null,
       status: input.status,
       lastContactedAt: isoToDate(input.lastContactedAt),
@@ -168,6 +172,8 @@ export async function bulkInsertLeads(inputs: LeadCreateInput[]): Promise<number
     contactPageUrl: input.contactPageUrl ?? null,
     phone: input.phone ?? null,
     googleMapsUrl: input.googleMapsUrl ?? null,
+    googleRating: input.googleRating ?? null,
+    socials: input.socials ?? null,
     notes: input.notes ?? null,
     status: input.status,
     consentStatus: input.consentStatus,
@@ -191,7 +197,7 @@ export async function updateLead(
   // Map only the fields that are present
   const directFields: (keyof LeadCreateInput)[] = [
     "businessName", "category", "city", "province", "website", "email",
-    "contactPageUrl", "phone", "googleMapsUrl", "notes", "status",
+    "contactPageUrl", "phone", "googleMapsUrl", "googleRating", "notes", "status",
     "consentStatus", "doNotContact", "unsubscribed",
     "websiteScore", "seoScore", "conversionScore", "automationScore", "auditSummary",
     "proposalEmail", "proposalFollowUpEmail", "proposalLinkedIn", "proposalCallScript",
@@ -200,6 +206,7 @@ export async function updateLead(
   for (const k of directFields) {
     if (patch[k] !== undefined) setValues[k] = patch[k];
   }
+  if (patch.socials !== undefined) setValues.socials = patch.socials;
   if (patch.auditChecklist !== undefined) setValues.auditChecklist = patch.auditChecklist;
   if (patch.topProblems !== undefined) setValues.topProblems = patch.topProblems;
   if (patch.topImprovements !== undefined) setValues.topImprovements = patch.topImprovements;

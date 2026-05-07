@@ -90,6 +90,8 @@ export interface Lead {
   contactPageUrl?: string;
   phone?: string;
   googleMapsUrl?: string;
+  googleRating?: number;
+  socials?: string[];
   notes?: string;
   status: LeadStatus;
   lastContactedAt?: string;

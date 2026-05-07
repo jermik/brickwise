@@ -23,7 +23,7 @@ export default async function LeadsPage() {
             className="px-4 py-2 rounded text-sm font-medium"
             style={{ background: "#f59e0b", color: "#0A0907" }}
           >
-            + Add lead
+            + Add lead manually
           </Link>
           <Link
             href="/crm/leads/import"

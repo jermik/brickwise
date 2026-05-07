@@ -1,4 +1,4 @@
-import { pgTable, text, integer, boolean, timestamp, jsonb, pgEnum, index } from "drizzle-orm/pg-core";
+import { pgTable, text, integer, real, boolean, timestamp, jsonb, pgEnum, index } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import type { AuditChecklist } from "../types";
 import type { RenderScene } from "../content/types";
@@ -49,6 +49,8 @@ export const leads = pgTable(
     contactPageUrl: text("contact_page_url"),
     phone: text("phone"),
     googleMapsUrl: text("google_maps_url"),
+    googleRating: real("google_rating"),
+    socials: jsonb("socials").$type<string[] | null>(),
     notes: text("notes"),
     status: leadStatusEnum("status").notNull().default("new"),
     lastContactedAt: timestamp("last_contacted_at", { withTimezone: true }),

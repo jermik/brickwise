@@ -17,6 +17,26 @@ const inputStyle = {
   color: "#F2EDE6",
 };
 
+const EMAIL_RX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function normalizeWebsite(raw: string): string {
+  const v = raw.trim();
+  if (!v) return "";
+  if (/^https?:\/\//i.test(v)) return v;
+  return "https://" + v;
+}
+
+function socialsToText(arr: string[] | undefined): string {
+  return (arr ?? []).join("\n");
+}
+
+function textToSocials(text: string): string[] {
+  return text
+    .split(/[\n,]+/)
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0);
+}
+
 export function LeadForm({ lead, mode }: LeadFormProps) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
@@ -32,6 +52,8 @@ export function LeadForm({ lead, mode }: LeadFormProps) {
     contactPageUrl: lead?.contactPageUrl ?? "",
     phone: lead?.phone ?? "",
     googleMapsUrl: lead?.googleMapsUrl ?? "",
+    googleRating: lead?.googleRating != null ? String(lead.googleRating) : "",
+    socialsText: socialsToText(lead?.socials),
     notes: lead?.notes ?? "",
     status: lead?.status ?? ("new" as LeadStatus),
     consentStatus: lead?.consentStatus ?? "none",
@@ -43,32 +65,75 @@ export function LeadForm({ lead, mode }: LeadFormProps) {
     setForm((f) => ({ ...f, [key]: value }));
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  function validate(): { ok: true } | { ok: false; error: string } {
+    if (!form.businessName.trim()) {
+      return { ok: false, error: "Business name is required." };
+    }
+    if (!form.website.trim()) {
+      return { ok: false, error: "Website is required." };
+    }
+    if (form.email.trim() && !EMAIL_RX.test(form.email.trim())) {
+      return { ok: false, error: "Email is not valid." };
+    }
+    if (form.googleRating.trim()) {
+      const n = Number(form.googleRating);
+      if (!Number.isFinite(n) || n < 0 || n > 5) {
+        return { ok: false, error: "Google rating must be a number between 0 and 5." };
+      }
+    }
+    return { ok: true };
+  }
+
+  function buildPayload() {
+    const websiteNormalized = normalizeWebsite(form.website);
+    const ratingNum = form.googleRating.trim() ? Number(form.googleRating) : undefined;
+    const socials = textToSocials(form.socialsText);
+    return {
+      businessName: form.businessName.trim(),
+      category: form.category,
+      city: form.city.trim(),
+      province: form.province.trim(),
+      website: websiteNormalized || undefined,
+      email: form.email.trim() || undefined,
+      contactPageUrl: form.contactPageUrl.trim() || undefined,
+      phone: form.phone.trim() || undefined,
+      googleMapsUrl: form.googleMapsUrl.trim() || undefined,
+      googleRating: ratingNum,
+      socials: socials.length > 0 ? socials : undefined,
+      notes: form.notes.trim() || undefined,
+      status: form.status,
+      consentStatus: form.consentStatus as Lead["consentStatus"],
+      doNotContact: form.doNotContact,
+      unsubscribed: form.unsubscribed,
+    };
+  }
+
+  function handleSubmit(e: React.FormEvent, options: { thenAudit?: boolean } = {}) {
     e.preventDefault();
-    if (!form.businessName.trim() || !form.city.trim()) {
-      setError("Business name and city are required.");
+    const v = validate();
+    if (!v.ok) {
+      setError(v.error);
       return;
     }
     setError("");
+    const payload = buildPayload();
+
     startTransition(async () => {
       if (mode === "create") {
-        const result = await createLead({
-          ...form,
-          consentStatus: form.consentStatus as Lead["consentStatus"],
-        });
-        router.push(`/crm/leads/${result.id}`);
+        const result = await createLead(payload);
+        const dest = options.thenAudit
+          ? `/crm/leads/${result.id}/audit`
+          : `/crm/leads/${result.id}`;
+        router.push(dest);
       } else {
-        await updateLeadAction(lead!.id, {
-          ...form,
-          consentStatus: form.consentStatus as Lead["consentStatus"],
-        });
+        await updateLeadAction(lead!.id, payload);
         router.push(`/crm/leads/${lead!.id}`);
       }
     });
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={(e) => handleSubmit(e)} className="space-y-6">
       {error && (
         <p className="text-sm px-3 py-2 rounded" style={{ background: "rgba(248,113,113,0.1)", color: "#f87171", border: "1px solid rgba(248,113,113,0.2)" }}>
           {error}
@@ -92,7 +157,7 @@ export function LeadForm({ lead, mode }: LeadFormProps) {
             />
           </div>
           <div className="space-y-1">
-            <label className="text-xs" style={{ color: "rgba(242,237,230,0.6)" }}>Category</label>
+            <label className="text-xs" style={{ color: "rgba(242,237,230,0.6)" }}>Category / niche</label>
             <select
               className={inputCls}
               style={inputStyle}
@@ -103,13 +168,13 @@ export function LeadForm({ lead, mode }: LeadFormProps) {
             </select>
           </div>
           <div className="space-y-1">
-            <label className="text-xs" style={{ color: "rgba(242,237,230,0.6)" }}>City *</label>
+            <label className="text-xs" style={{ color: "rgba(242,237,230,0.6)" }}>City</label>
             <input
               className={inputCls}
               style={inputStyle}
               value={form.city}
               onChange={(e) => set("city", e.target.value)}
-              required
+              placeholder="Optional"
             />
           </div>
           <div className="space-y-1">
@@ -131,24 +196,59 @@ export function LeadForm({ lead, mode }: LeadFormProps) {
         </h3>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="space-y-1">
-            <label className="text-xs" style={{ color: "rgba(242,237,230,0.6)" }}>Website URL</label>
-            <input type="url" className={inputCls} style={inputStyle} value={form.website} onChange={(e) => set("website", e.target.value)} placeholder="https://" />
+            <label className="text-xs" style={{ color: "rgba(242,237,230,0.6)" }}>Website URL *</label>
+            <input
+              className={inputCls}
+              style={inputStyle}
+              value={form.website}
+              onChange={(e) => set("website", e.target.value)}
+              onBlur={(e) => set("website", normalizeWebsite(e.target.value))}
+              placeholder="example.com or https://example.com"
+              required
+            />
           </div>
           <div className="space-y-1">
             <label className="text-xs" style={{ color: "rgba(242,237,230,0.6)" }}>Email</label>
             <input type="email" className={inputCls} style={inputStyle} value={form.email} onChange={(e) => set("email", e.target.value)} />
           </div>
           <div className="space-y-1">
+            <label className="text-xs" style={{ color: "rgba(242,237,230,0.6)" }}>Phone</label>
+            <input type="tel" className={inputCls} style={inputStyle} value={form.phone} onChange={(e) => set("phone", e.target.value)} />
+          </div>
+          <div className="space-y-1">
+            <label className="text-xs" style={{ color: "rgba(242,237,230,0.6)" }}>Google rating</label>
+            <input
+              type="number"
+              step="0.1"
+              min="0"
+              max="5"
+              className={inputCls}
+              style={inputStyle}
+              value={form.googleRating}
+              onChange={(e) => set("googleRating", e.target.value)}
+              placeholder="e.g. 4.6"
+            />
+          </div>
+          <div className="space-y-1">
             <label className="text-xs" style={{ color: "rgba(242,237,230,0.6)" }}>Contact page URL</label>
             <input type="url" className={inputCls} style={inputStyle} value={form.contactPageUrl} onChange={(e) => set("contactPageUrl", e.target.value)} placeholder="https://" />
           </div>
           <div className="space-y-1">
-            <label className="text-xs" style={{ color: "rgba(242,237,230,0.6)" }}>Phone</label>
-            <input type="tel" className={inputCls} style={inputStyle} value={form.phone} onChange={(e) => set("phone", e.target.value)} />
-          </div>
-          <div className="space-y-1 sm:col-span-2">
             <label className="text-xs" style={{ color: "rgba(242,237,230,0.6)" }}>Google Maps URL</label>
             <input type="url" className={inputCls} style={inputStyle} value={form.googleMapsUrl} onChange={(e) => set("googleMapsUrl", e.target.value)} placeholder="https://maps.google.com/…" />
+          </div>
+          <div className="space-y-1 sm:col-span-2">
+            <label className="text-xs" style={{ color: "rgba(242,237,230,0.6)" }}>
+              Socials <span style={{ color: "rgba(242,237,230,0.4)" }}>(one URL per line, or comma-separated)</span>
+            </label>
+            <textarea
+              rows={3}
+              className={inputCls}
+              style={inputStyle}
+              value={form.socialsText}
+              onChange={(e) => set("socialsText", e.target.value)}
+              placeholder={"https://instagram.com/example\nhttps://linkedin.com/company/example"}
+            />
           </div>
         </div>
       </section>
@@ -222,15 +322,37 @@ export function LeadForm({ lead, mode }: LeadFormProps) {
       </section>
 
       {/* Actions */}
-      <div className="flex gap-3 pt-2">
-        <button
-          type="submit"
-          disabled={pending}
-          className="px-5 py-2.5 rounded text-sm font-medium transition-opacity"
-          style={{ background: "#f59e0b", color: "#0A0907", opacity: pending ? 0.6 : 1 }}
-        >
-          {pending ? "Saving…" : mode === "create" ? "Add lead" : "Save changes"}
-        </button>
+      <div className="flex flex-wrap gap-3 pt-2">
+        {mode === "create" ? (
+          <>
+            <button
+              type="button"
+              onClick={(e) => handleSubmit(e, { thenAudit: true })}
+              disabled={pending}
+              className="px-5 py-2.5 rounded text-sm font-medium transition-opacity"
+              style={{ background: "#f59e0b", color: "#0A0907", opacity: pending ? 0.6 : 1 }}
+            >
+              {pending ? "Saving…" : "Save and audit"}
+            </button>
+            <button
+              type="submit"
+              disabled={pending}
+              className="px-5 py-2.5 rounded text-sm transition-colors"
+              style={{ background: "rgba(255,255,255,0.06)", color: "rgba(242,237,230,0.85)", border: "1px solid #2A2420", opacity: pending ? 0.6 : 1 }}
+            >
+              Save lead
+            </button>
+          </>
+        ) : (
+          <button
+            type="submit"
+            disabled={pending}
+            className="px-5 py-2.5 rounded text-sm font-medium transition-opacity"
+            style={{ background: "#f59e0b", color: "#0A0907", opacity: pending ? 0.6 : 1 }}
+          >
+            {pending ? "Saving…" : "Save changes"}
+          </button>
+        )}
         <button
           type="button"
           onClick={() => router.back()}
