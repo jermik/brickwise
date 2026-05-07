@@ -322,14 +322,24 @@ export function FindBusinesses() {
             )}
           </p>
           <div className="flex items-center gap-2">
-            {selected.size > 0 && (
+            {eligible.length > 0 && (
               <button
                 type="button"
-                onClick={() => setSelected(new Set())}
+                onClick={() => {
+                  const allEligibleSelected =
+                    selected.size > 0 && eligible.every((r) => selected.has(r.externalId));
+                  if (allEligibleSelected) {
+                    setSelected(new Set());
+                  } else {
+                    setSelected(new Set(eligible.map((r) => r.externalId)));
+                  }
+                }}
                 className="text-xs px-3 py-1.5 rounded"
                 style={{ background: "rgba(255,255,255,0.06)", color: "rgba(242,237,230,0.7)", border: "1px solid #2A2420" }}
               >
-                Clear selection
+                {selected.size > 0 && eligible.every((r) => selected.has(r.externalId))
+                  ? "Deselect all"
+                  : `Select all (${eligible.length})`}
               </button>
             )}
             <button
