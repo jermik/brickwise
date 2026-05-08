@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { PublicShell } from "@/components/layout/public-shell";
 import { PROPERTIES } from "@/lib/data/properties";
 import { getRecommendation } from "@/lib/recommendations";
+import { EmailCaptureWidget } from "@/components/conversion/email-capture-widget";
 
 // Regenerate every hour so rankings stay fresh without a redeploy
 export const revalidate = 3600;
@@ -356,6 +357,10 @@ export default async function RankingsPage({ params }: Props) {
         <p className="mt-4 text-[10px]" style={{ color: "rgba(242,237,230,0.25)" }}>
           Rankings refresh hourly. Scores are computed from yield, risk, neighborhood, and fair-value metrics. Not financial advice.
         </p>
+
+        <div className="mt-8">
+          <EmailCaptureWidget source="rankings_page" />
+        </div>
       </div>
     </PublicShell>
   );

@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PublicShell } from "@/components/layout/public-shell";
+import { EmailCaptureWidget } from "@/components/conversion/email-capture-widget";
 import marketUpdatesRaw from "@/lib/data/market-updates.json";
 
 interface MarketUpdate {
@@ -281,6 +282,10 @@ export default async function MarketDatePage({
             </svg>
             Share
           </a>
+        </div>
+
+        <div className="mt-8">
+          <EmailCaptureWidget source="market_report" />
         </div>
       </div>
     </PublicShell>

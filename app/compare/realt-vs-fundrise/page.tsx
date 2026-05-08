@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PublicShell } from "@/components/layout/public-shell";
 import { PROPERTIES } from "@/lib/data/properties";
 import { FireEvent } from "@/components/analytics/page-view-tracker";
+import { EmailCaptureWidget } from "@/components/conversion/email-capture-widget";
 
 export const revalidate = 86400;
 
@@ -295,6 +296,11 @@ export default function RealtVsFundrisePage() {
               → Analyze every RealT property
             </Link>
           </div>
+        </div>
+
+        {/* Email capture */}
+        <div className="mb-10">
+          <EmailCaptureWidget source="compare_realt_vs_fundrise" />
         </div>
 
         {/* FAQ */}

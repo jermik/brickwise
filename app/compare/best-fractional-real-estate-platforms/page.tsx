@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PublicShell } from "@/components/layout/public-shell";
 import { FireEvent } from "@/components/analytics/page-view-tracker";
+import { EmailCaptureWidget } from "@/components/conversion/email-capture-widget";
 
 export const revalidate = 86400; // editorial comparison — refresh daily
 
@@ -336,6 +337,11 @@ export default function BestFractionalPlatformsPage() {
               → RealT review
             </Link>
           </div>
+        </div>
+
+        {/* Email capture */}
+        <div className="mb-10">
+          <EmailCaptureWidget source="compare_best_fractional" />
         </div>
 
         {/* FAQ */}
