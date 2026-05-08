@@ -9,11 +9,9 @@ import { AnimatedGrid } from "./AnimatedGrid";
 /**
  * High-retention 6-second SaaS-TikTok hook for GrowthOSCut.
  *
- * Density principle: never let the eye settle. 5 text/dashboard beats
- * + 5 mini-flashes between them + a constantly-scrolling grid keeps
- * the second half of the hook (3–6 s) as energetic as the first half,
- * which solves the "feels like only 3 seconds" problem when no audio
- * underlies the back half.
+ * Density principle: never let the eye settle. 4 text + 1 dashboard
+ * beat + 5 mini-flashes between them + a constantly-scrolling grid
+ * keeps the second half (3–6 s) as energetic as the first half.
  *
  * Beat map @ 30 FPS (180 frames):
  *
@@ -25,10 +23,13 @@ import { AnimatedGrid } from "./AnimatedGrid";
  *   2.45 → 2.60   mini-flash
  *   2.60 → 3.67   KineticText            "FINDING LEADS."
  *   3.50 → 3.67   mini-flash
- *   3.67 → 4.93   FakeDashboard           live "47 sites scanned" with
+ *   3.67 → 5.60   FakeDashboard           live "47 sites scanned" with
  *                                         a count-up ticker on the stat
+ *                                         (extended to fill the closing
+ *                                         beat — the previous "AUTOMATIC."
+ *                                         slam was removed for feeling
+ *                                         buzzwordy)
  *   4.80 → 5.00   mini-flash
- *   4.93 → 5.80   KineticText (accent)   "AUTOMATIC."
  *   5.60 → 6.00   WhooshFlash             closing transition into footage
  *
  * AnimatedGrid runs the entire 6 s underneath so even quiet frames
@@ -77,21 +78,14 @@ export function HookSequence() {
 
       <MiniFlash startSec={3.5} fps={fps} />
 
-      <Sequence from={f(3.67)} durationInFrames={f(1.26)}>
-        <FakeDashboard fadeOutAt={f(1.26) - 4} />
+      <Sequence from={f(3.67)} durationInFrames={f(1.93)}>
+        <FakeDashboard fadeOutAt={f(1.93) - 4} />
       </Sequence>
 
       <MiniFlash startSec={4.8} fps={fps} />
 
-      <Sequence from={f(4.93)} durationInFrames={f(0.87)}>
-        <KineticText
-          lines={["AUTOMATIC."]}
-          accentIndex={0}
-          fadeOutAt={f(0.87) - 2}
-        />
-      </Sequence>
-
-      {/* Closing whoosh — bigger than the mini-flashes */}
+      {/* Closing whoosh — bigger than the mini-flashes, transitions
+          straight from the dashboard into the real footage. */}
       <Sequence from={f(5.6)} durationInFrames={f(0.4)}>
         <WhooshFlash durationFrames={f(0.4)} />
       </Sequence>
