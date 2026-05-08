@@ -248,3 +248,25 @@ export const outreachSends = pgTable(
 
 export type OutreachSendRow = typeof outreachSends.$inferSelect;
 export type OutreachSendInsert = typeof outreachSends.$inferInsert;
+
+// ── growthos_waitlist (early-access signups from /growthos) ────────────────
+
+export const growthosWaitlist = pgTable(
+  "growthos_waitlist",
+  {
+    id: text("id").primaryKey(),
+    email: text("email").notNull(),
+    niche: text("niche"),
+    country: text("country"),
+    /** "ig", "tiktok", "linkedin", "direct" — where they came from. */
+    source: text("source"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => ({
+    emailIdx: index("growthos_waitlist_email_idx").on(t.email),
+    createdAtIdx: index("growthos_waitlist_created_at_idx").on(t.createdAt),
+  }),
+);
+
+export type GrowthosWaitlistRow = typeof growthosWaitlist.$inferSelect;
+export type GrowthosWaitlistInsert = typeof growthosWaitlist.$inferInsert;
