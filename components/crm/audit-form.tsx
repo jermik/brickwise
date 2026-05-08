@@ -295,7 +295,7 @@ export function AuditForm({ lead }: AuditFormProps) {
                 return (
                   <label
                     key={field.key}
-                    className="flex items-center gap-3 cursor-pointer rounded-md px-3 py-2 transition-colors"
+                    className="flex flex-wrap items-center gap-x-3 gap-y-1 cursor-pointer rounded-md px-3 py-2 transition-colors"
                     style={{
                       background: checklist[field.key] ? "rgba(16,185,129,0.05)" : "rgba(255,255,255,0.02)",
                       border: `1px solid ${checklist[field.key] ? "rgba(16,185,129,0.18)" : "#2A2420"}`,
@@ -305,9 +305,9 @@ export function AuditForm({ lead }: AuditFormProps) {
                       type="checkbox"
                       checked={checklist[field.key]}
                       onChange={() => toggle(field.key)}
-                      style={{ accentColor: "#10b981", width: 14, height: 14 }}
+                      style={{ accentColor: "#10b981", width: 16, height: 16, flexShrink: 0 }}
                     />
-                    <span className="text-sm flex-1" style={{ color: checklist[field.key] ? "#F2EDE6" : "rgba(242,237,230,0.6)" }}>
+                    <span className="text-sm flex-1 min-w-0 break-words" style={{ color: checklist[field.key] ? "#F2EDE6" : "rgba(242,237,230,0.6)" }}>
                       {field.label}
                     </span>
                     {detected && (

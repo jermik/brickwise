@@ -221,7 +221,7 @@ export function LeadTable({ leads }: LeadTableProps) {
 
       {/* Table */}
       <div className="overflow-x-auto rounded-lg" style={{ border: "1px solid #2A2420" }}>
-        <table className="w-full text-sm">
+        <table className="w-full text-sm min-w-[760px]">
           <thead>
             <tr style={{ borderBottom: "1px solid #2A2420", background: "#0D0B08" }}>
               {[

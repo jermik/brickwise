@@ -96,11 +96,14 @@ export default async function CRMDashboard() {
   const topCategories = Object.entries(stats.byCategory).sort((a, b) => b[1] - a[1]).slice(0, 5);
 
   return (
-    <div className="px-8 py-8 space-y-8 max-w-6xl">
+    <div className="px-4 sm:px-6 md:px-8 py-6 md:py-8 space-y-8 max-w-6xl">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="font-display text-3xl" style={{ color: "#F2EDE6" }}>
-            Dashboard
+          <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "#f59e0b" }}>
+            GrowthOS · Dashboard
+          </p>
+          <h1 className="font-display text-3xl mt-1" style={{ color: "#F2EDE6" }}>
+            Outreach overview
           </h1>
           <p className="mt-1 text-sm" style={{ color: "rgba(242,237,230,0.45)" }}>
             {leads.length} total leads · {stats.newThisWeek} new this week

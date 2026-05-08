@@ -7,17 +7,17 @@ export default async function LeadsPage() {
   const leads = await readLeads();
 
   return (
-    <div className="px-8 py-8 space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="px-4 sm:px-6 md:px-8 py-6 md:py-8 space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="font-display text-3xl" style={{ color: "#F2EDE6" }}>
+          <h1 className="font-display text-2xl sm:text-3xl" style={{ color: "#F2EDE6" }}>
             Leads
           </h1>
           <p className="mt-1 text-sm" style={{ color: "rgba(242,237,230,0.45)" }}>
             {leads.length} businesses in your database
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <Link
             href="/crm/leads/new"
             className="px-4 py-2 rounded text-sm font-medium"

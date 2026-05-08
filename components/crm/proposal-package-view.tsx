@@ -121,11 +121,11 @@ function EmailBlockControlled({
 
   return (
     <div className="rounded-lg p-4 space-y-3" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid #2A2420" }}>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.5)" }}>
           {title}
         </p>
-        <div className="flex gap-1.5">
+        <div className="flex flex-wrap gap-1.5">
           <CopyButton text={email.subject} label="Copy subject" small />
           <CopyButton text={email.body} label="Copy body" small />
           <CopyButton text={`To: ${recipient}\nSubject: ${email.subject}\n\n${email.body}`} label="Copy all" small />

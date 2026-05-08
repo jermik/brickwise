@@ -2,7 +2,7 @@ import { OFFER_TEMPLATES } from "@/lib/crm/types";
 
 export default function OffersPage() {
   return (
-    <div className="px-8 py-8 max-w-6xl space-y-8">
+    <div className="px-4 sm:px-6 md:px-8 py-6 md:py-8 max-w-6xl space-y-8">
       <div>
         <h1 className="font-display text-3xl" style={{ color: "#F2EDE6" }}>
           Offer templates

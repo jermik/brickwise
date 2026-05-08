@@ -16,7 +16,7 @@ export default async function ContentDetailPage({
   const platform = CONTENT_PLATFORMS.find((p) => p.value === idea.platform);
 
   return (
-    <div className="px-8 py-8 max-w-4xl space-y-6">
+    <div className="px-4 sm:px-6 md:px-8 py-6 md:py-8 max-w-4xl space-y-6">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-xs" style={{ color: "rgba(242,237,230,0.4)" }}>
         <Link href="/crm/content" className="hover:opacity-70">Content</Link>

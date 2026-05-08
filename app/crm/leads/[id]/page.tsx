@@ -48,7 +48,7 @@ export default async function LeadDetailPage({
   };
 
   return (
-    <div className="px-8 py-8 space-y-8 max-w-4xl">
+    <div className="px-4 sm:px-6 md:px-8 py-6 md:py-8 space-y-8 max-w-4xl">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-xs" style={{ color: "rgba(242,237,230,0.4)" }}>
         <Link href="/crm" className="hover:opacity-70">CRM</Link>

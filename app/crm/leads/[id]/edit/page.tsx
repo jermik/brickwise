@@ -12,7 +12,7 @@ export default async function EditLeadPage({
   if (!lead) notFound();
 
   return (
-    <div className="px-8 py-8 max-w-2xl">
+    <div className="px-4 sm:px-6 md:px-8 py-6 md:py-8 max-w-2xl">
       <div className="mb-8">
         <h1 className="font-display text-3xl" style={{ color: "#F2EDE6" }}>
           Edit lead

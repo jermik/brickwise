@@ -13,7 +13,7 @@ export default async function AuditPage({
   if (!lead) notFound();
 
   return (
-    <div className="px-8 py-8 max-w-xl space-y-6">
+    <div className="px-4 sm:px-6 md:px-8 py-6 md:py-8 max-w-xl space-y-6">
       <div className="flex items-center gap-2 text-xs" style={{ color: "rgba(242,237,230,0.4)" }}>
         <Link href="/crm/leads" className="hover:opacity-70">Leads</Link>
         <span>/</span>
