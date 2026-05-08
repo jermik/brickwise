@@ -15,6 +15,10 @@ import {
   PhoneDemo32s,
   PhoneDemo32sConfig,
 } from "./templates/PhoneDemo32s";
+import {
+  GrowthOSShort,
+  GrowthOSShortConfig,
+} from "./templates/GrowthOSShort";
 
 export function Root() {
   return (
@@ -53,6 +57,14 @@ export function Root() {
         fps={PhoneDemo32sConfig.fps}
         width={PhoneDemo32sConfig.width}
         height={PhoneDemo32sConfig.height}
+      />
+      <Composition
+        id="GrowthOSShort"
+        component={GrowthOSShort}
+        durationInFrames={GrowthOSShortConfig.durationFrames}
+        fps={GrowthOSShortConfig.fps}
+        width={GrowthOSShortConfig.width}
+        height={GrowthOSShortConfig.height}
       />
     </>
   );
