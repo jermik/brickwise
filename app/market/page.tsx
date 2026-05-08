@@ -18,6 +18,7 @@ export const metadata: Metadata = {
     "real estate token market data",
     "fractional property investment returns",
   ],
+  alternates: { canonical: "https://brickwise.pro/market" },
 };
 
 interface MarketUpdate {

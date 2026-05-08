@@ -59,6 +59,9 @@ export async function generateMetadata({
       description: p.shortDescription,
       images: [p.image],
     },
+    alternates: {
+      canonical: `https://brickwise.pro/property/${p.id}`,
+    },
   };
 }
 
@@ -101,12 +104,23 @@ export default async function PropertyDetailPage({
           "availability": "https://schema.org/InStock",
           ...(p.sourceUrl ? { "url": p.sourceUrl } : {}),
         },
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": String(p.overallScore),
-          "bestRating": "100",
-          "ratingCount": "1",
-        },
+        // Brickwise's algorithmic score — surfaced as a descriptive PropertyValue
+        // (not AggregateRating, which would imply a user review aggregate).
+        "additionalProperty": [
+          {
+            "@type": "PropertyValue",
+            "name": "Brickwise Score",
+            "value": p.overallScore,
+            "minValue": 0,
+            "maxValue": 100,
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "Expected Net Yield",
+            "value": p.expectedYield,
+            "unitText": "PERCENT",
+          },
+        ],
       },
       {
         "@type": "BreadcrumbList",

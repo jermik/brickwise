@@ -64,6 +64,7 @@ export async function generateMetadata({
       description: u.highlights[0] || u.summary.slice(0, 150),
       type: "article",
     },
+    alternates: { canonical: `https://brickwise.pro/market/${u.slug}` },
   };
 }
 

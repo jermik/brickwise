@@ -25,8 +25,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/learn/how-to-invest-in-tokenized-real-estate`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: `${base}/platform/realt`, lastModified: new Date(), changeFrequency: "daily", priority: 0.8 },
     { url: `${base}/platform/lofty`, lastModified: new Date(), changeFrequency: "daily", priority: 0.8 },
-    { url: `${base}/portfolio`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.6 },
-    { url: `${base}/watchlist`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.5 },
   ];
 
   const uniqueCities = [...new Set(PROPERTIES.map((p) => p.city))];

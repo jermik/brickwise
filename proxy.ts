@@ -56,16 +56,62 @@ function shouldRewriteToCrm(pathname: string): boolean {
   return true;
 }
 
-export default clerkMiddleware((_auth, req) => {
+// SEO: when crawlers hit crm.brickwise.pro/robots.txt or /sitemap.xml, return
+// a Disallow:* policy and an empty sitemap. The main domain
+// (brickwise.pro) keeps its own robots/sitemap from app/robots.ts and
+// app/sitemap.ts. Without this block, the CRM subdomain inherits the main
+// site's robots, which would allow indexing of crm.brickwise.pro.
+function crmRobotsResponse(): NextResponse {
+  return new NextResponse("User-agent: *\nDisallow: /\n", {
+    status: 200,
+    headers: {
+      "content-type": "text/plain; charset=utf-8",
+      "x-robots-tag": "noindex, nofollow",
+    },
+  });
+}
+
+function crmEmptySitemapResponse(): NextResponse {
+  return new NextResponse(
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>\n`,
+    {
+      status: 200,
+      headers: {
+        "content-type": "application/xml; charset=utf-8",
+        "x-robots-tag": "noindex, nofollow",
+      },
+    },
+  );
+}
+
+export default clerkMiddleware(async (auth, req) => {
   const host = req.headers.get("host") ?? "";
 
   if (isCrmHost(host)) {
     const url = req.nextUrl;
+
+    // SEO blocks: keep the CRM subdomain out of search indexes entirely.
+    if (url.pathname === "/robots.txt") return crmRobotsResponse();
+    if (url.pathname === "/sitemap.xml") return crmEmptySitemapResponse();
+
+    // Special case: root of CRM subdomain.
+    // Logged-out visitors see the public GrowthOS landing.
+    // Logged-in users go straight to the CRM dashboard.
+    if (url.pathname === "/") {
+      const { userId } = await auth();
+      const rewritten = url.clone();
+      rewritten.pathname = userId ? "/crm" : "/growthos";
+      const res = NextResponse.rewrite(rewritten);
+      res.headers.set("x-robots-tag", "noindex, nofollow");
+      return res;
+    }
+
     if (shouldRewriteToCrm(url.pathname)) {
       const rewritten = url.clone();
-      rewritten.pathname =
-        url.pathname === "/" ? "/crm" : `/crm${url.pathname}`;
-      return NextResponse.rewrite(rewritten);
+      rewritten.pathname = `/crm${url.pathname}`;
+      const res = NextResponse.rewrite(rewritten);
+      res.headers.set("x-robots-tag", "noindex, nofollow");
+      return res;
     }
   }
 
