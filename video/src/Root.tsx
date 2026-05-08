@@ -19,6 +19,10 @@ import {
   GrowthOSShort,
   GrowthOSShortConfig,
 } from "./templates/GrowthOSShort";
+import {
+  FastCutFootage,
+  FastCutFootageConfig,
+} from "./templates/FastCutFootage";
 
 export function Root() {
   return (
@@ -65,6 +69,14 @@ export function Root() {
         fps={GrowthOSShortConfig.fps}
         width={GrowthOSShortConfig.width}
         height={GrowthOSShortConfig.height}
+      />
+      <Composition
+        id="FastCutFootage"
+        component={FastCutFootage}
+        durationInFrames={FastCutFootageConfig.durationFrames}
+        fps={FastCutFootageConfig.fps}
+        width={FastCutFootageConfig.width}
+        height={FastCutFootageConfig.height}
       />
     </>
   );
