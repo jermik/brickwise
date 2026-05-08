@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, DM_Mono, DM_Serif_Display } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Suspense } from "react";
 import { PageViewTracker } from "@/components/analytics/page-view-tracker";
 import { NonBlockingStylesheet } from "@/components/layout/non-blocking-stylesheet";
@@ -154,6 +155,7 @@ export default function RootLayout({
           </Suspense>
           {children}
           <Analytics />
+          <SpeedInsights />
         </body>
       </html>
     </ClerkProvider>
