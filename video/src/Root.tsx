@@ -23,6 +23,10 @@ import {
   FastCutFootage,
   FastCutFootageConfig,
 } from "./templates/FastCutFootage";
+import {
+  GrowthOSCut,
+  GrowthOSCutConfig,
+} from "./templates/GrowthOSCut";
 
 export function Root() {
   return (
@@ -77,6 +81,14 @@ export function Root() {
         fps={FastCutFootageConfig.fps}
         width={FastCutFootageConfig.width}
         height={FastCutFootageConfig.height}
+      />
+      <Composition
+        id="GrowthOSCut"
+        component={GrowthOSCut}
+        durationInFrames={GrowthOSCutConfig.durationFrames}
+        fps={GrowthOSCutConfig.fps}
+        width={GrowthOSCutConfig.width}
+        height={GrowthOSCutConfig.height}
       />
     </>
   );

@@ -16,9 +16,17 @@ interface PhoneDemoLayerProps {
   endSec?: number;
   /** Whether the underlying video's audio should be muted (we play voice over). */
   muted?: boolean;
+  /** OffthreadVideo playbackRate. 1.0 = real-time, >1 = sped up. */
+  playbackRate?: number;
 }
 
-export function PhoneDemoLayer({ src, startSec = 0, endSec, muted = true }: PhoneDemoLayerProps) {
+export function PhoneDemoLayer({
+  src,
+  startSec = 0,
+  endSec,
+  muted = true,
+  playbackRate = 1,
+}: PhoneDemoLayerProps) {
   const { fps } = useVideoConfig();
   const startFrom = Math.round(startSec * fps);
   const endAt = endSec != null ? Math.round(endSec * fps) : undefined;
@@ -36,6 +44,7 @@ export function PhoneDemoLayer({ src, startSec = 0, endSec, muted = true }: Phon
         startFrom={startFrom}
         endAt={endAt}
         muted={muted}
+        playbackRate={playbackRate}
         style={{
           position: "absolute",
           inset: 0,
