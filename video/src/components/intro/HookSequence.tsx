@@ -7,34 +7,32 @@ import { WhooshFlash } from "./WhooshFlash";
 import { AnimatedGrid } from "./AnimatedGrid";
 
 /**
- * High-retention 6-second SaaS-TikTok hook for GrowthOSCut.
+ * High-retention ~6.7-second SaaS-TikTok hook for GrowthOSCut.
  *
- * Density principle: never let the eye settle. 4 text + 1 dashboard
- * beat + 5 mini-flashes between them + a constantly-scrolling grid
- * keeps the second half (3–6 s) as energetic as the first half.
+ * Length is dictated by the intro-voice.mp3 file (6.7 s probed via
+ * mp3-duration). The hook ends only when the voice clip ends — no
+ * audio gets cropped.
  *
- * Beat map @ 30 FPS (180 frames):
+ * Density principle: never let the eye settle. 4 text + 1 long
+ * dashboard beat + 5 mini-flashes between them + a constantly-
+ * scrolling grid keeps every second of the hook energetic.
+ *
+ * Beat map @ 30 FPS (201 frames):
  *
  *   0.00 → 0.73   LogoLockup            GROWTHOS letter slam
- *   0.65 → 0.80   mini-flash             4-frame orange whoosh
+ *   0.65 → 0.80   mini-flash
  *   0.73 → 1.67   KineticText            "AGENCIES."
  *   1.55 → 1.70   mini-flash
  *   1.67 → 2.60   KineticText (accent)   "WASTE HOURS."
  *   2.45 → 2.60   mini-flash
  *   2.60 → 3.67   KineticText            "FINDING LEADS."
  *   3.50 → 3.67   mini-flash
- *   3.67 → 5.60   FakeDashboard           live "47 sites scanned" with
- *                                         a count-up ticker on the stat
- *                                         (extended to fill the closing
- *                                         beat — the previous "AUTOMATIC."
- *                                         slam was removed for feeling
- *                                         buzzwordy)
- *   4.80 → 5.00   mini-flash
- *   5.60 → 6.00   WhooshFlash             closing transition into footage
- *
- * AnimatedGrid runs the entire 6 s underneath so even quiet frames
- * have motion. No real footage. No voice (parent template plays
- * intro-voice.mp3 over 0–3 s).
+ *   3.67 → 6.30   FakeDashboard           live "47 sites scanned" with
+ *                                         a count-up ticker. Lingers
+ *                                         long enough for a viewer to
+ *                                         read all 6 rows.
+ *   5.50 → 5.65   mini-flash
+ *   6.30 → 6.70   WhooshFlash             closing transition into footage
  */
 export function HookSequence() {
   const { fps } = useVideoConfig();
@@ -78,15 +76,15 @@ export function HookSequence() {
 
       <MiniFlash startSec={3.5} fps={fps} />
 
-      <Sequence from={f(3.67)} durationInFrames={f(1.93)}>
-        <FakeDashboard fadeOutAt={f(1.93) - 4} />
+      <Sequence from={f(3.67)} durationInFrames={f(2.63)}>
+        <FakeDashboard fadeOutAt={f(2.63) - 4} />
       </Sequence>
 
-      <MiniFlash startSec={4.8} fps={fps} />
+      <MiniFlash startSec={5.5} fps={fps} />
 
       {/* Closing whoosh — bigger than the mini-flashes, transitions
           straight from the dashboard into the real footage. */}
-      <Sequence from={f(5.6)} durationInFrames={f(0.4)}>
+      <Sequence from={f(6.3)} durationInFrames={f(0.4)}>
         <WhooshFlash durationFrames={f(0.4)} />
       </Sequence>
     </AbsoluteFill>

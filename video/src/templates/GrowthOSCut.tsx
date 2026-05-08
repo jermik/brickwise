@@ -15,30 +15,35 @@ import { HookSequence } from "../components/intro/HookSequence";
 import type { Subtitle } from "../types";
 
 // ─────────────────────────────────────────────────────────────────────────
-// GrowthOS — voiceover-driven creator cut, 41.91s total.
+// GrowthOS — voiceover-driven creator cut.
 //
-// Beat map (30 FPS, 1257 frames):
+// Beat map (30 FPS):
 //
-//   0.00 →  6.00 s   HookSequence (kinetic typography, no real footage)
-//                     intro-voice.mp3 plays 0.00 → 3.00 s under the hook
-//   6.00 → 36.91 s   Phone footage at 1.488× + main voiceover + captions
-//                     (raw 46s recording → 30.91s to fit voice)
-//  36.91 → 41.91 s   Subtle creator CTA — "Interested? · DM me 'GrowthOS'"
+//   0.00 →  6.70 s   HookSequence (kinetic typography, no real footage)
+//                     intro-voice.mp3 plays IN FULL across the entire
+//                     hook (file is 6.7s — never cropped).
+//   6.70 → 37.61 s   Phone footage at 1.488× + main voiceover + captions
+//                     (raw 46s recording → 30.91s to fit main voice)
+//  37.61 → 42.61 s   Subtle creator CTA — "Interested? · DM me 'GrowthOS'"
 //
-// Target audience: web design agencies / freelancers. The hook
-// emotionally communicates "agencies waste hours; this tool does it
-// automatically." GrowthOS branding only.
+// Total: 42.61 s = 1278 frames.
+//
+// Audience: web design agencies / freelancers. GrowthOS branding only.
 // ─────────────────────────────────────────────────────────────────────────
 
 const FPS = 30;
 
-const HOOK_SEC = 6;
-const VOICE_DURATION_SEC = 30.91; // probed via mp3-duration on audio crm mikey.mp3
+// Probed durations:
+//   intro-voice.mp3       6.70 s  (was assumed to be 3 s — actual file is longer)
+//   audio crm mikey.mp3  30.91 s  (main voiceover)
+const INTRO_VOICE_SEC = 6.7;
+const HOOK_SEC = INTRO_VOICE_SEC; // hook lasts as long as the intro voice
+const VOICE_DURATION_SEC = 30.91;
 const SOURCE_DURATION_SEC = 46;
 const PHONE_PLAYBACK_RATE = SOURCE_DURATION_SEC / VOICE_DURATION_SEC; // ≈ 1.488
 const CTA_LEN_SEC = 5;
 const TOTAL_SEC = HOOK_SEC + VOICE_DURATION_SEC + CTA_LEN_SEC;
-const TOTAL_FRAMES = Math.round(TOTAL_SEC * FPS); // 1257
+const TOTAL_FRAMES = Math.round(TOTAL_SEC * FPS); // 1278
 
 export const GrowthOSCutConfig = {
   id: "growthos-cut",
@@ -77,8 +82,13 @@ export function GrowthOSCut() {
         <HookSequence />
       </Sequence>
 
-      {/* Hook audio — intro-voice anchors emotional first half of the hook */}
-      <Sequence from={0} durationInFrames={3 * fps}>
+      {/* Hook audio — full intro-voice clip plays across the entire hook.
+          NEVER cropped: file is 6.7 s and the Sequence covers all of it.
+          Math.ceil so we don't accidentally clip the last partial frame. */}
+      <Sequence
+        from={0}
+        durationInFrames={Math.ceil(INTRO_VOICE_SEC * fps)}
+      >
         <Audio src={staticFile("assets/video/voice/intro-voice.mp3")} />
       </Sequence>
 
