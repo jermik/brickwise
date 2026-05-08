@@ -12,6 +12,7 @@ const COMPOSITIONS = [
   { id: "IFoundBadWebsites",   slug: "i-found-bad-websites",  thumb: 30  },
   { id: "LeadToOutreach90s",   slug: "lead-to-outreach-90s",  thumb: 90  },
   { id: "AISalesResearcher",   slug: "ai-sales-researcher",   thumb: 60  },
+  { id: "PhoneDemo32s",        slug: "phone-demo-32s",        thumb: 90  },
 ];
 
 const ENTRY = "video/src/index.tsx";

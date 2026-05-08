@@ -53,3 +53,7 @@ next-env.d.ts
 /data/crm/
 
 .vercel
+
+# Video pipeline raw assets — kept local, never committed
+/public/assets/video/
+/public/demo/raw-demo.mp4

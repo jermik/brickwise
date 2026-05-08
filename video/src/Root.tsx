@@ -11,6 +11,10 @@ import {
   AISalesResearcher,
   AISalesResearcherConfig,
 } from "./templates/AISalesResearcher";
+import {
+  PhoneDemo32s,
+  PhoneDemo32sConfig,
+} from "./templates/PhoneDemo32s";
 
 export function Root() {
   return (
@@ -41,6 +45,14 @@ export function Root() {
         width={AISalesResearcherConfig.width}
         height={AISalesResearcherConfig.height}
         defaultProps={{ config: AISalesResearcherConfig }}
+      />
+      <Composition
+        id="PhoneDemo32s"
+        component={PhoneDemo32s}
+        durationInFrames={PhoneDemo32sConfig.durationFrames}
+        fps={PhoneDemo32sConfig.fps}
+        width={PhoneDemo32sConfig.width}
+        height={PhoneDemo32sConfig.height}
       />
     </>
   );
