@@ -20,6 +20,34 @@ import type {
 import type { ContentIdea, ContentPackage, ContentPlatform, ContentStatus } from "./content/types";
 import { coerceRenderScene } from "./content/types";
 
+// ── Neon retry helper ─────────────────────────────────────────────────────
+//
+// Neon's HTTP driver occasionally surfaces a transient "Control plane
+// request failed" with `neon:retryable: true` (compute cold-start hiccup,
+// pooled connection blip, etc.). Drizzle doesn't retry; one failure
+// becomes a 500 on the page. This wraps a read so we get up to 3 tries
+// (~250ms / 500ms backoff) before giving up — turns nearly every flake
+// into a successful read on the second attempt.
+async function withNeonRetry<T>(fn: () => Promise<T>, retries = 2): Promise<T> {
+  let lastErr: unknown;
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      return await fn();
+    } catch (e) {
+      lastErr = e;
+      const message = e instanceof Error ? e.message : String(e);
+      const retryable =
+        /control plane|retryable|connection terminated|fetch failed|econnreset|aborterror|503/i.test(
+          message,
+        );
+      if (!retryable || attempt === retries) break;
+      console.warn("[neon.retry]", { attempt: attempt + 1, message: message.slice(0, 200) });
+      await new Promise((r) => setTimeout(r, 250 * Math.pow(2, attempt)));
+    }
+  }
+  throw lastErr;
+}
+
 // ── Mappers (DB row → public type) ─────────────────────────────────────────
 
 function rowToContact(row: ContactRow): ContactRecord {
@@ -358,14 +386,18 @@ function rowToContentIdea(row: ContentIdeaRow): ContentIdea {
 }
 
 export async function readContentIdeas(): Promise<ContentIdea[]> {
-  const rows = await db.select().from(contentIdeas).orderBy(desc(contentIdeas.updatedAt));
-  return rows.map(rowToContentIdea);
+  return withNeonRetry(async () => {
+    const rows = await db.select().from(contentIdeas).orderBy(desc(contentIdeas.updatedAt));
+    return rows.map(rowToContentIdea);
+  });
 }
 
 export async function findContentIdea(id: string): Promise<ContentIdea | undefined> {
-  const rows = await db.select().from(contentIdeas).where(eq(contentIdeas.id, id)).limit(1);
-  if (rows.length === 0) return undefined;
-  return rowToContentIdea(rows[0]);
+  return withNeonRetry(async () => {
+    const rows = await db.select().from(contentIdeas).where(eq(contentIdeas.id, id)).limit(1);
+    if (rows.length === 0) return undefined;
+    return rowToContentIdea(rows[0]);
+  });
 }
 
 export async function createContentIdea(args: {

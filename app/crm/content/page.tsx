@@ -12,7 +12,17 @@ function fmtDate(iso: string) {
 }
 
 export default async function ContentPage() {
-  const ideas = await readContentIdeas();
+  // Fail-soft: a transient Neon hiccup shouldn't 500 the whole page —
+  // surface an inline banner and still render the form so creating new
+  // content packages keeps working.
+  let ideas: ContentIdea[] = [];
+  let loadError: string | null = null;
+  try {
+    ideas = await readContentIdeas();
+  } catch (e) {
+    loadError = e instanceof Error ? e.message : "Could not load saved ideas.";
+    console.error("[content.page] readContentIdeas.failed", { message: loadError });
+  }
 
   return (
     <div className="px-4 sm:px-6 md:px-8 py-6 md:py-8 max-w-6xl space-y-6">
@@ -49,6 +59,21 @@ export default async function ContentPage() {
       </div>
 
       <ContentGeneratorForm />
+
+      {loadError && (
+        <div
+          className="rounded-lg px-4 py-3 text-xs"
+          style={{
+            background: "rgba(248,113,113,0.08)",
+            color: "#f87171",
+            border: "1px solid rgba(248,113,113,0.25)",
+          }}
+        >
+          Couldn&rsquo;t load saved ideas right now (transient database hiccup).
+          Refresh in a few seconds — already-saved ideas are safe and will reappear.
+          <span className="block mt-1 opacity-60">{loadError.slice(0, 200)}</span>
+        </div>
+      )}
 
       {/* Saved ideas */}
       <div className="space-y-3">
