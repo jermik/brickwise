@@ -27,23 +27,25 @@ export const IFoundBadWebsitesConfig: VideoConfig = {
   videoStartSec: 0,
   videoEndSec: 22, // we crop the source to 22s and overlay across 30s
   thumbnailFrame: 30,
+  // Coordinates below are 0..1 fractions of the desktop CARD (not canvas).
+  // The card lives in the centre of the 1080x1920 frame; see DemoLayer.
   scenes: [
-    // Hook — first ~5s, demo idles behind
+    // Hook — first ~5s, card idles behind
     { startFrame: 0, endFrame: 5 * FPS, effect: "neutral" },
-    // Discovery — show find-businesses search and results (medium zoom)
+    // Discovery — gentle zoom toward the search header at the top of the card
     {
       startFrame: 5 * FPS,
       endFrame: 14 * FPS,
       effect: "zoom",
-      zoom: { x: 0.5, y: 0.36, scale: 1.18 },
+      zoom: { x: 0.5, y: 0.18, scale: 1.12 },
       bigCaption: "Search by niche + city",
     },
-    // Spotlight one card with star rating + website
+    // Spotlight a results row in the middle of the card
     {
       startFrame: 14 * FPS,
       endFrame: 22 * FPS,
       effect: "highlight",
-      highlight: { x: 0.06, y: 0.42, w: 0.88, h: 0.18 },
+      highlight: { x: 0.04, y: 0.42, w: 0.92, h: 0.18 },
       bigCaption: "Spot the weak websites",
     },
     // Pre-CTA breath

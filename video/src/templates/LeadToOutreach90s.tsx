@@ -27,52 +27,53 @@ export const LeadToOutreach90sConfig: VideoConfig = {
   videoStartSec: 0,
   videoEndSec: 78,
   thumbnailFrame: 90,
+  // Coordinates below are 0..1 fractions of the desktop CARD (not canvas).
   scenes: [
-    // Hook — first 6s, demo barely visible behind
+    // Hook — first 6s, card idles behind
     { startFrame: 0, endFrame: 6 * FPS, effect: "neutral" },
 
-    // Phase 1 — Discovery (search results)
+    // Phase 1 — Discovery (zoom upper card region)
     {
       startFrame: 6 * FPS,
       endFrame: 22 * FPS,
       effect: "zoom",
-      zoom: { x: 0.5, y: 0.34, scale: 1.16 },
+      zoom: { x: 0.5, y: 0.18, scale: 1.12 },
       bigCaption: "1. Find local businesses",
     },
 
-    // Phase 2 — Auto-audit running
+    // Phase 2 — Auto-audit row highlighted across the card
     {
       startFrame: 22 * FPS,
       endFrame: 40 * FPS,
       effect: "highlight",
-      highlight: { x: 0.06, y: 0.18, w: 0.88, h: 0.34 },
+      highlight: { x: 0.04, y: 0.18, w: 0.92, h: 0.34 },
       bigCaption: "2. Auto-audit the website",
     },
 
-    // Phase 3 — Audit results / scoring
+    // Phase 3 — Audit results / scoring (mid card zoom)
     {
       startFrame: 40 * FPS,
       endFrame: 58 * FPS,
       effect: "zoom",
-      zoom: { x: 0.5, y: 0.55, scale: 1.22 },
+      zoom: { x: 0.5, y: 0.5, scale: 1.18 },
       bigCaption: "3. Score every signal",
     },
 
-    // Phase 4 — Proposal package
+    // Phase 4 — Proposal package highlight (most of card)
     {
       startFrame: 58 * FPS,
       endFrame: 72 * FPS,
       effect: "highlight",
-      highlight: { x: 0.04, y: 0.12, w: 0.92, h: 0.7 },
+      highlight: { x: 0.04, y: 0.1, w: 0.92, h: 0.78 },
       bigCaption: "4. Generate the proposal",
     },
 
-    // Phase 5 — Send email
+    // Phase 5 — Send email (lower-card zoom)
     {
       startFrame: 72 * FPS,
       endFrame: 84 * FPS,
       effect: "zoom",
-      zoom: { x: 0.5, y: 0.68, scale: 1.2 },
+      zoom: { x: 0.5, y: 0.78, scale: 1.16 },
       bigCaption: "5. Send the email",
     },
   ],

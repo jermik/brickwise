@@ -27,34 +27,35 @@ export const AISalesResearcherConfig: VideoConfig = {
   videoStartSec: 0,
   videoEndSec: 38,
   thumbnailFrame: 60,
+  // Coordinates below are 0..1 fractions of the desktop CARD (not canvas).
   scenes: [
     // Hook — first 4s
     { startFrame: 0, endFrame: 4 * FPS, effect: "neutral" },
 
-    // Discovery search
+    // Discovery search — zoom the top of the card
     {
       startFrame: 4 * FPS,
       endFrame: 14 * FPS,
       effect: "zoom",
-      zoom: { x: 0.5, y: 0.32, scale: 1.18 },
+      zoom: { x: 0.5, y: 0.18, scale: 1.14 },
       bigCaption: "Searches local businesses",
     },
 
-    // Auto-audit running on a card
+    // Auto-audit running — highlight a results-row strip mid card
     {
       startFrame: 14 * FPS,
       endFrame: 24 * FPS,
       effect: "highlight",
-      highlight: { x: 0.06, y: 0.4, w: 0.88, h: 0.18 },
+      highlight: { x: 0.04, y: 0.4, w: 0.92, h: 0.2 },
       bigCaption: "Audits each website",
     },
 
-    // Scores / proposal preview
+    // Scores / proposal preview — zoom the lower half of the card
     {
       startFrame: 24 * FPS,
       endFrame: 34 * FPS,
       effect: "zoom",
-      zoom: { x: 0.5, y: 0.6, scale: 1.2 },
+      zoom: { x: 0.5, y: 0.7, scale: 1.16 },
       bigCaption: "Writes the outreach",
     },
 
