@@ -27,6 +27,12 @@ import {
   GrowthOSCut,
   GrowthOSCutConfig,
 } from "./templates/GrowthOSCut";
+import {
+  ProfilePic,
+  ProfilePicConfig,
+  ProfilePicWordmark,
+  ProfilePicWordmarkConfig,
+} from "./templates/ProfilePic";
 
 export function Root() {
   return (
@@ -89,6 +95,22 @@ export function Root() {
         fps={GrowthOSCutConfig.fps}
         width={GrowthOSCutConfig.width}
         height={GrowthOSCutConfig.height}
+      />
+      <Composition
+        id="ProfilePic"
+        component={ProfilePic}
+        durationInFrames={ProfilePicConfig.durationFrames}
+        fps={ProfilePicConfig.fps}
+        width={ProfilePicConfig.width}
+        height={ProfilePicConfig.height}
+      />
+      <Composition
+        id="ProfilePicWordmark"
+        component={ProfilePicWordmark}
+        durationInFrames={ProfilePicWordmarkConfig.durationFrames}
+        fps={ProfilePicWordmarkConfig.fps}
+        width={ProfilePicWordmarkConfig.width}
+        height={ProfilePicWordmarkConfig.height}
       />
     </>
   );
