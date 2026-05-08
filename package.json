@@ -16,7 +16,10 @@
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "video:preview": "remotion studio video/src/index.tsx",
+    "video:render": "remotion render video/src/index.tsx",
+    "video:render:all": "node video/scripts/render-all.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
@@ -40,6 +43,8 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.49.0",
+    "@remotion/cli": "^4.0.458",
+    "@remotion/google-fonts": "^4.0.458",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.6.0",
     "@testing-library/react": "^16.0.0",
@@ -52,6 +57,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "jsdom": "^25.0.0",
+    "remotion": "^4.0.458",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^2.1.0"
