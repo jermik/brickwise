@@ -4,24 +4,36 @@ import { LogoLockup } from "./LogoLockup";
 import { KineticText } from "./KineticText";
 import { FakeDashboard } from "./FakeDashboard";
 import { WhooshFlash } from "./WhooshFlash";
+import { AnimatedGrid } from "./AnimatedGrid";
 
 /**
  * High-retention 6-second SaaS-TikTok hook for GrowthOSCut.
  *
- * Beat map @ 30 FPS (180 frames). Tight, money-focused, six beats so
- * the eye keeps moving for the first six seconds:
+ * Density principle: never let the eye settle. 5 text/dashboard beats
+ * + 5 mini-flashes between them + a constantly-scrolling grid keeps
+ * the second half of the hook (3–6 s) as energetic as the first half,
+ * which solves the "feels like only 3 seconds" problem when no audio
+ * underlies the back half.
  *
- *   0.00 → 0.73 s   LogoLockup           GROWTHOS letter slam
- *   0.73 → 1.67 s   KineticText          "AGENCIES."
- *   1.67 → 2.60 s   KineticText (accent) "WASTE HOURS."
- *   2.60 → 3.67 s   KineticText          "FINDING LEADS."
- *   3.67 → 4.93 s   FakeDashboard         live "47 sites scanned"
- *   4.93 → 6.00 s   KineticText (accent) "AUTOMATIC."
- *   5.60 → 6.00 s   WhooshFlash overlay   orange transition out
+ * Beat map @ 30 FPS (180 frames):
  *
- * No real footage. No voice (the parent template plays
- * intro-voice.mp3 over 0..3s). Audience: web design agencies /
- * freelancers — the message is "stop doing this manually."
+ *   0.00 → 0.73   LogoLockup            GROWTHOS letter slam
+ *   0.65 → 0.80   mini-flash             4-frame orange whoosh
+ *   0.73 → 1.67   KineticText            "AGENCIES."
+ *   1.55 → 1.70   mini-flash
+ *   1.67 → 2.60   KineticText (accent)   "WASTE HOURS."
+ *   2.45 → 2.60   mini-flash
+ *   2.60 → 3.67   KineticText            "FINDING LEADS."
+ *   3.50 → 3.67   mini-flash
+ *   3.67 → 4.93   FakeDashboard           live "47 sites scanned" with
+ *                                         a count-up ticker on the stat
+ *   4.80 → 5.00   mini-flash
+ *   4.93 → 5.80   KineticText (accent)   "AUTOMATIC."
+ *   5.60 → 6.00   WhooshFlash             closing transition into footage
+ *
+ * AnimatedGrid runs the entire 6 s underneath so even quiet frames
+ * have motion. No real footage. No voice (parent template plays
+ * intro-voice.mp3 over 0–3 s).
  */
 export function HookSequence() {
   const { fps } = useVideoConfig();
@@ -29,13 +41,20 @@ export function HookSequence() {
 
   return (
     <AbsoluteFill style={{ background: BRAND.bg, overflow: "hidden" }}>
+      {/* Constant background motion — runs the full 6 s */}
+      <AnimatedGrid />
+
       <Sequence from={f(0.0)} durationInFrames={f(0.73)}>
         <LogoLockup fadeOutAt={f(0.73) - 4} />
       </Sequence>
 
+      <MiniFlash startSec={0.65} fps={fps} />
+
       <Sequence from={f(0.73)} durationInFrames={f(0.94)}>
         <KineticText lines={["AGENCIES."]} fadeOutAt={f(0.94) - 3} />
       </Sequence>
+
+      <MiniFlash startSec={1.55} fps={fps} />
 
       <Sequence from={f(1.67)} durationInFrames={f(0.93)}>
         <KineticText
@@ -46,6 +65,8 @@ export function HookSequence() {
         />
       </Sequence>
 
+      <MiniFlash startSec={2.45} fps={fps} />
+
       <Sequence from={f(2.6)} durationInFrames={f(1.07)}>
         <KineticText
           lines={["FINDING", "LEADS."]}
@@ -54,22 +75,41 @@ export function HookSequence() {
         />
       </Sequence>
 
+      <MiniFlash startSec={3.5} fps={fps} />
+
       <Sequence from={f(3.67)} durationInFrames={f(1.26)}>
         <FakeDashboard fadeOutAt={f(1.26) - 4} />
       </Sequence>
 
-      <Sequence from={f(4.93)} durationInFrames={f(1.07)}>
+      <MiniFlash startSec={4.8} fps={fps} />
+
+      <Sequence from={f(4.93)} durationInFrames={f(0.87)}>
         <KineticText
           lines={["AUTOMATIC."]}
           accentIndex={0}
-          fadeOutAt={f(1.07) - 2}
+          fadeOutAt={f(0.87) - 2}
         />
       </Sequence>
 
-      {/* Orange whoosh overlays the very tail of the last beat. */}
+      {/* Closing whoosh — bigger than the mini-flashes */}
       <Sequence from={f(5.6)} durationInFrames={f(0.4)}>
         <WhooshFlash durationFrames={f(0.4)} />
       </Sequence>
     </AbsoluteFill>
+  );
+}
+
+/**
+ * 4-frame orange whoosh sliver between text beats. Subtle on its own,
+ * but stacked across the timeline they create the feeling of a beat-
+ * synced edit.
+ */
+function MiniFlash({ startSec, fps }: { startSec: number; fps: number }) {
+  const startFrame = Math.round(startSec * fps);
+  const dur = 4;
+  return (
+    <Sequence from={startFrame} durationInFrames={dur}>
+      <WhooshFlash durationFrames={dur} />
+    </Sequence>
   );
 }

@@ -6,6 +6,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { BRAND, FONT_DISPLAY, FONT_MONO } from "../../config/brand";
+import { CountUp } from "./CountUp";
 
 const ROWS: { name: string; flag: string; severity: "bad" | "warn" }[] = [
   { name: "Dental Park Rotterdam",  flag: "no mobile",     severity: "bad" },
@@ -94,9 +95,10 @@ function Header({ frame, fps }: { frame: number; fps: number }) {
           fontWeight: 800,
           color: BRAND.accent,
           letterSpacing: "-0.04em",
+          fontVariantNumeric: "tabular-nums",
         }}
       >
-        47 sites scanned
+        <CountUp to={47} durationInFrames={20} suffix=" sites scanned" />
       </span>
     </div>
   );
