@@ -14,7 +14,7 @@
 export type Platform = "Lofty" | "RealT" | "Arrived" | "Fundrise" | "Ark7";
 
 const AFFILIATE_URLS: Record<Platform, string> = {
-  Lofty: "",
+  Lofty: "https://www.lofty.ai/refer?utm_source=growsurf&utm_medium=referrals&utm_campaign=referral-program&grsf=f929p2",
   RealT: "",
   Arrived: "",
   Fundrise: "",
