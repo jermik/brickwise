@@ -1,45 +1,19 @@
 import { clerkMiddleware } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+import { CRM_COOKIE_NAME, verifyCrmAccessToken } from "@/lib/crm-access";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Subdomain routing for the CRM
+// Subdomain routing + CRM access-code gate
 // ─────────────────────────────────────────────────────────────────────────────
-// The CRM lives at /crm/* inside the same Next.js app as the main Brickwise
-// site. To expose it cleanly at https://crm.brickwise.pro WITHOUT extracting
-// it into a separate project, this proxy inspects the request host and
-// rewrites the incoming path with a `/crm` prefix.
-//
-//   On brickwise.pro (main domain):
-//     GET /             → /             (Brickwise home, unchanged)
-//     GET /crm          → /crm          (CRM dashboard, unchanged — fallback)
-//
-//   On crm.brickwise.pro (CRM subdomain):
-//     GET /             → /crm
-//     GET /leads        → /crm/leads
-//     GET /leads/abc    → /crm/leads/abc
-//     GET /follow-ups   → /crm/follow-ups
-//     GET /offers       → /crm/offers
-//     GET /sign-in      → /sign-in      (passthrough — Clerk needs real path)
-//     GET /sign-up      → /sign-up      (passthrough)
-//     GET /api/*        → /api/*        (passthrough — server actions, etc.)
-//     GET /_next/*      → already excluded by the matcher below
-//
-// Future extraction plan: when the CRM is moved to its own Next.js project,
-// remove the entire `if (isCrmHost ...)` block below. The standalone CRM
-// project can then drop the `/crm` URL prefix from its file structure.
-//
-// Clerk integration: `clerkMiddleware` keeps cross-subdomain session and
-// cookie handling intact (cookies are scoped to .brickwise.pro by default).
-// Auth gating itself happens in `app/crm/layout.tsx` via `auth()` — host
-// rewrites do NOT bypass that layer.
+// CRM lives at /crm/* inside the main Next.js app. crm.brickwise.pro is
+// rewritten to /crm/* via this proxy. All /crm/* and /growthos/* paths
+// require BOTH Clerk auth AND a valid crm_access_granted cookie.
+// The cookie is HMAC-signed (see lib/crm-access.ts) so it cannot be forged.
 // ─────────────────────────────────────────────────────────────────────────────
 
 const CRM_SUBDOMAIN_PREFIX = "crm.";
 
-// Path prefixes that must stay at their literal location even when the
-// request arrives on the CRM subdomain. Sign-in / sign-up pages live at the
-// app root, not under /crm, and API routes (server actions, Clerk callbacks)
-// need their original path so Next can route them correctly.
+// Path prefixes that stay literal even on the CRM subdomain.
 const PASSTHROUGH_PREFIXES = ["/sign-in", "/sign-up", "/api"];
 
 function isCrmHost(host: string): boolean {
@@ -47,20 +21,43 @@ function isCrmHost(host: string): boolean {
 }
 
 function shouldRewriteToCrm(pathname: string): boolean {
-  // Already under /crm — no rewrite needed.
   if (pathname === "/crm" || pathname.startsWith("/crm/")) return false;
-  // Passthrough list (sign-in, api, etc.).
   for (const p of PASSTHROUGH_PREFIXES) {
     if (pathname === p || pathname.startsWith(p + "/")) return false;
   }
   return true;
 }
 
-// SEO: when crawlers hit crm.brickwise.pro/robots.txt or /sitemap.xml, return
-// a Disallow:* policy and an empty sitemap. The main domain
-// (brickwise.pro) keeps its own robots/sitemap from app/robots.ts and
-// app/sitemap.ts. Without this block, the CRM subdomain inherits the main
-// site's robots, which would allow indexing of crm.brickwise.pro.
+// True if the request could land on a CRM/GrowthOS route after rewriting.
+// Used to skip auth/cookie work for pure public routes.
+function couldBeProtectedRoute(host: string, pathname: string): boolean {
+  if (isCrmHost(host)) {
+    if (pathname === "/") return true;
+    if (pathname === "/crm" || pathname.startsWith("/crm/")) return true;
+    if (pathname === "/growthos" || pathname.startsWith("/growthos/")) return true;
+    if (shouldRewriteToCrm(pathname)) return true;
+    return false;
+  }
+  return (
+    pathname === "/crm" ||
+    pathname.startsWith("/crm/") ||
+    pathname === "/growthos" ||
+    pathname.startsWith("/growthos/")
+  );
+}
+
+// True if a target path requires the CRM access-code cookie.
+// /crm/access and the related API endpoints are intentionally excluded so
+// users can reach the unlock page and the unlock/logout APIs without it.
+function isProtectedCrmPath(targetPath: string): boolean {
+  if (targetPath === "/crm/access") return false;
+  if (targetPath === "/api/crm/access" || targetPath === "/api/crm/logout") return false;
+  if (targetPath === "/crm" || targetPath.startsWith("/crm/")) return true;
+  if (targetPath === "/growthos" || targetPath.startsWith("/growthos/")) return true;
+  return false;
+}
+
+// SEO: keep CRM subdomain out of search indexes.
 function crmRobotsResponse(): NextResponse {
   return new NextResponse("User-agent: *\nDisallow: /\n", {
     status: 200,
@@ -86,29 +83,70 @@ function crmEmptySitemapResponse(): NextResponse {
 
 export default clerkMiddleware(async (auth, req) => {
   const host = req.headers.get("host") ?? "";
+  const url = req.nextUrl;
+  const pathname = url.pathname;
 
+  // SEO blocks for CRM subdomain — no auth needed
   if (isCrmHost(host)) {
-    const url = req.nextUrl;
+    if (pathname === "/robots.txt") return crmRobotsResponse();
+    if (pathname === "/sitemap.xml") return crmEmptySitemapResponse();
+  }
 
-    // SEO blocks: keep the CRM subdomain out of search indexes entirely.
-    if (url.pathname === "/robots.txt") return crmRobotsResponse();
-    if (url.pathname === "/sitemap.xml") return crmEmptySitemapResponse();
+  // Skip all gating work for pure public paths
+  if (!couldBeProtectedRoute(host, pathname)) {
+    return NextResponse.next();
+  }
 
-    // Special case: root of CRM subdomain.
-    // Logged-out visitors see the public GrowthOS landing.
-    // Logged-in users go straight to the CRM dashboard.
-    if (url.pathname === "/") {
-      const { userId } = await auth();
+  const { userId } = await auth();
+
+  // Compute the effective path the app will serve after subdomain rewriting.
+  let targetPath: string;
+  if (isCrmHost(host)) {
+    if (pathname === "/") {
+      // Root of crm.* — signed-in users go to /crm, logged-out to the public
+      // GrowthOS landing.
+      targetPath = userId ? "/crm" : "/growthos";
+    } else if (shouldRewriteToCrm(pathname)) {
+      targetPath = `/crm${pathname}`;
+    } else {
+      targetPath = pathname; // direct /crm/X on crm subdomain
+    }
+  } else {
+    targetPath = pathname;
+  }
+
+  // ── CRM access-code gate ───────────────────────────────────────────────
+  if (isProtectedCrmPath(targetPath)) {
+    if (!userId) {
+      // No Clerk session → bounce to sign-in, preserve return path
+      const signInUrl = new URL("/sign-in", req.url);
+      signInUrl.searchParams.set("redirect_url", req.url);
+      return NextResponse.redirect(signInUrl);
+    }
+    const cookieValue = req.cookies.get(CRM_COOKIE_NAME)?.value;
+    const valid = await verifyCrmAccessToken(cookieValue);
+    if (!valid) {
+      // Clerk-authed but missing/invalid access cookie → access page
+      const accessUrl = new URL(req.url);
+      // On crm.brickwise.pro, rewrite of /access → /crm/access handles it
+      accessUrl.pathname = isCrmHost(host) ? "/access" : "/crm/access";
+      accessUrl.search = `?next=${encodeURIComponent(targetPath)}`;
+      return NextResponse.redirect(accessUrl);
+    }
+  }
+
+  // ── Apply subdomain rewrites (after the gate has cleared) ──────────────
+  if (isCrmHost(host)) {
+    if (pathname === "/") {
       const rewritten = url.clone();
-      rewritten.pathname = userId ? "/crm" : "/growthos";
+      rewritten.pathname = targetPath;
       const res = NextResponse.rewrite(rewritten);
       res.headers.set("x-robots-tag", "noindex, nofollow");
       return res;
     }
-
-    if (shouldRewriteToCrm(url.pathname)) {
+    if (shouldRewriteToCrm(pathname)) {
       const rewritten = url.clone();
-      rewritten.pathname = `/crm${url.pathname}`;
+      rewritten.pathname = `/crm${pathname}`;
       const res = NextResponse.rewrite(rewritten);
       res.headers.set("x-robots-tag", "noindex, nofollow");
       return res;

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import { LockCrmButton } from "@/components/crm/lock-button";
 
 const NAV = [
   { href: "/crm", label: "Dashboard", icon: "▦", exact: true },
@@ -141,6 +142,9 @@ export function CRMSidebar() {
           <Link href="/growthos" className="text-[10px] underline" style={{ color: "rgba(242,237,230,0.4)" }}>
             About GrowthOS →
           </Link>
+          <div className="pt-2">
+            <LockCrmButton />
+          </div>
         </div>
       </aside>
     </>
