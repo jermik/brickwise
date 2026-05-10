@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { PROPERTIES } from "@/lib/data/properties";
+import { ALGORAND_PROJECTS } from "@/lib/algorand";
 import marketUpdatesRaw from "@/lib/data/market-updates.json";
 
 interface MarketUpdate {
@@ -31,7 +32,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/learn/how-to-invest-in-tokenized-real-estate`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: `${base}/platform/realt`, lastModified: new Date(), changeFrequency: "daily", priority: 0.8 },
     { url: `${base}/platform/lofty`, lastModified: new Date(), changeFrequency: "daily", priority: 0.8 },
+    { url: `${base}/algorand`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.85 },
   ];
+
+  const algorandRoutes: MetadataRoute.Sitemap = ALGORAND_PROJECTS.map((p) => ({
+    url: `${base}/algorand/${p.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
 
   const uniqueCities = [...new Set(PROPERTIES.map((p) => p.city))];
   const cityRoutes: MetadataRoute.Sitemap = uniqueCities.map((city) => ({
@@ -79,5 +88,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...rankingRoutes, ...cityRoutes, ...propertyRoutes, ...marketIndexRoute, ...marketRoutes];
+  return [...staticRoutes, ...rankingRoutes, ...cityRoutes, ...propertyRoutes, ...marketIndexRoute, ...marketRoutes, ...algorandRoutes];
 }
