@@ -1,0 +1,174 @@
+<!-- Brickwise icon concepts gallery — open in browser to compare -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="900" viewBox="0 0 1280 900">
+  <defs>
+    <!-- Shared gradients -->
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F0F17"/>
+      <stop offset="100%" stop-color="#06060A"/>
+    </linearGradient>
+    <linearGradient id="markCream" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#D4DCEA"/>
+    </linearGradient>
+    <linearGradient id="barBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="60%" stop-color="#A8C5FF"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
+    </linearGradient>
+    <linearGradient id="frontBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60A5FA"/>
+      <stop offset="50%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#1D4ED8"/>
+    </linearGradient>
+    <radialGradient id="glowAccent" cx="68%" cy="22%" r="48%">
+      <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- ====== Symbol A: Monogram B ====== -->
+    <symbol id="iconA" viewBox="0 0 400 400">
+      <rect width="400" height="400" fill="url(#bgDark)"/>
+      <rect width="400" height="400" fill="url(#glowAccent)"/>
+      <rect x="92" y="88" width="50" height="224" rx="14" fill="url(#markCream)"/>
+      <rect x="142" y="88" width="120" height="98" rx="14" fill="url(#markCream)"/>
+      <rect x="142" y="214" width="166" height="98" rx="14" fill="url(#markCream)"/>
+      <circle cx="276" cy="118" r="10" fill="#3B82F6"/>
+    </symbol>
+    <symbol id="iconA-mono" viewBox="0 0 400 400">
+      <rect width="400" height="400" fill="#FFFFFF"/>
+      <rect x="92" y="88" width="50" height="224" rx="14" fill="#0A0A0F"/>
+      <rect x="142" y="88" width="120" height="98" rx="14" fill="#0A0A0F"/>
+      <rect x="142" y="214" width="166" height="98" rx="14" fill="#0A0A0F"/>
+    </symbol>
+
+    <!-- ====== Symbol B: Ascending Stack ====== -->
+    <symbol id="iconB" viewBox="0 0 400 400">
+      <rect width="400" height="400" fill="url(#bgDark)"/>
+      <rect x="70" y="78"  width="120" height="76" rx="18" fill="url(#barBlue)"/>
+      <rect x="70" y="162" width="210" height="76" rx="18" fill="url(#barBlue)"/>
+      <rect x="70" y="246" width="260" height="76" rx="18" fill="url(#barBlue)"/>
+    </symbol>
+    <symbol id="iconB-mono" viewBox="0 0 400 400">
+      <rect width="400" height="400" fill="#FFFFFF"/>
+      <rect x="70" y="78"  width="120" height="76" rx="18" fill="#0A0A0F"/>
+      <rect x="70" y="162" width="210" height="76" rx="18" fill="#0A0A0F"/>
+      <rect x="70" y="246" width="260" height="76" rx="18" fill="#0A0A0F"/>
+    </symbol>
+
+    <!-- ====== Symbol C: Grid ====== -->
+    <symbol id="iconC" viewBox="0 0 400 400">
+      <rect width="400" height="400" fill="url(#bgDark)"/>
+      <g fill="url(#markCream)">
+        <rect x="60"  y="270" width="56" height="56" rx="10"/>
+        <rect x="130" y="270" width="56" height="56" rx="10"/>
+        <rect x="200" y="270" width="56" height="56" rx="10"/>
+        <rect x="270" y="270" width="56" height="56" rx="10"/>
+        <rect x="60"  y="200" width="56" height="56" rx="10"/>
+        <rect x="130" y="200" width="56" height="56" rx="10"/>
+        <rect x="200" y="200" width="56" height="56" rx="10"/>
+        <rect x="60"  y="130" width="56" height="56" rx="10"/>
+        <rect x="130" y="130" width="56" height="56" rx="10"/>
+      </g>
+      <rect x="60" y="60" width="56" height="56" rx="10" fill="#3B82F6"/>
+    </symbol>
+    <symbol id="iconC-mono" viewBox="0 0 400 400">
+      <rect width="400" height="400" fill="#FFFFFF"/>
+      <g fill="#0A0A0F">
+        <rect x="60"  y="270" width="56" height="56" rx="10"/>
+        <rect x="130" y="270" width="56" height="56" rx="10"/>
+        <rect x="200" y="270" width="56" height="56" rx="10"/>
+        <rect x="270" y="270" width="56" height="56" rx="10"/>
+        <rect x="60"  y="200" width="56" height="56" rx="10"/>
+        <rect x="130" y="200" width="56" height="56" rx="10"/>
+        <rect x="200" y="200" width="56" height="56" rx="10"/>
+        <rect x="60"  y="130" width="56" height="56" rx="10"/>
+        <rect x="130" y="130" width="56" height="56" rx="10"/>
+        <rect x="60"  y="60"  width="56" height="56" rx="10"/>
+      </g>
+    </symbol>
+
+    <!-- ====== Symbol D: Interlock ====== -->
+    <symbol id="iconD" viewBox="0 0 400 400">
+      <rect width="400" height="400" fill="url(#bgDark)"/>
+      <rect x="82" y="82" width="172" height="172" rx="34" fill="#F5F5F7"/>
+      <rect x="146" y="146" width="172" height="172" rx="34" fill="url(#frontBlue)"/>
+      <rect x="146" y="146" width="172" height="34" rx="34" fill="#FFFFFF" opacity="0.12"/>
+    </symbol>
+    <symbol id="iconD-mono" viewBox="0 0 400 400">
+      <rect width="400" height="400" fill="#FFFFFF"/>
+      <rect x="82" y="82" width="172" height="172" rx="34" fill="#0A0A0F"/>
+      <rect x="146" y="146" width="172" height="172" rx="34" fill="#0A0A0F" opacity="0.5"/>
+    </symbol>
+  </defs>
+
+  <!-- Page background -->
+  <rect width="1280" height="900" fill="#FAFAFA"/>
+
+  <!-- Header -->
+  <text x="40" y="50" font-family="Inter, -apple-system, sans-serif" font-size="22" font-weight="700" fill="#0A0A0F">Brickwise — Icon Concepts</text>
+  <text x="40" y="74" font-family="Inter, -apple-system, sans-serif" font-size="13" fill="#6B7280">Four directions. Each shown full-size, monochrome, and at favicon size.</text>
+
+  <!-- Concept A row -->
+  <text x="40" y="130" font-family="Inter, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#0A0A0F">A · Geometric "B" Monogram</text>
+  <text x="40" y="148" font-family="Inter, -apple-system, sans-serif" font-size="11" fill="#6B7280">Stripe / Linear vibe — strong silhouette, reads as B at every size</text>
+  <use href="#iconA" x="40" y="170" width="180" height="180"/>
+  <use href="#iconA-mono" x="240" y="170" width="180" height="180"/>
+  <use href="#iconA" x="440" y="170" width="40" height="40"/>
+  <use href="#iconA" x="490" y="170" width="24" height="24"/>
+  <use href="#iconA" x="525" y="170" width="16" height="16"/>
+
+  <!-- Concept B row -->
+  <text x="40" y="390" font-family="Inter, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#0A0A0F">B · Ascending Brick Stack (refined)</text>
+  <text x="40" y="408" font-family="Inter, -apple-system, sans-serif" font-size="11" fill="#6B7280">Linear / Vercel — keeps Brickwise DNA, premium gradient execution</text>
+  <use href="#iconB" x="40" y="430" width="180" height="180"/>
+  <use href="#iconB-mono" x="240" y="430" width="180" height="180"/>
+  <use href="#iconB" x="440" y="430" width="40" height="40"/>
+  <use href="#iconB" x="490" y="430" width="24" height="24"/>
+  <use href="#iconB" x="525" y="430" width="16" height="16"/>
+
+  <!-- Concept C row -->
+  <text x="660" y="130" font-family="Inter, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#0A0A0F">C · Modular Brick Grid</text>
+  <text x="660" y="148" font-family="Inter, -apple-system, sans-serif" font-size="11" fill="#6B7280">Raycast / Vercel — pixel-grid SaaS aesthetic, one electric accent cell</text>
+  <use href="#iconC" x="660" y="170" width="180" height="180"/>
+  <use href="#iconC-mono" x="860" y="170" width="180" height="180"/>
+  <use href="#iconC" x="1060" y="170" width="40" height="40"/>
+  <use href="#iconC" x="1110" y="170" width="24" height="24"/>
+  <use href="#iconC" x="1145" y="170" width="16" height="16"/>
+
+  <!-- Concept D row -->
+  <text x="660" y="390" font-family="Inter, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#0A0A0F">D · Interlocking Blocks</text>
+  <text x="660" y="408" font-family="Inter, -apple-system, sans-serif" font-size="11" fill="#6B7280">Notion / Arc — abstract layered geometry, gradient depth</text>
+  <use href="#iconD" x="660" y="430" width="180" height="180"/>
+  <use href="#iconD-mono" x="860" y="430" width="180" height="180"/>
+  <use href="#iconD" x="1060" y="430" width="40" height="40"/>
+  <use href="#iconD" x="1110" y="430" width="24" height="24"/>
+  <use href="#iconD" x="1145" y="430" width="16" height="16"/>
+
+  <!-- Labels under each concept -->
+  <text x="40" y="370" font-family="Inter, monospace" font-size="10" fill="#9CA3AF">color</text>
+  <text x="240" y="370" font-family="Inter, monospace" font-size="10" fill="#9CA3AF">monochrome</text>
+  <text x="440" y="370" font-family="Inter, monospace" font-size="10" fill="#9CA3AF">app icon / favicon scales</text>
+
+  <text x="40" y="630" font-family="Inter, monospace" font-size="10" fill="#9CA3AF">color</text>
+  <text x="240" y="630" font-family="Inter, monospace" font-size="10" fill="#9CA3AF">monochrome</text>
+  <text x="440" y="630" font-family="Inter, monospace" font-size="10" fill="#9CA3AF">app icon / favicon scales</text>
+
+  <text x="660" y="370" font-family="Inter, monospace" font-size="10" fill="#9CA3AF">color</text>
+  <text x="860" y="370" font-family="Inter, monospace" font-size="10" fill="#9CA3AF">monochrome</text>
+  <text x="1060" y="370" font-family="Inter, monospace" font-size="10" fill="#9CA3AF">app icon / favicon scales</text>
+
+  <text x="660" y="630" font-family="Inter, monospace" font-size="10" fill="#9CA3AF">color</text>
+  <text x="860" y="630" font-family="Inter, monospace" font-size="10" fill="#9CA3AF">monochrome</text>
+  <text x="1060" y="630" font-family="Inter, monospace" font-size="10" fill="#9CA3AF">app icon / favicon scales</text>
+
+  <!-- Footer note -->
+  <text x="40" y="690" font-family="Inter, -apple-system, sans-serif" font-size="13" font-weight="600" fill="#0A0A0F">How to use</text>
+  <text x="40" y="710" font-family="Inter, -apple-system, sans-serif" font-size="12" fill="#374151">Each concept is a standalone SVG in /public/brand/. Pick one, tell me, and I'll wire it as the live favicon + X avatar.</text>
+  <text x="40" y="730" font-family="Inter, monospace" font-size="11" fill="#6B7280">/public/brand/icon-a-monogram.svg</text>
+  <text x="40" y="750" font-family="Inter, monospace" font-size="11" fill="#6B7280">/public/brand/icon-b-ascending.svg</text>
+  <text x="40" y="770" font-family="Inter, monospace" font-size="11" fill="#6B7280">/public/brand/icon-c-grid.svg</text>
+  <text x="40" y="790" font-family="Inter, monospace" font-size="11" fill="#6B7280">/public/brand/icon-d-interlock.svg</text>
+
+  <text x="40" y="830" font-family="Inter, -apple-system, sans-serif" font-size="12" fill="#374151">All four work on dark UI, light UI, monochrome, and scale cleanly from 16px favicon to 1024px app icon.</text>
+  <text x="40" y="848" font-family="Inter, -apple-system, sans-serif" font-size="12" fill="#374151">Premium gradient + accent on color versions; pure silhouette on monochrome (App Store / Play Store ready).</text>
+</svg>
