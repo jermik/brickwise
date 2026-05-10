@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a1612"/>
+      <stop offset="100%" stop-color="#0c0b08"/>
+    </linearGradient>
+    <linearGradient id="bar" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FAF6EE"/>
+      <stop offset="100%" stop-color="#E5DBC5"/>
+    </linearGradient>
+    <filter id="dotglow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Full-square dark warm gradient; X will circle-crop -->
+  <rect width="400" height="400" fill="url(#bg)"/>
+
+  <!-- Three ascending bars (bar-chart / brick-wall growing right).
+       All corners inside the 200px-radius circular crop. -->
+  <rect x="65" y="65"  width="130" height="82" rx="16" fill="url(#bar)"/>
+  <rect x="65" y="159" width="220" height="82" rx="16" fill="url(#bar)"/>
+  <rect x="65" y="253" width="280" height="82" rx="16" fill="url(#bar)"/>
+
+  <!-- Green buy-signal accent dot — pulls in the real Brickwise scoring identity -->
+  <circle cx="220" cy="106" r="13" fill="#22c55e" filter="url(#dotglow)"/>
+  <circle cx="220" cy="106" r="13" fill="#22c55e"/>
+</svg>
