@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
+import { BrickwiseMark } from '@/components/brand/brickwise-mark';
 
 const NAV_LINKS = [
   { href: '/analyzer', label: 'Analyzer' },
@@ -23,16 +24,7 @@ function PublicHeader() {
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between gap-6">
         <div className="flex items-center gap-7">
           <Link href="/" className="flex items-center gap-2 no-underline flex-shrink-0">
-            <div
-              className="w-6 h-6 rounded-[5px] flex items-center justify-center"
-              style={{ background: 'rgba(255,255,255,0.1)' }}
-            >
-              <svg width="11" height="9" viewBox="0 0 13 11" fill="none">
-                <rect x="0" y="8" width="13" height="3" rx="0.75" fill="rgba(255,255,255,0.85)" />
-                <rect x="0" y="4" width="9"  height="3" rx="0.75" fill="rgba(255,255,255,0.85)" />
-                <rect x="0" y="0" width="5"  height="3" rx="0.75" fill="rgba(255,255,255,0.85)" />
-              </svg>
-            </div>
+            <BrickwiseMark size={24} variant="dark" />
             <span className="text-[14px] font-bold tracking-[-0.3px]" style={{ color: '#F2EDE6' }}>
               Brickwise
             </span>

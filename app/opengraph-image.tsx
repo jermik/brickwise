@@ -34,22 +34,41 @@ export default function Image() {
           justifyContent: "space-between",
         }}
       >
-        {/* Top: brand */}
-        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+        {/* Top: Brickwise mark (3x3 stair grid) + wordmark */}
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <div
             style={{
-              width: 40,
-              height: 40,
-              background: "#16a34a",
-              borderRadius: 8,
+              width: 56,
+              height: 56,
+              background: "linear-gradient(135deg, #0E0E16 0%, #05050B 100%)",
+              borderRadius: 12,
               display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              position: "relative",
+              border: "1px solid rgba(255,255,255,0.06)",
             }}
           >
-            <div style={{ width: 18, height: 18, background: "#fff", borderRadius: 3, display: "flex" }} />
+            {/* Top-left accent (electric blue) */}
+            <div
+              style={{
+                position: "absolute",
+                left: 6,
+                top: 6,
+                width: 13,
+                height: 13,
+                background: "linear-gradient(135deg, #60A5FA 0%, #1D4ED8 100%)",
+                borderRadius: 3,
+                display: "flex",
+              }}
+            />
+            {/* Middle row */}
+            <div style={{ position: "absolute", left: 6,  top: 21, width: 13, height: 13, background: "#fff", borderRadius: 3, display: "flex" }} />
+            <div style={{ position: "absolute", left: 21, top: 21, width: 13, height: 13, background: "#fff", borderRadius: 3, display: "flex" }} />
+            {/* Bottom row */}
+            <div style={{ position: "absolute", left: 6,  top: 36, width: 13, height: 13, background: "#fff", borderRadius: 3, display: "flex" }} />
+            <div style={{ position: "absolute", left: 21, top: 36, width: 13, height: 13, background: "#fff", borderRadius: 3, display: "flex" }} />
+            <div style={{ position: "absolute", left: 36, top: 36, width: 13, height: 13, background: "#fff", borderRadius: 3, display: "flex" }} />
           </div>
-          <span style={{ color: "#fff", fontSize: 28, fontWeight: 700, letterSpacing: "-0.5px" }}>
+          <span style={{ color: "#fff", fontSize: 30, fontWeight: 700, letterSpacing: "-0.6px" }}>
             Brickwise
           </span>
         </div>

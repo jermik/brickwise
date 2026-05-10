@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { UserButton, useUser, useClerk } from "@clerk/nextjs";
 import { PROPERTIES } from "@/lib/data/properties";
 import { getBestPick } from "@/lib/recommendations";
+import { BrickwiseMark } from "@/components/brand/brickwise-mark";
 
 const topPick = getBestPick(PROPERTIES);
 
@@ -94,21 +95,12 @@ export function Sidebar() {
         className="px-5 py-[22px]"
         style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
       >
-        <div className="flex items-center gap-2.5">
-          <div
-            className="w-7 h-7 rounded-[6px] flex items-center justify-center flex-shrink-0"
-            style={{ background: "rgba(255,255,255,0.1)" }}
-          >
-            <svg width="13" height="11" viewBox="0 0 13 11" fill="none">
-              <rect x="0" y="8" width="13" height="3" rx="0.75" fill="rgba(255,255,255,0.85)" />
-              <rect x="0" y="4" width="9"  height="3" rx="0.75" fill="rgba(255,255,255,0.85)" />
-              <rect x="0" y="0" width="5"  height="3" rx="0.75" fill="rgba(255,255,255,0.85)" />
-            </svg>
-          </div>
+        <Link href="/" className="flex items-center gap-2.5 no-underline">
+          <BrickwiseMark size={28} variant="dark" />
           <span className="text-[15px] font-bold tracking-[-0.4px] text-white">
             Brickwise
           </span>
-        </div>
+        </Link>
       </div>
 
       {/* Nav */}

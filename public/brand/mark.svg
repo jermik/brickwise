@@ -1,0 +1,42 @@
+<!-- Brickwise primary mark — dark variant (default)
+     3x3 stair grid · 6 cells · tight 8px rhythm reads as a unified form, not pixels.
+     Cream cells, electric-blue accent with glow halo. Premium minimal SaaS. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E0E16"/>
+      <stop offset="100%" stop-color="#05050B"/>
+    </linearGradient>
+    <linearGradient id="cell" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#D6DBE6"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60A5FA"/>
+      <stop offset="100%" stop-color="#1D4ED8"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="400" height="400" fill="url(#bg)"/>
+
+  <!-- Soft glow halo behind the accent cell -->
+  <rect x="-30" y="-30" width="200" height="200" fill="url(#halo)"/>
+
+  <!-- Bottom row (3 cream cells) -->
+  <rect x="42"  y="258" width="100" height="100" rx="20" fill="url(#cell)"/>
+  <rect x="150" y="258" width="100" height="100" rx="20" fill="url(#cell)"/>
+  <rect x="258" y="258" width="100" height="100" rx="20" fill="url(#cell)"/>
+
+  <!-- Middle row (2 cream cells) -->
+  <rect x="42"  y="150" width="100" height="100" rx="20" fill="url(#cell)"/>
+  <rect x="150" y="150" width="100" height="100" rx="20" fill="url(#cell)"/>
+
+  <!-- Top row — single electric-blue accent -->
+  <rect x="42" y="42" width="100" height="100" rx="20" fill="url(#accent)"/>
+  <!-- Subtle inner highlight on accent for depth -->
+  <rect x="42" y="42" width="100" height="40" rx="20" fill="#FFFFFF" opacity="0.18"/>
+</svg>

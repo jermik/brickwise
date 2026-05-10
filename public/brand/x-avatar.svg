@@ -1,0 +1,40 @@
+<!-- Brickwise X avatar — 400x400. Identical to mark.svg but verified
+     all cells sit inside X's 200px-radius circular crop:
+     - Bottom-right corner of bottom-right cell (358, 358):
+       distance from center (200,200) = √(158² + 158²) ≈ 224 — OVERFLOWS
+     - So we scale the grid down ~12% and re-center to fit the circle. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E0E16"/>
+      <stop offset="100%" stop-color="#05050B"/>
+    </linearGradient>
+    <linearGradient id="cell" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#D6DBE6"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60A5FA"/>
+      <stop offset="100%" stop-color="#1D4ED8"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="400" height="400" fill="url(#bg)"/>
+
+  <!-- Grid scaled to fit circular crop (cells 80x80, gap 8, total span 256, padding 72) -->
+  <rect x="72"  y="72"  width="80" height="80" rx="16" fill="url(#accent)"/>
+  <rect x="72"  y="72"  width="80" height="32" rx="16" fill="#FFFFFF" opacity="0.18"/>
+  <!-- accent halo -->
+  <rect x="0" y="0" width="220" height="220" fill="url(#halo)"/>
+
+  <rect x="72"  y="160" width="80" height="80" rx="16" fill="url(#cell)"/>
+  <rect x="160" y="160" width="80" height="80" rx="16" fill="url(#cell)"/>
+
+  <rect x="72"  y="248" width="80" height="80" rx="16" fill="url(#cell)"/>
+  <rect x="160" y="248" width="80" height="80" rx="16" fill="url(#cell)"/>
+  <rect x="248" y="248" width="80" height="80" rx="16" fill="url(#cell)"/>
+</svg>

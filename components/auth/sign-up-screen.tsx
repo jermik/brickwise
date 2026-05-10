@@ -2,23 +2,15 @@
 
 import { useUser, useClerk, SignUp } from "@clerk/nextjs";
 import Link from "next/link";
+import { BrickwiseMark } from "@/components/brand/brickwise-mark";
 
 const BrickwiseLogo = () => (
-  <div className="flex items-center gap-2.5 mb-10">
-    <div
-      className="w-8 h-8 rounded-[7px] flex items-center justify-center flex-shrink-0"
-      style={{ background: "#111" }}
-    >
-      <svg width="14" height="12" viewBox="0 0 14 12" fill="none">
-        <rect x="0" y="9"   width="14" height="3" rx="0.75" fill="rgba(255,255,255,0.9)" />
-        <rect x="0" y="4.5" width="10" height="3" rx="0.75" fill="rgba(255,255,255,0.9)" />
-        <rect x="0" y="0"   width="6"  height="3" rx="0.75" fill="rgba(255,255,255,0.9)" />
-      </svg>
-    </div>
+  <Link href="/" className="flex items-center gap-2.5 mb-10 no-underline">
+    <BrickwiseMark size={32} variant="dark" />
     <span className="text-[16px] font-bold tracking-[-0.4px]" style={{ color: "#111" }}>
       Brickwise
     </span>
-  </div>
+  </Link>
 );
 
 function AlreadySignedIn() {
