@@ -30,7 +30,7 @@ const STATIC_PROPERTIES: Property[] = [
     city: "Detroit",
     country: "US",
     flag: "🇺🇸",
-    image: "https://images.unsplash.com/photo-1582268103439-16abfe1e7cde?w=700&q=80&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=700&q=80&auto=format&fit=crop",
     propertyType: "Single Family",
     squareFeet: 964,
     yearBuilt: 1952,
