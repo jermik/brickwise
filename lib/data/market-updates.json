@@ -1,5 +1,62 @@
 [
   {
+    "date": "2026-05-11",
+    "slug": "2026-05-11",
+    "title": "Tokenized Real Estate Market Update — May 11, 2026",
+    "summary": "The tokenized real estate market continues to offer accessible entry points for retail investors seeking passive income. Across 461 active listings on Lofty and RealT, the average net yield currently sits at 10.1%, reflecting a diverse range of residential properties primarily concentrated in US markets.\n\nTop performers this period include 1317 South Solano Dr in Las Cruces, delivering 34.61% net yield. Detroit leads in listing volume with 169 available properties, offering investors meaningful diversification within a single metro area.\n\nInvestors should review occupancy rates, fee structures, and platform-specific terms before committing capital. Brickwise scores each property on yield, risk, neighborhood quality, and token fair value to help surface the most compelling opportunities at any given time.",
+    "highlights": [
+      "461 tokenized properties tracked across Lofty and RealT",
+      "Average net yield: 10.1% across all active listings",
+      "Top yield: 34.61% — 1317 South Solano Dr, Las Cruces",
+      "Detroit leads with 169 available listings",
+      "Average Brickwise score: 72/100"
+    ],
+    "stats": {
+      "totalListings": 461,
+      "avgYield": 10.1,
+      "avgScore": 72,
+      "topYield": 34.61,
+      "topYieldCity": "Las Cruces"
+    },
+    "topProperties": [
+      {
+        "id": 101,
+        "name": "11125 Lawnhaven Rd",
+        "yield": 13.03,
+        "score": 82,
+        "city": "Dallas"
+      },
+      {
+        "id": 110,
+        "name": "6601 E Hearn Rd",
+        "yield": 26.39,
+        "score": 82,
+        "city": "Scottsdale"
+      },
+      {
+        "id": 114,
+        "name": "4506 S Fallwood Ct",
+        "yield": 15.79,
+        "score": 82,
+        "city": "Columbia"
+      },
+      {
+        "id": 118,
+        "name": "581 San Francisco St",
+        "yield": 18.56,
+        "score": 82,
+        "city": "Las Cruces"
+      },
+      {
+        "id": 131,
+        "name": "1190 Ridgetop Ave",
+        "yield": 13.16,
+        "score": 82,
+        "city": "Las Cruces"
+      }
+    ]
+  },
+  {
     "date": "2026-05-10",
     "slug": "2026-05-10",
     "title": "Tokenized Real Estate Market Update — May 10, 2026",
