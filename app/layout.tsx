@@ -48,7 +48,6 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      "max-snippet": -1,
       "max-image-preview": "large",
       "max-video-preview": -1,
     },
@@ -97,6 +96,14 @@ const globalSchema = {
       "logo": "https://brickwise.pro/favicon.svg",
       "description":
         "Tokenized real estate investment analytics — yield scores, risk analysis, and buy/hold/avoid signals for Lofty and RealT properties.",
+      "sameAs": ["https://twitter.com/brickwisepro", "https://x.com/brickwisepro"],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "email": "hello@brickwise.pro",
+        "url": "https://brickwise.pro/contact",
+        "availableLanguage": ["English"],
+      },
     },
     {
       "@type": "WebSite",

@@ -8,8 +8,8 @@ const avgYield =
   ) / 10;
 
 export const metadata: Metadata = {
-  title: `Browse ${count} Tokenized Properties — Filter by Yield, Risk & Platform | Brickwise`,
-  description: `Compare ${count} tokenized real estate investments on Lofty and RealT. Filter by yield (platform avg ${avgYield}%), risk level, city, and token price. Find the best fractional property for your goals.`,
+  title: { absolute: `Browse ${count} Tokenized Properties — Brickwise` },
+  description: `Filter ${count} tokenized properties on Lofty & RealT by yield (avg ${avgYield}%), risk, city. Find the best fractional property for your goals.`,
   keywords: [
     `best Lofty properties ${new Date().getFullYear()}`,
     `best RealT properties ${new Date().getFullYear()}`,

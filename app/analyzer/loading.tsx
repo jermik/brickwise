@@ -1,8 +1,8 @@
-import { AppShell } from "@/components/layout/app-shell";
+import { PublicShell } from "@/components/layout/public-shell";
 
 export default function AnalyzerLoading() {
   return (
-    <AppShell>
+    <PublicShell>
       <div className="flex flex-col h-full">
         <div className="px-6 pt-7 pb-5" style={{ borderBottom: "1px solid #ebebeb" }}>
           <div
@@ -26,6 +26,6 @@ export default function AnalyzerLoading() {
           </div>
         </div>
       </div>
-    </AppShell>
+    </PublicShell>
   );
 }

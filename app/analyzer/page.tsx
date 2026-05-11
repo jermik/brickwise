@@ -4,7 +4,7 @@ import { useState, useMemo, useCallback, useEffect } from "react";
 import { useScrollDepth } from "@/hooks/use-scroll-depth";
 import { useOutboundLinks } from "@/hooks/use-outbound-links";
 import { trackAnalyzerUsed, trackAnalyzerFiltered } from "@/lib/analytics";
-import { AppShell } from "@/components/layout/app-shell";
+import { PublicShell } from "@/components/layout/public-shell";
 import { PropertyFilters, DEFAULT_FILTERS } from "@/components/property/property-filters";
 import { PropertyCard } from "@/components/property/property-card";
 import { PropertyRow } from "@/components/property/property-row";
@@ -83,7 +83,7 @@ export default function AnalyzerPage() {
   };
 
   return (
-    <AppShell>
+    <PublicShell>
       <div className="flex flex-col h-full">
         {/* Header */}
         <div className="px-6 pt-7 pb-5" style={{ borderBottom: "1px solid #ebebeb" }}>
@@ -351,7 +351,7 @@ export default function AnalyzerPage() {
           onClose={() => setCompareOpen(false)}
         />
       )}
-    </AppShell>
+    </PublicShell>
   );
 }
 

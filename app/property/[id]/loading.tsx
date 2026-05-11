@@ -1,8 +1,8 @@
-import { AppShell } from "@/components/layout/app-shell";
+import { PublicShell } from "@/components/layout/public-shell";
 
 export default function PropertyLoading() {
   return (
-    <AppShell>
+    <PublicShell>
       <div className="px-10 py-8 max-w-[960px]">
         <div
           className="h-3 w-32 rounded mb-6 animate-pulse"
@@ -33,6 +33,6 @@ export default function PropertyLoading() {
           </div>
         </div>
       </div>
-    </AppShell>
+    </PublicShell>
   );
 }

@@ -33,6 +33,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/platform/realt`, lastModified: new Date(), changeFrequency: "daily", priority: 0.8 },
     { url: `${base}/platform/lofty`, lastModified: new Date(), changeFrequency: "daily", priority: 0.8 },
     { url: `${base}/algorand`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.85 },
+    { url: `${base}/about`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
+    { url: `${base}/contact`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.4 },
+    { url: `${base}/privacy`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.3 },
   ];
 
   const algorandRoutes: MetadataRoute.Sitemap = ALGORAND_PROJECTS.map((p) => ({
@@ -42,9 +45,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  const uniqueCities = [...new Set(PROPERTIES.map((p) => p.city))];
-  const cityRoutes: MetadataRoute.Sitemap = uniqueCities.map((city) => ({
-    url: `${base}/city/${slugify(city)}`,
+  // Dedupe by slug (e.g. "St Louis" and "St. Louis" both → "st-louis")
+  const cityBySlug = new Map<string, string>();
+  for (const p of PROPERTIES) {
+    const slug = slugify(p.city);
+    if (slug && !cityBySlug.has(slug)) cityBySlug.set(slug, p.city);
+  }
+  const cityRoutes: MetadataRoute.Sitemap = [...cityBySlug.keys()].map((slug) => ({
+    url: `${base}/city/${slug}`,
     lastModified: new Date(),
     changeFrequency: "daily",
     priority: 0.8,

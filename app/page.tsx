@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AppShell } from "@/components/layout/app-shell";
+import { PublicShell } from "@/components/layout/public-shell";
 import { EmailCapture } from "@/components/ui/email-capture";
 import { PropertyCard } from "@/components/property/property-card";
 import { RecommendationBadge } from "@/components/ui/recommendation-badge";
@@ -22,8 +22,8 @@ import {
 } from "@/lib/recommendations";
 
 export const metadata: Metadata = {
-  title: "Best Tokenized Real Estate Investments — Lofty & RealT Analysis | Brickwise",
-  description: `${PROPERTIES.length} tokenized properties scored for yield, risk, and fair value across Lofty and RealT. Get buy/hold/avoid signals, yield comparisons, and daily market insights for fractional real estate investing.`,
+  title: "Tokenized Real Estate Scored — Lofty & RealT | Brickwise",
+  description: `${PROPERTIES.length} tokenized properties scored for yield, risk and fair value on Lofty & RealT. Buy/hold/avoid signals updated daily.`,
   keywords: [
     "best tokenized real estate investment",
     "Lofty best properties",
@@ -186,7 +186,7 @@ export default function DecisionPage() {
   };
 
   return (
-    <AppShell>
+    <PublicShell>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homeFaqSchema) }} />
       <script
         type="application/ld+json"
@@ -996,6 +996,6 @@ export default function DecisionPage() {
           </p>
         </div>
       </div>
-    </AppShell>
+    </PublicShell>
   );
 }

@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AppShell } from "@/components/layout/app-shell";
+import { PublicShell } from "@/components/layout/public-shell";
 import { PropertyHeroImage } from "@/components/property/property-hero-image";
 import { FallbackImg } from "@/components/ui/fallback-img";
 import { ScoreRing } from "@/components/ui/score-ring";
@@ -35,9 +35,14 @@ export async function generateMetadata({
   const { id } = await params;
   const p = PROPERTIES.find((prop) => prop.id === Number(id));
   if (!p) return { title: "Property not found" };
+  // Clamp name so title stays ≤60 chars even for long addresses.
+  const shortName = p.name.length > 40 ? p.name.slice(0, 39) + "…" : p.name;
+  const desc =
+    `${p.platform} property in ${p.city} — ${p.expectedYield}% net yield, ` +
+    `${p.overallScore}/100 Brickwise score, €${p.tokenPrice.toFixed(2)} per token.`;
   return {
-    title: `${p.name}, ${p.city} — ${p.expectedYield}% Net Yield | Tokenized Real Estate | Brickwise`,
-    description: `${p.shortDescription} ${p.propertyType} in ${p.city}, ${p.country}. Token price €${p.tokenPrice.toFixed(2)}. ${p.overallScore}/100 Brickwise score. Listed on ${p.platform}.`,
+    title: { absolute: `${shortName} — ${p.expectedYield}% Yield | Brickwise` },
+    description: desc.length > 158 ? desc.slice(0, 157) + "…" : desc,
     keywords: [
       p.name,
       `tokenized real estate ${p.city}`,
@@ -134,7 +139,7 @@ export default async function PropertyDetailPage({
   };
 
   return (
-    <AppShell>
+    <PublicShell>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="px-6 lg:px-10 py-8 max-w-[960px]">
         {/* Breadcrumb */}
@@ -166,9 +171,9 @@ export default async function PropertyDetailPage({
                 />
                 <div className="absolute bottom-4 left-5">
                   <div className="flex items-center gap-2 mb-0.5 flex-wrap">
-                    <div className="text-white text-[19px] font-bold tracking-[-0.4px] leading-tight">
+                    <h1 className="text-white text-[19px] font-bold tracking-[-0.4px] leading-tight m-0">
                       {p.name}
-                    </div>
+                    </h1>
                     {p.isNew && (
                       <span
                         className="text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-[0.4px]"
@@ -899,6 +904,6 @@ export default async function PropertyDetailPage({
           </div>
         </div>
       </div>
-    </AppShell>
+    </PublicShell>
   );
 }
