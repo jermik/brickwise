@@ -6,11 +6,23 @@ export function EmailCaptureWidget({ source = 'learn_page' }: { source?: string 
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!email.trim()) return;
-    trackEmailCapture(source);
-    setSubmitted(true);
+    if (!email.trim() || submitted) return;
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), source }),
+      });
+      if (res.ok) {
+        trackEmailCapture(source);
+        setSubmitted(true);
+      }
+      // On error: keep the form open so the user can retry. No UI flash needed.
+    } catch {
+      // Network errors: silent. Form stays open for retry.
+    }
   }
 
   if (submitted) {

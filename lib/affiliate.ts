@@ -60,3 +60,22 @@ export function platformLinkRel(platform: string, sourceUrl?: string): string {
   const usingAffiliate = !sourceUrl && isAffiliateActive(platform);
   return usingAffiliate ? "sponsored noopener noreferrer" : "noopener noreferrer";
 }
+
+// Decorate a Lofty deep-link URL (from properties-live.json) with the
+// affiliate code so per-property "View on Lofty →" CTAs are tracked.
+// Preserves existing query params; appends grsf + utm_source.
+// Returns the URL unchanged for non-Lofty domains.
+export function decorateLoftyUrl(rawUrl: string | undefined): string | undefined {
+  if (!rawUrl) return rawUrl;
+  let host: string;
+  try {
+    host = new URL(rawUrl).hostname;
+  } catch {
+    return rawUrl;
+  }
+  if (!host.endsWith("lofty.ai")) return rawUrl;
+  // Don't double-stamp if the URL already has the referral param.
+  if (rawUrl.includes("grsf=")) return rawUrl;
+  const sep = rawUrl.includes("?") ? "&" : "?";
+  return `${rawUrl}${sep}grsf=f929p2&utm_source=brickwise`;
+}

@@ -21,6 +21,7 @@ import {
   toPoints,
 } from "@/lib/recommendations";
 import { PROPERTIES } from "@/lib/data/properties";
+import { decorateLoftyUrl } from "@/lib/affiliate";
 
 export function generateStaticParams() {
   return PROPERTIES.map((p) => ({ id: String(p.id) }));
@@ -853,9 +854,9 @@ export default async function PropertyDetailPage({
             {/* CTA */}
             {p.sourceVerified && p.sourceUrl ? (
               <a
-                href={p.sourceUrl}
+                href={decorateLoftyUrl(p.sourceUrl)}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel={p.platform === "Lofty" ? "sponsored noopener noreferrer" : "noopener noreferrer"}
                 className="block w-full text-center py-3 rounded-[9px] text-[13px] font-semibold no-underline transition-opacity hover:opacity-90"
                 style={{ background: "#111", color: "#fff" }}
               >

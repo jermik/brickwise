@@ -34,6 +34,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Subscription failed" }, { status: 500 });
   }
 
-  console.log(`New subscriber: ${email} via ${source || "unknown"}`);
+  // GDPR hygiene: don't log raw subscriber emails. Source is fine.
+  if (source) console.log(`New subscriber via ${source}`);
   return NextResponse.json({ success: true });
 }
