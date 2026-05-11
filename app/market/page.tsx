@@ -9,8 +9,8 @@ import { FallbackImg } from "@/components/ui/fallback-img";
 import marketUpdatesRaw from "@/lib/data/market-updates.json";
 
 export const metadata: Metadata = {
-  title: "Tokenized Real Estate Market Overview | Brickwise",
-  description: `Live market overview for ${PROPERTIES.length} tokenized real estate investments across Lofty and RealT. Current yields, buy signals, platform comparison, and city-level data.`,
+  title: { absolute: "Tokenized Real Estate Market Overview — Brickwise" },
+  description: `Live market overview for ${PROPERTIES.length} tokenized real estate investments on Lofty & RealT. Current yields, buy signals, and city-level data.`,
   keywords: [
     "tokenized real estate market overview",
     "fractional property yield analysis",
@@ -18,6 +18,13 @@ export const metadata: Metadata = {
     "real estate token market data",
     "fractional property investment returns",
   ],
+  openGraph: {
+    title: "Tokenized Real Estate Market Overview — Brickwise",
+    description: `Live market overview for ${PROPERTIES.length} tokenized real estate investments on Lofty & RealT.`,
+    type: "website",
+    url: "https://brickwise.pro/market",
+    images: [{ url: "/market/opengraph-image", width: 1200, height: 630, alt: "Brickwise tokenized real estate market overview" }],
+  },
   alternates: { canonical: "https://brickwise.pro/market" },
 };
 

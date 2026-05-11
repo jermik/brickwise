@@ -72,8 +72,15 @@ export function EmailCapture({
   if (compact) {
     return (
       <form onSubmit={handleSubmit} className="flex gap-2">
+        <label htmlFor="brickwise-email-compact" className="sr-only">
+          Email address
+        </label>
         <input
+          id="brickwise-email-compact"
+          name="email"
           type="email"
+          autoComplete="email"
+          aria-label="Email address"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="your@email.com"
@@ -126,8 +133,15 @@ export function EmailCapture({
       </div>
 
       <form onSubmit={handleSubmit} className="flex gap-2">
+        <label htmlFor="brickwise-email-full" className="sr-only">
+          Email address
+        </label>
         <input
+          id="brickwise-email-full"
+          name="email"
           type="email"
+          autoComplete="email"
+          aria-label="Email address"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="your@email.com"

@@ -60,6 +60,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     siteName: "Brickwise",
     url: "https://brickwise.pro",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Brickwise — Tokenized Real Estate Analytics" }],
   },
   twitter: {
     card: "summary_large_image",

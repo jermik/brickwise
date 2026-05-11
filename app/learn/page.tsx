@@ -7,9 +7,9 @@ import { LEARN_ARTICLES } from "@/lib/learn-articles";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Learn — Tokenized Real Estate Guides, Reviews & How-Tos | Brickwise",
+  title: { absolute: "Learn — Tokenized Real Estate Guides & Reviews | Brickwise" },
   description:
-    "Free guides on tokenized real estate investing — platform reviews, beginner how-tos, yield analysis, and comparisons of RealT and Lofty. Updated with live data.",
+    "Free guides on tokenized real estate — platform reviews, beginner how-tos, and RealT vs Lofty comparisons. Updated with live data.",
   keywords: [
     "tokenized real estate guides",
     "RealT review",
@@ -26,6 +26,7 @@ export const metadata: Metadata = {
       "Free guides on tokenized real estate — reviews, how-tos, and comparisons for RealT and Lofty investors.",
     type: "website",
     url: "https://brickwise.pro/learn",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Brickwise tokenized real estate guides" }],
   },
   alternates: { canonical: "https://brickwise.pro/learn" },
 };

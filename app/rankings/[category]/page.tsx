@@ -90,7 +90,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `${meta.title} | Brickwise`,
     description: meta.description,
     keywords: meta.keywords,
-    openGraph: { title: `${meta.title} | Brickwise`, description: meta.description, type: "website", url },
+    openGraph: {
+      title: `${meta.title} | Brickwise`,
+      description: meta.description,
+      type: "website",
+      url,
+      images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: meta.title }],
+    },
     alternates: { canonical: url },
   };
 }

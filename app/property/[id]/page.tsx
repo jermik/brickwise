@@ -42,7 +42,7 @@ export async function generateMetadata({
     `${p.overallScore}/100 Brickwise score, €${p.tokenPrice.toFixed(2)} per token.`;
   return {
     title: { absolute: `${shortName} — ${p.expectedYield}% Yield | Brickwise` },
-    description: desc.length > 158 ? desc.slice(0, 157) + "…" : desc,
+    description: desc.length > 130 ? desc.slice(0, 129) + "…" : desc,
     keywords: [
       p.name,
       `tokenized real estate ${p.city}`,
@@ -56,8 +56,9 @@ export async function generateMetadata({
     openGraph: {
       title: `${p.name} — ${p.expectedYield}% Net Yield | Brickwise`,
       description: p.shortDescription,
-      images: [{ url: p.image, alt: p.name }],
+      images: [{ url: p.image, alt: p.name }, { url: `/property/${p.id}/opengraph-image`, width: 1200, height: 630, alt: p.name }],
       type: "website",
+      url: `https://brickwise.pro/property/${p.id}`,
     },
     twitter: {
       card: "summary_large_image",

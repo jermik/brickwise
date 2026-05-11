@@ -145,6 +145,7 @@ export function PropertyFilters({
           </span>
 
           <select
+            aria-label="Sort properties"
             value={sortKey}
             onChange={(e) => onSortChange(e.target.value as SortKey)}
             className="text-[12px] rounded-[6px] outline-none cursor-pointer"

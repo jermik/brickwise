@@ -8,11 +8,11 @@ import { FireEvent } from "@/components/analytics/page-view-tracker";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "RealT vs Lofty (2026): Full Platform Comparison | Brickwise",
+  title: { absolute: "RealT vs Lofty (2026): Platform Comparison — Brickwise" },
   description:
-    "Independent comparison of RealT and Lofty based on live data from " +
+    "Independent RealT vs Lofty comparison: yields, fees, liquidity, city coverage. Verdict based on " +
     PROPERTIES.length +
-    " analyzed properties. Fees, yields, liquidity, city coverage, and a clear bottom-line verdict.",
+    " analyzed properties.",
   keywords: [
     "realt vs lofty",
     "lofty vs realt",
@@ -33,6 +33,9 @@ export const metadata: Metadata = {
       " properties.",
     type: "article",
     url: "https://brickwise.pro/compare/realt-vs-lofty",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "RealT vs Lofty platform comparison" }],
+    publishedTime: "2026-02-01",
+    modifiedTime: new Date().toISOString().slice(0, 10),
   },
   alternates: { canonical: "https://brickwise.pro/compare/realt-vs-lofty" },
 };
@@ -81,9 +84,18 @@ export default function CompareRealtVsLoftyPage() {
     "headline": "RealT vs Lofty (2026): Full Platform Comparison",
     "description":
       "Independent comparison of RealT and Lofty tokenized real estate platforms based on live yield data, fees, and property-level analysis.",
+    "image": "https://brickwise.pro/opengraph-image",
+    "datePublished": "2026-02-01",
+    "dateModified": new Date().toISOString().slice(0, 10),
     "author": { "@type": "Organization", "name": "Brickwise", "url": "https://brickwise.pro" },
-    "publisher": { "@type": "Organization", "name": "Brickwise", "url": "https://brickwise.pro" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Brickwise",
+      "url": "https://brickwise.pro",
+      "logo": { "@type": "ImageObject", "url": "https://brickwise.pro/favicon.svg" },
+    },
     "url": "https://brickwise.pro/compare/realt-vs-lofty",
+    "mainEntityOfPage": "https://brickwise.pro/compare/realt-vs-lofty",
     "about": [
       { "@type": "WebSite", "name": "RealT", "url": "https://realt.co" },
       { "@type": "WebSite", "name": "Lofty", "url": "https://lofty.ai" },

@@ -10,6 +10,14 @@ const avgYield =
 export const metadata: Metadata = {
   title: { absolute: `Browse ${count} Tokenized Properties — Brickwise` },
   description: `Filter ${count} tokenized properties on Lofty & RealT by yield (avg ${avgYield}%), risk, city. Find the best fractional property for your goals.`,
+  openGraph: {
+    title: `Browse ${count} Tokenized Properties — Brickwise`,
+    description: `Filter ${count} tokenized properties on Lofty & RealT by yield, risk, and city.`,
+    type: "website",
+    url: "https://brickwise.pro/analyzer",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Brickwise property analyzer" }],
+  },
+  alternates: { canonical: "https://brickwise.pro/analyzer" },
   keywords: [
     `best Lofty properties ${new Date().getFullYear()}`,
     `best RealT properties ${new Date().getFullYear()}`,
@@ -22,19 +30,10 @@ export const metadata: Metadata = {
     "fractional property investment list",
     "tokenized rental property",
   ],
-  openGraph: {
-    title: `${count} Tokenized Properties — Filter by Yield & Risk | Brickwise`,
-    description: `Browse and filter ${count} tokenized real estate investments. Platform avg ${avgYield}% net yield. Lofty and RealT with full analysis.`,
-    type: "website",
-    url: "https://brickwise.pro/analyzer",
-  },
   twitter: {
     card: "summary_large_image",
     title: `Browse ${count} Tokenized Properties | Brickwise`,
     description: `Filter by yield, risk, and platform. Avg ${avgYield}% net yield across Lofty and RealT.`,
-  },
-  alternates: {
-    canonical: "https://brickwise.pro/analyzer",
   },
 };
 

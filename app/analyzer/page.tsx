@@ -138,6 +138,7 @@ export default function AnalyzerPage() {
             <div className="flex items-center" style={{ background: "#fff", border: "1px solid #e5e5e5", borderRadius: 7, overflow: "hidden" }}>
               <span className="px-2.5 text-[13px]" style={{ color: "#a3a3a3", borderRight: "1px solid #e5e5e5", padding: "5px 8px" }}>€</span>
               <input
+                aria-label="Investment amount in euros"
                 type="text"
                 inputMode="numeric"
                 value={investInput}
