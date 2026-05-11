@@ -923,7 +923,7 @@ export default function DecisionPage() {
                         alt={p.name}
                         referrerPolicy="no-referrer-when-downgrade"
                         className="w-full h-full object-cover opacity-70"
-                        fallback="https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=400&q=80&auto=format&fit=crop"
+                        fallback="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&q=80&auto=format&fit=crop"
                       />
                       <div
                         className="absolute inset-0"

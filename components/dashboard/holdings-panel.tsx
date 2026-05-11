@@ -119,10 +119,10 @@ export function HoldingsPanel() {
               style={!isLast ? { borderBottom: "1px solid rgba(255,255,255,0.05)" } : undefined}
             >
               <img
-                src={prop.image || "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=200&q=80&auto=format&fit=crop"}
+                src={prop.image || "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=200&q=80&auto=format&fit=crop"}
                 alt={prop.name}
                 referrerPolicy="no-referrer-when-downgrade"
-                onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=200&q=80&auto=format&fit=crop"; }}
+                onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=200&q=80&auto=format&fit=crop"; }}
                 className="w-9 h-9 rounded-[6px] object-cover flex-shrink-0"
               />
               <div className="flex-1 min-w-0">

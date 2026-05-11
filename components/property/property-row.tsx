@@ -8,7 +8,7 @@ import { ValueTag } from "@/components/ui/value-tag";
 import { PlatformDot } from "@/components/ui/platform-dot";
 import { calcPaybackYears, calcCapRate, calcMonthlyReturn } from "@/lib/scoring";
 
-const FALLBACK = "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=200&q=80&auto=format&fit=crop";
+const FALLBACK = "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=200&q=80&auto=format&fit=crop";
 
 interface PropertyRowProps {
   property: Property;

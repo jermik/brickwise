@@ -1,6 +1,6 @@
 "use client";
 
-const FALLBACK = "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=1200&q=80&auto=format&fit=crop";
+const FALLBACK = "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200&q=80&auto=format&fit=crop";
 
 export function PropertyHeroImage({ src, alt }: { src: string; alt: string }) {
   return (

@@ -53,8 +53,15 @@ export function EmailCaptureWidget({ source = 'learn_page' }: { source?: string 
         New properties matching your filters, delivered weekly. No spam.
       </div>
       <form onSubmit={handleSubmit} className="flex gap-2">
+        <label htmlFor="brickwise-property-alerts-email" className="sr-only">
+          Email address for property alerts
+        </label>
         <input
+          id="brickwise-property-alerts-email"
+          name="email"
           type="email"
+          autoComplete="email"
+          aria-label="Email address for property alerts"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="your@email.com"

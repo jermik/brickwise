@@ -103,11 +103,11 @@ function AddHoldingModal({
                 style={{ background: "#1C1815", border: "1px solid #2A2420" }}
               >
                 <img
-                  src={selected.image || "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=200&q=80&auto=format&fit=crop"}
+                  src={selected.image || "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=200&q=80&auto=format&fit=crop"}
                   alt={selected.name}
                   referrerPolicy="no-referrer-when-downgrade"
                   className="w-9 h-9 rounded-[5px] object-cover flex-shrink-0"
-                  onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=200&q=80&auto=format&fit=crop"; }}
+                  onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=200&q=80&auto=format&fit=crop"; }}
                 />
                 <div className="flex-1 min-w-0">
                   <div className="text-[13px] font-medium truncate" style={{ color: "#F2EDE6" }}>
@@ -156,11 +156,11 @@ function AddHoldingModal({
                         }}
                       >
                         <img
-                          src={p.image || "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=400&q=80&auto=format&fit=crop"}
+                          src={p.image || "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&q=80&auto=format&fit=crop"}
                           alt={p.name}
                           referrerPolicy="no-referrer-when-downgrade"
                           className="w-8 h-8 rounded-[4px] object-cover flex-shrink-0"
-                          onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=400&q=80&auto=format&fit=crop"; }}
+                          onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&q=80&auto=format&fit=crop"; }}
                         />
                         <div className="flex-1 min-w-0">
                           <div className="text-[12px] font-medium truncate" style={{ color: "#F2EDE6" }}>
@@ -595,11 +595,11 @@ export function PortfolioClient() {
               >
                 <Link href={`/property/${p.id}`} className="flex items-center gap-4 flex-1 min-w-0 no-underline">
                   <img
-                    src={p.image || "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=400&q=80&auto=format&fit=crop"}
+                    src={p.image || "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&q=80&auto=format&fit=crop"}
                     alt={p.name}
                     referrerPolicy="no-referrer-when-downgrade"
                     className="w-10 h-10 rounded-[7px] object-cover flex-shrink-0"
-                    onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=400&q=80&auto=format&fit=crop"; }}
+                    onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&q=80&auto=format&fit=crop"; }}
                   />
                   <div className="flex-1 min-w-0">
                     <div
@@ -728,11 +728,11 @@ export function PortfolioClient() {
                 style={i < missed.length - 1 ? { borderBottom: "1px solid rgba(255,255,255,0.05)" } : undefined}
               >
                 <img
-                  src={m.better.image || "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=200&q=80&auto=format&fit=crop"}
+                  src={m.better.image || "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=200&q=80&auto=format&fit=crop"}
                   alt={m.better.name}
                   referrerPolicy="no-referrer-when-downgrade"
                   className="w-10 h-10 rounded-[7px] object-cover flex-shrink-0 mt-0.5"
-                  onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1560184897-ae5f036d1564?w=200&q=80&auto=format&fit=crop"; }}
+                  onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=200&q=80&auto=format&fit=crop"; }}
                 />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-3 mb-1">
