@@ -68,7 +68,7 @@ const buyProperties = PROPERTIES.filter(
 
 const avoidProperties = PROPERTIES.filter(
   (p) => getRecommendation(p, PROPERTIES).action === "Avoid"
-);
+).slice(0, 6);
 
 // ── Rankings ───────────────────────────────────────────────────────────
 const top5ByScore = [...PROPERTIES].sort((a, b) => b.overallScore - a.overallScore).slice(0, 5);
@@ -82,7 +82,9 @@ const byCityEntries = Object.entries(
     acc[p.city] = (acc[p.city] ?? 0) + 1;
     return acc;
   }, {})
-).sort((a, b) => b[1] - a[1]);
+)
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 12);
 
 const yieldBuckets = [
   { label: "8–10%", count: PROPERTIES.filter((p) => p.expectedYield >= 8 && p.expectedYield < 10).length },
@@ -267,7 +269,7 @@ export default function DecisionPage() {
                 <div className="flex items-center gap-2">
                   {bestPick.isNew && (
                     <span
-                      className="text-[10px] font-bold px-2.5 py-1 rounded-[5px] uppercase tracking-[0.4px]"
+                      className="text-[12px] font-bold px-2.5 py-1 rounded-[5px] uppercase tracking-[0.4px]"
                       style={{ background: "rgba(59,130,246,0.08)", color: "#2563eb", border: "1px solid rgba(59,130,246,0.25)" }}
                     >
                       New
@@ -275,7 +277,7 @@ export default function DecisionPage() {
                   )}
                   {urgency && (
                     <span
-                      className="text-[10px] font-bold px-2.5 py-1 rounded-[5px] uppercase tracking-[0.4px]"
+                      className="text-[12px] font-bold px-2.5 py-1 rounded-[5px] uppercase tracking-[0.4px]"
                       style={{ background: "rgba(239,68,68,0.08)", color: "#dc2626", border: "1px solid rgba(239,68,68,0.2)" }}
                     >
                       {urgency}
@@ -399,7 +401,7 @@ export default function DecisionPage() {
                             = €{k1.annual}/year
                           </span>
                           {k1.vsAvgMonthly > 0 && (
-                            <span className="text-[10px] font-medium px-1.5 py-0.5 rounded" style={{ background: "rgba(34,197,94,0.08)", color: "#22c55e" }}>
+                            <span className="text-[12px] font-medium px-1.5 py-0.5 rounded" style={{ background: "rgba(34,197,94,0.08)", color: "#22c55e" }}>
                               +€{k1.vsAvgMonthly.toFixed(2)} vs avg
                             </span>
                           )}
@@ -419,7 +421,7 @@ export default function DecisionPage() {
                         ].map((s) => (
                           <div key={s.label} className="px-3 py-2.5" style={{ background: "#131109" }}>
                             <div
-                              className="text-[9px] font-semibold uppercase tracking-[0.6px] mb-1"
+                              className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-1"
                               style={{ color: "rgba(242,237,230,0.4)" }}
                             >
                               {s.label}
@@ -521,7 +523,7 @@ export default function DecisionPage() {
                   <div className="flex items-start gap-3 mb-3">
                     <div className="flex-1 min-w-0">
                       <div
-                        className="text-[10px] font-semibold uppercase tracking-[0.6px] mb-0.5"
+                        className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-0.5"
                         style={{ color: "rgba(242,237,230,0.4)" }}
                       >
                         You currently hold
@@ -553,7 +555,7 @@ export default function DecisionPage() {
                   <div className="flex items-start gap-3 mb-4">
                     <div className="flex-1 min-w-0">
                       <div
-                        className="text-[10px] font-semibold uppercase tracking-[0.6px] mb-0.5"
+                        className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-0.5"
                         style={{ color: "#4ade80" }}
                       >
                         Better alternative available
@@ -677,7 +679,7 @@ export default function DecisionPage() {
               >
                 <div className="px-4 py-3" style={{ borderBottom: "1px solid #252018" }}>
                   <div className="text-[12px] font-bold" style={{ color: "#F2EDE6" }}>{list.title}</div>
-                  <div className="text-[10px] mt-0.5" style={{ color: "rgba(242,237,230,0.4)" }}>{list.sub}</div>
+                  <div className="text-[12px] mt-0.5" style={{ color: "rgba(242,237,230,0.4)" }}>{list.sub}</div>
                 </div>
                 {list.items.length === 0 ? (
                   <div className="px-4 py-5 text-[11px] text-center" style={{ color: "rgba(242,237,230,0.4)" }}>No properties in this category yet</div>
@@ -693,7 +695,7 @@ export default function DecisionPage() {
                           style={{ borderBottom: "1px solid #222018" }}
                         >
                           <span
-                            className="text-[10px] font-bold w-4 flex-shrink-0 text-center"
+                            className="text-[12px] font-bold w-4 flex-shrink-0 text-center"
                             style={{ color: i === 0 ? "#22c55e" : "rgba(242,237,230,0.18)" }}
                           >
                             {i + 1}
@@ -701,9 +703,9 @@ export default function DecisionPage() {
                           <div className="flex-1 min-w-0">
                             <div className="text-[11px] font-semibold truncate" style={{ color: "#F2EDE6" }}>{p.name}</div>
                             <div className="flex items-center gap-1 mt-0.5">
-                              <span className="text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>{p.flag} {p.city}</span>
+                              <span className="text-[12px]" style={{ color: "rgba(242,237,230,0.4)" }}>{p.flag} {p.city}</span>
                               <span
-                                className="text-[9px] font-medium"
+                                className="text-[12px] font-medium"
                                 style={{ color: recColor }}
                               >
                                 · {rec.action}
@@ -718,7 +720,7 @@ export default function DecisionPage() {
                               {list.metric(p)}
                             </div>
                             {cmp.betterThanPct > 0 && (
-                              <div className="text-[9px]" style={{ color: "rgba(242,237,230,0.4)" }}>
+                              <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.4)" }}>
                                 top {100 - cmp.betterThanPct}%
                               </div>
                             )}
@@ -786,14 +788,14 @@ export default function DecisionPage() {
                         transition: "width 0.3s",
                       }}
                     >
-                      <span className="text-[10px] font-bold text-white">{b.count}</span>
+                      <span className="text-[12px] font-bold text-white">{b.count}</span>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
             <div className="mt-3 pt-3" style={{ borderTop: "1px solid #252018" }}>
-              <div className="text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>
+              <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.4)" }}>
                 Avg yield: <strong style={{ color: "#F2EDE6" }}>{(PROPERTIES.reduce((s, p) => s + p.expectedYield, 0) / PROPERTIES.length).toFixed(1)}%</strong>
               </div>
             </div>
@@ -821,14 +823,14 @@ export default function DecisionPage() {
                         opacity: 0.75,
                       }}
                     >
-                      <span className="text-[10px] font-bold text-white">{riskCounts[level]}</span>
+                      <span className="text-[12px] font-bold text-white">{riskCounts[level]}</span>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
             <div className="mt-3 pt-3" style={{ borderTop: "1px solid #252018" }}>
-              <div className="text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>
+              <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.4)" }}>
                 {Math.round((riskCounts.Low / PROPERTIES.length) * 100)}% of listings rated Low risk
               </div>
             </div>
@@ -865,7 +867,7 @@ export default function DecisionPage() {
                   </div>
                 </div>
                 <span
-                  className="text-[9px] font-bold uppercase tracking-[0.5px] px-2 py-1 rounded-[4px] flex-shrink-0"
+                  className="text-[12px] font-bold uppercase tracking-[0.5px] px-2 py-1 rounded-[4px] flex-shrink-0"
                   style={p.status === "verified"
                     ? { background: "rgba(34,197,94,0.08)", color: "#22c55e", border: "1px solid rgba(34,197,94,0.22)" }
                     : { background: "rgba(245,158,11,0.08)", color: "#f59e0b", border: "1px solid rgba(245,158,11,0.25)" }
@@ -890,7 +892,7 @@ export default function DecisionPage() {
               </div>
               <div>
                 <div className="text-[12px] font-semibold" style={{ color: "rgba(242,237,230,0.4)" }}>More platforms coming</div>
-                <div className="text-[10px] mt-0.5" style={{ color: "rgba(242,237,230,0.18)" }}>Blocksquare, Arrived, others</div>
+                <div className="text-[12px] mt-0.5" style={{ color: "rgba(242,237,230,0.18)" }}>Blocksquare, Arrived, others</div>
               </div>
             </div>
           </div>
@@ -949,7 +951,7 @@ export default function DecisionPage() {
                         ].map((s) => (
                           <div key={s.label}>
                             <div
-                              className="text-[9px] font-semibold uppercase tracking-[0.5px] mb-0.5"
+                              className="text-[12px] font-semibold uppercase tracking-[0.5px] mb-0.5"
                               style={{ color: "rgba(242,237,230,0.4)" }}
                             >
                               {s.label}
@@ -986,7 +988,7 @@ export default function DecisionPage() {
           style={{ borderTop: "1px solid #242018" }}
         >
           <div className="w-1.5 h-1.5 rounded-full" style={{ background: "#d4d4d4" }} />
-          <p className="text-[10px] leading-[1.6]" style={{ color: "#c4c4c4" }}>
+          <p className="text-[12px] leading-[1.6]" style={{ color: "#c4c4c4" }}>
             {verifiedCount} source-verified listings across {platformCoverage.length} platforms · Last updated{" "}
             {new Date(latestUpdate + "T00:00:00").toLocaleDateString("en-GB", {
               month: "short",

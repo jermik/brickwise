@@ -22,7 +22,7 @@ export function StatusUpdater({ lead }: StatusUpdaterProps) {
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+        <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
           Pipeline status
         </p>
         <div className="flex flex-wrap gap-1.5">

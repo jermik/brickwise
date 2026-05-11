@@ -4,7 +4,7 @@ export default function DiscoveryPage() {
   return (
     <div className="px-4 sm:px-6 md:px-8 py-6 md:py-8 max-w-6xl space-y-6">
       <div>
-        <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "#f59e0b" }}>
+        <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "#f59e0b" }}>
           Brickwise · Lead Discovery
         </p>
         <h1 className="font-display text-3xl mt-1" style={{ color: "#F2EDE6" }}>

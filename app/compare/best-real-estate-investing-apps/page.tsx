@@ -271,7 +271,7 @@ export default function BestRealEstateAppsPage() {
                 <h2 className="text-[22px] font-bold tracking-[-0.4px]" style={{ color: "#111", fontFamily: "var(--font-dm-serif)" }}>
                   {app.name}
                 </h2>
-                <span className="text-[10px] font-bold uppercase tracking-[0.6px] px-2 py-0.5 rounded ml-auto" style={{ background: "#f0fdf4", color: "#16a34a" }}>
+                <span className="text-[12px] font-bold uppercase tracking-[0.6px] px-2 py-0.5 rounded ml-auto" style={{ background: "#f0fdf4", color: "#16a34a" }}>
                   {app.minimum} min
                 </span>
               </div>
@@ -280,17 +280,17 @@ export default function BestRealEstateAppsPage() {
               </p>
               <div className="grid sm:grid-cols-2 gap-4 text-[12.5px] mb-4">
                 <div>
-                  <div className="text-[10px] font-bold uppercase tracking-[0.6px] mb-1" style={{ color: "#737373" }}>Distributions</div>
+                  <div className="text-[12px] font-bold uppercase tracking-[0.6px] mb-1" style={{ color: "#737373" }}>Distributions</div>
                   <div style={{ color: "#111" }}>{app.distributions}</div>
                 </div>
                 <div>
-                  <div className="text-[10px] font-bold uppercase tracking-[0.6px] mb-1" style={{ color: "#737373" }}>App experience</div>
+                  <div className="text-[12px] font-bold uppercase tracking-[0.6px] mb-1" style={{ color: "#737373" }}>App experience</div>
                   <div style={{ color: "#111" }}>{app.ux}</div>
                 </div>
               </div>
               <div className="grid sm:grid-cols-2 gap-3">
                 <div>
-                  <div className="text-[10px] font-bold uppercase tracking-[0.6px] mb-1.5" style={{ color: "#16a34a" }}>Pros</div>
+                  <div className="text-[12px] font-bold uppercase tracking-[0.6px] mb-1.5" style={{ color: "#16a34a" }}>Pros</div>
                   <ul className="space-y-1">
                     {app.pros.map((pro) => (
                       <li key={pro} className="flex items-start gap-2 text-[12px]" style={{ color: "#404040" }}>
@@ -301,7 +301,7 @@ export default function BestRealEstateAppsPage() {
                   </ul>
                 </div>
                 <div>
-                  <div className="text-[10px] font-bold uppercase tracking-[0.6px] mb-1.5" style={{ color: "#dc2626" }}>Cons</div>
+                  <div className="text-[12px] font-bold uppercase tracking-[0.6px] mb-1.5" style={{ color: "#dc2626" }}>Cons</div>
                   <ul className="space-y-1">
                     {app.cons.map((con) => (
                       <li key={con} className="flex items-start gap-2 text-[12px]" style={{ color: "#404040" }}>

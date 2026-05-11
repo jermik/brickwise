@@ -147,7 +147,7 @@ export default function MarketPage() {
             { label: "Avg overall score", value: `${avgScore}`, sub: "out of 100" },
           ].map((s) => (
             <div key={s.label} className="px-5 py-4" style={{ background: "#131109" }}>
-              <div className="text-[10px] font-semibold uppercase tracking-[0.6px] mb-1.5" style={{ color: "rgba(242,237,230,0.35)" }}>
+              <div className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-1.5" style={{ color: "rgba(242,237,230,0.35)" }}>
                 {s.label}
               </div>
               <div
@@ -179,7 +179,7 @@ export default function MarketPage() {
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-[12px] font-semibold" style={{ color: s.color }}>{s.label}</span>
                     <span className="text-[12px] font-medium" style={{ fontFamily: "var(--font-dm-mono)", color: "rgba(242,237,230,0.7)" }}>
-                      {s.count} <span className="text-[10px]" style={{ color: "rgba(242,237,230,0.35)" }}>({Math.round((s.count / PROPERTIES.length) * 100)}%)</span>
+                      {s.count} <span className="text-[12px]" style={{ color: "rgba(242,237,230,0.35)" }}>({Math.round((s.count / PROPERTIES.length) * 100)}%)</span>
                     </span>
                   </div>
                   <div className="h-2 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.04)" }}>
@@ -199,7 +199,7 @@ export default function MarketPage() {
               ].map((s) => (
                 <div key={s.label} className="text-center">
                   <div className="text-[14px] font-semibold mb-0.5" style={{ fontFamily: "var(--font-dm-mono)", color: "#F2EDE6" }}>{s.value}</div>
-                  <div className="text-[10px]" style={{ color: "rgba(242,237,230,0.35)" }}>{s.label}</div>
+                  <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.35)" }}>{s.label}</div>
                 </div>
               ))}
             </div>
@@ -215,7 +215,7 @@ export default function MarketPage() {
                 const pct = maxBucket > 0 ? (b.count / maxBucket) * 100 : 0;
                 return (
                   <div key={b.label} className="flex-1 flex flex-col items-center gap-1.5">
-                    <span className="text-[10px] font-semibold" style={{ fontFamily: "var(--font-dm-mono)", color: b.color }}>{b.count}</span>
+                    <span className="text-[12px] font-semibold" style={{ fontFamily: "var(--font-dm-mono)", color: b.color }}>{b.count}</span>
                     <div
                       className="w-full rounded-t-[3px]"
                       style={{ height: `${Math.max(4, pct)}%`, background: b.color, opacity: 0.8, minHeight: b.count > 0 ? 4 : 0 }}
@@ -227,17 +227,17 @@ export default function MarketPage() {
             <div className="flex items-center gap-2 mt-2">
               {yieldBuckets.map((b) => (
                 <div key={b.label} className="flex-1 text-center">
-                  <span className="text-[9px] font-medium" style={{ color: "rgba(242,237,230,0.4)" }}>{b.label}</span>
+                  <span className="text-[12px] font-medium" style={{ color: "rgba(242,237,230,0.4)" }}>{b.label}</span>
                 </div>
               ))}
             </div>
             <div className="mt-4 pt-3 flex items-center gap-4" style={{ borderTop: "1px solid #2A2420" }}>
               <div>
-                <span className="text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>Avg yield </span>
+                <span className="text-[12px]" style={{ color: "rgba(242,237,230,0.4)" }}>Avg yield </span>
                 <span className="text-[13px] font-semibold" style={{ fontFamily: "var(--font-dm-mono)", color: "#22c55e" }}>{avgYield}%</span>
               </div>
               <div>
-                <span className="text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>Peak yield </span>
+                <span className="text-[12px]" style={{ color: "rgba(242,237,230,0.4)" }}>Peak yield </span>
                 <span className="text-[13px] font-semibold" style={{ fontFamily: "var(--font-dm-mono)", color: "#4ade80" }}>{maxYield}%</span>
               </div>
             </div>
@@ -288,17 +288,17 @@ export default function MarketPage() {
                     </div>
                     <div className="text-right flex-shrink-0 hidden sm:block w-16">
                       <div className="text-[14px] font-semibold" style={{ fontFamily: "var(--font-dm-mono)", color: "#22c55e" }}>{p.expectedYield}%</div>
-                      <div className="text-[10px]" style={{ color: "rgba(242,237,230,0.35)" }}>yield</div>
+                      <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.35)" }}>yield</div>
                     </div>
                     <div className="text-right flex-shrink-0 hidden md:block w-20">
                       <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.5)", fontFamily: "var(--font-dm-mono)" }}>€{p.tokenPrice.toFixed(2)}</div>
-                      <div className="text-[10px]" style={{ color: "rgba(242,237,230,0.35)" }}>token</div>
+                      <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.35)" }}>token</div>
                     </div>
                     <div className="flex-shrink-0">
                       <ScoreRing score={p.overallScore} size={34} />
                     </div>
                     <div
-                      className="text-[10px] font-bold px-2 py-0.5 rounded-[4px] flex-shrink-0"
+                      className="text-[12px] font-bold px-2 py-0.5 rounded-[4px] flex-shrink-0"
                       style={{ background: "rgba(34,197,94,0.12)", color: "#22c55e" }}
                     >
                       {rec.label ?? rec.action}
@@ -343,7 +343,7 @@ export default function MarketPage() {
                       >
                         {m.value}
                       </div>
-                      <div className="text-[9px] uppercase tracking-[0.5px]" style={{ color: "rgba(242,237,230,0.35)" }}>{m.label}</div>
+                      <div className="text-[12px] uppercase tracking-[0.5px]" style={{ color: "rgba(242,237,230,0.35)" }}>{m.label}</div>
                     </div>
                   ))}
                 </div>
@@ -368,7 +368,7 @@ export default function MarketPage() {
                 }}
               >
                 {["#", "City", "Listings", "Avg Yield", "Buys", "Avg Score"].map((h) => (
-                  <div key={h} className="text-[9px] font-bold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.3)" }}>{h}</div>
+                  <div key={h} className="text-[12px] font-bold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.3)" }}>{h}</div>
                 ))}
               </div>
               {cityData.map((c, i) => (
@@ -386,7 +386,7 @@ export default function MarketPage() {
                   </span>
                   <div>
                     <div className="text-[12px] font-semibold" style={{ color: "#F2EDE6" }}>{c.flag} {c.city}</div>
-                    <div className="text-[10px]" style={{ color: "rgba(242,237,230,0.35)" }}>top: {c.topYield}% yield</div>
+                    <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.35)" }}>top: {c.topYield}% yield</div>
                   </div>
                   <div className="text-[12px] font-medium" style={{ fontFamily: "var(--font-dm-mono)", color: "rgba(242,237,230,0.6)" }}>{c.count}</div>
                   <div className="text-[13px] font-semibold" style={{ fontFamily: "var(--font-dm-mono)", color: "#22c55e" }}>{c.avgYield}%</div>
@@ -427,11 +427,11 @@ export default function MarketPage() {
                         className="w-full h-[80px] object-cover rounded-[6px] mb-3"
                       />
                       <div className="text-[12px] font-semibold truncate mb-0.5" style={{ color: "#F2EDE6" }}>{p.name}</div>
-                      <div className="text-[10px] mb-2" style={{ color: "rgba(242,237,230,0.4)" }}>{p.flag} {p.city}</div>
+                      <div className="text-[12px] mb-2" style={{ color: "rgba(242,237,230,0.4)" }}>{p.flag} {p.city}</div>
                       <div className="flex items-center justify-between">
                         <span className="text-[14px] font-semibold" style={{ fontFamily: "var(--font-dm-mono)", color: "#22c55e" }}>{p.expectedYield}%</span>
                         <span
-                          className="text-[9px] font-bold px-1.5 py-0.5 rounded-[3px]"
+                          className="text-[12px] font-bold px-1.5 py-0.5 rounded-[3px]"
                           style={{ background: "rgba(34,197,94,0.12)", color: "#22c55e" }}
                         >
                           {rec.action}
@@ -471,7 +471,7 @@ export default function MarketPage() {
                       </div>
                     </div>
                     <span
-                      className="text-[9px] font-bold px-1.5 py-0.5 rounded-[3px] flex-shrink-0"
+                      className="text-[12px] font-bold px-1.5 py-0.5 rounded-[3px] flex-shrink-0"
                       style={{ background: "rgba(59,130,246,0.12)", color: "#3b82f6" }}
                     >
                       New
@@ -522,7 +522,7 @@ export default function MarketPage() {
         {/* ── Footer ── */}
         <div className="mt-8 pt-5 flex items-center gap-3" style={{ borderTop: "1px solid #2A2420" }}>
           <div className="w-1.5 h-1.5 rounded-full" style={{ background: "#d4d4d4" }} />
-          <p className="text-[10px] leading-[1.6]" style={{ color: "rgba(242,237,230,0.3)" }}>
+          <p className="text-[12px] leading-[1.6]" style={{ color: "rgba(242,237,230,0.3)" }}>
             {verifiedCount} source-verified listings · Last updated {lastUpdatedFmt} · Not financial advice.
           </p>
         </div>

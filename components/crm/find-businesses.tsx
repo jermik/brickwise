@@ -177,7 +177,7 @@ export function FindBusinesses() {
         className="rounded-lg p-5 space-y-4"
         style={{ background: "#131109", border: "1px solid #2A2420" }}
       >
-        <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+        <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
           Find Businesses
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -493,7 +493,7 @@ function ResultCard({
             {websiteHost}
           </a>
         ) : (
-          <span className="font-mono text-[10px]" style={{ color: "rgba(248,113,113,0.7)" }}>
+          <span className="font-mono text-[12px]" style={{ color: "rgba(248,113,113,0.7)" }}>
             NO WEBSITE
           </span>
         )}

@@ -85,7 +85,7 @@ export function WaitlistForm({ source = "direct" }: WaitlistFormProps) {
       className="rounded-lg p-5 space-y-3"
       style={{ background: SURFACE, border: `1px solid ${BORDER}` }}
     >
-      <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: ACCENT }}>
+      <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: ACCENT }}>
         Early access waitlist
       </p>
       <p className="text-sm" style={{ color: "rgba(242,237,230,0.7)" }}>
@@ -151,7 +151,7 @@ export function WaitlistForm({ source = "direct" }: WaitlistFormProps) {
         {pending || state.kind === "submitting" ? "Joining…" : "Get early access"}
       </button>
 
-      <p className="font-mono text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>
+      <p className="font-mono text-[12px]" style={{ color: "rgba(242,237,230,0.4)" }}>
         No spam. No newsletter funnels. One message when access is ready.
       </p>
     </form>

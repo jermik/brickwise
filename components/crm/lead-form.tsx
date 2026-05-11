@@ -142,7 +142,7 @@ export function LeadForm({ lead, mode }: LeadFormProps) {
 
       {/* Core info */}
       <section className="space-y-4">
-        <h3 className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+        <h3 className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
           Business info
         </h3>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -191,7 +191,7 @@ export function LeadForm({ lead, mode }: LeadFormProps) {
 
       {/* Contact details */}
       <section className="space-y-4">
-        <h3 className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+        <h3 className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
           Contact details
         </h3>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -255,7 +255,7 @@ export function LeadForm({ lead, mode }: LeadFormProps) {
 
       {/* CRM fields */}
       <section className="space-y-4">
-        <h3 className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+        <h3 className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
           CRM status
         </h3>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

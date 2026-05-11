@@ -26,7 +26,7 @@ export function PipelineOverview({ byStatus, total }: PipelineOverviewProps) {
         return (
           <div key={status} className="flex items-center gap-3">
             <span
-              className="w-28 shrink-0 font-mono text-[10px] tracking-wide"
+              className="w-28 shrink-0 font-mono text-[12px] tracking-wide"
               style={{ color: cfg.color }}
             >
               {cfg.label.toUpperCase()}
@@ -45,7 +45,7 @@ export function PipelineOverview({ byStatus, total }: PipelineOverviewProps) {
               />
               {count > 0 && (
                 <span
-                  className="absolute left-2 top-1/2 -translate-y-1/2 font-mono text-[10px] font-semibold"
+                  className="absolute left-2 top-1/2 -translate-y-1/2 font-mono text-[12px] font-semibold"
                   style={{ color: "#F2EDE6" }}
                 >
                   {count}
@@ -72,7 +72,7 @@ export function StatCard({ label, value, sub, accent }: StatCardProps) {
       className="rounded-lg px-4 py-4 space-y-1"
       style={{ background: "#131109", border: "1px solid #2A2420" }}
     >
-      <p className="text-[10px] font-mono tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+      <p className="text-[12px] font-mono tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
         {label}
       </p>
       <p className="font-display text-2xl" style={{ color: accent ?? "#F2EDE6" }}>

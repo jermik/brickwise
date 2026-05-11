@@ -195,7 +195,7 @@ export default function BestFractionalPlatformsPage() {
         {/* Comparison table */}
         <div className="rounded-[12px] overflow-hidden mb-10" style={{ border: "1px solid #ebebeb" }}>
           <div
-            className="grid grid-cols-[120px_120px_90px_140px_1fr] gap-0 px-4 py-3 text-[10px] font-bold uppercase tracking-[0.6px]"
+            className="grid grid-cols-[120px_120px_90px_140px_1fr] gap-0 px-4 py-3 text-[12px] font-bold uppercase tracking-[0.6px]"
             style={{ background: "#fafafa", borderBottom: "1px solid #ebebeb", color: "#737373" }}
           >
             <div>Platform</div>
@@ -249,7 +249,7 @@ export default function BestFractionalPlatformsPage() {
                   {p.name}
                 </span>
                 <span
-                  className="text-[10px] font-bold uppercase tracking-[0.6px] px-2 py-0.5 rounded"
+                  className="text-[12px] font-bold uppercase tracking-[0.6px] px-2 py-0.5 rounded"
                   style={{
                     background: p.type === "Tokenized" ? "#f0fdf4" : "#fafafa",
                     color: p.type === "Tokenized" ? "#16a34a" : "#737373",

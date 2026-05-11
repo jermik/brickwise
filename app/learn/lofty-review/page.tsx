@@ -180,7 +180,7 @@ export default function LoftyReviewPage() {
 
         {/* Quick verdict */}
         <div className="rounded-[12px] px-6 py-5 mb-8" style={{ background: "rgba(249,115,22,0.06)", border: "1px solid rgba(249,115,22,0.2)" }}>
-          <div className="text-[10px] font-semibold uppercase tracking-[0.6px] mb-2" style={{ color: "#f97316" }}>Brickwise Verdict</div>
+          <div className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-2" style={{ color: "#f97316" }}>Brickwise Verdict</div>
           <div className="flex items-center gap-3 mb-2">
             <span className="text-[22px] font-bold" style={{ fontFamily: "var(--font-dm-mono)", color: "#f97316" }}>4.2 / 5</span>
             <div className="flex gap-1">
@@ -206,9 +206,9 @@ export default function LoftyReviewPage() {
             { label: "Payout frequency", value: "Daily", sub: "in USDC stablecoin" },
           ].map((s) => (
             <div key={s.label} className="px-4 py-3" style={{ background: "#131109" }}>
-              <div className="text-[9px] font-semibold uppercase tracking-[0.6px] mb-1" style={{ color: "rgba(242,237,230,0.35)" }}>{s.label}</div>
+              <div className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-1" style={{ color: "rgba(242,237,230,0.35)" }}>{s.label}</div>
               <div className="text-[18px] font-bold leading-none mb-0.5" style={{ fontFamily: "var(--font-dm-mono)", color: "#f97316" }}>{s.value}</div>
-              <div className="text-[9px]" style={{ color: "rgba(242,237,230,0.35)" }}>{s.sub}</div>
+              <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.35)" }}>{s.sub}</div>
             </div>
           ))}
         </div>
@@ -235,7 +235,7 @@ export default function LoftyReviewPage() {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="rounded-[10px] p-5" style={{ background: "rgba(34,197,94,0.05)", border: "1px solid rgba(34,197,94,0.15)" }}>
-                <div className="text-[10px] font-semibold uppercase tracking-[0.6px] mb-3" style={{ color: "#22c55e" }}>Strengths</div>
+                <div className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-3" style={{ color: "#22c55e" }}>Strengths</div>
                 <div className="space-y-2">
                   {[
                     "$50 minimum — lowest in the market",
@@ -253,7 +253,7 @@ export default function LoftyReviewPage() {
                 </div>
               </div>
               <div className="rounded-[10px] p-5" style={{ background: "rgba(239,68,68,0.05)", border: "1px solid rgba(239,68,68,0.15)" }}>
-                <div className="text-[10px] font-semibold uppercase tracking-[0.6px] mb-3" style={{ color: "#ef4444" }}>Weaknesses</div>
+                <div className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-3" style={{ color: "#ef4444" }}>Weaknesses</div>
                 <div className="space-y-2">
                   {[
                     "Algorand wallet required — extra setup step",
@@ -285,9 +285,9 @@ export default function LoftyReviewPage() {
               <table className="w-full border-collapse">
                 <thead>
                   <tr style={{ background: "#1A1713", borderBottom: "1px solid #2A2420" }}>
-                    <th className="text-left px-5 py-3 text-[10px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.4)" }}>Yield tier</th>
-                    <th className="text-center px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.4)" }}>Range</th>
-                    <th className="text-center px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.4)" }}>Typical profile</th>
+                    <th className="text-left px-5 py-3 text-[12px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.4)" }}>Yield tier</th>
+                    <th className="text-center px-4 py-3 text-[12px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.4)" }}>Range</th>
+                    <th className="text-center px-4 py-3 text-[12px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.4)" }}>Typical profile</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -347,9 +347,9 @@ export default function LoftyReviewPage() {
               <table className="w-full border-collapse">
                 <thead>
                   <tr style={{ background: "#1A1713", borderBottom: "1px solid #2A2420" }}>
-                    <th className="text-left px-5 py-3 text-[10px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.4)" }}>Feature</th>
-                    <th className="text-center px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.6px]" style={{ color: "#f97316" }}>Lofty</th>
-                    <th className="text-center px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.6px]" style={{ color: "#3b82f6" }}>RealT</th>
+                    <th className="text-left px-5 py-3 text-[12px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.4)" }}>Feature</th>
+                    <th className="text-center px-4 py-3 text-[12px] font-semibold uppercase tracking-[0.6px]" style={{ color: "#f97316" }}>Lofty</th>
+                    <th className="text-center px-4 py-3 text-[12px] font-semibold uppercase tracking-[0.6px]" style={{ color: "#3b82f6" }}>RealT</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -440,7 +440,7 @@ export default function LoftyReviewPage() {
             ].map((link) => (
               <Link key={link.href} href={link.href} className="no-underline block">
                 <div className="rounded-[10px] px-5 py-4 hover:bg-[#1a1611] transition-colors" style={{ background: "#131109", border: "1px solid #2A2420" }}>
-                  <div className="text-[10px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: "#22c55e" }}>{link.tag}</div>
+                  <div className="text-[12px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: "#22c55e" }}>{link.tag}</div>
                   <div className="text-[13px] font-medium" style={{ color: "#F2EDE6" }}>{link.title} →</div>
                 </div>
               </Link>
@@ -465,7 +465,7 @@ export default function LoftyReviewPage() {
           </Link>
         </div>
 
-        <p className="mt-6 text-[10px] leading-[1.6]" style={{ color: "rgba(242,237,230,0.25)" }}>
+        <p className="mt-6 text-[12px] leading-[1.6]" style={{ color: "rgba(242,237,230,0.25)" }}>
           This review is for educational purposes only. Not financial advice. Always conduct your own research and consult a qualified financial advisor before investing.
         </p>
       </div>

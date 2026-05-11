@@ -110,25 +110,30 @@ export default async function RankingsPage({ params }: Props) {
   const meta = CATEGORY_META[category as Category];
   if (!meta) notFound();
 
+  // Cap each ranking to 60 to keep DOM size and HTML weight reasonable
+  // (audit threshold: <800 DOM nodes, <300 anchors, <100KB HTML).
+  const RANKING_CAP = 60;
   let ranked: typeof PROPERTIES;
   switch (category as Category) {
     case "highest-yield":
-      ranked = [...PROPERTIES].sort((a, b) => b.expectedYield - a.expectedYield);
+      ranked = [...PROPERTIES]
+        .sort((a, b) => b.expectedYield - a.expectedYield)
+        .slice(0, RANKING_CAP);
       break;
     case "buy-signals":
-      ranked = PROPERTIES.filter((p) => recAction(p) === "Buy").sort(
-        (a, b) => b.overallScore - a.overallScore
-      );
+      ranked = PROPERTIES.filter((p) => recAction(p) === "Buy")
+        .sort((a, b) => b.overallScore - a.overallScore)
+        .slice(0, RANKING_CAP);
       break;
     case "undervalued":
-      ranked = PROPERTIES.filter((p) => p.fairValueStatus === "undervalued").sort(
-        (a, b) => b.overallScore - a.overallScore
-      );
+      ranked = PROPERTIES.filter((p) => p.fairValueStatus === "undervalued")
+        .sort((a, b) => b.overallScore - a.overallScore)
+        .slice(0, RANKING_CAP);
       break;
     case "new-listings":
       ranked = [...PROPERTIES]
         .sort((a, b) => (b.lastUpdated > a.lastUpdated ? 1 : -1))
-        .slice(0, 60);
+        .slice(0, RANKING_CAP);
       break;
     default:
       notFound();
@@ -216,7 +221,7 @@ export default async function RankingsPage({ params }: Props) {
             { label: "Platforms", value: platforms.join(" + ") },
           ].map((s) => (
             <div key={s.label} className="px-4 py-3" style={{ background: "#131109" }}>
-              <div className="text-[9px] font-semibold uppercase tracking-[0.6px] mb-1" style={{ color: "rgba(242,237,230,0.35)" }}>{s.label}</div>
+              <div className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-1" style={{ color: "rgba(242,237,230,0.35)" }}>{s.label}</div>
               <div
                 className="text-[15px] font-semibold leading-none"
                 style={{ fontFamily: "var(--font-dm-mono)", color: s.green ? "#22c55e" : s.accent ? "#3b82f6" : "#F2EDE6" }}
@@ -248,7 +253,7 @@ export default async function RankingsPage({ params }: Props) {
             style={{ background: "#1A1713", borderBottom: "1px solid #2A2420", gridTemplateColumns: "40px 2fr 1fr 1fr 1fr 1fr 80px" }}
           >
             {["#", "Property", "Yield", "Score", "Risk", "Platform", "Signal"].map((h) => (
-              <div key={h} className="text-[9px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.35)" }}>{h}</div>
+              <div key={h} className="text-[12px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.35)" }}>{h}</div>
             ))}
           </div>
 
@@ -280,11 +285,11 @@ export default async function RankingsPage({ params }: Props) {
                   <div className="min-w-0 pr-3">
                     <div className="text-[12px] font-semibold truncate" style={{ color: "#F2EDE6" }}>{p.name}</div>
                     <div className="flex items-center gap-1.5 mt-0.5">
-                      <span className="text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>
+                      <span className="text-[12px]" style={{ color: "rgba(242,237,230,0.4)" }}>
                         {p.flag} {p.city}
                       </span>
                       {p.fairValueStatus === "undervalued" && (
-                        <span className="text-[9px] px-1 py-0.5 rounded-[3px]" style={{ background: "rgba(34,197,94,0.1)", color: "#22c55e" }}>Undervalued</span>
+                        <span className="text-[12px] px-1 py-0.5 rounded-[3px]" style={{ background: "rgba(34,197,94,0.1)", color: "#22c55e" }}>Undervalued</span>
                       )}
                     </div>
                   </div>
@@ -302,7 +307,7 @@ export default async function RankingsPage({ params }: Props) {
                   {/* Risk */}
                   <div>
                     <span
-                      className="text-[10px] font-semibold px-1.5 py-0.5 rounded-[3px]"
+                      className="text-[12px] font-semibold px-1.5 py-0.5 rounded-[3px]"
                       style={{
                         background: p.risk === "Low" ? "rgba(34,197,94,0.1)" : "rgba(245,158,11,0.1)",
                         color: p.risk === "Low" ? "#22c55e" : "#f59e0b",
@@ -313,14 +318,14 @@ export default async function RankingsPage({ params }: Props) {
                   </div>
 
                   {/* Platform */}
-                  <div className="text-[10px] font-semibold" style={{ color: platformColor }}>
+                  <div className="text-[12px] font-semibold" style={{ color: platformColor }}>
                     {p.platform}
                   </div>
 
                   {/* Signal */}
                   <div>
                     <div
-                      className="text-[10px] font-bold px-2 py-1 rounded-[4px] text-center"
+                      className="text-[12px] font-bold px-2 py-1 rounded-[4px] text-center"
                       style={{ background: `${recColor}15`, color: recColor, border: `1px solid ${recColor}30` }}
                     >
                       {rec.action}
@@ -360,7 +365,7 @@ export default async function RankingsPage({ params }: Props) {
           </div>
         </div>
 
-        <p className="mt-4 text-[10px]" style={{ color: "rgba(242,237,230,0.25)" }}>
+        <p className="mt-4 text-[12px]" style={{ color: "rgba(242,237,230,0.25)" }}>
           Rankings refresh hourly. Scores are computed from yield, risk, neighborhood, and fair-value metrics. Not financial advice.
         </p>
 

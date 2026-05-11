@@ -152,7 +152,7 @@ function ProjectCard({ project }: { project: AlgorandProject }) {
             )}
           </div>
           <span
-            className="text-[10px] font-medium uppercase tracking-[0.6px]"
+            className="text-[12px] font-medium uppercase tracking-[0.6px]"
             style={{ color: "rgba(255,255,255,0.45)" }}
           >
             {project.category}
@@ -170,7 +170,7 @@ function ProjectCard({ project }: { project: AlgorandProject }) {
         {project.ecosystemTags.slice(0, 3).map((tag) => (
           <span
             key={tag}
-            className="text-[10px] font-medium px-2 py-0.5 rounded"
+            className="text-[12px] font-medium px-2 py-0.5 rounded"
             style={{
               background: "rgba(255,255,255,0.05)",
               color: "rgba(255,255,255,0.55)",

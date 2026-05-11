@@ -169,7 +169,7 @@ export default function ArrivedVsFundrisePage() {
 
         {/* Comparison matrix */}
         <div className="rounded-[12px] overflow-hidden mb-10" style={{ border: "1px solid #ebebeb" }}>
-          <div className="grid grid-cols-[180px_1fr_1fr] gap-0 px-4 py-3 text-[10px] font-bold uppercase tracking-[0.6px]" style={{ background: "#fafafa", borderBottom: "1px solid #ebebeb", color: "#737373" }}>
+          <div className="grid grid-cols-[180px_1fr_1fr] gap-0 px-4 py-3 text-[12px] font-bold uppercase tracking-[0.6px]" style={{ background: "#fafafa", borderBottom: "1px solid #ebebeb", color: "#737373" }}>
             <div></div>
             <div>Arrived</div>
             <div>Fundrise</div>
@@ -192,7 +192,7 @@ export default function ArrivedVsFundrisePage() {
           ].map((p) => (
             <div key={p.name} className="rounded-[10px] p-5" style={{ background: "#fff", border: "1px solid #ebebeb" }}>
               <h3 className="text-[15px] font-bold mb-3" style={{ color: "#111" }}>{p.name}</h3>
-              <div className="text-[10px] font-bold uppercase tracking-[0.6px] mb-2" style={{ color: "#16a34a" }}>Pros</div>
+              <div className="text-[12px] font-bold uppercase tracking-[0.6px] mb-2" style={{ color: "#16a34a" }}>Pros</div>
               <ul className="space-y-1.5 mb-4">
                 {p.pros.map((pro) => (
                   <li key={pro} className="flex items-start gap-2 text-[12.5px]" style={{ color: "#404040" }}>
@@ -201,7 +201,7 @@ export default function ArrivedVsFundrisePage() {
                   </li>
                 ))}
               </ul>
-              <div className="text-[10px] font-bold uppercase tracking-[0.6px] mb-2" style={{ color: "#dc2626" }}>Cons</div>
+              <div className="text-[12px] font-bold uppercase tracking-[0.6px] mb-2" style={{ color: "#dc2626" }}>Cons</div>
               <ul className="space-y-1.5">
                 {p.cons.map((con) => (
                   <li key={con} className="flex items-start gap-2 text-[12.5px]" style={{ color: "#404040" }}>

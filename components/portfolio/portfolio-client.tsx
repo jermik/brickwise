@@ -92,7 +92,7 @@ function AddHoldingModal({
           {/* Property selector */}
           <div>
             <div
-              className="text-[10px] font-semibold uppercase tracking-[0.6px] mb-2"
+              className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-2"
               style={{ color: "rgba(242,237,230,0.35)" }}
             >
               Property
@@ -166,12 +166,12 @@ function AddHoldingModal({
                           <div className="text-[12px] font-medium truncate" style={{ color: "#F2EDE6" }}>
                             {p.name}
                           </div>
-                          <div className="text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>
+                          <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.4)" }}>
                             {p.flag} {p.city} · {p.platform} · {p.expectedYield}% yield
                           </div>
                         </div>
                         <span
-                          className="text-[10px] font-semibold flex-shrink-0"
+                          className="text-[12px] font-semibold flex-shrink-0"
                           style={{ color: "#22c55e", fontFamily: "var(--font-dm-mono)" }}
                         >
                           €{p.tokenPrice.toFixed(2)}
@@ -195,7 +195,7 @@ function AddHoldingModal({
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <div
-                    className="text-[10px] font-semibold uppercase tracking-[0.6px] mb-2"
+                    className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-2"
                     style={{ color: "rgba(242,237,230,0.35)" }}
                   >
                     Tokens owned
@@ -217,7 +217,7 @@ function AddHoldingModal({
                 </div>
                 <div>
                   <div
-                    className="text-[10px] font-semibold uppercase tracking-[0.6px] mb-2"
+                    className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-2"
                     style={{ color: "rgba(242,237,230,0.35)" }}
                   >
                     Value (€)
@@ -430,7 +430,7 @@ export function PortfolioClient() {
           ].map((kpi) => (
             <div key={kpi.label} className="px-5 py-4" style={{ background: "#131109" }}>
               <div
-                className="text-[10px] font-semibold uppercase tracking-[0.6px] mb-1.5"
+                className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-1.5"
                 style={{ color: "rgba(242,237,230,0.35)" }}
               >
                 {kpi.label}
@@ -519,10 +519,10 @@ export function PortfolioClient() {
                     {slices.map((s, i) => (
                       <div key={i} className="flex items-center gap-1.5 min-w-0">
                         <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: s.color }} />
-                        <span className="text-[10px] truncate flex-1" style={{ color: "rgba(242,237,230,0.6)" }}>
+                        <span className="text-[12px] truncate flex-1" style={{ color: "rgba(242,237,230,0.6)" }}>
                           {holdingProps[i]?.p.name.split(" ").slice(0, 2).join(" ")}
                         </span>
-                        <span className="text-[10px] font-semibold flex-shrink-0" style={{ fontFamily: "var(--font-dm-mono)", color: "rgba(242,237,230,0.5)" }}>
+                        <span className="text-[12px] font-semibold flex-shrink-0" style={{ fontFamily: "var(--font-dm-mono)", color: "rgba(242,237,230,0.5)" }}>
                           {Math.round(s.pct * 100)}%
                         </span>
                       </div>
@@ -557,7 +557,7 @@ export function PortfolioClient() {
                   { label: "Per token", value: `€${holdingProps.length ? (totalMonthly / holdingProps.reduce((s, { h }) => s + h.tokens, 0)).toFixed(3) : "—"}` },
                 ].map((s) => (
                   <div key={s.label} className="rounded-[6px] px-3 py-2" style={{ background: "rgba(255,255,255,0.03)" }}>
-                    <div className="text-[9px] uppercase tracking-[0.5px] mb-0.5" style={{ color: "rgba(242,237,230,0.3)" }}>{s.label}</div>
+                    <div className="text-[12px] uppercase tracking-[0.5px] mb-0.5" style={{ color: "rgba(242,237,230,0.3)" }}>{s.label}</div>
                     <div className="text-[13px] font-semibold" style={{ fontFamily: "var(--font-dm-mono)", color: "#F2EDE6" }}>{s.value}</div>
                   </div>
                 ))}
@@ -613,7 +613,7 @@ export function PortfolioClient() {
                         {p.flag} {p.city}
                       </span>
                       <span
-                        className="text-[10px] font-semibold px-1.5 py-0.5 rounded-[3px]"
+                        className="text-[12px] font-semibold px-1.5 py-0.5 rounded-[3px]"
                         style={{
                           background:
                             rec.action === "Buy"
@@ -643,7 +643,7 @@ export function PortfolioClient() {
                   >
                     {h.tokens}
                   </div>
-                  <div className="text-[10px]" style={{ color: "rgba(242,237,230,0.35)" }}>
+                  <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.35)" }}>
                     tokens
                   </div>
                 </div>
@@ -656,7 +656,7 @@ export function PortfolioClient() {
                   >
                     €{monthlyIncome}/mo
                   </div>
-                  <div className="text-[10px]" style={{ color: "rgba(242,237,230,0.35)" }}>
+                  <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.35)" }}>
                     {p.expectedYield}% yield
                   </div>
                 </div>
@@ -669,7 +669,7 @@ export function PortfolioClient() {
                   >
                     €{h.currentValue.toLocaleString("de-DE")}
                   </div>
-                  <div className="text-[10px]" style={{ color: "rgba(242,237,230,0.35)" }}>
+                  <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.35)" }}>
                     market value
                   </div>
                 </div>
@@ -684,7 +684,7 @@ export function PortfolioClient() {
                   {confirmRemove === h.propertyId ? (
                     <button
                       onClick={() => { removeHolding(h.propertyId); setConfirmRemove(null); }}
-                      className="text-[10px] font-semibold transition-opacity hover:opacity-70"
+                      className="text-[12px] font-semibold transition-opacity hover:opacity-70"
                       style={{ color: "#f87171" }}
                     >
                       Confirm
@@ -751,7 +751,7 @@ export function PortfolioClient() {
                       >
                         +€{m.deltaMonthly}/mo
                       </div>
-                      <div className="text-[10px]" style={{ color: "rgba(242,237,230,0.35)" }}>
+                      <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.35)" }}>
                         +€{m.deltaAnnual}/yr
                       </div>
                     </div>

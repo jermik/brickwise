@@ -153,7 +153,7 @@ export function AuditForm({ lead }: AuditFormProps) {
         className="rounded-lg p-4 space-y-3"
         style={{ background: "#131109", border: "1px solid #2A2420" }}
       >
-        <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+        <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
           Live scores
         </p>
         <ScoreBar label="Website basics" value={scores.websiteScore} color={DIMENSION_COLORS.website} />
@@ -166,7 +166,7 @@ export function AuditForm({ lead }: AuditFormProps) {
       {topProblems.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div className="rounded-lg p-4 space-y-2" style={{ background: "rgba(248,113,113,0.06)", border: "1px solid rgba(248,113,113,0.2)" }}>
-            <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "#f87171" }}>
+            <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "#f87171" }}>
               Top 3 problems
             </p>
             <ol className="space-y-1.5 text-xs" style={{ color: "rgba(242,237,230,0.75)" }}>
@@ -176,7 +176,7 @@ export function AuditForm({ lead }: AuditFormProps) {
             </ol>
           </div>
           <div className="rounded-lg p-4 space-y-2" style={{ background: "rgba(16,185,129,0.06)", border: "1px solid rgba(16,185,129,0.2)" }}>
-            <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "#10b981" }}>
+            <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "#10b981" }}>
               Top 3 improvements
             </p>
             <ol className="space-y-1.5 text-xs" style={{ color: "rgba(242,237,230,0.75)" }}>
@@ -195,7 +195,7 @@ export function AuditForm({ lead }: AuditFormProps) {
       >
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <div>
-            <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "#f59e0b" }}>
+            <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "#f59e0b" }}>
               Auto-audit
             </p>
             <p className="text-xs mt-1" style={{ color: "rgba(242,237,230,0.55)" }}>
@@ -266,7 +266,7 @@ export function AuditForm({ lead }: AuditFormProps) {
               >
                 <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: DIMENSION_COLORS[dim] }} />
                 {DIMENSION_LABELS[dim]}
-                <span className="font-mono text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>
+                <span className="font-mono text-[12px]" style={{ color: "rgba(242,237,230,0.4)" }}>
                   {passed}/{fields.length}
                 </span>
               </h3>
@@ -274,7 +274,7 @@ export function AuditForm({ lead }: AuditFormProps) {
                 <button
                   type="button"
                   onClick={() => setAllInDimension(dim, true)}
-                  className="text-[10px] px-2 py-0.5 rounded"
+                  className="text-[12px] px-2 py-0.5 rounded"
                   style={{ background: "rgba(255,255,255,0.04)", color: "rgba(242,237,230,0.5)", border: "1px solid #2A2420" }}
                 >
                   all
@@ -282,7 +282,7 @@ export function AuditForm({ lead }: AuditFormProps) {
                 <button
                   type="button"
                   onClick={() => setAllInDimension(dim, false)}
-                  className="text-[10px] px-2 py-0.5 rounded"
+                  className="text-[12px] px-2 py-0.5 rounded"
                   style={{ background: "rgba(255,255,255,0.04)", color: "rgba(242,237,230,0.5)", border: "1px solid #2A2420" }}
                 >
                   none
@@ -312,7 +312,7 @@ export function AuditForm({ lead }: AuditFormProps) {
                     </span>
                     {detected && (
                       <span
-                        className="font-mono text-[10px] px-1.5 py-0.5 rounded"
+                        className="font-mono text-[12px] px-1.5 py-0.5 rounded"
                         style={{
                           background: CONFIDENCE_STYLE[detected.confidence].bg,
                           color: CONFIDENCE_STYLE[detected.confidence].color,
@@ -323,11 +323,11 @@ export function AuditForm({ lead }: AuditFormProps) {
                       </span>
                     )}
                     {field.impact === 3 && (
-                      <span className="font-mono text-[10px] px-1.5 py-0.5 rounded" style={{ background: "rgba(245,158,11,0.12)", color: "#f59e0b" }}>
+                      <span className="font-mono text-[12px] px-1.5 py-0.5 rounded" style={{ background: "rgba(245,158,11,0.12)", color: "#f59e0b" }}>
                         high
                       </span>
                     )}
-                    <span className="font-mono text-[10px]" style={{ color: checklist[field.key] ? "#10b981" : "rgba(242,237,230,0.3)" }}>
+                    <span className="font-mono text-[12px]" style={{ color: checklist[field.key] ? "#10b981" : "rgba(242,237,230,0.3)" }}>
                       {checklist[field.key] ? "✓" : "✗"}
                     </span>
                   </label>
@@ -439,22 +439,22 @@ function AutoAuditPanel({ result, onApply, onDismiss }: AutoAuditPanelProps) {
       {totalTools > 0 && (
         <div className="flex flex-wrap gap-1.5">
           {tools.booking.map((t) => (
-            <span key={`b-${t}`} className="px-2 py-0.5 rounded font-mono text-[10px]" style={{ background: "rgba(16,185,129,0.1)", color: "#10b981" }}>
+            <span key={`b-${t}`} className="px-2 py-0.5 rounded font-mono text-[12px]" style={{ background: "rgba(16,185,129,0.1)", color: "#10b981" }}>
               booking · {t}
             </span>
           ))}
           {tools.payments.map((t) => (
-            <span key={`p-${t}`} className="px-2 py-0.5 rounded font-mono text-[10px]" style={{ background: "rgba(245,158,11,0.1)", color: "#f59e0b" }}>
+            <span key={`p-${t}`} className="px-2 py-0.5 rounded font-mono text-[12px]" style={{ background: "rgba(245,158,11,0.1)", color: "#f59e0b" }}>
               payments · {t}
             </span>
           ))}
           {tools.emailAutomation.map((t) => (
-            <span key={`e-${t}`} className="px-2 py-0.5 rounded font-mono text-[10px]" style={{ background: "rgba(96,165,250,0.1)", color: "#60a5fa" }}>
+            <span key={`e-${t}`} className="px-2 py-0.5 rounded font-mono text-[12px]" style={{ background: "rgba(96,165,250,0.1)", color: "#60a5fa" }}>
               email · {t}
             </span>
           ))}
           {tools.analytics.map((t) => (
-            <span key={`a-${t}`} className="px-2 py-0.5 rounded font-mono text-[10px]" style={{ background: "rgba(167,139,250,0.1)", color: "#a78bfa" }}>
+            <span key={`a-${t}`} className="px-2 py-0.5 rounded font-mono text-[12px]" style={{ background: "rgba(167,139,250,0.1)", color: "#a78bfa" }}>
               analytics · {t}
             </span>
           ))}
@@ -467,7 +467,7 @@ function AutoAuditPanel({ result, onApply, onDismiss }: AutoAuditPanelProps) {
           if (rows.length === 0) return null;
           return (
             <div key={dim} className="space-y-1">
-              <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: DIMENSION_COLORS[dim] }}>
+              <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: DIMENSION_COLORS[dim] }}>
                 {DIMENSION_LABELS[dim]}
               </p>
               <ul className="space-y-1">
@@ -478,7 +478,7 @@ function AutoAuditPanel({ result, onApply, onDismiss }: AutoAuditPanelProps) {
                     style={{ background: "rgba(255,255,255,0.02)", border: "1px solid #2A2420" }}
                   >
                     <span
-                      className="font-mono text-[10px]"
+                      className="font-mono text-[12px]"
                       style={{ color: field?.value ? "#10b981" : "#f87171", marginTop: 1 }}
                     >
                       {field?.value ? "✓" : "✗"}
@@ -488,7 +488,7 @@ function AutoAuditPanel({ result, onApply, onDismiss }: AutoAuditPanelProps) {
                         {FIELD_LABEL.get(key) ?? key}
                       </span>
                       {(field?.note || field?.evidence) && (
-                        <span className="block text-[10px] truncate" style={{ color: "rgba(242,237,230,0.45)" }}>
+                        <span className="block text-[12px] truncate" style={{ color: "rgba(242,237,230,0.45)" }}>
                           {field?.note}
                           {field?.evidence && (
                             <>
@@ -501,7 +501,7 @@ function AutoAuditPanel({ result, onApply, onDismiss }: AutoAuditPanelProps) {
                     </span>
                     {field && (
                       <span
-                        className="font-mono text-[10px] px-1.5 py-0.5 rounded"
+                        className="font-mono text-[12px] px-1.5 py-0.5 rounded"
                         style={{
                           background: CONFIDENCE_STYLE[field.confidence].bg,
                           color: CONFIDENCE_STYLE[field.confidence].color,
@@ -519,7 +519,7 @@ function AutoAuditPanel({ result, onApply, onDismiss }: AutoAuditPanelProps) {
       </div>
 
       {manual.length > 0 && (
-        <p className="text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>
+        <p className="text-[12px]" style={{ color: "rgba(242,237,230,0.4)" }}>
           {manual.length} field{manual.length === 1 ? "" : "s"} need a human eye
           ({manual.map(([k]) => FIELD_LABEL.get(k) ?? k).join(", ")}).
         </p>

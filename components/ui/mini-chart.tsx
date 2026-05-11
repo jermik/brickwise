@@ -53,7 +53,7 @@ export function MiniChart({ data, showLabels = true }: MiniChartProps) {
           {data.map((d) => (
             <span
               key={d.month}
-              className="text-[10px] text-[#ccc]"
+              className="text-[12px] text-[#ccc]"
               style={{ fontFamily: "var(--font-dm-mono)" }}
             >
               {d.month}

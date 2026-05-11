@@ -166,7 +166,7 @@ export default async function PlatformPage({ params }: Props) {
             { label: "Buy signals", value: String(buyCount) },
           ].map((s) => (
             <div key={s.label} className="px-4 py-3" style={{ background: "#131109" }}>
-              <div className="text-[9px] font-semibold uppercase tracking-[0.6px] mb-1" style={{ color: "rgba(242,237,230,0.35)" }}>{s.label}</div>
+              <div className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-1" style={{ color: "rgba(242,237,230,0.35)" }}>{s.label}</div>
               <div className="text-[18px] font-bold leading-none" style={{ fontFamily: "var(--font-dm-mono)", color: accentColor }}>{s.value}</div>
             </div>
           ))}
@@ -223,16 +223,16 @@ export default async function PlatformPage({ params }: Props) {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="text-[13px] font-medium truncate" style={{ color: "#F2EDE6" }}>{p.name}</div>
-                      <div className="text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>{p.city}</div>
+                      <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.4)" }}>{p.city}</div>
                     </div>
                     <div className="text-right">
                       <div className="text-[13px] font-bold" style={{ fontFamily: "var(--font-dm-mono)", color: accentColor }}>
                         {p.expectedYield.toFixed(1)}%
                       </div>
-                      <div className="text-[9px]" style={{ color: "rgba(242,237,230,0.35)" }}>net yield</div>
+                      <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.35)" }}>net yield</div>
                     </div>
                     <div
-                      className="text-[10px] font-semibold px-2 py-0.5 rounded-full min-w-[42px] text-center"
+                      className="text-[12px] font-semibold px-2 py-0.5 rounded-full min-w-[42px] text-center"
                       style={{ background: `${recColor}18`, color: recColor }}
                     >
                       {rec.action}
@@ -255,7 +255,7 @@ export default async function PlatformPage({ params }: Props) {
               {slug === "realt" && (
                 <Link href="/learn/realt-review" className="no-underline block">
                   <div className="rounded-[10px] px-5 py-4 hover:bg-[#1a1611] transition-colors" style={{ background: "#131109", border: "1px solid #2A2420" }}>
-                    <div className="text-[10px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: accentColor }}>Review</div>
+                    <div className="text-[12px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: accentColor }}>Review</div>
                     <div className="text-[13px] font-medium" style={{ color: "#F2EDE6" }}>RealT Review: Yields, Fees & Verdict →</div>
                   </div>
                 </Link>
@@ -263,14 +263,14 @@ export default async function PlatformPage({ params }: Props) {
               {slug === "lofty" && (
                 <Link href="/learn/lofty-review" className="no-underline block">
                   <div className="rounded-[10px] px-5 py-4 hover:bg-[#1a1611] transition-colors" style={{ background: "#131109", border: "1px solid #2A2420" }}>
-                    <div className="text-[10px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: accentColor }}>Review</div>
+                    <div className="text-[12px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: accentColor }}>Review</div>
                     <div className="text-[13px] font-medium" style={{ color: "#F2EDE6" }}>Lofty Review: Yields, Fees & Verdict →</div>
                   </div>
                 </Link>
               )}
               <Link href="/compare/realt-vs-lofty" className="no-underline block">
                 <div className="rounded-[10px] px-5 py-4 hover:bg-[#1a1611] transition-colors" style={{ background: "#131109", border: "1px solid #2A2420" }}>
-                  <div className="text-[10px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: "rgba(242,237,230,0.4)" }}>Comparison</div>
+                  <div className="text-[12px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: "rgba(242,237,230,0.4)" }}>Comparison</div>
                   <div className="text-[13px] font-medium" style={{ color: "#F2EDE6" }}>RealT vs Lofty: Full Comparison →</div>
                 </div>
               </Link>

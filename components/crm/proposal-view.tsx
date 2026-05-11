@@ -97,7 +97,7 @@ export function ProposalView({ lead }: ProposalViewProps) {
             <div className="text-center min-w-[140px]">
               <p className="font-mono text-xs" style={{ color: "rgba(242,237,230,0.45)" }}>Suggested offer</p>
               <p className="text-sm font-medium" style={{ color: offer.color }}>{offer.name}</p>
-              <p className="font-mono text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>{offer.price}</p>
+              <p className="font-mono text-[12px]" style={{ color: "rgba(242,237,230,0.4)" }}>{offer.price}</p>
             </div>
           )}
           {lead.estimatedValue != null && (
@@ -114,7 +114,7 @@ export function ProposalView({ lead }: ProposalViewProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {lead.topProblems && lead.topProblems.length > 0 && (
             <div className="rounded-lg p-4 space-y-2" style={{ background: "rgba(248,113,113,0.06)", border: "1px solid rgba(248,113,113,0.2)" }}>
-              <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "#f87171" }}>
+              <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "#f87171" }}>
                 Top 3 problems
               </p>
               <ol className="space-y-1.5 text-xs" style={{ color: "rgba(242,237,230,0.75)" }}>
@@ -124,7 +124,7 @@ export function ProposalView({ lead }: ProposalViewProps) {
           )}
           {lead.topImprovements && lead.topImprovements.length > 0 && (
             <div className="rounded-lg p-4 space-y-2" style={{ background: "rgba(16,185,129,0.06)", border: "1px solid rgba(16,185,129,0.2)" }}>
-              <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "#10b981" }}>
+              <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "#10b981" }}>
                 Top 3 improvements
               </p>
               <ol className="space-y-1.5 text-xs" style={{ color: "rgba(242,237,230,0.75)" }}>

@@ -13,7 +13,7 @@ export function KpiCard({ label, value, sub, trend }: KpiCardProps) {
       style={{ background: "#fff", border: "1px solid #ebebeb" }}
     >
       <div
-        className="text-[10px] font-semibold uppercase tracking-[0.6px] mb-2.5"
+        className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-2.5"
         style={{ color: "#a3a3a3" }}
       >
         {label}

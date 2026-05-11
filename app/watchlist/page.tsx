@@ -137,20 +137,20 @@ export default function WatchlistPage() {
                 { label: "Buy signals", value: String(buyCount), sub: `${Math.round((buyCount / saved.length) * 100)}% of saved`, accent: true },
               ].map((s) => (
                 <div key={s.label} className="px-4 py-3.5" style={{ background: "#131109" }}>
-                  <div className="text-[9px] font-semibold uppercase tracking-[0.6px] mb-1" style={{ color: "rgba(242,237,230,0.35)" }}>{s.label}</div>
+                  <div className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-1" style={{ color: "rgba(242,237,230,0.35)" }}>{s.label}</div>
                   <div
                     className="text-[18px] font-medium leading-none mb-0.5"
                     style={{ fontFamily: "var(--font-dm-mono)", color: s.green ? "#22c55e" : s.accent ? "#3b82f6" : "#F2EDE6" }}
                   >
                     {s.value}
                   </div>
-                  <div className="text-[10px]" style={{ color: "rgba(242,237,230,0.35)" }}>{s.sub}</div>
+                  <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.35)" }}>{s.sub}</div>
                 </div>
               ))}
 
               {/* ROI calculator cell */}
               <div className="px-4 py-3.5 flex flex-col justify-between" style={{ background: "#131109" }}>
-                <div className="text-[9px] font-semibold uppercase tracking-[0.6px] mb-1" style={{ color: "rgba(242,237,230,0.35)" }}>
+                <div className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-1" style={{ color: "rgba(242,237,230,0.35)" }}>
                   If I invest €— each
                 </div>
                 <div className="flex items-center gap-1.5">

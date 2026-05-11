@@ -238,7 +238,7 @@ export function LeadTable({ leads }: LeadTableProps) {
                 <th
                   key={label}
                   onClick={key ? () => toggleSort(key as SortKey) : undefined}
-                  className={`px-3 py-2.5 text-left font-mono text-[10px] tracking-widest uppercase select-none ${key ? "cursor-pointer hover:opacity-80" : ""}`}
+                  className={`px-3 py-2.5 text-left font-mono text-[12px] tracking-widest uppercase select-none ${key ? "cursor-pointer hover:opacity-80" : ""}`}
                   style={{ color: "rgba(242,237,230,0.4)" }}
                 >
                   {label}

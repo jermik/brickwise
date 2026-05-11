@@ -118,7 +118,7 @@ export function DiscoverySearch() {
         className="rounded-lg p-4 space-y-3"
         style={{ background: "#131109", border: "1px solid #2A2420" }}
       >
-        <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+        <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
           Discover local businesses
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
@@ -160,7 +160,7 @@ export function DiscoverySearch() {
           </div>
         </div>
         {geocoded && (
-          <p className="font-mono text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>
+          <p className="font-mono text-[12px]" style={{ color: "rgba(242,237,230,0.4)" }}>
             Geocoded: {geocoded}
           </p>
         )}
@@ -218,7 +218,7 @@ export function DiscoverySearch() {
               <thead>
                 <tr style={{ borderBottom: "1px solid #2A2420", background: "#0D0B08" }}>
                   {["", "Business", "Address", "Website", "Phone", "Map"].map((h) => (
-                    <th key={h} className="px-3 py-2.5 text-left font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>{h}</th>
+                    <th key={h} className="px-3 py-2.5 text-left font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -245,7 +245,7 @@ export function DiscoverySearch() {
                       <td className="px-3 py-3">
                         <div className="font-medium" style={{ color: "#F2EDE6" }}>{b.businessName}</div>
                         {b.alreadyImported && (
-                          <div className="text-[10px] mt-0.5" style={{ color: "#34d399" }}>✓ already in CRM</div>
+                          <div className="text-[12px] mt-0.5" style={{ color: "#34d399" }}>✓ already in CRM</div>
                         )}
                       </td>
                       <td className="px-3 py-3 text-xs" style={{ color: "rgba(242,237,230,0.55)" }}>
@@ -257,7 +257,7 @@ export function DiscoverySearch() {
                             {b.website.replace(/^https?:\/\//, "").slice(0, 30)}
                           </a>
                         ) : (
-                          <span className="text-[10px] font-mono" style={{ color: "rgba(248,113,113,0.7)" }}>NO WEBSITE</span>
+                          <span className="text-[12px] font-mono" style={{ color: "rgba(248,113,113,0.7)" }}>NO WEBSITE</span>
                         )}
                       </td>
                       <td className="px-3 py-3 font-mono text-xs" style={{ color: "rgba(242,237,230,0.6)" }}>

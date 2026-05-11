@@ -97,7 +97,7 @@ export function ContentDetailTabs({ idea }: Props) {
     <div className="space-y-5">
       {/* Status row */}
       <div className="space-y-2">
-        <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+        <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
           Status
         </p>
         <div className="flex flex-wrap gap-1.5">
@@ -142,11 +142,11 @@ export function ContentDetailTabs({ idea }: Props) {
       {tab === "hook" && (
         <div className="space-y-3">
           <div className="rounded-lg p-4" style={{ background: "rgba(245,158,11,0.05)", border: "1px solid rgba(245,158,11,0.2)" }}>
-            <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "#f59e0b" }}>3-second hook</p>
+            <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "#f59e0b" }}>3-second hook</p>
             <p className="font-display text-xl mt-2" style={{ color: "#F2EDE6" }}>{idea.hook}</p>
           </div>
           <div className="space-y-1.5">
-            <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+            <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
               Thumbnail text · CTA · Pinned comment
             </p>
             <textarea readOnly style={areaStyle} value={
@@ -160,7 +160,7 @@ export function ContentDetailTabs({ idea }: Props) {
       {tab === "script" && (
         <div className="space-y-3">
           <div className="flex justify-between items-center">
-            <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+            <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
               Scene-by-scene script · {idea.scriptScenes.length} scenes · ~{idea.durationSeconds}s
             </p>
             <CopyButton text={scriptText} label="Copy script" />
@@ -182,7 +182,7 @@ export function ContentDetailTabs({ idea }: Props) {
       {tab === "subtitles" && (
         <div className="space-y-3">
           <div className="flex justify-between items-center">
-            <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+            <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
               SRT subtitles
             </p>
             <CopyButton text={idea.subtitlesSrt} label="Copy SRT" />
@@ -204,14 +204,14 @@ export function ContentDetailTabs({ idea }: Props) {
       {tab === "caption" && (
         <div className="space-y-3">
           <div className="flex justify-between items-center">
-            <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+            <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
               {platform?.label} caption · {idea.caption.length}/{platform?.captionMaxChars} chars
             </p>
             <CopyButton text={`${idea.caption}\n\n${idea.hashtags}`} label="Copy caption + tags" />
           </div>
           <textarea readOnly style={areaStyle} value={idea.caption} />
           <div>
-            <p className="font-mono text-[10px] tracking-widest uppercase mb-1" style={{ color: "rgba(242,237,230,0.4)" }}>
+            <p className="font-mono text-[12px] tracking-widest uppercase mb-1" style={{ color: "rgba(242,237,230,0.4)" }}>
               Hashtags
             </p>
             <p className="text-sm font-mono p-3 rounded" style={{ background: "#0A0907", border: "1px solid #2A2420", color: "#60a5fa" }}>
@@ -223,7 +223,7 @@ export function ContentDetailTabs({ idea }: Props) {
 
       {tab === "platform" && (
         <div className="space-y-2">
-          <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+          <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
             {platform?.label} platform pack
           </p>
           {[
@@ -236,7 +236,7 @@ export function ContentDetailTabs({ idea }: Props) {
             { label: "Recommended length", v: `${idea.durationSeconds}s (${platform?.lengthHint})` },
           ].map((row) => (
             <div key={row.label} className="rounded-lg p-3 flex items-start gap-3" style={{ background: "#131109", border: "1px solid #2A2420" }}>
-              <span className="font-mono text-[10px] tracking-widest uppercase shrink-0 w-32 pt-0.5" style={{ color: "rgba(242,237,230,0.4)" }}>
+              <span className="font-mono text-[12px] tracking-widest uppercase shrink-0 w-32 pt-0.5" style={{ color: "rgba(242,237,230,0.4)" }}>
                 {row.label}
               </span>
               <span className="flex-1 text-sm" style={{ color: "#F2EDE6", whiteSpace: "pre-wrap" }}>{row.v}</span>
@@ -248,7 +248,7 @@ export function ContentDetailTabs({ idea }: Props) {
 
       {tab === "notes" && (
         <div className="rounded-lg p-4" style={{ background: "rgba(167,139,250,0.05)", border: "1px solid rgba(167,139,250,0.2)" }}>
-          <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "#a78bfa" }}>Retention notes</p>
+          <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "#a78bfa" }}>Retention notes</p>
           <p className="text-sm mt-2 leading-relaxed" style={{ color: "rgba(242,237,230,0.85)" }}>
             {idea.retentionNotes}
           </p>

@@ -100,7 +100,7 @@ export default async function AlgorandProjectPage({ params }: Props) {
               </h1>
               {project.verified && (
                 <span
-                  className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-[0.6px] px-2 py-0.5 rounded"
+                  className="inline-flex items-center gap-1 text-[12px] font-semibold uppercase tracking-[0.6px] px-2 py-0.5 rounded"
                   style={{ background: "rgba(59, 130, 246, 0.12)", color: "#60A5FA" }}
                 >
                   Verified
@@ -108,7 +108,7 @@ export default async function AlgorandProjectPage({ params }: Props) {
               )}
               {project.featured && (
                 <span
-                  className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-[0.6px] px-2 py-0.5 rounded"
+                  className="inline-flex items-center gap-1 text-[12px] font-semibold uppercase tracking-[0.6px] px-2 py-0.5 rounded"
                   style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.7)" }}
                 >
                   Featured

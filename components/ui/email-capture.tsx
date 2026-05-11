@@ -174,7 +174,7 @@ export function EmailCapture({
         </p>
       )}
 
-      <p className="text-[10px] mt-2.5" style={{ color: "#c4c4c4" }}>
+      <p className="text-[12px] mt-2.5" style={{ color: "#c4c4c4" }}>
         No spam. Unsubscribe anytime.
       </p>
     </div>

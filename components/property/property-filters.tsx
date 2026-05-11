@@ -44,7 +44,7 @@ function PillGroup<T extends string>({
 }) {
   return (
     <div className="flex-shrink-0">
-      <div className="text-[10px] font-semibold uppercase tracking-[0.8px] mb-1.5" style={{ color: "#a3a3a3" }}>
+      <div className="text-[12px] font-semibold uppercase tracking-[0.8px] mb-1.5" style={{ color: "#a3a3a3" }}>
         {label}
       </div>
       <div className="flex gap-1 flex-wrap">

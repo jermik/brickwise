@@ -140,7 +140,7 @@ export function MobileNav() {
         {/* Nav items */}
         <nav className="px-2.5 pt-3 flex-1">
           <div
-            className="text-[10px] font-semibold px-2.5 pb-2.5 pt-1 uppercase tracking-[1.2px]"
+            className="text-[12px] font-semibold px-2.5 pb-2.5 pt-1 uppercase tracking-[1.2px]"
             style={{ color: "rgba(255,255,255,0.25)" }}
           >
             Menu
@@ -176,7 +176,7 @@ export function MobileNav() {
               }}
             >
               <div
-                className="text-[10px] font-bold uppercase tracking-[0.8px] mb-1.5"
+                className="text-[12px] font-bold uppercase tracking-[0.8px] mb-1.5"
                 style={{ color: "rgba(255,255,255,0.4)" }}
               >
                 Best pick

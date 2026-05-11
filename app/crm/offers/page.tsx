@@ -25,7 +25,7 @@ export default function OffersPage() {
           >
             <div>
               <div
-                className="inline-block rounded px-2 py-0.5 text-[10px] font-mono tracking-widest uppercase mb-3"
+                className="inline-block rounded px-2 py-0.5 text-[12px] font-mono tracking-widest uppercase mb-3"
                 style={{ background: `${offer.color}15`, color: offer.color }}
               >
                 {offer.id.replace(/_/g, " ")}
@@ -46,7 +46,7 @@ export default function OffersPage() {
             </div>
 
             <p className="text-xs" style={{ color: "rgba(242,237,230,0.45)" }}>
-              <span className="font-mono text-[10px] uppercase tracking-wider" style={{ color: "rgba(242,237,230,0.35)" }}>Good fit for</span>
+              <span className="font-mono text-[12px] uppercase tracking-wider" style={{ color: "rgba(242,237,230,0.35)" }}>Good fit for</span>
               <br />
               {offer.goodFitFor}
             </p>
@@ -64,7 +64,7 @@ export default function OffersPage() {
       </div>
 
       <div className="rounded-lg px-4 py-4 space-y-3" style={{ background: "#131109", border: "1px solid #2A2420" }}>
-        <h2 className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+        <h2 className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
           How packaging works in this CRM
         </h2>
         <ol className="space-y-2 text-sm" style={{ color: "rgba(242,237,230,0.65)" }}>
@@ -75,7 +75,7 @@ export default function OffersPage() {
         </ol>
 
         <div className="pt-3 space-y-2" style={{ borderTop: "1px solid #2A2420" }}>
-          <h3 className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+          <h3 className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
             Recurring revenue add-ons
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">

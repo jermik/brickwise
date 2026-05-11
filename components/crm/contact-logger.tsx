@@ -56,7 +56,7 @@ export function ContactLogger({ leadId }: ContactLoggerProps) {
 
   return (
     <div className="space-y-3 rounded-lg p-4" style={{ background: "#131109", border: "1px solid #2A2420" }}>
-      <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+      <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
         Log outreach
       </p>
 

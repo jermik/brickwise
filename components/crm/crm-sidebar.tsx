@@ -134,12 +134,12 @@ export function CRMSidebar() {
           className="px-5 pt-4 mt-4 space-y-2"
           style={{ borderTop: "1px solid #2A2420" }}
         >
-          <p className="text-[10px] leading-relaxed" style={{ color: "rgba(242,237,230,0.3)" }}>
+          <p className="text-[12px] leading-relaxed" style={{ color: "rgba(242,237,230,0.3)" }}>
             Max 10 outreach/day.
             <br />
             Always personalise. Never bulk send.
           </p>
-          <Link href="/growthos" className="text-[10px] underline" style={{ color: "rgba(242,237,230,0.4)" }}>
+          <Link href="/growthos" className="text-[12px] underline" style={{ color: "rgba(242,237,230,0.4)" }}>
             About GrowthOS →
           </Link>
           <div className="pt-2">

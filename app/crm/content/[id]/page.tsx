@@ -28,12 +28,12 @@ export default async function ContentDetailPage({
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <span
-            className="font-mono text-[10px] px-2 py-0.5 rounded"
+            className="font-mono text-[12px] px-2 py-0.5 rounded"
             style={{ background: "rgba(96,165,250,0.1)", color: "#60a5fa" }}
           >
             {platform?.label}
           </span>
-          <span className="font-mono text-[10px]" style={{ color: "rgba(242,237,230,0.45)" }}>
+          <span className="font-mono text-[12px]" style={{ color: "rgba(242,237,230,0.45)" }}>
             {idea.niche} · {idea.city} · {idea.durationSeconds}s · {idea.scriptScenes.length} scenes
           </span>
         </div>

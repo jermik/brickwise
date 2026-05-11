@@ -92,7 +92,7 @@ export function CompareDrawer({ properties, onRemove, onClose }: CompareDrawerPr
             <table className="w-full border-collapse" style={{ minWidth: Math.max(520, 160 + properties.length * 180) }}>
               <thead style={{ position: "sticky", top: 0, background: "#fff", zIndex: 1 }}>
                 <tr style={{ borderBottom: "2px solid #f0f0f0" }}>
-                  <th className="text-left py-3 px-5 text-[10px] font-semibold uppercase tracking-[0.7px]" style={{ color: "#a3a3a3", width: 160, minWidth: 140 }}>
+                  <th className="text-left py-3 px-5 text-[12px] font-semibold uppercase tracking-[0.7px]" style={{ color: "#a3a3a3", width: 160, minWidth: 140 }}>
                     Metric
                   </th>
                   {properties.map((p, i) => (
@@ -112,14 +112,14 @@ export function CompareDrawer({ properties, onRemove, onClose }: CompareDrawerPr
                           {p.name}
                         </Link>
                         <div
-                          className="text-[10px] font-bold px-2 py-0.5 rounded-[4px]"
+                          className="text-[12px] font-bold px-2 py-0.5 rounded-[4px]"
                           style={{ background: `${recColor(recs[i].action)}18`, color: recColor(recs[i].action) }}
                         >
                           {recs[i].action}
                         </div>
                         <button
                           onClick={() => onRemove(p.id)}
-                          className="text-[9px] uppercase tracking-wider transition-opacity hover:opacity-50"
+                          className="text-[12px] uppercase tracking-wider transition-opacity hover:opacity-50"
                           style={{ color: "#c4c4c4" }}
                         >
                           Remove
@@ -162,7 +162,7 @@ export function CompareDrawer({ properties, onRemove, onClose }: CompareDrawerPr
                             }}
                           >
                             {val.display}
-                            {highlight && <span className="ml-1 text-[9px]">★</span>}
+                            {highlight && <span className="ml-1 text-[12px]">★</span>}
                           </td>
                         );
                       })}

@@ -36,7 +36,7 @@ export function HoldingsPanel() {
       >
         <div className="flex items-center justify-between mb-3">
           <div
-            className="text-[10px] font-semibold uppercase tracking-[0.6px]"
+            className="text-[12px] font-semibold uppercase tracking-[0.6px]"
             style={{ color: "rgba(242,237,230,0.35)" }}
           >
             Portfolio
@@ -71,7 +71,7 @@ export function HoldingsPanel() {
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
         <div
-          className="text-[10px] font-semibold uppercase tracking-[0.6px]"
+          className="text-[12px] font-semibold uppercase tracking-[0.6px]"
           style={{ color: "rgba(242,237,230,0.35)" }}
         >
           Portfolio

@@ -78,11 +78,11 @@ export function PropertyCard({ property: p, compareMode, isCompared, onCompareTo
             {/* Best Buy / New badge */}
             {rec.label === "Best Buy" ? (
               <div className="absolute bottom-2.5 right-3">
-                <span className="inline-flex items-center gap-1 text-[10px] font-bold" style={{ background: "#22c55e", color: "#fff", padding: "2px 7px", borderRadius: 4 }}>★ Best Buy</span>
+                <span className="inline-flex items-center gap-1 text-[12px] font-bold" style={{ background: "#22c55e", color: "#fff", padding: "2px 7px", borderRadius: 4 }}>★ Best Buy</span>
               </div>
             ) : p.isNew ? (
               <div className="absolute bottom-2.5 right-3">
-                <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-[0.4px]" style={{ background: "#3b82f6", color: "#fff", padding: "2px 7px", borderRadius: 4 }}>New</span>
+                <span className="inline-flex items-center gap-1 text-[12px] font-bold uppercase tracking-[0.4px]" style={{ background: "#3b82f6", color: "#fff", padding: "2px 7px", borderRadius: 4 }}>New</span>
               </div>
             ) : null}
 
@@ -122,7 +122,7 @@ export function PropertyCard({ property: p, compareMode, isCompared, onCompareTo
                 { label: "Score", value: String(p.overallScore) },
               ].map((s) => (
                 <div key={s.label} className="px-2.5 py-2" style={{ background: "#131109" }}>
-                  <div className="text-[9px] font-semibold uppercase tracking-[0.5px] mb-0.5" style={{ color: "rgba(242,237,230,0.3)" }}>
+                  <div className="text-[12px] font-semibold uppercase tracking-[0.5px] mb-0.5" style={{ color: "rgba(242,237,230,0.3)" }}>
                     {s.label}
                   </div>
                   <div className="text-[13px] font-medium" style={{ fontFamily: "var(--font-dm-mono)", color: s.green ? "#22c55e" : "#F2EDE6" }}>
@@ -138,7 +138,7 @@ export function PropertyCard({ property: p, compareMode, isCompared, onCompareTo
                 className="rounded-[6px] px-3 py-2 mb-2 flex items-center justify-between"
                 style={{ background: "rgba(34,197,94,0.07)", border: "1px solid rgba(34,197,94,0.12)" }}
               >
-                <span className="text-[10px]" style={{ color: "rgba(242,237,230,0.45)" }}>
+                <span className="text-[12px]" style={{ color: "rgba(242,237,230,0.45)" }}>
                   €{investAmount!.toLocaleString("de-DE")} earns
                 </span>
                 <span className="text-[13px] font-semibold" style={{ fontFamily: "var(--font-dm-mono)", color: "#22c55e" }}>

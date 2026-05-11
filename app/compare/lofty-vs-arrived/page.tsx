@@ -187,7 +187,7 @@ export default function LoftyVsArrivedPage() {
         {/* Comparison matrix */}
         <div className="rounded-[12px] overflow-hidden mb-10" style={{ border: "1px solid #ebebeb" }}>
           <div
-            className="grid grid-cols-[180px_1fr_1fr] gap-0 px-4 py-3 text-[10px] font-bold uppercase tracking-[0.6px]"
+            className="grid grid-cols-[180px_1fr_1fr] gap-0 px-4 py-3 text-[12px] font-bold uppercase tracking-[0.6px]"
             style={{ background: "#fafafa", borderBottom: "1px solid #ebebeb", color: "#737373" }}
           >
             <div></div>
@@ -228,7 +228,7 @@ export default function LoftyVsArrivedPage() {
               <h3 className="text-[15px] font-bold mb-3" style={{ color: "#111" }}>
                 {p.name}
               </h3>
-              <div className="text-[10px] font-bold uppercase tracking-[0.6px] mb-2" style={{ color: "#16a34a" }}>
+              <div className="text-[12px] font-bold uppercase tracking-[0.6px] mb-2" style={{ color: "#16a34a" }}>
                 Pros
               </div>
               <ul className="space-y-1.5 mb-4">
@@ -239,7 +239,7 @@ export default function LoftyVsArrivedPage() {
                   </li>
                 ))}
               </ul>
-              <div className="text-[10px] font-bold uppercase tracking-[0.6px] mb-2" style={{ color: "#dc2626" }}>
+              <div className="text-[12px] font-bold uppercase tracking-[0.6px] mb-2" style={{ color: "#dc2626" }}>
                 Cons
               </div>
               <ul className="space-y-1.5">

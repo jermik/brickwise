@@ -188,9 +188,9 @@ export default function WhatIsTokenizedRealEstatePage() {
             { label: "Properties tracked", value: String(PROPERTIES.length), sub: "on Brickwise" },
           ].map((s) => (
             <div key={s.label} className="px-4 py-3" style={{ background: "#131109" }}>
-              <div className="text-[9px] font-semibold uppercase tracking-[0.6px] mb-1" style={{ color: "rgba(242,237,230,0.35)" }}>{s.label}</div>
+              <div className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-1" style={{ color: "rgba(242,237,230,0.35)" }}>{s.label}</div>
               <div className="text-[18px] font-bold leading-none mb-0.5" style={{ fontFamily: "var(--font-dm-mono)", color: "#22c55e" }}>{s.value}</div>
-              <div className="text-[9px]" style={{ color: "rgba(242,237,230,0.35)" }}>{s.sub}</div>
+              <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.35)" }}>{s.sub}</div>
             </div>
           ))}
         </div>
@@ -270,9 +270,9 @@ export default function WhatIsTokenizedRealEstatePage() {
               <table className="w-full border-collapse">
                 <thead>
                   <tr style={{ background: "#1A1713", borderBottom: "1px solid #2A2420" }}>
-                    <th className="text-left px-5 py-3 text-[10px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.4)" }}>Category</th>
-                    <th className="text-center px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.4)" }}>Typical Yield</th>
-                    <th className="text-center px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.4)" }}>Notes</th>
+                    <th className="text-left px-5 py-3 text-[12px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.4)" }}>Category</th>
+                    <th className="text-center px-4 py-3 text-[12px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.4)" }}>Typical Yield</th>
+                    <th className="text-center px-4 py-3 text-[12px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.4)" }}>Notes</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -325,10 +325,10 @@ export default function WhatIsTokenizedRealEstatePage() {
                   <div className="flex items-center gap-2 mb-2">
                     <div className="w-2.5 h-2.5 rounded-full" style={{ background: pl.color }} />
                     <span className="text-[15px] font-bold" style={{ color: "#F2EDE6" }}>{pl.name}</span>
-                    <span className="text-[10px] ml-auto" style={{ color: pl.color }}>{pl.url}</span>
+                    <span className="text-[12px] ml-auto" style={{ color: pl.color }}>{pl.url}</span>
                   </div>
                   <p className="text-[12px] leading-[1.6] mb-2" style={{ color: "rgba(242,237,230,0.55)" }}>{pl.desc}</p>
-                  <div className="text-[10px] font-semibold" style={{ color: pl.color }}>{pl.best}</div>
+                  <div className="text-[12px] font-semibold" style={{ color: pl.color }}>{pl.best}</div>
                 </div>
               ))}
             </div>
@@ -350,9 +350,9 @@ export default function WhatIsTokenizedRealEstatePage() {
               <table className="w-full border-collapse">
                 <thead>
                   <tr style={{ background: "#1A1713", borderBottom: "1px solid #2A2420" }}>
-                    <th className="text-left px-5 py-3 text-[10px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.4)" }}>Feature</th>
-                    <th className="text-center px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.6px]" style={{ color: "#22c55e" }}>Tokenized RE</th>
-                    <th className="text-center px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.4)" }}>REIT</th>
+                    <th className="text-left px-5 py-3 text-[12px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.4)" }}>Feature</th>
+                    <th className="text-center px-4 py-3 text-[12px] font-semibold uppercase tracking-[0.6px]" style={{ color: "#22c55e" }}>Tokenized RE</th>
+                    <th className="text-center px-4 py-3 text-[12px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.4)" }}>REIT</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -435,7 +435,7 @@ export default function WhatIsTokenizedRealEstatePage() {
                 { n: "6", t: "Monitor your income", b: "Check payouts weekly or monthly. Track yield changes — if a property's yield drops below your threshold, Brickwise will flag it." },
               ].map((s) => (
                 <div key={s.n} className="flex gap-4 rounded-[10px] px-5 py-4" style={{ background: "#131109", border: "1px solid #2A2420" }}>
-                  <div className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style={{ background: "#22c55e", color: "#0A0907" }}>
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-[12px] font-bold" style={{ background: "#22c55e", color: "#0A0907" }}>
                     {s.n}
                   </div>
                   <div>
@@ -498,7 +498,7 @@ export default function WhatIsTokenizedRealEstatePage() {
             ].map((link) => (
               <Link key={link.href} href={link.href} className="no-underline block">
                 <div className="rounded-[10px] px-5 py-4 hover:bg-[#1a1611] transition-colors" style={{ background: "#131109", border: "1px solid #2A2420" }}>
-                  <div className="text-[10px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: "#22c55e" }}>{link.tag}</div>
+                  <div className="text-[12px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: "#22c55e" }}>{link.tag}</div>
                   <div className="text-[13px] font-medium" style={{ color: "#F2EDE6" }}>{link.title} →</div>
                 </div>
               </Link>
@@ -523,7 +523,7 @@ export default function WhatIsTokenizedRealEstatePage() {
           </Link>
         </div>
 
-        <p className="mt-6 text-[10px] leading-[1.6]" style={{ color: "rgba(242,237,230,0.25)" }}>
+        <p className="mt-6 text-[12px] leading-[1.6]" style={{ color: "rgba(242,237,230,0.25)" }}>
           This guide is for educational purposes only. Not financial advice. Always conduct your own research and consult a qualified financial advisor before investing.
         </p>
       </div>

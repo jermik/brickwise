@@ -99,9 +99,9 @@ export default function SeoDashboard() {
             { label: "Schema coverage", value: `${Math.round(schemaCount / STATIC_PAGES.length * 100)}%`, sub: `${schemaCount}/${STATIC_PAGES.length} static pages`, color: "#a855f7" },
           ].map((kpi) => (
             <div key={kpi.label} className="rounded-[10px] px-4 py-4" style={{ background: "#131109", border: "1px solid #2A2420" }}>
-              <div className="text-[9px] font-semibold uppercase tracking-[0.6px] mb-2" style={{ color: "rgba(242,237,230,0.35)" }}>{kpi.label}</div>
+              <div className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-2" style={{ color: "rgba(242,237,230,0.35)" }}>{kpi.label}</div>
               <div className="text-[22px] font-bold leading-none mb-1" style={{ fontFamily: "var(--font-dm-mono)", color: kpi.color }}>{kpi.value}</div>
-              <div className="text-[10px]" style={{ color: "rgba(242,237,230,0.35)" }}>{kpi.sub}</div>
+              <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.35)" }}>{kpi.sub}</div>
             </div>
           ))}
         </div>
@@ -138,7 +138,7 @@ export default function SeoDashboard() {
                   { label: "Cities covered", value: String(uniqueCities.length) },
                 ].map((s) => (
                   <div key={s.label}>
-                    <div className="text-[9px] uppercase tracking-[0.5px] mb-0.5" style={{ color: "rgba(242,237,230,0.35)" }}>{s.label}</div>
+                    <div className="text-[12px] uppercase tracking-[0.5px] mb-0.5" style={{ color: "rgba(242,237,230,0.35)" }}>{s.label}</div>
                     <div className="text-[16px] font-bold" style={{ fontFamily: "var(--font-dm-mono)", color: "#22c55e" }}>{s.value}</div>
                   </div>
                 ))}
@@ -154,13 +154,13 @@ export default function SeoDashboard() {
                 <div key={pl.name} className="flex items-center justify-between py-2" style={{ borderBottom: "1px solid #1e1c15" }}>
                   <div>
                     <div className="text-[12px] font-medium" style={{ color: "#F2EDE6" }}>{pl.name}</div>
-                    <div className="text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>{pl.count} properties</div>
+                    <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.4)" }}>{pl.count} properties</div>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="text-[12px] font-bold" style={{ fontFamily: "var(--font-dm-mono)", color: "#22c55e" }}>{pl.avgYield}%</div>
                     <Link
                       href={`/platform/${slugify(pl.name)}`}
-                      className="text-[10px] px-2 py-0.5 rounded-full no-underline hover:opacity-80 transition-opacity"
+                      className="text-[12px] px-2 py-0.5 rounded-full no-underline hover:opacity-80 transition-opacity"
                       style={{ background: "rgba(255,255,255,0.07)", color: "rgba(242,237,230,0.5)" }}
                     >
                       View →
@@ -176,14 +176,14 @@ export default function SeoDashboard() {
         <div className="rounded-[10px] overflow-hidden mb-8" style={{ border: "1px solid #2A2420" }}>
           <div className="px-5 py-3 flex items-center justify-between" style={{ background: "#1A1713", borderBottom: "1px solid #2A2420" }}>
             <h2 className="text-[13px] font-semibold" style={{ color: "#F2EDE6" }}>Static Page SEO Inventory</h2>
-            <span className="text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>{STATIC_PAGES.length} pages</span>
+            <span className="text-[12px]" style={{ color: "rgba(242,237,230,0.4)" }}>{STATIC_PAGES.length} pages</span>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
                 <tr style={{ background: "#131109", borderBottom: "1px solid #2A2420" }}>
                   {["Page", "Metadata", "Schema", "Sitemap", "Priority"].map((h) => (
-                    <th key={h} className="text-left px-4 py-2.5 text-[9px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.35)" }}>{h}</th>
+                    <th key={h} className="text-left px-4 py-2.5 text-[12px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.35)" }}>{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -194,7 +194,7 @@ export default function SeoDashboard() {
                       <Link href={page.url} className="text-[12px] font-medium no-underline hover:opacity-70 transition-opacity" style={{ color: "#F2EDE6" }}>
                         {page.title}
                       </Link>
-                      <div className="text-[10px]" style={{ color: "rgba(242,237,230,0.35)" }}>{page.url}</div>
+                      <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.35)" }}>{page.url}</div>
                     </td>
                     <td className="px-4 py-2.5 text-center">
                       {page.hasMeta
@@ -232,7 +232,7 @@ export default function SeoDashboard() {
                 <div className="flex-1 text-[12px] font-medium" style={{ color: "rgba(242,237,230,0.7)" }}>{row.page}</div>
                 <div className="flex flex-wrap gap-1.5 justify-end">
                   {row.schemas.map((s) => (
-                    <span key={s} className="text-[9px] font-semibold px-2 py-0.5 rounded-full" style={{ background: "rgba(34,197,94,0.1)", color: "#22c55e" }}>
+                    <span key={s} className="text-[12px] font-semibold px-2 py-0.5 rounded-full" style={{ background: "rgba(34,197,94,0.1)", color: "#22c55e" }}>
                       {s}
                     </span>
                   ))}
@@ -255,7 +255,7 @@ export default function SeoDashboard() {
                   <Link href={p.url} className="text-[12px] no-underline hover:opacity-70 transition-opacity" style={{ color: "rgba(242,237,230,0.65)" }}>
                     {p.url}
                   </Link>
-                  <span className="text-[10px]" style={{ color: "rgba(242,237,230,0.35)" }}>{p.title}</span>
+                  <span className="text-[12px]" style={{ color: "rgba(242,237,230,0.35)" }}>{p.title}</span>
                 </div>
               ))}
             </div>
@@ -271,7 +271,7 @@ export default function SeoDashboard() {
             {LEARN_ARTICLES.map((article, i) => (
               <div key={article.slug} className="flex items-center gap-4 px-5 py-3" style={{ background: i % 2 === 0 ? "#131109" : "#0f0e0b" }}>
                 <div
-                  className="text-[9px] font-semibold px-2 py-0.5 rounded-full flex-shrink-0"
+                  className="text-[12px] font-semibold px-2 py-0.5 rounded-full flex-shrink-0"
                   style={{ background: `${article.accentColor}18`, color: article.accentColor }}
                 >
                   {article.category}
@@ -279,12 +279,12 @@ export default function SeoDashboard() {
                 <Link href={article.href} className="flex-1 text-[12px] font-medium no-underline hover:opacity-70 transition-opacity" style={{ color: "#F2EDE6" }}>
                   {article.title}
                 </Link>
-                <div className="flex items-center gap-2 text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>
+                <div className="flex items-center gap-2 text-[12px]" style={{ color: "rgba(242,237,230,0.4)" }}>
                   <span style={{ color: "#22c55e" }}>Meta ✓</span>
                   <span style={{ color: "#22c55e" }}>Schema ✓</span>
                   <span style={{ color: "#22c55e" }}>Sitemap ✓</span>
                 </div>
-                <div className="text-[10px]" style={{ color: "rgba(242,237,230,0.35)" }}>{article.readTime}</div>
+                <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.35)" }}>{article.readTime}</div>
               </div>
             ))}
           </div>

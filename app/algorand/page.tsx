@@ -85,7 +85,7 @@ export default function AlgorandEcosystemPage() {
         {/* Hero */}
         <div className="mb-10">
           <span
-            className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.7px] px-2.5 py-1 rounded-[6px] mb-4"
+            className="inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.7px] px-2.5 py-1 rounded-[6px] mb-4"
             style={{ background: "rgba(59, 130, 246, 0.12)", color: "#60A5FA" }}
           >
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#60A5FA" }} />

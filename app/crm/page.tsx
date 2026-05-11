@@ -99,7 +99,7 @@ export default async function CRMDashboard() {
     <div className="px-4 sm:px-6 md:px-8 py-6 md:py-8 space-y-8 max-w-6xl">
       <div className="flex items-start justify-between">
         <div>
-          <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "#f59e0b" }}>
+          <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "#f59e0b" }}>
             GrowthOS · Dashboard
           </p>
           <h1 className="font-display text-3xl mt-1" style={{ color: "#F2EDE6" }}>
@@ -177,7 +177,7 @@ export default async function CRMDashboard() {
       {/* Pipeline + breakdowns */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="rounded-lg p-5 space-y-4" style={{ background: "#131109", border: "1px solid #2A2420" }}>
-          <h2 className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+          <h2 className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
             Pipeline
           </h2>
           {leads.length === 0 ? (
@@ -189,7 +189,7 @@ export default async function CRMDashboard() {
 
         <div className="space-y-4">
           <div className="rounded-lg p-5 space-y-3" style={{ background: "#131109", border: "1px solid #2A2420" }}>
-            <h2 className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+            <h2 className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
               Top cities
             </h2>
             {topCities.length === 0 ? (
@@ -206,7 +206,7 @@ export default async function CRMDashboard() {
             )}
           </div>
           <div className="rounded-lg p-5 space-y-3" style={{ background: "#131109", border: "1px solid #2A2420" }}>
-            <h2 className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+            <h2 className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
               Top categories
             </h2>
             {topCategories.length === 0 ? (
@@ -229,7 +229,7 @@ export default async function CRMDashboard() {
       {opportunities.length > 0 && (
         <div className="rounded-lg p-5 space-y-3" style={{ background: "#131109", border: "1px solid #2A2420" }}>
           <div className="flex items-center justify-between">
-            <h2 className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "#f59e0b" }}>
+            <h2 className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "#f59e0b" }}>
               ★ Best opportunities
             </h2>
             <Link href="/crm/leads" className="text-xs underline" style={{ color: "rgba(242,237,230,0.4)" }}>
@@ -262,7 +262,7 @@ export default async function CRMDashboard() {
       {recentLeads.length > 0 && (
         <div className="rounded-lg p-5 space-y-3" style={{ background: "#131109", border: "1px solid #2A2420" }}>
           <div className="flex items-center justify-between">
-            <h2 className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+            <h2 className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
               Recent activity
             </h2>
             <Link href="/crm/leads" className="text-xs underline" style={{ color: "#f59e0b" }}>

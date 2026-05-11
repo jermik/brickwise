@@ -68,7 +68,7 @@ export default async function FollowUpsPage() {
 
       {overdue.length > 0 && (
         <section className="space-y-3">
-          <h2 className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "#f87171" }}>
+          <h2 className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "#f87171" }}>
             Overdue ({overdue.length})
           </h2>
           <div className="space-y-2">
@@ -81,7 +81,7 @@ export default async function FollowUpsPage() {
 
       {upcoming.length > 0 && (
         <section className="space-y-3">
-          <h2 className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+          <h2 className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
             Upcoming ({upcoming.length})
           </h2>
           <div className="space-y-2">

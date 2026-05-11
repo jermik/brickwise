@@ -27,7 +27,7 @@ export default async function ContentPage() {
   return (
     <div className="px-4 sm:px-6 md:px-8 py-6 md:py-8 max-w-6xl space-y-6">
       <div>
-        <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "#f59e0b" }}>
+        <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "#f59e0b" }}>
           GrowthOS · Content engine
         </p>
         <h1 className="font-display text-3xl mt-1" style={{ color: "#F2EDE6" }}>
@@ -78,7 +78,7 @@ export default async function ContentPage() {
       {/* Saved ideas */}
       <div className="space-y-3">
         <div className="flex items-baseline justify-between">
-          <h2 className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+          <h2 className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
             Saved ideas · {ideas.length}
           </h2>
         </div>
@@ -106,18 +106,18 @@ export default async function ContentPage() {
                 >
                   <div className="flex items-center gap-2">
                     <span
-                      className="font-mono text-[10px] px-1.5 py-0.5 rounded"
+                      className="font-mono text-[12px] px-1.5 py-0.5 rounded"
                       style={{ background: "rgba(96,165,250,0.1)", color: "#60a5fa" }}
                     >
                       {platform?.label}
                     </span>
                     <span
-                      className="font-mono text-[10px] px-1.5 py-0.5 rounded"
+                      className="font-mono text-[12px] px-1.5 py-0.5 rounded"
                       style={{ background: status.bg, color: status.color }}
                     >
                       {status.label}
                     </span>
-                    <span className="ml-auto text-[10px] font-mono" style={{ color: "rgba(242,237,230,0.35)" }}>
+                    <span className="ml-auto text-[12px] font-mono" style={{ color: "rgba(242,237,230,0.35)" }}>
                       {fmtDate(idea.createdAt)}
                     </span>
                   </div>
@@ -127,7 +127,7 @@ export default async function ContentPage() {
                   <p className="text-xs line-clamp-2" style={{ color: "rgba(242,237,230,0.55)" }}>
                     {idea.hook}
                   </p>
-                  <p className="font-mono text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>
+                  <p className="font-mono text-[12px]" style={{ color: "rgba(242,237,230,0.4)" }}>
                     {idea.niche} · {idea.city} · {idea.durationSeconds}s · {idea.scriptScenes.length} scenes
                   </p>
                 </Link>

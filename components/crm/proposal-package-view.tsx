@@ -122,7 +122,7 @@ function EmailBlockControlled({
   return (
     <div className="rounded-lg p-4 space-y-3" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid #2A2420" }}>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.5)" }}>
+        <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.5)" }}>
           {title}
         </p>
         <div className="flex flex-wrap gap-1.5">
@@ -285,7 +285,7 @@ export function ProposalPackageView({ packages, leadWebsite }: Props) {
       {/* Header / actions */}
       <div className="rounded-lg p-4 flex flex-wrap items-center justify-between gap-3" style={{ background: "#131109", border: "1px solid rgba(245,158,11,0.25)" }}>
         <div>
-          <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "#f59e0b" }}>
+          <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "#f59e0b" }}>
             Proposal package
           </p>
           <p className="text-sm mt-0.5" style={{ color: "rgba(242,237,230,0.6)" }}>
@@ -316,7 +316,7 @@ export function ProposalPackageView({ packages, leadWebsite }: Props) {
       {/* Section 1 — Executive summary */}
       <section className="rounded-lg p-5 space-y-3" style={{ background: "#131109", border: "1px solid #2A2420" }}>
         <div className="flex items-center justify-between">
-          <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.5)" }}>
+          <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.5)" }}>
             1 · Executive summary
           </p>
           <CopyButton text={pkg.executiveSummary} small />
@@ -328,7 +328,7 @@ export function ProposalPackageView({ packages, leadWebsite }: Props) {
 
       {/* Section 2 — Priority problems */}
       <section className="rounded-lg p-5 space-y-3" style={{ background: "#131109", border: "1px solid #2A2420" }}>
-        <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.5)" }}>
+        <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.5)" }}>
           2 · Priority issues
         </p>
         <div className="space-y-3">
@@ -344,7 +344,7 @@ export function ProposalPackageView({ packages, leadWebsite }: Props) {
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
                     <h3 className="font-display text-base" style={{ color: "#F2EDE6" }}>{p.title}</h3>
-                    <span className="font-mono text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded" style={{ background: `${SEVERITY_COLOR[p.severity]}22`, color: SEVERITY_COLOR[p.severity] }}>
+                    <span className="font-mono text-[12px] uppercase tracking-wider px-1.5 py-0.5 rounded" style={{ background: `${SEVERITY_COLOR[p.severity]}22`, color: SEVERITY_COLOR[p.severity] }}>
                       {p.severity}
                     </span>
                   </div>
@@ -352,15 +352,15 @@ export function ProposalPackageView({ packages, leadWebsite }: Props) {
               </div>
               <div className="space-y-1.5 text-sm pl-12">
                 <p style={{ color: "rgba(242,237,230,0.75)" }}>
-                  <span className="font-mono text-[10px] uppercase tracking-wider mr-2" style={{ color: "rgba(242,237,230,0.4)" }}>Why</span>
+                  <span className="font-mono text-[12px] uppercase tracking-wider mr-2" style={{ color: "rgba(242,237,230,0.4)" }}>Why</span>
                   {p.whyItMatters}
                 </p>
                 <p style={{ color: "rgba(242,237,230,0.75)" }}>
-                  <span className="font-mono text-[10px] uppercase tracking-wider mr-2" style={{ color: "rgba(242,237,230,0.4)" }}>Impact</span>
+                  <span className="font-mono text-[12px] uppercase tracking-wider mr-2" style={{ color: "rgba(242,237,230,0.4)" }}>Impact</span>
                   {p.potentialImpact}
                 </p>
                 <p style={{ color: "rgba(242,237,230,0.75)" }}>
-                  <span className="font-mono text-[10px] uppercase tracking-wider mr-2" style={{ color: "rgba(242,237,230,0.4)" }}>Fix</span>
+                  <span className="font-mono text-[12px] uppercase tracking-wider mr-2" style={{ color: "rgba(242,237,230,0.4)" }}>Fix</span>
                   {p.howToImprove}
                 </p>
               </div>
@@ -371,7 +371,7 @@ export function ProposalPackageView({ packages, leadWebsite }: Props) {
 
       {/* Section 3 — Recommended upgrades */}
       <section className="rounded-lg p-5 space-y-3" style={{ background: "#131109", border: "1px solid #2A2420" }}>
-        <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.5)" }}>
+        <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.5)" }}>
           3 · Recommended upgrades
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -383,10 +383,10 @@ export function ProposalPackageView({ packages, leadWebsite }: Props) {
               <div className="flex items-center justify-between">
                 <h3 className="font-display text-base" style={{ color: "#F2EDE6" }}>{u.title}</h3>
                 <div className="flex gap-1.5">
-                  <span className="font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded" style={{ background: u.priority === 1 ? "rgba(248,113,113,0.15)" : u.priority === 2 ? "rgba(245,158,11,0.15)" : "rgba(156,163,175,0.15)", color: u.priority === 1 ? "#f87171" : u.priority === 2 ? "#f59e0b" : "#9ca3af" }}>
+                  <span className="font-mono text-[12px] uppercase tracking-wider px-1.5 py-0.5 rounded" style={{ background: u.priority === 1 ? "rgba(248,113,113,0.15)" : u.priority === 2 ? "rgba(245,158,11,0.15)" : "rgba(156,163,175,0.15)", color: u.priority === 1 ? "#f87171" : u.priority === 2 ? "#f59e0b" : "#9ca3af" }}>
                     P{u.priority}
                   </span>
-                  <span className="font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded" style={{ background: "rgba(255,255,255,0.06)", color: "rgba(242,237,230,0.55)" }}>
+                  <span className="font-mono text-[12px] uppercase tracking-wider px-1.5 py-0.5 rounded" style={{ background: "rgba(255,255,255,0.06)", color: "rgba(242,237,230,0.55)" }}>
                     {DIFFICULTY_LABEL[u.difficulty]}
                   </span>
                 </div>
@@ -396,11 +396,11 @@ export function ProposalPackageView({ packages, leadWebsite }: Props) {
                 <span style={{ color: "#34d399" }}>Benefit:</span> {u.expectedBenefit}
               </p>
               <div className="flex items-center justify-between pt-1.5" style={{ borderTop: "1px solid #2A2420" }}>
-                <span className="font-mono text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>
+                <span className="font-mono text-[12px]" style={{ color: "rgba(242,237,230,0.4)" }}>
                   {u.estimatedHours.min}–{u.estimatedHours.max}h
                 </span>
                 {u.relatedOfferName && (
-                  <span className="font-mono text-[10px]" style={{ color: "#f59e0b" }}>
+                  <span className="font-mono text-[12px]" style={{ color: "#f59e0b" }}>
                     {u.relatedOfferName} · {u.relatedOfferPrice}
                   </span>
                 )}
@@ -413,7 +413,7 @@ export function ProposalPackageView({ packages, leadWebsite }: Props) {
       {/* Section 4 — Implementation scope */}
       <section className="rounded-lg p-5 space-y-4" style={{ background: "#131109", border: "1px solid #2A2420" }}>
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.5)" }}>
+          <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.5)" }}>
             4 · Implementation scope
           </p>
           {pkg.recommendedUpgrades.length > 0 && (
@@ -535,7 +535,7 @@ export function ProposalPackageView({ packages, leadWebsite }: Props) {
 
         {prompt && (
           <div className="space-y-1.5">
-            <p className="font-mono text-[10px]" style={{ color: "rgba(242,237,230,0.4)" }}>
+            <p className="font-mono text-[12px]" style={{ color: "rgba(242,237,230,0.4)" }}>
               Prompt v{promptVersion} · {prompt.length.toLocaleString()} chars
             </p>
             <textarea
@@ -563,7 +563,7 @@ export function ProposalPackageView({ packages, leadWebsite }: Props) {
 
       {/* Section 5 — Outreach email */}
       <section className="rounded-lg p-5 space-y-3" style={{ background: "#131109", border: "1px solid #2A2420" }}>
-        <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.5)" }}>
+        <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.5)" }}>
           5 · Outreach
         </p>
         <EmailBlockControlled

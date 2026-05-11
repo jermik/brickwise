@@ -25,7 +25,7 @@ export function RelatedArticles({ currentSlug }: { currentSlug: string }) {
               style={{ background: "#131109", border: "1px solid #2A2420" }}
             >
               <div
-                className="text-[10px] font-semibold uppercase tracking-[0.5px] mb-1.5"
+                className="text-[12px] font-semibold uppercase tracking-[0.5px] mb-1.5"
                 style={{ color: categoryColor[article.category] }}
               >
                 {article.category}

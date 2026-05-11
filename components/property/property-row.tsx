@@ -50,13 +50,13 @@ export function PropertyRow({ property: p, compareMode, isCompared, onCompareTog
             <div className="flex items-center gap-2 mb-0.5">
               <span className="text-[13px] font-semibold truncate" style={{ color: "#111" }}>{p.name}</span>
               {p.isNew && (
-                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded flex-shrink-0 uppercase tracking-wider" style={{ background: "#eff6ff", color: "#3b82f6" }}>New</span>
+                <span className="text-[12px] font-bold px-1.5 py-0.5 rounded flex-shrink-0 uppercase tracking-wider" style={{ background: "#eff6ff", color: "#3b82f6" }}>New</span>
               )}
             </div>
             <div className="flex items-center gap-2">
               <span className="text-[11px]" style={{ color: "#a3a3a3" }}>{p.flag} {p.city}</span>
               <PlatformDot platform={p.platform} />
-              <span className="hidden sm:inline text-[10px] px-1.5 py-0.5 rounded" style={{ background: "#f5f5f5", color: "#737373" }}>{p.propertyType}</span>
+              <span className="hidden sm:inline text-[12px] px-1.5 py-0.5 rounded" style={{ background: "#f5f5f5", color: "#737373" }}>{p.propertyType}</span>
             </div>
           </div>
 
@@ -75,7 +75,7 @@ export function PropertyRow({ property: p, compareMode, isCompared, onCompareTog
             <div className="text-[13px] font-medium" style={{ fontFamily: "var(--font-dm-mono)", color: p.occupancyRate >= 95 ? "#16a34a" : p.occupancyRate >= 90 ? "#b45309" : "#dc2626" }}>
               {p.occupancyRate}%
             </div>
-            <div className="text-[10px] uppercase tracking-[0.4px]" style={{ color: "#a3a3a3" }}>occ.</div>
+            <div className="text-[12px] uppercase tracking-[0.4px]" style={{ color: "#a3a3a3" }}>occ.</div>
           </div>
 
           {/* Yield */}
@@ -83,7 +83,7 @@ export function PropertyRow({ property: p, compareMode, isCompared, onCompareTog
             <div className="text-[14px] font-medium" style={{ fontFamily: "var(--font-dm-mono)", color: "#16a34a" }}>
               {p.expectedYield}%
             </div>
-            <div className="text-[10px] uppercase tracking-[0.4px]" style={{ color: "#a3a3a3" }}>yield</div>
+            <div className="text-[12px] uppercase tracking-[0.4px]" style={{ color: "#a3a3a3" }}>yield</div>
           </div>
 
           {/* Cap rate */}
@@ -91,7 +91,7 @@ export function PropertyRow({ property: p, compareMode, isCompared, onCompareTog
             <div className="text-[13px] font-medium" style={{ fontFamily: "var(--font-dm-mono)", color: "#111" }}>
               {capRate}%
             </div>
-            <div className="text-[10px] uppercase tracking-[0.4px]" style={{ color: "#a3a3a3" }}>cap rt.</div>
+            <div className="text-[12px] uppercase tracking-[0.4px]" style={{ color: "#a3a3a3" }}>cap rt.</div>
           </div>
 
           {/* Payback */}
@@ -99,7 +99,7 @@ export function PropertyRow({ property: p, compareMode, isCompared, onCompareTog
             <div className="text-[13px] font-medium" style={{ fontFamily: "var(--font-dm-mono)", color: "#111" }}>
               {payback}y
             </div>
-            <div className="text-[10px] uppercase tracking-[0.4px]" style={{ color: "#a3a3a3" }}>payback</div>
+            <div className="text-[12px] uppercase tracking-[0.4px]" style={{ color: "#a3a3a3" }}>payback</div>
           </div>
 
           {/* Token price */}
@@ -107,7 +107,7 @@ export function PropertyRow({ property: p, compareMode, isCompared, onCompareTog
             <div className="text-[13px] font-medium" style={{ fontFamily: "var(--font-dm-mono)", color: "#111" }}>
               €{p.tokenPrice.toFixed(2)}
             </div>
-            <div className="text-[10px] uppercase tracking-[0.4px]" style={{ color: "#a3a3a3" }}>/token</div>
+            <div className="text-[12px] uppercase tracking-[0.4px]" style={{ color: "#a3a3a3" }}>/token</div>
           </div>
 
           {/* Monthly or custom ROI */}
@@ -115,12 +115,12 @@ export function PropertyRow({ property: p, compareMode, isCompared, onCompareTog
             {monthly !== null ? (
               <>
                 <div className="text-[13px] font-medium" style={{ fontFamily: "var(--font-dm-mono)", color: "#22c55e" }}>€{monthly}/mo</div>
-                <div className="text-[10px]" style={{ color: "#a3a3a3" }}>for €{investAmount!.toLocaleString()}</div>
+                <div className="text-[12px]" style={{ color: "#a3a3a3" }}>for €{investAmount!.toLocaleString()}</div>
               </>
             ) : (
               <>
                 <div className="text-[13px] font-medium" style={{ fontFamily: "var(--font-dm-mono)", color: "#111" }}>€{p.monthlyRent}</div>
-                <div className="text-[10px] uppercase tracking-[0.4px]" style={{ color: "#a3a3a3" }}>/mo</div>
+                <div className="text-[12px] uppercase tracking-[0.4px]" style={{ color: "#a3a3a3" }}>/mo</div>
               </>
             )}
           </div>

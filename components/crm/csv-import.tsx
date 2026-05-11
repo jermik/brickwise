@@ -34,7 +34,7 @@ export function CSVImport() {
     <div className="space-y-6">
       {/* Template download */}
       <div className="rounded-lg p-4 space-y-2" style={{ background: "#131109", border: "1px solid #2A2420" }}>
-        <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+        <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
           CSV format
         </p>
         <p className="text-sm" style={{ color: "rgba(242,237,230,0.65)" }}>

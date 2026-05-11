@@ -27,11 +27,30 @@ export default function AnalyzerPage() {
   const [compareIds, setCompareIds] = useState<number[]>([]);
   const [compareOpen, setCompareOpen] = useState(false);
   const [compareActive, setCompareActive] = useState(false);
+  const [page, setPage] = useState(1);
+
+  const PAGE_SIZE = 24;
 
   const results = useMemo(
     () => filterAndSort(PROPERTIES, filters, sortKey),
     [filters, sortKey]
   );
+
+  // Reset to page 1 whenever the filter/sort/view set changes.
+  useEffect(() => {
+    setPage(1);
+  }, [filters, sortKey, viewMode]);
+
+  const totalPages = Math.max(1, Math.ceil(results.length / PAGE_SIZE));
+  const safePage = Math.min(page, totalPages);
+  const pagedResults = useMemo(
+    () => (viewMode === "chart" ? results : results.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE)),
+    [results, safePage, viewMode]
+  );
+  const pagedRange = {
+    from: results.length === 0 ? 0 : (safePage - 1) * PAGE_SIZE + 1,
+    to: Math.min(safePage * PAGE_SIZE, results.length),
+  };
 
   // Fire analytics when filters change — debounced 800ms to avoid spam on slider drags
   useEffect(() => {
@@ -266,7 +285,7 @@ export default function AnalyzerPage() {
             <ChartView properties={results} />
           ) : viewMode === "grid" ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {results.map((p) => (
+              {pagedResults.map((p) => (
                 <PropertyCard
                   key={p.id}
                   property={p}
@@ -283,21 +302,21 @@ export default function AnalyzerPage() {
               <div className="flex items-center gap-3 px-5 py-3" style={{ borderBottom: "1px solid #f0f0f0" }}>
                 <div className="w-5 flex-shrink-0" />
                 <div className="w-10 flex-shrink-0" />
-                <div className="flex-1 text-[10px] font-semibold uppercase tracking-[0.6px]" style={{ color: "#a3a3a3" }}>Property</div>
-                <div className="w-20 text-[10px] font-semibold uppercase tracking-[0.6px] hidden sm:block" style={{ color: "#a3a3a3" }}>Status</div>
-                <div className="w-20 text-[10px] font-semibold uppercase tracking-[0.6px] hidden md:block" style={{ color: "#a3a3a3" }}>Risk</div>
-                <div className="w-16 text-[10px] font-semibold uppercase tracking-[0.6px] text-right hidden lg:block" style={{ color: "#a3a3a3" }}>Occ.</div>
-                <div className="w-16 text-[10px] font-semibold uppercase tracking-[0.6px] text-right" style={{ color: "#a3a3a3" }}>Yield</div>
-                <div className="w-16 text-[10px] font-semibold uppercase tracking-[0.6px] text-right hidden xl:block" style={{ color: "#a3a3a3" }}>Cap Rt.</div>
-                <div className="w-16 text-[10px] font-semibold uppercase tracking-[0.6px] text-right hidden xl:block" style={{ color: "#a3a3a3" }}>Payback</div>
-                <div className="w-20 text-[10px] font-semibold uppercase tracking-[0.6px] text-right hidden sm:block" style={{ color: "#a3a3a3" }}>Token</div>
-                <div className="w-24 text-[10px] font-semibold uppercase tracking-[0.6px] text-right hidden lg:block" style={{ color: "#a3a3a3" }}>
+                <div className="flex-1 text-[12px] font-semibold uppercase tracking-[0.6px]" style={{ color: "#a3a3a3" }}>Property</div>
+                <div className="w-20 text-[12px] font-semibold uppercase tracking-[0.6px] hidden sm:block" style={{ color: "#a3a3a3" }}>Status</div>
+                <div className="w-20 text-[12px] font-semibold uppercase tracking-[0.6px] hidden md:block" style={{ color: "#a3a3a3" }}>Risk</div>
+                <div className="w-16 text-[12px] font-semibold uppercase tracking-[0.6px] text-right hidden lg:block" style={{ color: "#a3a3a3" }}>Occ.</div>
+                <div className="w-16 text-[12px] font-semibold uppercase tracking-[0.6px] text-right" style={{ color: "#a3a3a3" }}>Yield</div>
+                <div className="w-16 text-[12px] font-semibold uppercase tracking-[0.6px] text-right hidden xl:block" style={{ color: "#a3a3a3" }}>Cap Rt.</div>
+                <div className="w-16 text-[12px] font-semibold uppercase tracking-[0.6px] text-right hidden xl:block" style={{ color: "#a3a3a3" }}>Payback</div>
+                <div className="w-20 text-[12px] font-semibold uppercase tracking-[0.6px] text-right hidden sm:block" style={{ color: "#a3a3a3" }}>Token</div>
+                <div className="w-24 text-[12px] font-semibold uppercase tracking-[0.6px] text-right hidden lg:block" style={{ color: "#a3a3a3" }}>
                   {investAmount > 0 ? `€${investAmount.toLocaleString()}/mo` : "Monthly"}
                 </div>
-                <div className="w-[38px] text-[10px] font-semibold uppercase tracking-[0.6px]" style={{ color: "#a3a3a3" }}>Score</div>
+                <div className="w-[38px] text-[12px] font-semibold uppercase tracking-[0.6px]" style={{ color: "#a3a3a3" }}>Score</div>
                 <div className="w-5 flex-shrink-0" />
               </div>
-              {results.map((p) => (
+              {pagedResults.map((p) => (
                 <PropertyRow
                   key={p.id}
                   property={p}
@@ -308,6 +327,42 @@ export default function AnalyzerPage() {
                 />
               ))}
             </div>
+          )}
+
+          {/* Pagination — keeps DOM under ~800 nodes for crawlers/CWV */}
+          {viewMode !== "chart" && results.length > PAGE_SIZE && (
+            <nav
+              aria-label="Property pagination"
+              className="mt-6 flex items-center justify-between gap-3 flex-wrap"
+            >
+              <span className="text-[12px]" style={{ color: "#a3a3a3" }}>
+                Showing <strong style={{ color: "#111" }}>{pagedRange.from}–{pagedRange.to}</strong> of{" "}
+                <strong style={{ color: "#111" }}>{results.length}</strong> properties
+              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  disabled={safePage <= 1}
+                  className="text-[12px] font-semibold px-3 py-1.5 rounded-[7px] transition-opacity disabled:opacity-40 disabled:cursor-not-allowed hover:opacity-80"
+                  style={{ background: "#fff", border: "1px solid #e5e5e5", color: "#111" }}
+                >
+                  ← Previous
+                </button>
+                <span className="text-[12px] font-medium" style={{ color: "#737373", fontFamily: "var(--font-dm-mono)" }}>
+                  Page {safePage} / {totalPages}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                  disabled={safePage >= totalPages}
+                  className="text-[12px] font-semibold px-3 py-1.5 rounded-[7px] transition-opacity disabled:opacity-40 disabled:cursor-not-allowed hover:opacity-80"
+                  style={{ background: "#111", color: "#fff" }}
+                >
+                  Next →
+                </button>
+              </div>
+            </nav>
           )}
         </div>
 
@@ -368,7 +423,7 @@ function StatPill({ label, value, green, accent }: { label: string; value: strin
       >
         {value}
       </div>
-      <div className="text-[10px] uppercase tracking-[0.5px]" style={{ color: "#a3a3a3" }}>
+      <div className="text-[12px] uppercase tracking-[0.5px]" style={{ color: "#a3a3a3" }}>
         {label}
       </div>
     </div>

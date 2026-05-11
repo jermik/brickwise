@@ -194,7 +194,7 @@ export default function GrowthOSLanding() {
           ].map((s) => (
             <div key={s.l} className="p-5 sm:p-6" style={{ background: SURFACE }}>
               <p className="font-display text-2xl sm:text-3xl" style={{ color: ACCENT }}>{s.v}</p>
-              <p className="font-mono text-[10px] tracking-widest uppercase mt-1" style={{ color: "rgba(242,237,230,0.45)" }}>
+              <p className="font-mono text-[12px] tracking-widest uppercase mt-1" style={{ color: "rgba(242,237,230,0.45)" }}>
                 {s.l}
               </p>
             </div>
@@ -249,7 +249,7 @@ export default function GrowthOSLanding() {
                 { t: "Follow-ups", b: "Scheduled, capped" },
               ].map((p) => (
                 <div key={p.t} className="rounded-lg p-4" style={{ background: SURFACE, border: `1px solid ${BORDER}` }}>
-                  <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: ACCENT }}>{p.t}</p>
+                  <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: ACCENT }}>{p.t}</p>
                   <p className="text-sm mt-1.5" style={{ color: "rgba(242,237,230,0.7)" }}>{p.b}</p>
                 </div>
               ))}
@@ -271,7 +271,7 @@ export default function GrowthOSLanding() {
             {FEATURES.map((f, i) => (
               <div key={f.title} className="rounded-lg p-5 space-y-2" style={{ background: SURFACE, border: `1px solid ${BORDER}` }}>
                 <span
-                  className="inline-block font-mono text-[10px] tracking-widest"
+                  className="inline-block font-mono text-[12px] tracking-widest"
                   style={{ color: ACCENT }}
                 >
                   {String(i + 1).padStart(2, "0")}

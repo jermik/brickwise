@@ -219,7 +219,7 @@ export default function CompareRealtVsLoftyPage() {
 
         {/* Quick verdict */}
         <div className="rounded-[12px] p-5 mb-8" style={{ background: "rgba(34,197,94,0.06)", border: "1px solid rgba(34,197,94,0.2)" }}>
-          <div className="text-[10px] font-semibold uppercase tracking-[0.6px] mb-2" style={{ color: "#4ade80" }}>Bottom line</div>
+          <div className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-2" style={{ color: "#4ade80" }}>Bottom line</div>
           <p className="text-[14px] leading-[1.6]" style={{ color: "#F2EDE6" }}>
             <strong style={{ color: "#F2EDE6" }}>RealT</strong> leads on property depth ({realtProps.length} listings, {realtCities.length} cities, avg {realtAvgYield}% yield) and has the longer track record since 2019. <strong style={{ color: "#F2EDE6" }}>Lofty</strong> leads on liquidity (instant PMM exits), lower minimum entry ($50), and newer property stock. Most serious investors use both.
           </p>
@@ -234,7 +234,7 @@ export default function CompareRealtVsLoftyPage() {
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#3b82f6" }} />
                 <span className="text-[16px] font-bold" style={{ color: "#F2EDE6" }}>RealT</span>
-                <span className="text-[10px] font-medium px-2 py-0.5 rounded-[4px] ml-auto" style={{ background: "rgba(59,130,246,0.1)", color: "#3b82f6", border: "1px solid rgba(59,130,246,0.25)" }}>realt.co</span>
+                <span className="text-[12px] font-medium px-2 py-0.5 rounded-[4px] ml-auto" style={{ background: "rgba(59,130,246,0.1)", color: "#3b82f6", border: "1px solid rgba(59,130,246,0.25)" }}>realt.co</span>
               </div>
               <div className="space-y-2.5">
                 {[
@@ -261,7 +261,7 @@ export default function CompareRealtVsLoftyPage() {
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#f97316" }} />
                 <span className="text-[16px] font-bold" style={{ color: "#F2EDE6" }}>Lofty</span>
-                <span className="text-[10px] font-medium px-2 py-0.5 rounded-[4px] ml-auto" style={{ background: "rgba(249,115,22,0.1)", color: "#f97316", border: "1px solid rgba(249,115,22,0.25)" }}>lofty.ai</span>
+                <span className="text-[12px] font-medium px-2 py-0.5 rounded-[4px] ml-auto" style={{ background: "rgba(249,115,22,0.1)", color: "#f97316", border: "1px solid rgba(249,115,22,0.25)" }}>lofty.ai</span>
               </div>
               <div className="space-y-2.5">
                 {[
@@ -294,7 +294,7 @@ export default function CompareRealtVsLoftyPage() {
             <table className="w-full border-collapse">
               <thead>
                 <tr style={{ background: "#1A1713", borderBottom: "1px solid #2A2420" }}>
-                  <th className="text-left px-5 py-3 text-[10px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.4)", width: "40%" }}>Feature</th>
+                  <th className="text-left px-5 py-3 text-[12px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.4)", width: "40%" }}>Feature</th>
                   <th className="text-center px-4 py-3 text-[11px] font-bold" style={{ color: "#3b82f6", width: "30%" }}>RealT</th>
                   <th className="text-center px-4 py-3 text-[11px] font-bold" style={{ color: "#f97316", width: "30%" }}>Lofty</th>
                 </tr>
@@ -323,20 +323,20 @@ export default function CompareRealtVsLoftyPage() {
                       className="px-4 py-3 text-[12px] font-semibold text-center"
                       style={{ fontFamily: "var(--font-dm-mono)", color: row.highlight === "realt" ? "#22c55e" : "#F2EDE6" }}
                     >
-                      {row.highlight === "realt" && <span className="text-[9px] mr-1">★</span>}{row.realt}
+                      {row.highlight === "realt" && <span className="text-[12px] mr-1">★</span>}{row.realt}
                     </td>
                     <td
                       className="px-4 py-3 text-[12px] font-semibold text-center"
                       style={{ fontFamily: "var(--font-dm-mono)", color: row.highlight === "lofty" ? "#22c55e" : "#F2EDE6" }}
                     >
-                      {row.highlight === "lofty" && <span className="text-[9px] mr-1">★</span>}{row.lofty}
+                      {row.highlight === "lofty" && <span className="text-[12px] mr-1">★</span>}{row.lofty}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <p className="text-[10px] mt-2" style={{ color: "rgba(242,237,230,0.3)" }}>★ = better value in row based on Brickwise scoring</p>
+          <p className="text-[12px] mt-2" style={{ color: "rgba(242,237,230,0.3)" }}>★ = better value in row based on Brickwise scoring</p>
         </div>
 
         {/* Top buys from each platform */}
@@ -357,11 +357,11 @@ export default function CompareRealtVsLoftyPage() {
                     <div className="rounded-[8px] px-4 py-3 flex items-center gap-3 hover:bg-[#1a1611] transition-colors" style={{ background: "#131109", border: "1px solid #2A2420" }}>
                       <div className="flex-1 min-w-0">
                         <div className="text-[12px] font-semibold truncate" style={{ color: "#F2EDE6" }}>{p.name}</div>
-                        <div className="text-[10px] mt-0.5" style={{ color: "rgba(242,237,230,0.4)" }}>{p.flag} {p.city} · Score {p.overallScore}/100</div>
+                        <div className="text-[12px] mt-0.5" style={{ color: "rgba(242,237,230,0.4)" }}>{p.flag} {p.city} · Score {p.overallScore}/100</div>
                       </div>
                       <div className="flex-shrink-0 text-right">
                         <div className="text-[13px] font-bold" style={{ fontFamily: "var(--font-dm-mono)", color: "#22c55e" }}>{p.expectedYield}%</div>
-                        <div className="text-[9px]" style={{ color: "rgba(242,237,230,0.35)" }}>yield</div>
+                        <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.35)" }}>yield</div>
                       </div>
                     </div>
                   </Link>
@@ -381,11 +381,11 @@ export default function CompareRealtVsLoftyPage() {
                     <div className="rounded-[8px] px-4 py-3 flex items-center gap-3 hover:bg-[#1a1611] transition-colors" style={{ background: "#131109", border: "1px solid #2A2420" }}>
                       <div className="flex-1 min-w-0">
                         <div className="text-[12px] font-semibold truncate" style={{ color: "#F2EDE6" }}>{p.name}</div>
-                        <div className="text-[10px] mt-0.5" style={{ color: "rgba(242,237,230,0.4)" }}>{p.flag} {p.city} · Score {p.overallScore}/100</div>
+                        <div className="text-[12px] mt-0.5" style={{ color: "rgba(242,237,230,0.4)" }}>{p.flag} {p.city} · Score {p.overallScore}/100</div>
                       </div>
                       <div className="flex-shrink-0 text-right">
                         <div className="text-[13px] font-bold" style={{ fontFamily: "var(--font-dm-mono)", color: "#22c55e" }}>{p.expectedYield}%</div>
-                        <div className="text-[9px]" style={{ color: "rgba(242,237,230,0.35)" }}>yield</div>
+                        <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.35)" }}>yield</div>
                       </div>
                     </div>
                   </Link>
@@ -425,7 +425,7 @@ export default function CompareRealtVsLoftyPage() {
                   return (
                     <Link key={city} href={`/city/${slug}`} className="no-underline">
                       <span
-                        className="inline-flex items-center gap-1 text-[10px] px-2 py-1 rounded-[4px] hover:opacity-80 transition-opacity"
+                        className="inline-flex items-center gap-1 text-[12px] px-2 py-1 rounded-[4px] hover:opacity-80 transition-opacity"
                         style={{ background: "rgba(59,130,246,0.08)", color: "#93c5fd", border: "1px solid rgba(59,130,246,0.18)" }}
                       >
                         {city} <span style={{ color: "rgba(147,197,253,0.5)" }}>({count})</span>
@@ -447,7 +447,7 @@ export default function CompareRealtVsLoftyPage() {
                   return (
                     <Link key={city} href={`/city/${slug}`} className="no-underline">
                       <span
-                        className="inline-flex items-center gap-1 text-[10px] px-2 py-1 rounded-[4px] hover:opacity-80 transition-opacity"
+                        className="inline-flex items-center gap-1 text-[12px] px-2 py-1 rounded-[4px] hover:opacity-80 transition-opacity"
                         style={{ background: "rgba(249,115,22,0.08)", color: "#fdba74", border: "1px solid rgba(249,115,22,0.18)" }}
                       >
                         {city} <span style={{ color: "rgba(253,186,116,0.5)" }}>({count})</span>
@@ -645,7 +645,7 @@ export default function CompareRealtVsLoftyPage() {
         </div>
 
         {/* Footer note */}
-        <p className="mt-6 text-[10px] leading-[1.6]" style={{ color: "rgba(242,237,230,0.25)" }}>
+        <p className="mt-6 text-[12px] leading-[1.6]" style={{ color: "rgba(242,237,230,0.25)" }}>
           Data based on Brickwise analysis of {PROPERTIES.length} properties. Yields and scores are updated regularly but may not reflect real-time listings. Not financial advice. Always verify directly on realt.co and lofty.ai before investing.
         </p>
       </div>

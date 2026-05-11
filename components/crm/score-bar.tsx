@@ -55,7 +55,7 @@ export function ScoreRing({ value, size = 48 }: { value?: number | null; size?: 
         />
       </svg>
       <span
-        className="absolute font-mono text-[10px] font-semibold"
+        className="absolute font-mono text-[12px] font-semibold"
         style={{ color: value != null ? fill : "rgba(242,237,230,0.3)" }}
       >
         {value != null ? v : "—"}

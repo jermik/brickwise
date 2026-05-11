@@ -148,7 +148,7 @@ function FooterColumn({ title, links }: { title: string; links: { href: string; 
   return (
     <nav aria-label={title}>
       <div
-        className="text-[10px] font-semibold uppercase tracking-[0.6px] mb-3"
+        className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-3"
         style={{ color: 'rgba(242,237,230,0.55)' }}
       >
         {title}

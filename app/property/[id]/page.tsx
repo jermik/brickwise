@@ -177,7 +177,7 @@ export default async function PropertyDetailPage({
                     </h1>
                     {p.isNew && (
                       <span
-                        className="text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-[0.4px]"
+                        className="text-[12px] font-bold px-2 py-0.5 rounded uppercase tracking-[0.4px]"
                         style={{ background: "#2563eb", color: "#fff" }}
                       >
                         New
@@ -185,7 +185,7 @@ export default async function PropertyDetailPage({
                     )}
                     {urgency && (
                       <span
-                        className="text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-[0.4px]"
+                        className="text-[12px] font-bold px-2 py-0.5 rounded uppercase tracking-[0.4px]"
                         style={{ background: "#dc2626", color: "#fff" }}
                       >
                         {urgency}
@@ -254,7 +254,7 @@ export default async function PropertyDetailPage({
                 style={{ background: "#f8fafc", border: "1px solid #e2e8f0" }}
               >
                 <div
-                  className="text-[10px] font-bold uppercase tracking-[1px] mb-3"
+                  className="text-[12px] font-bold uppercase tracking-[1px] mb-3"
                   style={{ color: "#64748b" }}
                 >
                   How this compares
@@ -344,7 +344,7 @@ export default async function PropertyDetailPage({
                   </svg>
                 </div>
                 <div
-                  className="text-[10px] font-semibold uppercase tracking-[0.6px]"
+                  className="text-[12px] font-semibold uppercase tracking-[0.6px]"
                   style={{ color: "#a3a3a3" }}
                 >
                   Why this looks attractive
@@ -378,7 +378,7 @@ export default async function PropertyDetailPage({
                   </svg>
                 </div>
                 <div
-                  className="text-[10px] font-semibold uppercase tracking-[0.6px]"
+                  className="text-[12px] font-semibold uppercase tracking-[0.6px]"
                   style={{ color: "#b45309" }}
                 >
                   Risks to consider
@@ -403,14 +403,14 @@ export default async function PropertyDetailPage({
             <div className="rounded-[10px] p-5" style={{ background: "#fff", border: "1px solid #ebebeb" }}>
               <div className="flex items-center justify-between mb-4">
                 <div
-                  className="text-[10px] font-semibold uppercase tracking-[0.6px]"
+                  className="text-[12px] font-semibold uppercase tracking-[0.6px]"
                   style={{ color: "#a3a3a3" }}
                 >
                   Score breakdown
                 </div>
                 <div className="relative group">
                   <div
-                    className="w-[18px] h-[18px] rounded-full flex items-center justify-center cursor-help text-[10px] font-bold select-none"
+                    className="w-[18px] h-[18px] rounded-full flex items-center justify-center cursor-help text-[12px] font-bold select-none"
                     style={{ background: "#f0f0f0", color: "#a3a3a3" }}
                   >
                     ?
@@ -450,7 +450,7 @@ export default async function PropertyDetailPage({
             <div className="rounded-[10px] p-5" style={{ background: "#fff", border: "1px solid #ebebeb" }}>
               <div className="flex items-center justify-between mb-3">
                 <div
-                  className="text-[10px] font-semibold uppercase tracking-[0.6px]"
+                  className="text-[12px] font-semibold uppercase tracking-[0.6px]"
                   style={{ color: "#a3a3a3" }}
                 >
                   Occupancy rate
@@ -499,7 +499,7 @@ export default async function PropertyDetailPage({
               return (
                 <div className="rounded-[10px] overflow-hidden" style={{ border: "1px solid #ebebeb" }}>
                   <div className="px-5 py-3.5" style={{ borderBottom: "1px solid #f5f5f5", background: "#fafafa" }}>
-                    <div className="text-[10px] font-semibold uppercase tracking-[0.6px]" style={{ color: "#a3a3a3" }}>
+                    <div className="text-[12px] font-semibold uppercase tracking-[0.6px]" style={{ color: "#a3a3a3" }}>
                       Similar properties
                     </div>
                   </div>
@@ -522,15 +522,15 @@ export default async function PropertyDetailPage({
                         <div className="flex-1 min-w-0">
                           <div className="text-[12px] font-semibold truncate mb-0.5" style={{ color: "#111" }}>{cp.name}</div>
                           <div className="flex items-center gap-1.5">
-                            <span className="text-[10px]" style={{ color: "#a3a3a3" }}>{cp.flag} {cp.city} · {cp.platform}</span>
+                            <span className="text-[12px]" style={{ color: "#a3a3a3" }}>{cp.flag} {cp.city} · {cp.platform}</span>
                             {cp.city === p.city && (
-                              <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: "#f0fdf4", color: "#16a34a" }}>Same city</span>
+                              <span className="text-[12px] px-1.5 py-0.5 rounded" style={{ background: "#f0fdf4", color: "#16a34a" }}>Same city</span>
                             )}
                           </div>
                         </div>
                         <div className="text-right flex-shrink-0">
                           <div className="text-[13px] font-semibold" style={{ fontFamily: "var(--font-dm-mono)", color: "#16a34a" }}>{cp.expectedYield}%</div>
-                          <div className="text-[9px] font-semibold" style={{ color: recColor }}>{crec.action}</div>
+                          <div className="text-[12px] font-semibold" style={{ color: recColor }}>{crec.action}</div>
                         </div>
                       </Link>
                     );
@@ -571,7 +571,7 @@ export default async function PropertyDetailPage({
               }}
             >
               <div
-                className="text-[10px] font-semibold uppercase tracking-[0.6px] mb-2.5"
+                className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-2.5"
                 style={{
                   color:
                     rec.action === "Buy" ? "#15803d" : rec.action === "Avoid" ? "#be123c" : "#737373",
@@ -604,7 +604,7 @@ export default async function PropertyDetailPage({
                 style={{ borderBottom: "1px solid #f5f5f5", background: "#fafafa" }}
               >
                 <div
-                  className="text-[10px] font-semibold uppercase tracking-[0.6px]"
+                  className="text-[12px] font-semibold uppercase tracking-[0.6px]"
                   style={{ color: "#a3a3a3" }}
                 >
                   Key numbers
@@ -650,7 +650,7 @@ export default async function PropertyDetailPage({
                 style={{ borderBottom: "1px solid #f5f5f5", background: "#fafafa" }}
               >
                 <div
-                  className="text-[10px] font-semibold uppercase tracking-[0.6px]"
+                  className="text-[12px] font-semibold uppercase tracking-[0.6px]"
                   style={{ color: "#a3a3a3" }}
                 >
                   If you invest €1,000
@@ -707,7 +707,7 @@ export default async function PropertyDetailPage({
                 style={{ borderBottom: "1px solid #f5f5f5", background: "#fafafa" }}
               >
                 <div
-                  className="text-[10px] font-semibold uppercase tracking-[0.6px]"
+                  className="text-[12px] font-semibold uppercase tracking-[0.6px]"
                   style={{ color: "#a3a3a3" }}
                 >
                   Income breakdown · monthly
@@ -771,7 +771,7 @@ export default async function PropertyDetailPage({
                 style={{ borderBottom: "1px solid #f5f5f5", background: "#fafafa" }}
               >
                 <div
-                  className="text-[10px] font-semibold uppercase tracking-[0.6px]"
+                  className="text-[12px] font-semibold uppercase tracking-[0.6px]"
                   style={{ color: "#a3a3a3" }}
                 >
                   Returns · 100 tokens
@@ -819,7 +819,7 @@ export default async function PropertyDetailPage({
                 style={{ borderBottom: "1px solid #f5f5f5", background: "#fafafa" }}
               >
                 <div
-                  className="text-[10px] font-semibold uppercase tracking-[0.6px]"
+                  className="text-[12px] font-semibold uppercase tracking-[0.6px]"
                   style={{ color: "#a3a3a3" }}
                 >
                   Token info
@@ -897,7 +897,7 @@ export default async function PropertyDetailPage({
               Share on X
             </a>
 
-            <p className="text-[10px] leading-[1.6]" style={{ color: "#c4c4c4" }}>
+            <p className="text-[12px] leading-[1.6]" style={{ color: "#c4c4c4" }}>
               Scores and yield estimates are for informational purposes only and do not constitute
               financial advice. Past occupancy does not guarantee future income. Always review the
               offering documents on the issuing platform before investing.

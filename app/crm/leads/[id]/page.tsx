@@ -81,7 +81,7 @@ export default async function LeadDetailPage({
               const cfg = LEAD_SCORE_CATEGORY_CONFIG[lead.leadScoreData.category];
               return (
                 <span
-                  className="font-mono text-[10px] tracking-widest uppercase px-2 py-0.5 rounded"
+                  className="font-mono text-[12px] tracking-widest uppercase px-2 py-0.5 rounded"
                   style={{ background: cfg.bg, color: cfg.color, border: `1px solid ${cfg.color}33` }}
                   title={`Lead opportunity score: ${lead.leadScoreData.score}/100`}
                 >
@@ -121,7 +121,7 @@ export default async function LeadDetailPage({
         <div className="lg:col-span-2 space-y-5">
           {/* Business info */}
           <div className="rounded-lg p-5 space-y-3" style={{ background: "#131109", border: "1px solid #2A2420" }}>
-            <h2 className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+            <h2 className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
               Contact details
             </h2>
             <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
@@ -183,7 +183,7 @@ export default async function LeadDetailPage({
           {(lead.websiteScore != null || lead.seoScore != null || lead.automationScore != null) && (
             <div className="rounded-lg p-5 space-y-4" style={{ background: "#131109", border: "1px solid #2A2420" }}>
               <div className="flex items-center justify-between">
-                <h2 className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+                <h2 className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
                   Website audit
                 </h2>
                 <Link href={`/crm/leads/${id}/audit`} className="text-xs underline" style={{ color: "#f59e0b" }}>
@@ -201,7 +201,7 @@ export default async function LeadDetailPage({
               )}
               {lead.richAudit && (
                 <details className="rounded p-3" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid #2A2420" }}>
-                  <summary className="cursor-pointer font-mono text-[10px] tracking-widest uppercase flex justify-between" style={{ color: "rgba(242,237,230,0.5)" }}>
+                  <summary className="cursor-pointer font-mono text-[12px] tracking-widest uppercase flex justify-between" style={{ color: "rgba(242,237,230,0.5)" }}>
                     <span>Detailed scores · {lead.richAudit.scores.overall}/100 overall</span>
                     <span style={{ color: "#f59e0b" }}>+</span>
                   </summary>
@@ -228,7 +228,7 @@ export default async function LeadDetailPage({
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 pt-2">
                   {lead.topProblems && lead.topProblems.length > 0 && (
                     <div className="rounded p-3 space-y-1" style={{ background: "rgba(248,113,113,0.05)", border: "1px solid rgba(248,113,113,0.18)" }}>
-                      <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "#f87171" }}>Top problems</p>
+                      <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "#f87171" }}>Top problems</p>
                       <ol className="text-[11px] space-y-0.5" style={{ color: "rgba(242,237,230,0.7)" }}>
                         {lead.topProblems.map((p, i) => (<li key={i}>{i + 1}. {p}</li>))}
                       </ol>
@@ -236,7 +236,7 @@ export default async function LeadDetailPage({
                   )}
                   {lead.topImprovements && lead.topImprovements.length > 0 && (
                     <div className="rounded p-3 space-y-1" style={{ background: "rgba(16,185,129,0.05)", border: "1px solid rgba(16,185,129,0.18)" }}>
-                      <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "#10b981" }}>Top improvements</p>
+                      <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "#10b981" }}>Top improvements</p>
                       <ol className="text-[11px] space-y-0.5" style={{ color: "rgba(242,237,230,0.7)" }}>
                         {lead.topImprovements.map((p, i) => (<li key={i}>{i + 1}. {p}</li>))}
                       </ol>
@@ -266,7 +266,7 @@ export default async function LeadDetailPage({
           {/* Contact history */}
           {contactHistory.length > 0 && (
             <div className="rounded-lg p-5 space-y-3" style={{ background: "#131109", border: "1px solid #2A2420" }}>
-              <h2 className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+              <h2 className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
                 Contact history
               </h2>
               <div className="space-y-2">
@@ -278,7 +278,7 @@ export default async function LeadDetailPage({
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         <span className="text-xs capitalize font-medium" style={{ color: "#F2EDE6" }}>{c.type}</span>
-                        <span className="font-mono text-[10px]" style={{ color: "rgba(242,237,230,0.35)" }}>{fmtTime(c.sentAt)}</span>
+                        <span className="font-mono text-[12px]" style={{ color: "rgba(242,237,230,0.35)" }}>{fmtTime(c.sentAt)}</span>
                       </div>
                       {c.message && <p className="text-xs mt-0.5" style={{ color: "rgba(242,237,230,0.55)" }}>{c.message}</p>}
                     </div>
@@ -303,7 +303,7 @@ export default async function LeadDetailPage({
 
           {/* Follow-ups */}
           <div className="rounded-lg p-4 space-y-3" style={{ background: "#131109", border: "1px solid #2A2420" }}>
-            <h2 className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+            <h2 className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
               Follow-ups
             </h2>
             {pendingFollowUps.length === 0 ? (

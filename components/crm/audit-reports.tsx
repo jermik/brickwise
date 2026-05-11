@@ -24,7 +24,7 @@ export function AuditReports({ lead }: Props) {
   if (!lead.richAudit) {
     return (
       <div className="rounded-lg p-4" style={{ background: "#131109", border: "1px solid #2A2420" }}>
-        <p className="font-mono text-[10px] tracking-widest uppercase mb-2" style={{ color: "rgba(242,237,230,0.4)" }}>
+        <p className="font-mono text-[12px] tracking-widest uppercase mb-2" style={{ color: "rgba(242,237,230,0.4)" }}>
           Audit reports
         </p>
         <p className="text-sm" style={{ color: "rgba(242,237,230,0.5)" }}>
@@ -37,7 +37,7 @@ export function AuditReports({ lead }: Props) {
   return (
     <div className="rounded-lg p-4 space-y-3" style={{ background: "#131109", border: "1px solid #2A2420" }}>
       <div className="flex items-center justify-between">
-        <p className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+        <p className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
           Audit reports
         </p>
         <button
@@ -90,7 +90,7 @@ export function AuditReports({ lead }: Props) {
         }}
       />
 
-      <p className="text-[10px]" style={{ color: "rgba(242,237,230,0.35)" }}>
+      <p className="text-[12px]" style={{ color: "rgba(242,237,230,0.35)" }}>
         Always personalise before sending. Use cautious wording — &ldquo;could&rdquo;, &ldquo;potential&rdquo;, &ldquo;based on visible signals&rdquo;.
       </p>
     </div>

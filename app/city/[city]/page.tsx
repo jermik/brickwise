@@ -164,7 +164,7 @@ export default async function CityPage({ params }: Props) {
             { label: "Low risk", value: `${lowRiskCount} (${Math.round((lowRiskCount / cityProps.length) * 100)}%)` },
           ].map((s) => (
             <div key={s.label} className="px-4 py-3" style={{ background: "#131109" }}>
-              <div className="text-[9px] font-semibold uppercase tracking-[0.6px] mb-1" style={{ color: "rgba(242,237,230,0.35)" }}>{s.label}</div>
+              <div className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-1" style={{ color: "rgba(242,237,230,0.35)" }}>{s.label}</div>
               <div
                 className="text-[15px] font-semibold leading-none"
                 style={{ fontFamily: "var(--font-dm-mono)", color: s.green ? "#22c55e" : s.accent ? "#3b82f6" : "#F2EDE6" }}
@@ -203,7 +203,7 @@ export default async function CityPage({ params }: Props) {
           {/* Table header */}
           <div className="grid gap-0 px-5 py-2.5" style={{ background: "#1A1713", borderBottom: "1px solid #2A2420", gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr 80px" }}>
             {["Property", "Yield", "Score", "Risk", "Status", "Signal"].map((h) => (
-              <div key={h} className="text-[9px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.35)" }}>{h}</div>
+              <div key={h} className="text-[12px] font-semibold uppercase tracking-[0.6px]" style={{ color: "rgba(242,237,230,0.35)" }}>{h}</div>
             ))}
           </div>
 
@@ -227,9 +227,9 @@ export default async function CityPage({ params }: Props) {
                   <div className="min-w-0 pr-3">
                     <div className="text-[12px] font-semibold truncate" style={{ color: "#F2EDE6" }}>{p.name}</div>
                     <div className="flex items-center gap-1.5 mt-0.5">
-                      <span className="text-[10px]" style={{ color: platformColor }}>● {p.platform}</span>
+                      <span className="text-[12px]" style={{ color: platformColor }}>● {p.platform}</span>
                       {p.isNew && (
-                        <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-[3px]" style={{ background: "rgba(59,130,246,0.1)", color: "#3b82f6" }}>New</span>
+                        <span className="text-[12px] font-bold px-1.5 py-0.5 rounded-[3px]" style={{ background: "rgba(59,130,246,0.1)", color: "#3b82f6" }}>New</span>
                       )}
                     </div>
                   </div>
@@ -237,7 +237,7 @@ export default async function CityPage({ params }: Props) {
                   {/* Yield */}
                   <div>
                     <div className="text-[13px] font-bold" style={{ fontFamily: "var(--font-dm-mono)", color: "#22c55e" }}>{p.expectedYield}%</div>
-                    <div className="text-[9px] mt-0.5" style={{ color: "rgba(242,237,230,0.3)" }}>€{p.tokenPrice.toFixed(0)}/token</div>
+                    <div className="text-[12px] mt-0.5" style={{ color: "rgba(242,237,230,0.3)" }}>€{p.tokenPrice.toFixed(0)}/token</div>
                   </div>
 
                   {/* Score */}
@@ -245,13 +245,13 @@ export default async function CityPage({ params }: Props) {
                     <div className="text-[13px] font-semibold" style={{ fontFamily: "var(--font-dm-mono)", color: p.overallScore >= 80 ? "#22c55e" : p.overallScore >= 65 ? "#F2EDE6" : "#f59e0b" }}>
                       {p.overallScore}
                     </div>
-                    <div className="text-[9px] mt-0.5" style={{ color: "rgba(242,237,230,0.3)" }}>/ 100</div>
+                    <div className="text-[12px] mt-0.5" style={{ color: "rgba(242,237,230,0.3)" }}>/ 100</div>
                   </div>
 
                   {/* Risk */}
                   <div>
                     <div
-                      className="text-[10px] font-semibold inline-block px-1.5 py-0.5 rounded-[3px]"
+                      className="text-[12px] font-semibold inline-block px-1.5 py-0.5 rounded-[3px]"
                       style={{
                         background: p.risk === "Low" ? "rgba(34,197,94,0.1)" : "rgba(245,158,11,0.1)",
                         color: p.risk === "Low" ? "#22c55e" : "#f59e0b",
@@ -264,7 +264,7 @@ export default async function CityPage({ params }: Props) {
                   {/* Fair value */}
                   <div>
                     <div
-                      className="text-[10px] font-semibold"
+                      className="text-[12px] font-semibold"
                       style={{
                         color: p.fairValueStatus === "undervalued" ? "#22c55e" : p.fairValueStatus === "overpriced" ? "#ef4444" : "rgba(242,237,230,0.45)",
                       }}
@@ -276,7 +276,7 @@ export default async function CityPage({ params }: Props) {
                   {/* Recommendation */}
                   <div>
                     <div
-                      className="text-[10px] font-bold px-2 py-1 rounded-[4px] text-center"
+                      className="text-[12px] font-bold px-2 py-1 rounded-[4px] text-center"
                       style={{ background: `${recColor}15`, color: recColor, border: `1px solid ${recColor}30` }}
                     >
                       {rec.action}

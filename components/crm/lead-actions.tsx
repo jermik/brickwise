@@ -41,7 +41,7 @@ export function LeadActions({ leadId, currentOffer }: LeadActionsProps) {
   return (
     <div className="space-y-3">
       <div className="space-y-1.5">
-        <label className="font-mono text-[10px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
+        <label className="font-mono text-[12px] tracking-widest uppercase" style={{ color: "rgba(242,237,230,0.4)" }}>
           Recommended offer
         </label>
         <select value={currentOffer ?? ""} onChange={handleOfferChange} disabled={pending} style={inputStyle}>
@@ -50,7 +50,7 @@ export function LeadActions({ leadId, currentOffer }: LeadActionsProps) {
             <option key={o.id} value={o.id}>{o.name}{o.price ? ` · ${o.price}` : ""}</option>
           ))}
         </select>
-        <p className="text-[10px]" style={{ color: "rgba(242,237,230,0.35)" }}>
+        <p className="text-[12px]" style={{ color: "rgba(242,237,230,0.35)" }}>
           Set to override the audit&apos;s automatic suggestion.
         </p>
       </div>

@@ -52,7 +52,7 @@ export default function ContactPage() {
               className="rounded-[10px] p-5"
               style={{ background: "#131109", border: "1px solid #2A2420" }}
             >
-              <div className="text-[10px] font-semibold uppercase tracking-[0.6px] mb-2" style={{ color: "rgba(242,237,230,0.45)" }}>
+              <div className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-2" style={{ color: "rgba(242,237,230,0.45)" }}>
                 Email (general)
               </div>
               <a
@@ -71,7 +71,7 @@ export default function ContactPage() {
               className="rounded-[10px] p-5"
               style={{ background: "#131109", border: "1px solid #2A2420" }}
             >
-              <div className="text-[10px] font-semibold uppercase tracking-[0.6px] mb-2" style={{ color: "rgba(242,237,230,0.45)" }}>
+              <div className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-2" style={{ color: "rgba(242,237,230,0.45)" }}>
                 Email (press)
               </div>
               <a
@@ -90,7 +90,7 @@ export default function ContactPage() {
               className="rounded-[10px] p-5 sm:col-span-2"
               style={{ background: "#131109", border: "1px solid #2A2420" }}
             >
-              <div className="text-[10px] font-semibold uppercase tracking-[0.6px] mb-2" style={{ color: "rgba(242,237,230,0.45)" }}>
+              <div className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-2" style={{ color: "rgba(242,237,230,0.45)" }}>
                 X / Twitter
               </div>
               <a

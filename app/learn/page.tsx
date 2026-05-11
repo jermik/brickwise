@@ -100,7 +100,7 @@ export default function LearnPage() {
             { label: "Free to access", value: "All" },
           ].map((s) => (
             <div key={s.label} className="flex-1 min-w-[100px] px-4 py-3" style={{ background: "#131109" }}>
-              <div className="text-[9px] font-semibold uppercase tracking-[0.6px] mb-1" style={{ color: "rgba(242,237,230,0.35)" }}>{s.label}</div>
+              <div className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-1" style={{ color: "rgba(242,237,230,0.35)" }}>{s.label}</div>
               <div className="text-[16px] font-bold" style={{ fontFamily: "var(--font-dm-mono)", color: "#22c55e" }}>{s.value}</div>
             </div>
           ))}
@@ -135,12 +135,12 @@ export default function LearnPage() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-2">
                     <div
-                      className="text-[10px] font-semibold uppercase tracking-[0.5px] px-2 py-0.5 rounded-full"
+                      className="text-[12px] font-semibold uppercase tracking-[0.5px] px-2 py-0.5 rounded-full"
                       style={{ background: `${article.accentColor}18`, color: article.accentColor }}
                     >
                       {article.category}
                     </div>
-                    <span className="text-[10px]" style={{ color: "rgba(242,237,230,0.3)" }}>{article.readTime} read</span>
+                    <span className="text-[12px]" style={{ color: "rgba(242,237,230,0.3)" }}>{article.readTime} read</span>
                   </div>
                   <h2 className="text-[15px] font-semibold mb-1.5 leading-snug" style={{ color: "#F2EDE6" }}>
                     {article.title}

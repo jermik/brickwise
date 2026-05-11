@@ -144,7 +144,7 @@ export default async function MarketDatePage({
               style={{ border: "1px solid #ebebeb", background: "#fff" }}
             >
               <div
-                className="text-[10px] font-semibold uppercase tracking-[0.6px] mb-1"
+                className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-1"
                 style={{ color: "#a3a3a3" }}
               >
                 {label}
@@ -169,7 +169,7 @@ export default async function MarketDatePage({
           style={{ border: "1px solid #ebebeb", background: "#f8fafc" }}
         >
           <div
-            className="text-[10px] font-semibold uppercase tracking-[0.6px] mb-3"
+            className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-3"
             style={{ color: "#64748b" }}
           >
             Key highlights
@@ -198,7 +198,7 @@ export default async function MarketDatePage({
           style={{ border: "1px solid #ebebeb", background: "#fff" }}
         >
           <div
-            className="text-[10px] font-semibold uppercase tracking-[0.6px] mb-3"
+            className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-3"
             style={{ color: "#a3a3a3" }}
           >
             Market commentary
@@ -218,7 +218,7 @@ export default async function MarketDatePage({
         {u.topProperties.length > 0 && (
           <div className="mb-8">
             <div
-              className="text-[10px] font-semibold uppercase tracking-[0.6px] mb-3"
+              className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-3"
               style={{ color: "#a3a3a3" }}
             >
               Top rated properties
@@ -252,7 +252,7 @@ export default async function MarketDatePage({
                     >
                       {prop.yield}%
                     </div>
-                    <div className="text-[10px]" style={{ color: "#a3a3a3" }}>
+                    <div className="text-[12px]" style={{ color: "#a3a3a3" }}>
                       Score {prop.score}
                     </div>
                   </div>
