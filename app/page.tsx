@@ -201,21 +201,24 @@ export default function DecisionPage() {
             className="text-[11px] font-medium mb-2"
             style={{ color: "rgba(242,237,230,0.4)", letterSpacing: "0.04em" }}
           >
-            Decision Engine
+            Independent Tokenized RE Analytics
           </div>
           <h1
             className="text-[30px] font-normal leading-[1.1] tracking-[-0.3px]"
             style={{ color: "#F2EDE6", fontFamily: "var(--font-dm-serif)" }}
           >
-            What to do right now
+            Score every tokenized rental on Lofty and RealT
           </h1>
           <p
             className="text-[12px] mt-2.5 leading-[1.5]"
             style={{ color: "rgba(242,237,230,0.45)", letterSpacing: "0.01em" }}
           >
-            <span style={{ color: "rgba(242,237,230,0.7)" }}>Independent analytics.</span>{" "}
-            No paid placements <span style={{ color: "rgba(242,237,230,0.25)" }}>·</span> Refreshed
-            daily <span style={{ color: "rgba(242,237,230,0.25)" }}>·</span> No signup required.
+            <span style={{ color: "rgba(242,237,230,0.7)" }}>{PROPERTIES.length}+ properties scored daily.</span>{" "}
+            Buy/avoid signals every Monday <span style={{ color: "rgba(242,237,230,0.25)" }}>·</span>{" "}
+            <Link href="/methodology" style={{ color: "rgba(242,237,230,0.55)", textDecoration: "underline" }}>Methodology</Link>{" "}
+            <span style={{ color: "rgba(242,237,230,0.25)" }}>·</span>{" "}
+            <Link href="/about" style={{ color: "rgba(242,237,230,0.55)", textDecoration: "underline" }}>About</Link>{" "}
+            <span style={{ color: "rgba(242,237,230,0.25)" }}>·</span> No affiliation, no signup, no paid placements.
           </p>
         </div>
 
@@ -250,6 +253,33 @@ export default function DecisionPage() {
             Curated · not scraped
           </span>
         </div>
+
+        {/* ── Viewport-2 email capture ── */}
+        <div className="mb-6">
+          <EmailCapture
+            source="homepage-hero"
+            heading="The Brickwise Brief"
+            subtext={`3 buy candidates, 3 avoid signals from ${PROPERTIES.length} tokenized rentals. Every Monday. Free.`}
+          />
+        </div>
+
+        {/* ── Contrarian anchor (only when top-yield isn't already a Best Buy) ── */}
+        {top5ByYield[0] && top5ByYield[0].overallScore < 84 && (
+          <Link href={`/property/${top5ByYield[0].id}`} className="block no-underline mb-6">
+            <div
+              className="px-4 py-3 rounded-[10px] flex items-center gap-3 transition-opacity hover:opacity-80"
+              style={{ background: "rgba(245,158,11,0.07)", border: "1px solid rgba(245,158,11,0.25)" }}
+            >
+              <span className="text-[11px] font-bold uppercase tracking-[0.5px] flex-shrink-0" style={{ color: "#f59e0b" }}>
+                Anti-hype
+              </span>
+              <span className="text-[12px] leading-[1.5]" style={{ color: "rgba(242,237,230,0.7)" }}>
+                Highest yield right now: <strong style={{ color: "#F2EDE6" }}>{top5ByYield[0].expectedYield}%</strong> on {top5ByYield[0].name}. Score: <strong style={{ color: "#F2EDE6" }}>{top5ByYield[0].overallScore}/100</strong>. Here's why we still don't call it a Buy.
+              </span>
+              <span className="text-[13px] flex-shrink-0" style={{ color: "rgba(245,158,11,0.7)" }}>→</span>
+            </div>
+          </Link>
+        )}
 
         {/* ── Best pick today ── */}
         <div className="reveal reveal-2">
@@ -467,37 +497,64 @@ export default function DecisionPage() {
 
         {/* ── Reality check ── */}
         {mistakes.length > 0 && (
-          <div className="reveal reveal-3 mb-8">
-            <div className="mb-3.5">
-              <div className="text-[18px] font-normal" style={{ color: "#F2EDE6", fontFamily: "var(--font-dm-serif)" }}>
+          <div className="reveal reveal-3 mb-10">
+            <div
+              className="flex items-baseline gap-3 mb-1 pb-2.5"
+              style={{ borderBottom: "1px solid rgba(242,237,230,0.07)" }}
+            >
+              <span
+                className="text-[10px]"
+                style={{
+                  fontFamily: "var(--font-dm-mono)",
+                  letterSpacing: "0.16em",
+                  color: "#C99846",
+                }}
+              >
+                REVIEW · {String(mistakes.length).padStart(2, "0")}
+              </span>
+              <span
+                className="text-[18px] font-normal"
+                style={{ color: "#F2EDE6", fontFamily: "var(--font-dm-serif)" }}
+              >
                 Reality check on your holdings
-              </div>
-              <div className="text-[12px] mt-0.5" style={{ color: "rgba(242,237,230,0.4)" }}>
-                Patterns in your portfolio worth reconsidering
-              </div>
+              </span>
+              <span className="ml-auto text-[10px]"
+                    style={{ fontFamily: "var(--font-dm-mono)", letterSpacing: "0.12em", color: "rgba(242,237,230,0.3)" }}>
+                PATTERNS DETECTED
+              </span>
             </div>
-            <div className="flex flex-col gap-2">
+            <div>
               {mistakes.map((m, i) => (
                 <div
                   key={i}
-                  className="rounded-[10px] px-5 py-4 flex items-start gap-3.5"
-                  style={{ background: "rgba(245,158,11,0.07)", border: "1px solid rgba(245,158,11,0.25)" }}
+                  className="flex items-stretch gap-4 py-4"
+                  style={{
+                    borderBottom:
+                      i < mistakes.length - 1 ? "1px solid rgba(242,237,230,0.05)" : "none",
+                  }}
                 >
+                  <div className="w-[2px] flex-shrink-0" style={{ background: "#C99846" }} />
                   <div
-                    className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center mt-0.5"
-                    style={{ background: "rgba(245,158,11,0.1)", border: "1px solid rgba(245,158,11,0.25)" }}
+                    className="flex-shrink-0 pt-[3px] w-7 text-[10px]"
+                    style={{
+                      fontFamily: "var(--font-dm-mono)",
+                      letterSpacing: "0.08em",
+                      color: "rgba(201,152,70,0.65)",
+                    }}
                   >
-                    <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
-                      <path d="M6 1L11 10H1L6 1z" stroke="#d97706" strokeWidth="1.2" strokeLinejoin="round" />
-                      <path d="M6 4.5v2.5" stroke="#d97706" strokeWidth="1.2" strokeLinecap="round" />
-                      <circle cx="6" cy="9" r="0.6" fill="#d97706" />
-                    </svg>
+                    {String(i + 1).padStart(2, "0")}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-[13px] font-semibold mb-0.5" style={{ color: "#fcd34d" }}>
+                    <div
+                      className="text-[13px] font-medium mb-1 leading-snug"
+                      style={{ color: "#F2EDE6" }}
+                    >
                       {m.message}
                     </div>
-                    <div className="text-[12px]" style={{ color: "#f59e0b" }}>
+                    <div
+                      className="text-[12px] leading-[1.55]"
+                      style={{ color: "rgba(242,237,230,0.5)" }}
+                    >
                       {m.detail}
                     </div>
                   </div>
@@ -507,126 +564,168 @@ export default function DecisionPage() {
           </div>
         )}
 
-        {/* ── Missed profit ── */}
+        {/* ── Missed profit — trade-ticket layout ── */}
         {missedInsights.length > 0 && (
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-3.5">
-              <div>
-                <div className="text-[18px] font-normal" style={{ color: "#F2EDE6", fontFamily: "var(--font-dm-serif)" }}>
-                  You could be earning more
-                </div>
-                <div className="text-[12px] mt-0.5" style={{ color: "rgba(242,237,230,0.4)" }}>
-                  Same capital, higher-rated property — here's what you're leaving on the table
-                </div>
-              </div>
+          <div className="mb-10">
+            <div
+              className="flex items-baseline gap-3 mb-1 pb-2.5"
+              style={{ borderBottom: "1px solid rgba(242,237,230,0.07)" }}
+            >
+              <span
+                className="text-[10px]"
+                style={{
+                  fontFamily: "var(--font-dm-mono)",
+                  letterSpacing: "0.16em",
+                  color: "#7CA982",
+                }}
+              >
+                SWAP · {String(missedInsights.length).padStart(2, "0")}
+              </span>
+              <span
+                className="text-[18px] font-normal"
+                style={{ color: "#F2EDE6", fontFamily: "var(--font-dm-serif)" }}
+              >
+                Better yield available at your size
+              </span>
+              <span className="ml-auto text-[10px]"
+                    style={{ fontFamily: "var(--font-dm-mono)", letterSpacing: "0.12em", color: "rgba(242,237,230,0.3)" }}>
+                SAME CAPITAL
+              </span>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {missedInsights.map((insight) => (
+
+            <div>
+              {missedInsights.map((insight, i) => (
                 <div
                   key={`${insight.held.id}-${insight.better.id}`}
-                  className="rounded-[10px] p-5"
-                  style={{ background: "#131109", border: "1px solid #2A2420" }}
+                  className="grid grid-cols-1 md:grid-cols-[1.2fr_auto_1.2fr_auto] items-center gap-x-6 gap-y-3 py-5"
+                  style={{
+                    borderBottom:
+                      i < missedInsights.length - 1
+                        ? "1px solid rgba(242,237,230,0.05)"
+                        : "none",
+                  }}
                 >
-                  {/* Currently holding */}
-                  <div className="flex items-start gap-3 mb-3">
-                    <div className="flex-1 min-w-0">
-                      <div
-                        className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-0.5"
-                        style={{ color: "rgba(242,237,230,0.4)" }}
-                      >
-                        You currently hold
-                      </div>
-                      <div className="text-[13px] font-semibold truncate" style={{ color: "#F2EDE6" }}>
-                        {insight.held.name}
-                      </div>
-                      <div className="text-[11px] mt-0.5" style={{ color: "rgba(242,237,230,0.4)" }}>
-                        {insight.held.flag} {insight.held.city} ·{" "}
-                        <span style={{ fontFamily: "var(--font-dm-mono)", color: "#f59e0b" }}>
-                          {insight.held.expectedYield}%
-                        </span>{" "}
-                        yield
-                      </div>
+                  {/* HOLD column */}
+                  <div className="min-w-0">
+                    <div
+                      className="text-[10px] mb-1.5 flex items-center gap-1.5"
+                      style={{
+                        fontFamily: "var(--font-dm-mono)",
+                        letterSpacing: "0.14em",
+                        color: "rgba(242,237,230,0.4)",
+                      }}
+                    >
+                      <span style={{ color: "#C99846" }}>◇</span>
+                      HOLD · {insight.held.flag} {insight.held.city.toUpperCase()}
                     </div>
-                    <RecommendationBadge action="Hold" size="sm" />
+                    <div
+                      className="text-[14px] font-medium truncate leading-snug"
+                      style={{ color: "rgba(242,237,230,0.78)", fontFamily: "var(--font-dm-serif)" }}
+                    >
+                      {insight.held.name}
+                    </div>
+                    <div
+                      className="text-[11px] mt-0.5"
+                      style={{ fontFamily: "var(--font-dm-mono)", color: "rgba(242,237,230,0.45)", fontVariantNumeric: "tabular-nums", letterSpacing: "0.04em" }}
+                    >
+                      {insight.held.expectedYield.toFixed(2)}% · SCORE {insight.held.overallScore}
+                    </div>
                   </div>
 
-                  {/* Arrow */}
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="flex-1 h-px" style={{ background: "#242018" }} />
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <path d="M3 7h8M8 4l3 3-3 3" stroke="#22c55e" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                  {/* DELTA pipe */}
+                  <div className="flex md:flex-col items-center md:items-center justify-center gap-2 md:gap-1 md:px-1">
+                    <svg width="40" height="8" viewBox="0 0 40 8" fill="none" className="md:hidden">
+                      <path d="M0 4h33M30 1.5l3 2.5-3 2.5" stroke="#7CA982" strokeWidth="1.2" strokeLinecap="round" />
                     </svg>
-                    <div className="flex-1 h-px" style={{ background: "#242018" }} />
+                    <svg width="44" height="8" viewBox="0 0 44 8" fill="none" className="hidden md:block">
+                      <path d="M0 4h37M33 1.5l4 2.5-4 2.5" stroke="#7CA982" strokeWidth="1.2" strokeLinecap="round" />
+                    </svg>
+                    <span
+                      className="text-[10px]"
+                      style={{
+                        fontFamily: "var(--font-dm-mono)",
+                        letterSpacing: "0.1em",
+                        color: "#7CA982",
+                        fontVariantNumeric: "tabular-nums",
+                      }}
+                    >
+                      +{insight.deltaYield.toFixed(1)}PP
+                    </span>
                   </div>
 
-                  {/* Better option */}
-                  <div className="flex items-start gap-3 mb-4">
-                    <div className="flex-1 min-w-0">
+                  {/* BUY column */}
+                  <div className="min-w-0">
+                    <div
+                      className="text-[10px] mb-1.5 flex items-center gap-1.5"
+                      style={{
+                        fontFamily: "var(--font-dm-mono)",
+                        letterSpacing: "0.14em",
+                        color: "#7CA982",
+                      }}
+                    >
+                      <span style={{ color: "#7CA982" }}>◆</span>
+                      {insight.better.overallScore >= 84 ? "BEST BUY" : "BUY"} · {insight.better.flag} {insight.better.city.toUpperCase()}
+                    </div>
+                    <div
+                      className="text-[14px] font-medium truncate leading-snug"
+                      style={{ color: "#F2EDE6", fontFamily: "var(--font-dm-serif)" }}
+                    >
+                      {insight.better.name}
+                    </div>
+                    <div
+                      className="text-[11px] mt-0.5"
+                      style={{ fontFamily: "var(--font-dm-mono)", color: "#9DC3A4", fontVariantNumeric: "tabular-nums", letterSpacing: "0.04em" }}
+                    >
+                      {insight.better.expectedYield.toFixed(2)}% · SCORE {insight.better.overallScore}
+                    </div>
+                  </div>
+
+                  {/* Delta column */}
+                  <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-3 md:gap-1.5 md:min-w-[150px]">
+                    <div className="text-left md:text-right">
                       <div
-                        className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-0.5"
-                        style={{ color: "#4ade80" }}
+                        className="leading-none"
+                        style={{
+                          fontFamily: "var(--font-dm-mono)",
+                          color: "#F2EDE6",
+                          fontVariantNumeric: "tabular-nums",
+                          letterSpacing: "-0.01em",
+                          fontSize: 20,
+                        }}
                       >
-                        Better alternative available
+                        +€{insight.deltaAnnual.toLocaleString("de-DE")}
                       </div>
-                      <div className="text-[13px] font-semibold truncate" style={{ color: "#F2EDE6" }}>
-                        {insight.better.name}
-                      </div>
-                      <div className="text-[11px] mt-0.5" style={{ color: "rgba(242,237,230,0.4)" }}>
-                        {insight.better.flag} {insight.better.city} ·{" "}
-                        <span style={{ fontFamily: "var(--font-dm-mono)", color: "#22c55e" }}>
-                          {insight.better.expectedYield}%
-                        </span>{" "}
-                        yield
+                      <div
+                        className="mt-1.5"
+                        style={{
+                          fontFamily: "var(--font-dm-mono)",
+                          fontSize: 10,
+                          letterSpacing: "0.08em",
+                          color: "rgba(242,237,230,0.5)",
+                          fontVariantNumeric: "tabular-nums",
+                        }}
+                      >
+                        +€{insight.deltaMonthly}/MO · ON €{insight.investmentAmount.toLocaleString("de-DE")}
                       </div>
                     </div>
-                    <RecommendationBadge
-                      action="Buy"
-                      label={insight.better.overallScore >= 84 ? "Best Buy" : "Buy"}
-                      size="sm"
-                    />
+                    <Link
+                      href={`/property/${insight.better.id}`}
+                      className="flex items-center gap-1.5 no-underline transition-all hover:bg-[#E8E0D1]"
+                      style={{
+                        fontFamily: "var(--font-dm-mono)",
+                        fontSize: 10,
+                        letterSpacing: "0.16em",
+                        color: "#0A0907",
+                        background: "#F2EDE6",
+                        padding: "6px 11px",
+                      }}
+                    >
+                      <span>EXECUTE</span>
+                      <svg width="9" height="9" viewBox="0 0 10 10" fill="none" aria-hidden>
+                        <path d="M1 5h7M5.5 2L8.5 5L5.5 8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="square" />
+                      </svg>
+                    </Link>
                   </div>
-
-                  {/* Impact: monthly + annual */}
-                  <div
-                    className="rounded-[7px] px-4 py-3 mb-3.5"
-                    style={{ background: "rgba(34,197,94,0.08)", border: "1px solid rgba(34,197,94,0.22)" }}
-                  >
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-[11px] font-medium" style={{ color: "#4ade80" }}>
-                        You could earn more
-                      </span>
-                      <span
-                        className="text-[18px] font-bold"
-                        style={{ fontFamily: "var(--font-dm-mono)", color: "#22c55e" }}
-                      >
-                        +€{insight.deltaMonthly}/mo
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-[11px]" style={{ color: "rgba(74,222,128,0.6)" }}>
-                        Same €{insight.investmentAmount.toLocaleString("de-DE")} investment
-                      </span>
-                      <span
-                        className="text-[12px] font-semibold"
-                        style={{ fontFamily: "var(--font-dm-mono)", color: "#4ade80" }}
-                      >
-                        +€{insight.deltaAnnual}/year
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="text-[11px] mb-4" style={{ color: "rgba(242,237,230,0.4)" }}>
-                    Yield gap +{insight.deltaYield}pp · switching to {insight.better.name} would earn{" "}
-                    <strong style={{ color: "rgba(242,237,230,0.7)" }}>+€{insight.deltaAnnual} more this year</strong>
-                  </div>
-
-                  <Link
-                    href={`/property/${insight.better.id}`}
-                    className="flex items-center justify-center gap-1.5 py-2.5 rounded-[7px] text-[12px] font-semibold no-underline transition-opacity hover:opacity-80"
-                    style={{ background: "#F2EDE6", color: "#0A0907" }}
-                  >
-                    Switch to this property →
-                  </Link>
                 </div>
               ))}
             </div>
@@ -984,9 +1083,9 @@ export default function DecisionPage() {
         {/* Email digest */}
         <div className="mb-8">
           <EmailCapture
-            source="homepage"
-            heading="Weekly market digest"
-            subtext={`Top properties, yield changes, and buy signals across all ${PROPERTIES.length} listings — every Monday.`}
+            source="homepage-footer"
+            heading="The Brickwise Brief"
+            subtext={`3 buy candidates, 3 avoid signals across all ${PROPERTIES.length} listings. Every Monday. Free.`}
           />
         </div>
 
