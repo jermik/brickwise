@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
 import { BrickwiseMark } from '@/components/brand/brickwise-mark';
+import { PROPERTIES } from '@/lib/data/properties';
 
 const NAV_LINKS = [
   { href: '/analyzer', label: 'Analyzer' },
@@ -11,6 +12,14 @@ const NAV_LINKS = [
   { href: '/rankings/highest-yield', label: 'Rankings' },
   { href: '/market', label: 'Market' },
 ];
+
+const PROPERTY_COUNT = PROPERTIES.length;
+const AVG_YIELD = (PROPERTIES.reduce((s, p) => s + p.expectedYield, 0) / PROPERTY_COUNT).toFixed(1);
+const BUY_COUNT = PROPERTIES.filter((p) => p.overallScore >= 80).length;
+const REFRESH_DATE = '12 MAY 2026';
+
+const MONO = 'var(--font-dm-mono)';
+const SERIF = 'var(--font-dm-serif)';
 
 const FOOTER_PRODUCT = [
   { href: '/analyzer', label: 'Analyzer' },
@@ -30,6 +39,7 @@ const FOOTER_LEARN = [
 
 const FOOTER_COMPANY = [
   { href: '/about', label: 'About' },
+  { href: '/methodology', label: 'Methodology' },
   { href: '/contact', label: 'Contact' },
   { href: '/privacy', label: 'Privacy' },
 ];
@@ -41,48 +51,160 @@ function PublicHeader() {
   const pathname = usePathname();
 
   return (
-    <header
-      className="sticky top-0 z-50"
-      style={{ background: '#120F0A', borderBottom: '1px solid rgba(255,255,255,0.06)' }}
-    >
-      <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between gap-6">
-        <div className="flex items-center gap-7">
-          <Link href="/" className="flex items-center gap-2 no-underline flex-shrink-0">
-            <BrickwiseMark size={24} variant="dark" />
-            <span className="text-[14px] font-bold tracking-[-0.3px]" style={{ color: '#F2EDE6' }}>
-              Brickwise
+    <header className="sticky top-0 z-50" style={{ background: '#0A0907' }}>
+      {/* Status ribbon — institutional live-data strip */}
+      <div
+        className="border-b"
+        style={{
+          borderColor: 'rgba(242,237,230,0.06)',
+          background:
+            'linear-gradient(180deg, rgba(242,237,230,0.025) 0%, rgba(242,237,230,0) 100%)',
+        }}
+      >
+        <div
+          className="max-w-6xl mx-auto px-4 h-7 flex items-center justify-between text-[10px]"
+          style={{ fontFamily: MONO, color: 'rgba(242,237,230,0.42)', letterSpacing: '0.1em' }}
+        >
+          <div className="flex items-center gap-2 sm:gap-3.5 overflow-hidden">
+            <span className="flex items-center gap-1.5 flex-shrink-0">
+              <span className="relative flex w-1.5 h-1.5">
+                <span
+                  className="absolute inline-flex h-full w-full rounded-full opacity-60 animate-ping"
+                  style={{ background: '#7CA982' }}
+                />
+                <span
+                  className="relative inline-flex rounded-full h-1.5 w-1.5"
+                  style={{ background: '#9DC3A4', boxShadow: '0 0 6px rgba(157,195,164,0.7)' }}
+                />
+              </span>
+              <span style={{ color: 'rgba(242,237,230,0.72)' }}>LIVE</span>
             </span>
-          </Link>
-          <nav aria-label="Primary" className="hidden md:flex items-center gap-5">
-            {NAV_LINKS.map((item) => {
-              const active = pathname === item.href || pathname.startsWith(item.href + '/');
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="text-[12px] no-underline transition-colors"
-                  style={{ color: active ? '#F2EDE6' : 'rgba(242,237,230,0.45)' }}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
-          </nav>
+            <Sep />
+            <span className="flex-shrink-0">
+              <span style={{ color: '#F2EDE6', fontVariantNumeric: 'tabular-nums' }}>{PROPERTY_COUNT}</span>{' '}
+              PROPERTIES
+            </span>
+            <Sep className="hidden sm:inline" />
+            <span className="hidden sm:inline flex-shrink-0">
+              AVG YIELD{' '}
+              <span style={{ color: '#F2EDE6', fontVariantNumeric: 'tabular-nums' }}>{AVG_YIELD}%</span>
+            </span>
+            <Sep className="hidden md:inline" />
+            <span className="hidden md:inline flex-shrink-0">
+              <span style={{ color: '#9DC3A4', fontVariantNumeric: 'tabular-nums' }}>{BUY_COUNT}</span>{' '}
+              BUY SIGNALS
+            </span>
+          </div>
+          <div className="hidden sm:flex items-center gap-3.5 flex-shrink-0">
+            <span>REFRESHED · {REFRESH_DATE}</span>
+          </div>
         </div>
-        {isLoaded && (
-          <Link
-            href={isSignedIn ? '/' : '/sign-in'}
-            className="flex-shrink-0 text-[12px] font-semibold px-4 py-1.5 rounded-[7px] no-underline transition-opacity hover:opacity-85"
-            style={{
-              background: isSignedIn ? 'rgba(255,255,255,0.08)' : '#22c55e',
-              color: isSignedIn ? 'rgba(255,255,255,0.7)' : '#0A0907',
-            }}
-          >
-            {isSignedIn ? 'Dashboard →' : 'Sign in'}
-          </Link>
-        )}
+      </div>
+
+      {/* Primary nav row */}
+      <div style={{ background: '#0A0907', borderBottom: '1px solid rgba(242,237,230,0.07)' }}>
+        <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between gap-6">
+          <div className="flex items-center gap-8 min-w-0">
+            <Link href="/" className="flex items-center gap-2.5 no-underline flex-shrink-0 group">
+              <span
+                className="relative flex items-center justify-center"
+                style={{ width: 26, height: 26 }}
+              >
+                <BrickwiseMark size={24} variant="dark" />
+              </span>
+              <span
+                className="text-[17px] tracking-[-0.4px]"
+                style={{ color: '#F2EDE6', fontFamily: SERIF, fontWeight: 400 }}
+              >
+                Brickwise
+              </span>
+            </Link>
+
+            <nav
+              aria-label="Primary"
+              className="hidden md:flex items-center"
+              style={{ gap: 0 }}
+            >
+              {NAV_LINKS.map((item, i) => {
+                const active = pathname === item.href || pathname.startsWith(item.href + '/');
+                return (
+                  <span key={item.href} className="flex items-center">
+                    {i > 0 && (
+                      <span
+                        className="mx-3 select-none"
+                        aria-hidden
+                        style={{
+                          color: 'rgba(242,237,230,0.12)',
+                          fontSize: 9,
+                          letterSpacing: '0.2em',
+                        }}
+                      >
+                        ◆
+                      </span>
+                    )}
+                    <Link
+                      href={item.href}
+                      className="relative no-underline transition-colors py-1"
+                      style={{
+                        fontFamily: MONO,
+                        fontSize: 11,
+                        letterSpacing: '0.14em',
+                        color: active ? '#F2EDE6' : 'rgba(242,237,230,0.5)',
+                      }}
+                    >
+                      <span className="relative inline-block">
+                        {item.label.toUpperCase()}
+                        <span
+                          className="absolute left-0 -bottom-[3px] h-px transition-all duration-300"
+                          style={{
+                            width: active ? '100%' : 0,
+                            background: '#C99846',
+                          }}
+                        />
+                      </span>
+                    </Link>
+                  </span>
+                );
+              })}
+            </nav>
+          </div>
+
+          {isLoaded && (
+            <Link
+              href={isSignedIn ? '/' : '/sign-in'}
+              className="flex-shrink-0 group flex items-center gap-2 no-underline transition-all"
+              style={{
+                fontFamily: MONO,
+                fontSize: 10,
+                letterSpacing: '0.16em',
+                color: '#F2EDE6',
+                padding: '7px 14px',
+                border: '1px solid rgba(242,237,230,0.18)',
+                background: 'rgba(242,237,230,0.02)',
+              }}
+            >
+              <span>{isSignedIn ? 'DASHBOARD' : 'SIGN IN'}</span>
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden>
+                <path
+                  d="M1 5h7M5.5 2L8.5 5L5.5 8"
+                  stroke="currentColor"
+                  strokeWidth="1.1"
+                  strokeLinecap="square"
+                />
+              </svg>
+            </Link>
+          )}
+        </div>
       </div>
     </header>
+  );
+}
+
+function Sep({ className = '' }: { className?: string }) {
+  return (
+    <span className={className} aria-hidden style={{ color: 'rgba(242,237,230,0.15)' }}>
+      ·
+    </span>
   );
 }
 
