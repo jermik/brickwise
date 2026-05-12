@@ -209,6 +209,14 @@ export default function DecisionPage() {
           >
             What to do right now
           </h1>
+          <p
+            className="text-[12px] mt-2.5 leading-[1.5]"
+            style={{ color: "rgba(242,237,230,0.45)", letterSpacing: "0.01em" }}
+          >
+            <span style={{ color: "rgba(242,237,230,0.7)" }}>Independent analytics.</span>{" "}
+            No paid placements <span style={{ color: "rgba(242,237,230,0.25)" }}>·</span> Refreshed
+            daily <span style={{ color: "rgba(242,237,230,0.25)" }}>·</span> No signup required.
+          </p>
         </div>
 
         {/* ── Coverage strip ── */}
