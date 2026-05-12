@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PublicShell } from "@/components/layout/public-shell";
 import { PROPERTIES } from "@/lib/data/properties";
 import { LEARN_ARTICLES } from "@/lib/learn-articles";
+import { ArticlesFilter } from "./articles-filter";
 
 export const revalidate = 3600;
 
@@ -34,8 +35,6 @@ export const metadata: Metadata = {
 const count = PROPERTIES.length;
 const avgYield =
   Math.round((PROPERTIES.reduce((s, p) => s + p.expectedYield, 0) / count) * 10) / 10;
-
-const categories = ["All", "Beginner Guide", "How-To", "Platform Review", "Comparison"];
 
 export default function LearnPage() {
   const collectionSchema = {
@@ -106,58 +105,8 @@ export default function LearnPage() {
           ))}
         </div>
 
-        {/* Category pills */}
-        <div className="flex flex-wrap gap-2 mb-6">
-          {categories.map((cat) => (
-            <div
-              key={cat}
-              className="px-3 py-1 rounded-full text-[11px] font-medium"
-              style={{
-                background: cat === "All" ? "#22c55e" : "rgba(255,255,255,0.05)",
-                color: cat === "All" ? "#0A0907" : "rgba(242,237,230,0.5)",
-                border: "1px solid",
-                borderColor: cat === "All" ? "#22c55e" : "rgba(255,255,255,0.08)",
-              }}
-            >
-              {cat}
-            </div>
-          ))}
-        </div>
-
-        {/* Article grid */}
-        <div className="space-y-3 mb-12">
-          {LEARN_ARTICLES.map((article) => (
-            <Link key={article.slug} href={article.href} className="no-underline block">
-              <div
-                className="rounded-[10px] px-5 py-5 flex gap-5 hover:bg-[#1a1611] transition-colors"
-                style={{ background: "#131109", border: "1px solid #2A2420" }}
-              >
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div
-                      className="text-[12px] font-semibold uppercase tracking-[0.5px] px-2 py-0.5 rounded-full"
-                      style={{ background: `${article.accentColor}18`, color: article.accentColor }}
-                    >
-                      {article.category}
-                    </div>
-                    <span className="text-[12px]" style={{ color: "rgba(242,237,230,0.3)" }}>{article.readTime} read</span>
-                  </div>
-                  <h2 className="text-[15px] font-semibold mb-1.5 leading-snug" style={{ color: "#F2EDE6" }}>
-                    {article.title}
-                  </h2>
-                  <p className="text-[12px] leading-[1.6]" style={{ color: "rgba(242,237,230,0.5)" }}>
-                    {article.description}
-                  </p>
-                </div>
-                <div className="flex-shrink-0 self-center" style={{ color: "rgba(242,237,230,0.3)" }}>
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+        {/* Category filter + article grid (client island) */}
+        <ArticlesFilter articles={LEARN_ARTICLES} />
 
         {/* CTA */}
         <div
