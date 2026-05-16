@@ -204,7 +204,7 @@ export default function DecisionPage() {
             Independent Tokenized RE Analytics
           </div>
           <h1
-            className="text-[30px] font-normal leading-[1.1] tracking-[-0.3px]"
+            className="text-[32px] md:text-[38px] font-normal leading-[1.08] tracking-[-0.5px]"
             style={{ color: "#F2EDE6", fontFamily: "var(--font-dm-serif)" }}
           >
             Score every tokenized rental on Lofty and RealT
@@ -1079,15 +1079,6 @@ export default function DecisionPage() {
             </div>
           </div>
         )}
-
-        {/* Email digest */}
-        <div className="mb-8">
-          <EmailCapture
-            source="homepage-footer"
-            heading="The Brickwise Brief"
-            subtext={`3 buy candidates, 3 avoid signals across all ${PROPERTIES.length} listings. Every Monday. Free.`}
-          />
-        </div>
 
         {/* Footer trust signal */}
         <div

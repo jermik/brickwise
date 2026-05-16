@@ -10,6 +10,7 @@ import { PropertyCard } from "@/components/property/property-card";
 import { PropertyRow } from "@/components/property/property-row";
 import { ChartView } from "@/components/analyzer/chart-view";
 import { CompareDrawer } from "@/components/analyzer/compare-drawer";
+import { EmailCapture } from "@/components/ui/email-capture";
 import { PROPERTIES } from "@/lib/data/properties";
 import { filterAndSort, calcMonthlyReturn, calcPaybackYears } from "@/lib/scoring";
 import { getRecommendation } from "@/lib/recommendations";
@@ -109,10 +110,10 @@ export default function AnalyzerPage() {
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
               <div className="text-[11px] font-medium uppercase tracking-[0.6px] mb-1.5" style={{ color: "#a3a3a3" }}>
-                Explore
+                Analyzer
               </div>
               <h1 className="text-[22px] font-bold tracking-[-0.5px]" style={{ color: "#111" }}>
-                Property Analyzer
+                Every tokenized rental, scored
               </h1>
             </div>
 
@@ -130,11 +131,11 @@ export default function AnalyzerPage() {
 
               {/* Compare toggle */}
               <button
-                className="flex items-center gap-1.5 text-[12px] font-semibold px-3 py-[7px] rounded-[7px] transition-all flex-shrink-0"
+                className="flex items-center gap-1.5 text-[12px] font-semibold px-3 py-[7px] rounded-[7px] transition-colors flex-shrink-0"
                 style={{
-                  background: compareActive ? "rgba(59,130,246,0.1)" : "#f5f5f5",
-                  border: `1px solid ${compareActive ? "rgba(59,130,246,0.4)" : "#e5e5e5"}`,
-                  color: compareActive ? "#3b82f6" : "#737373",
+                  background: compareActive ? "rgba(201,152,70,0.1)" : "#f5f5f5",
+                  border: `1px solid ${compareActive ? "rgba(201,152,70,0.4)" : "#e5e5e5"}`,
+                  color: compareActive ? "#C99846" : "#737373",
                 }}
                 onClick={() => {
                   if (compareActive) { exitCompare(); } else { setCompareActive(true); }
@@ -186,30 +187,47 @@ export default function AnalyzerPage() {
           </div>
         </div>
 
+        {/* The Brief signup band */}
+        <div className="px-6 py-3" style={{ background: "#f5f5f5", borderBottom: "1px solid #ebebeb" }}>
+          <div className="flex items-center justify-between gap-4 flex-wrap">
+            <div className="min-w-0">
+              <div className="text-[13px] font-semibold" style={{ color: "#111" }}>
+                Get The Brickwise Brief
+              </div>
+              <div className="text-[11px] mt-0.5" style={{ color: "#737373" }}>
+                3 buy candidates, 3 avoid signals every Monday. Free.
+              </div>
+            </div>
+            <div className="flex-shrink-0" style={{ minWidth: 280 }}>
+              <EmailCapture source="analyzer" compact />
+            </div>
+          </div>
+        </div>
+
         {/* Compare mode bar */}
         {compareActive && compareIds.length > 0 && (
           <div
             className="px-6 py-2.5 flex items-center gap-3"
-            style={{ background: "#eff6ff", borderBottom: "1px solid #bfdbfe" }}
+            style={{ background: "#FAF6EE", borderBottom: "1px solid #E5D5AC" }}
           >
             <div className="flex items-center gap-1.5">
-              <div className="w-4 h-4 rounded flex items-center justify-center" style={{ background: "#3b82f6" }}>
+              <div className="w-4 h-4 rounded flex items-center justify-center" style={{ background: "#C99846" }}>
                 <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
                   <path d="M1.5 4.5l2.5 2.5 3.5-4" stroke="#fff" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
-              <span className="text-[12px] font-semibold" style={{ color: "#1d4ed8" }}>
+              <span className="text-[12px] font-semibold" style={{ color: "#A47F3E" }}>
                 {compareIds.length} selected
               </span>
             </div>
-            <span className="text-[11px]" style={{ color: "#3b82f6" }}>
+            <span className="text-[11px]" style={{ color: "#C99846" }}>
               {compareIds.length < 2 ? "Select 1 more to compare" : compareIds.length < 3 ? "Select up to 1 more, or compare now" : "Maximum 3 properties"}
             </span>
             <div className="ml-auto flex items-center gap-2">
               {compareIds.length >= 2 && (
                 <button
                   className="text-[12px] font-semibold px-3 py-1.5 rounded-[6px] transition-opacity hover:opacity-80"
-                  style={{ background: "#3b82f6", color: "#fff" }}
+                  style={{ background: "#C99846", color: "#fff" }}
                   onClick={() => setCompareOpen(true)}
                 >
                   Compare side-by-side →
@@ -217,7 +235,7 @@ export default function AnalyzerPage() {
               )}
               <button
                 className="text-[11px] px-2.5 py-1.5 rounded-[6px] transition-opacity hover:opacity-70"
-                style={{ background: "rgba(59,130,246,0.12)", color: "#3b82f6" }}
+                style={{ background: "rgba(201,152,70,0.12)", color: "#C99846" }}
                 onClick={() => setCompareIds([])}
               >
                 Clear
@@ -250,13 +268,13 @@ export default function AnalyzerPage() {
         {compareActive && compareIds.length === 0 && (
           <div
             className="px-6 py-2 flex items-center gap-2"
-            style={{ background: "rgba(59,130,246,0.04)", borderBottom: "1px solid rgba(59,130,246,0.12)" }}
+            style={{ background: "rgba(59,130,246,0.04)", borderBottom: "1px solid rgba(201,152,70,0.12)" }}
           >
             <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
-              <rect x="0.5" y="0.5" width="4" height="10" rx="1" stroke="#3b82f6" strokeWidth="1.2" />
-              <rect x="6.5" y="0.5" width="4" height="10" rx="1" stroke="#3b82f6" strokeWidth="1.2" />
+              <rect x="0.5" y="0.5" width="4" height="10" rx="1" stroke="#C99846" strokeWidth="1.2" />
+              <rect x="6.5" y="0.5" width="4" height="10" rx="1" stroke="#C99846" strokeWidth="1.2" />
             </svg>
-            <span className="text-[11px] font-medium" style={{ color: "#3b82f6" }}>Compare mode on</span>
+            <span className="text-[11px] font-medium" style={{ color: "#C99846" }}>Compare mode on</span>
             <span className="text-[11px]" style={{ color: "#93c5fd" }}>— click the + button on any card to add it to the comparison</span>
           </div>
         )}

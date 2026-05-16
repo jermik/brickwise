@@ -244,7 +244,7 @@ export function PropertyFilters({
           <button
             onClick={() => onFiltersChange(DEFAULT_FILTERS)}
             className="self-end text-[11px] font-medium px-3 py-1.5 rounded-[5px] transition-opacity hover:opacity-75"
-            style={{ background: "#fff5f5", color: "#dc2626", border: "1px solid #fecaca" }}
+            style={{ background: "#fafafa", color: "#737373", border: "1px solid #e5e5e5" }}
           >
             ✕ Reset filters
           </button>

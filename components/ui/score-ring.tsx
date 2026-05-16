@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState, useEffect } from "react";
 import { scoreColor } from "@/lib/scoring";
 
 interface ScoreRingProps {
@@ -14,8 +15,38 @@ export function ScoreRing({ score, size = 40 }: ScoreRingProps) {
   const dash = (score / 100) * circ;
   const color = scoreColor(score);
 
+  const ref = useRef<HTMLDivElement>(null);
+  const [revealed, setRevealed] = useState(false);
+
+  useEffect(() => {
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (prefersReduced) {
+      setRevealed(true);
+      return;
+    }
+    const el = ref.current;
+    if (!el || !("IntersectionObserver" in window)) {
+      setRevealed(true);
+      return;
+    }
+    const obs = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setRevealed(true);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.4 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
   return (
     <div
+      ref={ref}
       style={{ position: "relative", width: size, height: size, flexShrink: 0 }}
     >
       <svg
@@ -39,8 +70,12 @@ export function ScoreRing({ score, size = 40 }: ScoreRingProps) {
           fill="none"
           stroke={color}
           strokeWidth={strokeWidth}
-          strokeDasharray={`${dash} ${circ}`}
+          strokeDasharray={circ}
+          strokeDashoffset={revealed ? circ - dash : circ}
           strokeLinecap="round"
+          style={{
+            transition: "stroke-dashoffset 0.9s cubic-bezier(0.16, 1, 0.3, 1)",
+          }}
         />
       </svg>
       <span

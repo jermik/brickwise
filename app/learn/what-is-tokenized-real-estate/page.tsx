@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "What Is Tokenized Real Estate? Complete Beginner's Guide (2026) | Brickwise",
     description:
-      "Everything you need to know about tokenized real estate — how it works, who the platforms are, what yields to expect, and whether it's right for you.",
+      "Everything you need to know about tokenized real estate , how it works, who the platforms are, what yields to expect, and whether it's right for you.",
     type: "article",
     url: "https://brickwise.pro/learn/what-is-tokenized-real-estate",
   },
@@ -47,7 +47,7 @@ export default function WhatIsTokenizedRealEstatePage() {
     "@type": "Article",
     "headline": "What Is Tokenized Real Estate? Complete Guide (2026)",
     "description":
-      "A beginner's guide to tokenized real estate — how blockchain tokens represent property ownership, how to invest from $50, expected yields, risks, and the top platforms.",
+      "A beginner's guide to tokenized real estate , how blockchain tokens represent property ownership, how to invest from $50, expected yields, risks, and the top platforms.",
     "author": { "@type": "Organization", "name": "Brickwise", "url": "https://brickwise.pro" },
     "publisher": { "@type": "Organization", "name": "Brickwise", "url": "https://brickwise.pro" },
     "url": "https://brickwise.pro/learn/what-is-tokenized-real-estate",
@@ -63,7 +63,7 @@ export default function WhatIsTokenizedRealEstatePage() {
         "acceptedAnswer": {
           "@type": "Answer",
           "text":
-            "Tokenized real estate is real property ownership that has been converted into digital tokens on a blockchain. Each token represents a fractional share of the property — including the right to receive rental income and a proportional claim on the asset's value. Platforms like RealT and Lofty issue these tokens, allowing investors to own fractions of rental properties for as little as $50.",
+            "Tokenized real estate is real property ownership that has been converted into digital tokens on a blockchain. Each token represents a fractional share of the property , including the right to receive rental income and a proportional claim on the asset's value. Platforms like RealT and Lofty issue these tokens, allowing investors to own fractions of rental properties for as little as $50.",
         },
       },
       {
@@ -72,7 +72,7 @@ export default function WhatIsTokenizedRealEstatePage() {
         "acceptedAnswer": {
           "@type": "Answer",
           "text":
-            "A platform like RealT or Lofty acquires a property through a Special Purpose Vehicle (SPV) — typically an LLC. They then issue tokens that represent ownership shares in that LLC. Investors buy tokens, gaining proportional ownership rights. Rental income from tenants is collected and distributed to token holders (usually in USDC stablecoin, daily or weekly). Token holders can also sell their tokens on the platform's secondary market.",
+            "A platform like RealT or Lofty acquires a property through a Special Purpose Vehicle (SPV) , typically an LLC. They then issue tokens that represent ownership shares in that LLC. Investors buy tokens, gaining proportional ownership rights. Rental income from tenants is collected and distributed to token holders (usually in USDC stablecoin, daily or weekly). Token holders can also sell their tokens on the platform's secondary market.",
         },
       },
       {
@@ -89,7 +89,7 @@ export default function WhatIsTokenizedRealEstatePage() {
         "acceptedAnswer": {
           "@type": "Answer",
           "text":
-            "Tokenized real estate can be a good investment for the right investor — one seeking passive rental income with fractional diversification across multiple properties. Yields of 8–14% are significantly higher than most traditional fixed-income assets. However, the investments are illiquid relative to stocks, carry real estate risk (vacancies, maintenance), and are tied to platform operational risk. It is not a replacement for a diversified portfolio.",
+            "Tokenized real estate can be a good investment for the right investor , one seeking passive rental income with fractional diversification across multiple properties. Yields of 8–14% are significantly higher than most traditional fixed-income assets. However, the investments are illiquid relative to stocks, carry real estate risk (vacancies, maintenance), and are tied to platform operational risk. It is not a replacement for a diversified portfolio.",
         },
       },
       {
@@ -116,7 +116,7 @@ export default function WhatIsTokenizedRealEstatePage() {
         "acceptedAnswer": {
           "@type": "Answer",
           "text":
-            "Key risks include: (1) Vacancy risk — if tenants leave, rental income drops to zero. (2) Platform risk — if RealT or Lofty shut down, token holders would still legally own the underlying SPV but could face operational complexity. (3) Liquidity risk — unlike stocks, secondary market depth for individual property tokens varies. (4) Regulatory risk — the regulatory framework for tokenized securities is still evolving. (5) Property risk — unexpected maintenance, floods, or market value decline.",
+            "Key risks include: (1) Vacancy risk , if tenants leave, rental income drops to zero. (2) Platform risk , if RealT or Lofty shut down, token holders would still legally own the underlying SPV but could face operational complexity. (3) Liquidity risk , unlike stocks, secondary market depth for individual property tokens varies. (4) Regulatory risk , the regulatory framework for tokenized securities is still evolving. (5) Property risk , unexpected maintenance, floods, or market value decline.",
         },
       },
       {
@@ -173,7 +173,7 @@ export default function WhatIsTokenizedRealEstatePage() {
             What Is Tokenized Real Estate?
           </h1>
           <p className="text-[14px] leading-[1.7]" style={{ color: "rgba(242,237,230,0.55)" }}>
-            Tokenized real estate converts property ownership into blockchain tokens, letting anyone invest in rental properties from as little as $50 — no mortgage, no management headaches. Here's exactly how it works.
+            Tokenized real estate converts property ownership into blockchain tokens, letting anyone invest in rental properties from as little as $50 , no mortgage, no management headaches. Here's exactly how it works.
           </p>
         </div>
 
@@ -204,10 +204,10 @@ export default function WhatIsTokenizedRealEstatePage() {
               The Simple Definition
             </h2>
             <p className="text-[14px] leading-[1.7] mb-3" style={{ color: "rgba(242,237,230,0.65)" }}>
-              <strong style={{ color: "#F2EDE6" }}>Tokenized real estate</strong> is real property ownership that has been divided into digital tokens on a blockchain. Each token represents a fractional share of the property — including the right to receive rental income proportional to your ownership stake.
+              <strong style={{ color: "#F2EDE6" }}>Tokenized real estate</strong> is real property ownership that has been divided into digital tokens on a blockchain. Each token represents a fractional share of the property , including the right to receive rental income proportional to your ownership stake.
             </p>
             <p className="text-[14px] leading-[1.7]" style={{ color: "rgba(242,237,230,0.65)" }}>
-              Think of it like buying a single share of a company on the stock market — except the "company" is a single rental property, and the "dividend" is monthly rent from real tenants.
+              Think of it like buying a single share of a company on the stock market , except the "company" is a single rental property, and the "dividend" is monthly rent from real tenants.
             </p>
           </section>
 
@@ -224,7 +224,7 @@ export default function WhatIsTokenizedRealEstatePage() {
                 {
                   step: "1",
                   title: "Platform acquires a property",
-                  body: "RealT, Lofty, or another platform finds a rental property — typically a single-family or multi-family home in a US city. They acquire it through a Special Purpose Vehicle (SPV), usually a Delaware LLC.",
+                  body: "RealT, Lofty, or another platform finds a rental property , typically a single-family or multi-family home in a US city. They acquire it through a Special Purpose Vehicle (SPV), usually a Delaware LLC.",
                 },
                 {
                   step: "2",
@@ -234,12 +234,12 @@ export default function WhatIsTokenizedRealEstatePage() {
                 {
                   step: "3",
                   title: "Investors buy tokens",
-                  body: "You buy tokens on the platform's marketplace — from as little as $50 on Lofty or one token (~$15–200+) on RealT. You now legally own a fraction of that property.",
+                  body: "You buy tokens on the platform's marketplace , from as little as $50 on Lofty or one token (~$15–200+) on RealT. You now legally own a fraction of that property.",
                 },
                 {
                   step: "4",
                   title: "Rental income flows to token holders",
-                  body: "Tenants pay rent. The property manager deducts fees, taxes, and insurance. The remaining income is distributed to all token holders in USDC stablecoin — daily on Lofty, weekly on RealT.",
+                  body: "Tenants pay rent. The property manager deducts fees, taxes, and insurance. The remaining income is distributed to all token holders in USDC stablecoin , daily on Lofty, weekly on RealT.",
                 },
               ].map((s) => (
                 <div key={s.step} className="flex gap-4 rounded-[10px] px-5 py-4" style={{ background: "#131109", border: "1px solid #2A2420" }}>
@@ -386,11 +386,11 @@ export default function WhatIsTokenizedRealEstatePage() {
               {[
                 {
                   title: "Vacancy risk",
-                  body: "If a tenant leaves and the property sits empty, your rental income drops to zero. Brickwise shows occupancy rates for every property — prioritize those above 90%.",
+                  body: "If a tenant leaves and the property sits empty, your rental income drops to zero. Brickwise shows occupancy rates for every property , prioritize those above 90%.",
                 },
                 {
                   title: "Platform risk",
-                  body: "If RealT or Lofty shut down, you'd still legally own the underlying SPV — but managing it would become complex. Both platforms are growing, but no startup is guaranteed.",
+                  body: "If RealT or Lofty shut down, you'd still legally own the underlying SPV , but managing it would become complex. Both platforms are growing, but no startup is guaranteed.",
                 },
                 {
                   title: "Liquidity risk",
@@ -432,7 +432,7 @@ export default function WhatIsTokenizedRealEstatePage() {
                 { n: "3", t: "Fund your account", b: "Deposit USD or USDC. Most platforms accept bank transfers; some support crypto deposits directly." },
                 { n: "4", t: "Research before you buy", b: `Use Brickwise to compare properties by yield, risk, fair value, and buy signal before committing. Our analyzer covers ${PROPERTIES.length} properties with independent scores.` },
                 { n: "5", t: "Diversify from day one", b: "Spread across at least 5–10 properties and 2–3 cities. The low minimums make this easy even with $500–$1,000 total." },
-                { n: "6", t: "Monitor your income", b: "Check payouts weekly or monthly. Track yield changes — if a property's yield drops below your threshold, Brickwise will flag it." },
+                { n: "6", t: "Monitor your income", b: "Check payouts weekly or monthly. Track yield changes , if a property's yield drops below your threshold, Brickwise will flag it." },
               ].map((s) => (
                 <div key={s.n} className="flex gap-4 rounded-[10px] px-5 py-4" style={{ background: "#131109", border: "1px solid #2A2420" }}>
                   <div className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-[12px] font-bold" style={{ background: "#22c55e", color: "#0A0907" }}>
@@ -456,7 +456,7 @@ export default function WhatIsTokenizedRealEstatePage() {
               {[
                 {
                   q: "What is tokenized real estate?",
-                  a: "Tokenized real estate is real property ownership converted into digital tokens on a blockchain. Each token represents a fractional share — including the right to receive rental income and a proportional claim on the asset's value.",
+                  a: "Tokenized real estate is real property ownership converted into digital tokens on a blockchain. Each token represents a fractional share , including the right to receive rental income and a proportional claim on the asset's value.",
                 },
                 {
                   q: "Is tokenized real estate a good investment?",
@@ -494,7 +494,7 @@ export default function WhatIsTokenizedRealEstatePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {[
               { title: "RealT vs Lofty: Full Platform Comparison", href: "/compare/realt-vs-lofty", tag: "Comparison" },
-              { title: "Analyze All Properties — Buy/Hold/Avoid", href: "/analyzer", tag: "Tool" },
+              { title: "Analyze All Properties , Buy/Hold/Avoid", href: "/analyzer", tag: "Tool" },
             ].map((link) => (
               <Link key={link.href} href={link.href} className="no-underline block">
                 <div className="rounded-[10px] px-5 py-4 hover:bg-[#1a1611] transition-colors" style={{ background: "#131109", border: "1px solid #2A2420" }}>
@@ -511,7 +511,7 @@ export default function WhatIsTokenizedRealEstatePage() {
           <div>
             <div className="text-[14px] font-semibold mb-0.5" style={{ color: "#F2EDE6" }}>Ready to find your first property?</div>
             <div className="text-[12px]" style={{ color: "rgba(242,237,230,0.45)" }}>
-              {PROPERTIES.length} properties scored and ranked. Filter by yield, risk, and buy signal — no signup required.
+              {PROPERTIES.length} properties scored and ranked. Filter by yield, risk, and buy signal , no signup required.
             </div>
           </div>
           <Link

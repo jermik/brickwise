@@ -158,7 +158,7 @@ export function PropertyCard({ property: p, compareMode, isCompared, onCompareTo
       {/* Compare toggle — outside the Link so clicks don't navigate */}
       {compareMode && (
         <button
-          className="absolute top-2.5 left-2.5 z-10 flex items-center justify-center transition-all"
+          className="absolute top-2.5 left-2.5 z-10 flex items-center justify-center transition-colors"
           style={{
             width: 26,
             height: 26,

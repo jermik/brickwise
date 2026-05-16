@@ -24,6 +24,10 @@
   --color-amber-bg: var(--amber-bg);
   --color-red: var(--red);
   --color-red-bg: var(--red-bg);
+  --color-brand-gold: var(--brand-gold);
+  --color-brand-gold-bg: var(--brand-gold-bg);
+  --color-brand-moss: var(--brand-moss);
+  --color-brand-moss-bg: var(--brand-moss-bg);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -62,6 +66,12 @@
 
   /* Faint text */
   --faint: rgba(242,237,230,0.38);
+
+  /* Brand accents — promoted from scattered raw hex */
+  --brand-gold: #C99846;
+  --brand-gold-bg: rgba(201,152,70,0.1);
+  --brand-moss: #7CA982;
+  --brand-moss-bg: rgba(124,169,130,0.1);
 }
 
 @layer base {
@@ -71,6 +81,11 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-inter), system-ui, sans-serif;
+  }
+  :focus-visible {
+    outline: 2px solid var(--brand-gold);
+    outline-offset: 2px;
+    border-radius: 2px;
   }
   ::-webkit-scrollbar {
     width: 4px;
