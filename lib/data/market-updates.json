@@ -3,11 +3,11 @@
     "date": "2026-05-16",
     "slug": "2026-05-16",
     "title": "Tokenized Real Estate Market Update — May 16, 2026",
-    "summary": "The tokenized real estate market continues to offer accessible entry points for retail investors seeking passive income. Across 465 active listings on Lofty and RealT, the average net yield currently sits at 10.1%, reflecting a diverse range of residential properties primarily concentrated in US markets.\n\nTop performers this period include 5604 Brownfield Dr (32 Units) in Lubbock, delivering 34.69% net yield. Detroit leads in listing volume with 169 available properties, offering investors meaningful diversification within a single metro area.\n\nInvestors should review occupancy rates, fee structures, and platform-specific terms before committing capital. Brickwise scores each property on yield, risk, neighborhood quality, and token fair value to help surface the most compelling opportunities at any given time.",
+    "summary": "The tokenized real estate market continues to offer accessible entry points for retail investors seeking passive income. Across 465 active listings on Lofty and RealT, the average net yield currently sits at 10.1%, reflecting a diverse range of residential properties primarily concentrated in US markets.\n\nTop performers this period include 1317 South Solano Dr in Las Cruces, delivering 34.61% net yield. Detroit leads in listing volume with 169 available properties, offering investors meaningful diversification within a single metro area.\n\nInvestors should review occupancy rates, fee structures, and platform-specific terms before committing capital. Brickwise scores each property on yield, risk, neighborhood quality, and token fair value to help surface the most compelling opportunities at any given time.",
     "highlights": [
       "465 tokenized properties tracked across Lofty and RealT",
       "Average net yield: 10.1% across all active listings",
-      "Top yield: 34.69% — 5604 Brownfield Dr (32 Units), Lubbock",
+      "Top yield: 34.61% — 1317 South Solano Dr, Las Cruces",
       "Detroit leads with 169 available listings",
       "Average Brickwise score: 72/100"
     ],
@@ -15,8 +15,8 @@
       "totalListings": 465,
       "avgYield": 10.1,
       "avgScore": 72,
-      "topYield": 34.69,
-      "topYieldCity": "Lubbock"
+      "topYield": 34.61,
+      "topYieldCity": "Las Cruces"
     },
     "topProperties": [
       {

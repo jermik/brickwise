@@ -90,14 +90,14 @@
     "sourceVerified": false
   },
   "18": {
-    "tokenPrice": 20.16,
+    "tokenPrice": 24.63,
     "grossYield": 16.3,
-    "expectedYield": 16.6,
+    "expectedYield": 19.63,
     "monthlyRent": 680,
     "occupancyRate": 95,
     "lastUpdated": "2026-05-16",
     "sourceVerified": true,
-    "sourceUrl": "https://www.lofty.ai/property/432-W-Peebles-Rd_Memphis-TN-38109"
+    "sourceUrl": "https://www.lofty.ai/property/2724-Chatsworth-St_Memphis-TN-38127"
   },
   "19": {
     "tokenPrice": 50,
