@@ -27,6 +27,7 @@ jobs:
           ./node_modules/.bin/playwright install chromium chromium-headless-shell --with-deps
 
       - name: Run discovery script
+        continue-on-error: true
         env:
           KIE_AI_API_KEY: ${{ secrets.KIE_AI_API_KEY }}
           KIE_AI_DEFAULT_MODEL: ${{ secrets.KIE_AI_DEFAULT_MODEL }}
@@ -37,6 +38,7 @@ jobs:
         run: node scripts/refresh-data.mjs
 
       - name: Generate SEO content
+        continue-on-error: true
         env:
           KIE_AI_API_KEY: ${{ secrets.KIE_AI_API_KEY }}
           KIE_AI_DEFAULT_MODEL: ${{ secrets.KIE_AI_DEFAULT_MODEL }}
