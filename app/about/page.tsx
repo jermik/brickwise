@@ -57,8 +57,20 @@ export default function AboutPage() {
           </p>
           <p>
             We are not a brokerage, exchange or token issuer. We don&apos;t custody assets and we don&apos;t take
-            payment from the platforms we cover. Our coverage is curated by hand &mdash; no scrapers, no synthetic
+            payment from the platforms we cover. Our coverage is curated by hand. No scrapers, no synthetic
             data, no platform partnerships that bias which properties surface in our rankings.
+          </p>
+
+          <h2
+            className="text-[22px] font-normal mt-10 mb-3 leading-[1.2]"
+            style={{ color: "#F2EDE6", fontFamily: "var(--font-dm-serif)" }}
+          >
+            Who runs this
+          </h2>
+          <p>
+            Brickwise is built and maintained by one person from Amsterdam, not an agency or a team of analysts. Every property score is reviewed manually before it ships. Every change to the scoring methodology is logged. If you spot a mistake, the{" "}
+            <Link href="/contact" style={{ color: "#F2EDE6", textDecoration: "underline" }}>contact page</Link>{" "}
+            goes straight to me, not a support queue.
           </p>
 
           <h2
@@ -68,11 +80,12 @@ export default function AboutPage() {
             How we score
           </h2>
           <p>
-            Every property gets a 0&ndash;100 overall score combining four dimensions: <strong>yield</strong>{" "}
+            Every property gets a 0 to 100 overall score combining four dimensions: <strong>yield</strong>{" "}
             (net of property management, insurance and tax), <strong>risk</strong> (vacancy history, neighborhood
             grade, building age), <strong>fair value</strong> (token price relative to underlying property and
             comparable rentals), and <strong>confidence</strong> (how much underlying data we&apos;ve verified
-            against primary sources).
+            against primary sources). For the full weighting breakdown and each input, see the{" "}
+            <Link href="/methodology" style={{ color: "#F2EDE6", textDecoration: "underline" }}>methodology page</Link>.
           </p>
           <p>
             The score drives a single action label: <strong>Buy</strong> when fundamentals justify entering at the
@@ -92,6 +105,16 @@ export default function AboutPage() {
             <li>We do not accept payment from platforms or token issuers in exchange for coverage or ranking.</li>
             <li>Mistakes get corrected with a visible change note on the affected property.</li>
           </ul>
+
+          <h2
+            className="text-[22px] font-normal mt-10 mb-3 leading-[1.2]"
+            style={{ color: "#F2EDE6", fontFamily: "var(--font-dm-serif)" }}
+          >
+            Affiliate disclosure
+          </h2>
+          <p>
+            Brickwise earns a referral fee when readers sign up to Lofty or RealT through our affiliate links on the platform pages. We disclose this on every comparison and platform review page. Affiliate revenue does not influence which properties surface in our rankings, which scores are assigned, or which platforms get covered. If a platform is bad, we will say so regardless of whether they pay referrals.
+          </p>
 
           <h2
             className="text-[22px] font-normal mt-10 mb-3 leading-[1.2]"

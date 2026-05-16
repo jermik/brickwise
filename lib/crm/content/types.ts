@@ -1,4 +1,4 @@
-// Content engine types — short-form video demo packages.
+// Content engine types , short-form video demo packages.
 // Pure templating, no external API. Substitution via generator.ts.
 
 export type ContentPlatform =
@@ -139,7 +139,7 @@ export type CameraDirection =
 
 // ── Animation type ─────────────────────────────────────────────────────────
 //
-// A scene-level motion *preset* — sits above the per-element entry/exit
+// A scene-level motion *preset* , sits above the per-element entry/exit
 // animations. The Remotion scene component picks an orchestration based on
 // this value (e.g. `stagger_in` reveals text lines one at a time; `counter_up`
 // drives a number animation; `highlight` paints a yellow marker behind
@@ -178,13 +178,13 @@ export type SoundEffect =
 //
 // `SceneVisualConfig` is a structured superset of the flat render fields on
 // `RenderScene`. The generator computes it deterministically per (template,
-// scene index, total scenes) — no randomness, no AI, fully reproducible.
+// scene index, total scenes) , no randomness, no AI, fully reproducible.
 // The legacy `visualType` / `transitionType` / `overlayText` fields on
 // RenderScene are kept and mirrored from the config for ergonomic access.
 
 /** Per-scene narrative role. Drives default visual assignment. */
 export type SceneRole =
-  | "hook"          // opening — pattern interrupt
+  | "hook"          // opening , pattern interrupt
   | "setup"         // context / step intro
   | "demo"          // product walkthrough
   | "data"          // numbers / scores / results
@@ -193,7 +193,7 @@ export type SceneRole =
   | "transition"    // bridge between sections
   | "cta";          // closing call-to-action
 
-/** Pacing intensity — drives cut frequency + visual energy. */
+/** Pacing intensity , drives cut frequency + visual energy. */
 export type PacingIntensity = "low" | "medium" | "high";
 
 /** Animation suggestion for the scene's primary element. */
@@ -351,7 +351,7 @@ export interface RenderScene extends ScriptScene {
   // Held-frame time AT THE END of the scene, after the voiceover finishes
   // and before the outgoing transition begins. Expressed in seconds for
   // unit-consistency with `durationSeconds` (fractional values like 0.5
-  // are fine). Counted WITHIN the scene's own duration — does NOT extend
+  // are fine). Counted WITHIN the scene's own duration , does NOT extend
   // `durationSeconds`. Use to give a beat for emphasis.
   pauseAfter?: number;
 
@@ -359,7 +359,7 @@ export interface RenderScene extends ScriptScene {
   remotionProps?: Record<string, unknown>;
 
   // ── Visual intelligence (Step 3) ───────────────────────────────────────
-  // Structured visual config — deterministically assigned by the generator
+  // Structured visual config , deterministically assigned by the generator
   // based on template + scene role. The flat fields above (`visualType`,
   // `transitionType`, `overlayText`, `cameraDirection`, `animationType`)
   // are mirrored from this config for ergonomic access by Remotion
@@ -368,7 +368,7 @@ export interface RenderScene extends ScriptScene {
 }
 
 // ─────────────────────────────────────────────────────────────────────────
-// Helper functions — pure, no side effects, safe to import anywhere.
+// Helper functions , pure, no side effects, safe to import anywhere.
 // ─────────────────────────────────────────────────────────────────────────
 
 /**
@@ -436,7 +436,7 @@ export function sceneToRemotionTiming(
 }
 
 // ─────────────────────────────────────────────────────────────────────────
-// Worked examples — these are real, type-checked instances of the schema.
+// Worked examples , these are real, type-checked instances of the schema.
 // Importable for unit tests / fixtures / doc generation. Not consumed at
 // runtime by app code.
 // ─────────────────────────────────────────────────────────────────────────
@@ -461,12 +461,12 @@ export const EXAMPLE_RENDER_SCENE: RenderScene = {
   // Narrative
   onscreenText: "20 GYMS · ROTTERDAM · 2 MIN",
   voiceover:
-    "I just found 20 gyms in Rotterdam whose websites could be losing them clients — and it took 2 minutes.",
+    "I just found 20 gyms in Rotterdam whose websites could be losing them clients , and it took 2 minutes.",
   bRoll: "Screen recording: GrowthOS Discovery filter form opens",
 
   // Subtitles
   subtitleText:
-    "I just found 20 gyms in Rotterdam whose websites could be losing them clients — and it took 2 minutes.",
+    "I just found 20 gyms in Rotterdam whose websites could be losing them clients , and it took 2 minutes.",
   subtitleStyle: "burned_in",
 
   // Overlay
@@ -498,14 +498,14 @@ export const EXAMPLE_RENDER_SCENE: RenderScene = {
 };
 
 /**
- * Example fully-normalised content package — what the API returns from
+ * Example fully-normalised content package , what the API returns from
  * `POST /api/content/generate` once it's wired up. Truncated to two
  * scenes for brevity; real packages have 4–6.
  */
 export const EXAMPLE_CONTENT_PACKAGE: ContentPackage = {
-  title: "I found 20 gyms in Rotterdam with bad websites — in 2 minutes",
+  title: "I found 20 gyms in Rotterdam with bad websites , in 2 minutes",
   hook:
-    "I just found 20 gyms in Rotterdam whose websites could be losing them clients — and it took me 2 minutes.",
+    "I just found 20 gyms in Rotterdam whose websites could be losing them clients , and it took me 2 minutes.",
   scriptScenes: [
     EXAMPLE_RENDER_SCENE,
     {
@@ -530,26 +530,26 @@ export const EXAMPLE_CONTENT_PACKAGE: ContentPackage = {
     },
   ],
   voiceover:
-    "I just found 20 gyms in Rotterdam whose websites could be losing them clients — and it took 2 minutes. I picked the country, the city Rotterdam, and the niche gym.",
+    "I just found 20 gyms in Rotterdam whose websites could be losing them clients , and it took 2 minutes. I picked the country, the city Rotterdam, and the niche gym.",
   subtitlesSrt:
-    "1\n00:00:00,000 --> 00:00:01,500\nI just found 20 gyms in Rotterdam whose websites could be losing\n\n2\n00:00:01,500 --> 00:00:03,000\nthem clients — and it took 2 minutes.\n",
+    "1\n00:00:00,000 --> 00:00:01,500\nI just found 20 gyms in Rotterdam whose websites could be losing\n\n2\n00:00:01,500 --> 00:00:03,000\nthem clients , and it took 2 minutes.\n",
   captionsPlain:
-    "I just found 20 gyms in Rotterdam whose websites could be losing them clients — and it took 2 minutes.\n\nI picked the country, the city Rotterdam, and the niche gym.",
+    "I just found 20 gyms in Rotterdam whose websites could be losing them clients , and it took 2 minutes.\n\nI picked the country, the city Rotterdam, and the niche gym.",
   caption:
-    "20 local gyms in Rotterdam with website gaps — found in 2 minutes 🎯\n\nThis is what GrowthOS does: pulls local businesses from public data, audits their sites, and shows you who actually needs help.",
+    "20 local gyms in Rotterdam with website gaps , found in 2 minutes 🎯\n\nThis is what GrowthOS does: pulls local businesses from public data, audits their sites, and shows you who actually needs help.",
   hashtags:
     "#localbusiness #freelance #webdesign #localseo #agencylife #freelancer #agency #leadgen",
   cta: "Link in bio. Try GrowthOS for your city.",
   thumbnailText: "20 GYMS\nROTTERDAM",
   pinnedComment:
-    "Q&A coming next — drop your city + niche below 👇 (this is for personalised outreach, not bulk spam)",
+    "Q&A coming next , drop your city + niche below 👇 (this is for personalised outreach, not bulk spam)",
   durationSeconds: 60,
   retentionNotes:
     "Hook in first 3s names a number + place + time (pattern interrupt). Show real screen recording, not stock. Save the CTA for the last 5s.",
 };
 
 // ─────────────────────────────────────────────────────────────────────────
-// Remotion compatibility map (informational — for the eventual renderer).
+// Remotion compatibility map (informational , for the eventual renderer).
 //
 // Each RenderScene field maps to a concrete Remotion primitive:
 //
@@ -578,13 +578,13 @@ export const EXAMPLE_CONTENT_PACKAGE: ContentPackage = {
 //   soundEffectAtMs              startFrom={msToFrames(at)}>
 //   pauseAfter               → padding frames before the next transition
 //   ctaType                  → switch on type → <CtaCard variant={ctaType}>
-//   ctaTargetUrl             → href on the CTA component (visual only —
+//   ctaTargetUrl             → href on the CTA component (visual only ,
 //                              videos can't link, this is shown as text)
 //   remotionProps            → spread into the scene component:
 //                              <Scene {...remotionProps} />
 //
 // Frames-per-second (fps) lives at the parent <Composition> level, not
-// per-scene — the Remotion convention. The schema stores all timing in
+// per-scene , the Remotion convention. The schema stores all timing in
 // seconds/ms so a single content package can render at 30/60/etc. fps
 // without changes.
 // ─────────────────────────────────────────────────────────────────────────
@@ -657,12 +657,12 @@ export const CONTENT_AUDIENCES = [
 ] as const;
 
 export const CONTENT_ANGLES: { value: ContentAngle; label: string; templateLabel: string }[] = [
-  { value: "discovery_leads", label: "I found bad websites in {city}", templateLabel: "A — Discovery showcase" },
-  { value: "audit_breakdown", label: "Website audit breakdown", templateLabel: "B — Audit demonstration" },
-  { value: "proposal_flow", label: "From lead to proposal", templateLabel: "C — Proposal automation" },
-  { value: "full_workflow", label: "AI agency workflow end-to-end", templateLabel: "D — Full GrowthOS demo" },
-  { value: "freelancer_education", label: "How freelancers find local clients", templateLabel: "E — Education" },
-  { value: "growthos_overview", label: "How GrowthOS works", templateLabel: "F — Product overview" },
+  { value: "discovery_leads", label: "I found bad websites in {city}", templateLabel: "A , Discovery showcase" },
+  { value: "audit_breakdown", label: "Website audit breakdown", templateLabel: "B , Audit demonstration" },
+  { value: "proposal_flow", label: "From lead to proposal", templateLabel: "C , Proposal automation" },
+  { value: "full_workflow", label: "AI agency workflow end-to-end", templateLabel: "D , Full GrowthOS demo" },
+  { value: "freelancer_education", label: "How freelancers find local clients", templateLabel: "E , Education" },
+  { value: "growthos_overview", label: "How GrowthOS works", templateLabel: "F , Product overview" },
 ];
 
 export const CONTENT_STATUS_CONFIG: Record<ContentStatus, { label: string; color: string; bg: string }> = {
@@ -673,7 +673,7 @@ export const CONTENT_STATUS_CONFIG: Record<ContentStatus, { label: string; color
   posted:    { label: "Posted",    color: "#10b981", bg: "rgba(16,185,129,0.15)" },
 };
 
-// Plural form per business category — used in copy.
+// Plural form per business category , used in copy.
 export const NICHE_PLURALS: Record<string, string> = {
   "Restaurant": "restaurants",
   "Gym": "gyms",

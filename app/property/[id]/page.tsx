@@ -12,6 +12,7 @@ import { PlatformDot } from "@/components/ui/platform-dot";
 import { RecommendationBadge } from "@/components/ui/recommendation-badge";
 import { ConfidenceBadge } from "@/components/ui/confidence-badge";
 import { WatchlistButton } from "@/components/ui/watchlist-button";
+import { EmailCapture } from "@/components/ui/email-capture";
 import {
   getRecommendation,
   getConfidence,
@@ -896,6 +897,17 @@ export default async function PropertyDetailPage({
               </svg>
               Share on X
             </a>
+
+            {/* Watch properties like this — Brief signup at peak-intent moment */}
+            <div className="pt-2">
+              <div className="text-[12px] font-semibold mb-2" style={{ color: "#111" }}>
+                Track properties like this
+              </div>
+              <div className="text-[11px] mb-2.5" style={{ color: "#737373" }}>
+                Get the weekly Brickwise Brief: 3 buy candidates, 3 avoid signals every Monday.
+              </div>
+              <EmailCapture source={`property-${p.id}`} compact />
+            </div>
 
             <p className="text-[12px] leading-[1.6]" style={{ color: "#c4c4c4" }}>
               Scores and yield estimates are for informational purposes only and do not constitute

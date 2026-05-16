@@ -11,8 +11,8 @@ interface EmailCaptureProps {
 
 export function EmailCapture({
   source = "site",
-  heading = "Weekly market digest",
-  subtext = "Top properties, yield changes, and market insights every Monday.",
+  heading = "The Brickwise Brief",
+  subtext = "3 buy candidates, 3 avoid signals. Every Monday. Free.",
   compact = false,
 }: EmailCaptureProps) {
   const [email, setEmail] = useState("");
@@ -62,7 +62,7 @@ export function EmailCapture({
             You're subscribed
           </div>
           <div className="text-[11px]" style={{ color: "#16a34a" }}>
-            First digest arrives Monday morning.
+            First Brief arrives Monday morning.
           </div>
         </div>
       </div>
@@ -164,7 +164,7 @@ export function EmailCapture({
             whiteSpace: "nowrap",
           }}
         >
-          {status === "loading" ? "..." : "Get digest"}
+          {status === "loading" ? "..." : "Get the Brief"}
         </button>
       </form>
 

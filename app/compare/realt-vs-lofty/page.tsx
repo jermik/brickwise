@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PublicShell } from "@/components/layout/public-shell";
+import { EmailCapture } from "@/components/ui/email-capture";
 import { PROPERTIES } from "@/lib/data/properties";
 import { getRecommendation } from "@/lib/recommendations";
 import { FireEvent } from "@/components/analytics/page-view-tracker";
@@ -204,6 +205,14 @@ export default function CompareRealtVsLoftyPage() {
           <span style={{ color: "rgba(242,237,230,0.7)" }}>RealT vs Lofty</span>
         </nav>
 
+        {/* Quick verdict — pulled above header for skimmers (CRO-tested pattern for comparison pages) */}
+        <div className="rounded-[12px] p-5 mb-6" style={{ background: "rgba(34,197,94,0.06)", border: "1px solid rgba(34,197,94,0.2)" }}>
+          <div className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-2" style={{ color: "#4ade80" }}>Bottom line</div>
+          <p className="text-[14px] leading-[1.6]" style={{ color: "#F2EDE6" }}>
+            <strong style={{ color: "#F2EDE6" }}>RealT</strong> leads on property depth ({realtProps.length} listings, {realtCities.length} cities, avg {realtAvgYield}% yield) and has the longer track record since 2019. <strong style={{ color: "#F2EDE6" }}>Lofty</strong> leads on liquidity (instant PMM exits), lower minimum entry ($50), and newer property stock. Most serious investors use both.
+          </p>
+        </div>
+
         {/* Header */}
         <div className="mb-8">
           <div className="text-[11px] font-medium uppercase tracking-[0.6px] mb-2" style={{ color: "rgba(242,237,230,0.4)" }}>
@@ -214,14 +223,6 @@ export default function CompareRealtVsLoftyPage() {
           </h1>
           <p className="text-[14px] leading-[1.6]" style={{ color: "rgba(242,237,230,0.55)" }}>
             Independent analysis based on {PROPERTIES.length} properties tracked across both platforms. Updated regularly with live yield and score data.
-          </p>
-        </div>
-
-        {/* Quick verdict */}
-        <div className="rounded-[12px] p-5 mb-8" style={{ background: "rgba(34,197,94,0.06)", border: "1px solid rgba(34,197,94,0.2)" }}>
-          <div className="text-[12px] font-semibold uppercase tracking-[0.6px] mb-2" style={{ color: "#4ade80" }}>Bottom line</div>
-          <p className="text-[14px] leading-[1.6]" style={{ color: "#F2EDE6" }}>
-            <strong style={{ color: "#F2EDE6" }}>RealT</strong> leads on property depth ({realtProps.length} listings, {realtCities.length} cities, avg {realtAvgYield}% yield) and has the longer track record since 2019. <strong style={{ color: "#F2EDE6" }}>Lofty</strong> leads on liquidity (instant PMM exits), lower minimum entry ($50), and newer property stock. Most serious investors use both.
           </p>
         </div>
 
@@ -405,6 +406,15 @@ export default function CompareRealtVsLoftyPage() {
               See all Lofty buy signals →
             </Link>
           </div>
+        </div>
+
+        {/* Mid-page Brief signup at peak commercial intent */}
+        <div className="mb-8">
+          <EmailCapture
+            source="compare-realt-vs-lofty"
+            heading="Want monthly RealT vs Lofty updates?"
+            subtext="Get The Brickwise Brief: 3 buy candidates, 3 avoid signals every Monday. Free."
+          />
         </div>
 
         {/* City coverage */}
@@ -647,6 +657,9 @@ export default function CompareRealtVsLoftyPage() {
         {/* Footer note */}
         <p className="mt-6 text-[12px] leading-[1.6]" style={{ color: "rgba(242,237,230,0.25)" }}>
           Data based on Brickwise analysis of {PROPERTIES.length} properties. Yields and scores are updated regularly but may not reflect real-time listings. Not financial advice. Always verify directly on realt.co and lofty.ai before investing.
+        </p>
+        <p className="mt-2 text-[12px] leading-[1.6]" style={{ color: "rgba(242,237,230,0.35)" }}>
+          Affiliate disclosure: Brickwise earns a referral fee if you sign up via our affiliate links on the platform pages. Scoring and recommendations are not influenced by referral revenue.
         </p>
       </div>
     </PublicShell>
