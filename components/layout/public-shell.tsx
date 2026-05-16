@@ -16,7 +16,11 @@ const NAV_LINKS = [
 const PROPERTY_COUNT = PROPERTIES.length;
 const AVG_YIELD = (PROPERTIES.reduce((s, p) => s + p.expectedYield, 0) / PROPERTY_COUNT).toFixed(1);
 const BUY_COUNT = PROPERTIES.filter((p) => p.overallScore >= 80).length;
-const REFRESH_DATE = '12 MAY 2026';
+const REFRESH_DATE = new Date(
+  PROPERTIES.reduce((max, p) => (p.lastUpdated > max ? p.lastUpdated : max), '') + 'T00:00:00'
+)
+  .toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+  .toUpperCase();
 
 const MONO = 'var(--font-dm-mono)';
 const SERIF = 'var(--font-dm-serif)';

@@ -23,7 +23,7 @@ export async function GET() {
 - Computes a 0–100 composite score per property using public weights: yield (30%), risk (25%), neighborhood (20%), fair value (25%).
 - Produces buy / hold / avoid signals based on the composite score and cross-listing relative ranking.
 - Publishes cross-platform rankings (highest yield, undervalued, buy signals, new listings) and city-level rollups.
-- Refreshed daily.
+- Refreshed regularly.
 
 ## Who it is for
 

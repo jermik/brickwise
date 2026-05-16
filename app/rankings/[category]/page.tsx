@@ -205,7 +205,7 @@ export default async function RankingsPage({ params }: Props) {
             {meta.h1}
           </h1>
           <p className="text-[13px]" style={{ color: "rgba(242,237,230,0.5)" }}>
-            {ranked.length} properties · avg yield {avgYield}% · {buyCount} buy signals · refreshed hourly
+            {ranked.length} properties · avg yield {avgYield}% · {buyCount} buy signals · refreshed regularly
           </p>
         </div>
 
