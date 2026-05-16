@@ -33,6 +33,9 @@ jobs:
           REALT_API_KEY: ${{ secrets.REALT_API_KEY }}
         run: node scripts/discover-properties.mjs
 
+      - name: Refresh property prices and yields
+        run: node scripts/refresh-data.mjs
+
       - name: Generate SEO content
         env:
           KIE_AI_API_KEY: ${{ secrets.KIE_AI_API_KEY }}
