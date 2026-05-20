@@ -34,7 +34,7 @@
 ## Routine Log
 | Date | Routine | Status | Notes |
 |------|---------|--------|-------|
-| 2026-05-20 | seo-routine | done | DAILY MONITOR — PR pending push |
+| 2026-05-20 | seo-routine | done | DAILY MONITOR — https://github.com/jermik/brickwise/pull/7 |
 
 ## Notes
 - Growth mode declared 2026-05-09. Content + distribution focus.
