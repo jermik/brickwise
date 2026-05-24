@@ -5,7 +5,7 @@
 ## Done
 | Date              | Skill             | Artifact / Notes |
 |-------------------|-------------------|------------------|
-| 2026-05-24        | seo-routine       | WEEKLY FIX — 4 commits: titles shortened (11 pages), /methodology added to sitemap, 11 Twitter cards added. PR pending. |
+| 2026-05-24        | seo-routine       | WEEKLY FIX — 4 commits: titles shortened (11 pages), /methodology added to sitemap, 11 Twitter cards added. PR: https://github.com/jermik/brickwise/pull/11 |
 | pre-2026-05-12    | lead-magnets      | marketing-plans/brickwise-lead-magnet.md |
 | pre-2026-05-12    | seo-audit         | marketing-plans/brickwise-audit-v2.md |
 | pre-2026-05-12    | launch-strategy   | marketing-plans/brickwise-launch-strategy.md |
