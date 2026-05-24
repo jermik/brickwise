@@ -13,7 +13,7 @@ import { ProjectLogo } from "@/components/algorand/project-logo";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: `Algorand Ecosystem (${ALGORAND_TOTAL_COUNT}+ Projects) — DeFi, NFTs, Wallets, RWA | Brickwise`,
+  title: `Algorand Ecosystem — ${ALGORAND_TOTAL_COUNT}+ Projects | Brickwise`,
   description: `Discover ${ALGORAND_TOTAL_COUNT}+ projects across the Algorand ecosystem — wallets, DEXs, DeFi, NFT marketplaces, infrastructure, and developer tooling. Curated and updated by Brickwise.`,
   keywords: [
     "Algorand ecosystem",

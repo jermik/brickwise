@@ -16,7 +16,7 @@ const CATEGORY_META: Record<
   { title: string; h1: string; description: string; tag: string; keywords: string[] }
 > = {
   "highest-yield": {
-    title: "Highest Yield Tokenized Real Estate Properties Right Now",
+    title: "Highest Yield Tokenized Real Estate Properties",
     h1: "Highest Yield Tokenized Real Estate Properties",
     description: `Live rankings of the top-yield tokenized properties across RealT and Lofty. See which of ${PROPERTIES.length} properties offer the best net returns right now.`,
     tag: "Yield Rankings",
@@ -31,7 +31,7 @@ const CATEGORY_META: Record<
     ],
   },
   "buy-signals": {
-    title: "Active Buy Signals — Best Tokenized Real Estate to Buy Now",
+    title: "Active Buy Signals: Best Tokenized Real Estate",
     h1: "Active Buy Signals: Best Tokenized Real Estate Right Now",
     description: `All properties currently rated Buy across RealT and Lofty — scored for yield, risk, fair value, and neighborhood quality. Updated from ${PROPERTIES.length} analyzed properties.`,
     tag: "Buy Signals",
@@ -46,7 +46,7 @@ const CATEGORY_META: Record<
     ],
   },
   undervalued: {
-    title: "Undervalued Tokenized Real Estate Properties — Below Fair Value",
+    title: "Undervalued Tokenized Real Estate Properties",
     h1: "Undervalued Tokenized Real Estate Properties",
     description: `Properties where the current token price sits below our estimated fair value — potential upside on top of rental yield. Screened from ${PROPERTIES.length} tracked properties.`,
     tag: "Undervalued",
@@ -60,7 +60,7 @@ const CATEGORY_META: Record<
     ],
   },
   "new-listings": {
-    title: "New Tokenized Real Estate Listings — Latest Properties Added",
+    title: "New Tokenized Real Estate Listings",
     h1: "New Tokenized Real Estate Listings",
     description: `The latest properties added to Brickwise — scored, risk-rated, and flagged buy/hold/avoid from day one. Track new listings across RealT and Lofty.`,
     tag: "New Listings",
