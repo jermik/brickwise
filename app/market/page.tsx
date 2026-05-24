@@ -26,6 +26,11 @@ export const metadata: Metadata = {
     images: [{ url: "/market/opengraph-image", width: 1200, height: 630, alt: "Brickwise tokenized real estate market overview" }],
   },
   alternates: { canonical: "https://brickwise.pro/market" },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tokenized Real Estate Market Overview — Brickwise",
+    description: `Live market overview for ${PROPERTIES.length} tokenized real estate investments on Lofty & RealT. Current yields, buy signals, and city-level data.`,
+  },
 };
 
 interface MarketUpdate {

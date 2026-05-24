@@ -98,6 +98,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: meta.title }],
     },
     alternates: { canonical: url },
+    twitter: {
+      card: "summary_large_image",
+      title: `${meta.title} | Brickwise`,
+      description: meta.description,
+    },
   };
 }
 

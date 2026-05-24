@@ -35,6 +35,11 @@ export const metadata: Metadata = {
     url: "https://brickwise.pro/algorand",
   },
   alternates: { canonical: "https://brickwise.pro/algorand" },
+  twitter: {
+    card: "summary_large_image",
+    title: `Algorand Ecosystem — ${ALGORAND_TOTAL_COUNT}+ Projects | Brickwise`,
+    description: `Curated directory of ${ALGORAND_TOTAL_COUNT}+ Algorand projects — wallets, DeFi, NFTs, infrastructure, and developer tooling.`,
+  },
 };
 
 const ecosystemSchema = {

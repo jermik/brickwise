@@ -15,6 +15,12 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://brickwise.pro/about",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Brickwise — Independent Tokenized Real Estate Analytics",
+    description:
+      "Independent yield, risk and fair-value scoring for tokenized real estate on Lofty and RealT. No affiliation, no scrapers, no synthetic data.",
+  },
 };
 
 const aboutSchema = {

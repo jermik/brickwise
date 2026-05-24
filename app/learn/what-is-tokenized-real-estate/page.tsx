@@ -33,6 +33,12 @@ export const metadata: Metadata = {
     url: "https://brickwise.pro/learn/what-is-tokenized-real-estate",
   },
   alternates: { canonical: "https://brickwise.pro/learn/what-is-tokenized-real-estate" },
+  twitter: {
+    card: "summary_large_image",
+    title: "What Is Tokenized Real Estate? Complete Guide (2026) | Brickwise",
+    description:
+      "Tokenized real estate: how it works, which platforms to use, what yields to expect, and whether it's right for you. From $50 minimum.",
+  },
 };
 
 const avgYield = +(PROPERTIES.reduce((s, p) => s + p.expectedYield, 0) / PROPERTIES.length).toFixed(1);
