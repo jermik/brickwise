@@ -42,6 +42,10 @@ const maxLoftyYield = loftyProps.length
   ? +Math.max(...loftyProps.map((p) => p.expectedYield)).toFixed(1)
   : 16.4;
 const loftyBuyCount = loftyProps.filter((p) => p.overallScore >= 75).length;
+// Data-driven freshness: the review's stats refresh with the underlying dataset.
+const LAST_UPDATED =
+  PROPERTIES.reduce((max, p) => (p.lastUpdated > max ? p.lastUpdated : max), "") ||
+  "2026-01-15";
 
 export default function LoftyReviewPage() {
   const reviewSchema = {
@@ -72,6 +76,8 @@ export default function LoftyReviewPage() {
       "A data-backed review of the Lofty real estate investment platform — covering yields, fees, liquidity, onboarding, and how it compares to RealT.",
     "author": { "@type": "Organization", "name": "Brickwise", "url": "https://brickwise.pro" },
     "publisher": { "@type": "Organization", "name": "Brickwise", "url": "https://brickwise.pro" },
+    "datePublished": "2026-01-15",
+    "dateModified": LAST_UPDATED,
     "url": "https://brickwise.pro/learn/lofty-review",
   };
 

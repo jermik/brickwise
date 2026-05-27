@@ -24,6 +24,11 @@ import {
 import { PROPERTIES } from "@/lib/data/properties";
 import { decorateLoftyUrl } from "@/lib/affiliate";
 
+// Mirror of the slug logic in app/city/[city]/page.tsx and sitemap.ts so the
+// property → city links resolve to the pre-rendered city hub.
+const slugify = (city: string) =>
+  city.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
 export function generateStaticParams() {
   return PROPERTIES.map((p) => ({ id: String(p.id) }));
 }
@@ -82,6 +87,8 @@ export default async function PropertyDetailPage({
   const property = PROPERTIES.find((p) => p.id === Number(id));
   if (!property) notFound();
   const p = property;
+  const citySlug = slugify(p.city);
+  const cityCount = PROPERTIES.filter((cp) => cp.city === p.city).length;
 
   const fees = p.fees ?? { propertyTax: 0, insurance: 0, management: 0 };
   const totalFees = fees.propertyTax + fees.insurance + fees.management;
@@ -134,7 +141,8 @@ export default async function PropertyDetailPage({
         "@type": "BreadcrumbList",
         "itemListElement": [
           { "@type": "ListItem", "position": 1, "name": "Analyzer", "item": "https://brickwise.pro/analyzer" },
-          { "@type": "ListItem", "position": 2, "name": p.name, "item": `https://brickwise.pro/property/${p.id}` },
+          { "@type": "ListItem", "position": 2, "name": `${p.city} tokenized real estate`, "item": `https://brickwise.pro/city/${citySlug}` },
+          { "@type": "ListItem", "position": 3, "name": p.name, "item": `https://brickwise.pro/property/${p.id}` },
         ],
       },
     ],
@@ -152,6 +160,14 @@ export default async function PropertyDetailPage({
             style={{ color: "#a3a3a3" }}
           >
             Analyzer
+          </Link>
+          <span style={{ color: "#d4d4d4" }}>/</span>
+          <Link
+            href={`/city/${citySlug}`}
+            className="no-underline transition-opacity hover:opacity-70"
+            style={{ color: "#a3a3a3" }}
+          >
+            {p.city}
           </Link>
           <span style={{ color: "#d4d4d4" }}>/</span>
           <span style={{ color: "#111" }}>{p.name}</span>
@@ -536,6 +552,16 @@ export default async function PropertyDetailPage({
                       </Link>
                     );
                   })}
+                  <Link
+                    href={`/city/${citySlug}`}
+                    className="flex items-center justify-between px-5 py-3 no-underline transition-colors hover:bg-[#fafafa]"
+                    style={{ background: "#fff" }}
+                  >
+                    <span className="text-[12px] font-semibold" style={{ color: "#111" }}>
+                      All {cityCount} tokenized properties in {p.city}
+                    </span>
+                    <span className="text-[12px]" style={{ color: "#a3a3a3" }}>View →</span>
+                  </Link>
                 </div>
               );
             })()}
