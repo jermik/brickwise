@@ -31,6 +31,11 @@
 - referral-program — pre-traction, no users to incentivize yet
 - aso-audit — no app, web only
 
+## Routine Log
+| Date | Routine | Status | Notes |
+|------|---------|--------|-------|
+| 2026-05-20 | seo-routine | done | DAILY MONITOR — https://github.com/jermik/brickwise/pull/7 |
+
 ## Notes
 - Growth mode declared 2026-05-09. Content + distribution focus.
 - Goal: first 500 email subscribers.
