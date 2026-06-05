@@ -5,6 +5,7 @@
 ## Done
 | Date              | Skill             | Artifact / Notes |
 |-------------------|-------------------|------------------|
+| 2026-06-05 | seo-routine | DAILY MONITOR — 26 pages audited, 10 issues (3 high, 4 medium, 3 low). Report: `.agents/seo-reports/2026-06-05-monitor.md`. PR pending. |
 | pre-2026-05-12    | lead-magnets      | marketing-plans/brickwise-lead-magnet.md |
 | pre-2026-05-12    | seo-audit         | marketing-plans/brickwise-audit-v2.md |
 | pre-2026-05-12    | launch-strategy   | marketing-plans/brickwise-launch-strategy.md |
