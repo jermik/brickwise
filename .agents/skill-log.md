@@ -12,6 +12,7 @@
 | pre-2026-05-12    | programmatic-seo  | marketing-plans/brickwise-pseo-audit.md |
 | pre-2026-05-12    | social-content    | marketing-plans/brickwise-social-content.md |
 | 2026-05-13        | schedule          | 3 daily SEO routines created (Brickwise/SEO Terrain/FactuurDirect). Specs in `.agents/seo-routines/`. Pending GH App install. |
+| 2026-05-25        | seo-routine       | DAILY MONITOR — 25 PublicShell pages audited (static; 403 on live fetch). 46 findings: 11 titles >60 chars, 13 descs >160 chars, 2 descs <120, 22 missing Twitter cards, 2 missing OG. Report: `.agents/seo-reports/2026-05-25-monitor.md` — https://github.com/jermik/brickwise/pull/12 |
 
 ## In Progress
 | Started    | Skill | Owner | Next step |
