@@ -12,6 +12,7 @@
 | pre-2026-05-12    | programmatic-seo  | marketing-plans/brickwise-pseo-audit.md |
 | pre-2026-05-12    | social-content    | marketing-plans/brickwise-social-content.md |
 | 2026-05-13        | schedule          | 3 daily SEO routines created (Brickwise/SEO Terrain/FactuurDirect). Specs in `.agents/seo-routines/`. Pending GH App install. |
+| 2026-06-12        | seo-routine       | done | DAILY MONITOR — 9 issues found (1 critical: analyzer no metadata, 1 high: title double-brand risk, 2 medium, 5 low). PR pending. |
 
 ## In Progress
 | Started    | Skill | Owner | Next step |
