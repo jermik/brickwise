@@ -5,6 +5,7 @@
 ## Done
 | Date              | Skill             | Artifact / Notes |
 |-------------------|-------------------|------------------|
+| 2026-06-13 | seo-routine | DAILY MONITOR — .agents/seo-reports/2026-06-13-monitor.md — 1 HIGH (methodology missing from sitemap), 4 MEDIUM, 6 LOW — PR pending |
 | pre-2026-05-12    | lead-magnets      | marketing-plans/brickwise-lead-magnet.md |
 | pre-2026-05-12    | seo-audit         | marketing-plans/brickwise-audit-v2.md |
 | pre-2026-05-12    | launch-strategy   | marketing-plans/brickwise-launch-strategy.md |
