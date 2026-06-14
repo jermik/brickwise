@@ -8,7 +8,7 @@ import { AffiliateCta } from "@/components/conversion/affiliate-cta";
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: "Best Real Estate Investing Apps (2026): Honest Editorial Ranking | Brickwise",
+  title: { absolute: "Best Real Estate Investing Apps 2026 | Brickwise" },
   description:
     "The best real estate investing apps for 2026 — Lofty, Fundrise, Arrived, Ark7, RealT — compared on minimum, distribution frequency, mobile experience, and best-fit investor.",
   keywords: [
