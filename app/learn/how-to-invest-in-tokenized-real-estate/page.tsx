@@ -9,7 +9,7 @@ import { EmailCaptureWidget } from "@/components/conversion/email-capture-widget
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "How to Invest in Tokenized Real Estate: Step-by-Step Guide (2026) | Brickwise",
+  title: { absolute: "How to Invest in Tokenized Real Estate | Brickwise" },
   description:
     "Complete beginner's guide to investing in tokenized real estate. Learn how to choose a platform, complete KYC, buy your first token, and start earning daily rental income from $50.",
   keywords: [
