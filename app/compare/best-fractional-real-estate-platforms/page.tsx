@@ -7,7 +7,7 @@ import { EmailCaptureWidget } from "@/components/conversion/email-capture-widget
 export const revalidate = 86400; // editorial comparison — refresh daily
 
 export const metadata: Metadata = {
-  title: "Best Fractional Real Estate Platforms (2026): Honest Comparison | Brickwise",
+  title: "Best Fractional Real Estate Platforms 2026 | Brickwise",
   description:
     "Independent editorial comparison of the leading fractional real estate platforms — Lofty, RealT, Fundrise, Arrived, and Ark7. Minimums, liquidity, distribution frequency, and who each is best for.",
   keywords: [

@@ -32,6 +32,12 @@ export const metadata: Metadata = {
     url: "https://brickwise.pro/learn/realt-review",
   },
   alternates: { canonical: "https://brickwise.pro/learn/realt-review" },
+  twitter: {
+    card: "summary_large_image",
+    title: "RealT Review 2026: Real Yields, Fees & Risks | Brickwise",
+    description:
+      "Data-driven RealT review: actual net yields, fee structure, vacancy trends, and an honest verdict on who should invest.",
+  },
 };
 
 const realtProps = PROPERTIES.filter((p) => p.platform === "RealT");

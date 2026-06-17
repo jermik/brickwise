@@ -15,6 +15,12 @@ export const metadata: Metadata = {
     type: "article",
     url: "https://brickwise.pro/methodology",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Brickwise Scoring Methodology — Tokenized Real Estate",
+    description:
+      "Public scoring methodology. Composite 0 to 100 across yield, risk, neighborhood, and fair value. Independent, no platform affiliation.",
+  },
 };
 
 const articleSchema = {

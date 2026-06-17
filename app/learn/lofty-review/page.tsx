@@ -32,6 +32,12 @@ export const metadata: Metadata = {
     url: "https://brickwise.pro/learn/lofty-review",
   },
   alternates: { canonical: "https://brickwise.pro/learn/lofty-review" },
+  twitter: {
+    card: "summary_large_image",
+    title: "Lofty Review 2026: Real Yields, Fees & Risks Analyzed | Brickwise",
+    description:
+      "Everything before investing on Lofty — yields, liquidity, fees, risks, and how it compares to RealT. Data-backed, no fluff.",
+  },
 };
 
 const loftyProps = PROPERTIES.filter((p) => p.platform?.toLowerCase() === "lofty");

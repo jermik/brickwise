@@ -39,6 +39,14 @@ export const metadata: Metadata = {
     modifiedTime: new Date().toISOString().slice(0, 10),
   },
   alternates: { canonical: "https://brickwise.pro/compare/realt-vs-lofty" },
+  twitter: {
+    card: "summary_large_image",
+    title: "RealT vs Lofty (2026): Independent Platform Comparison | Brickwise",
+    description:
+      "Side-by-side: yields, fees, liquidity, city coverage. Based on independent analysis of " +
+      PROPERTIES.length +
+      " properties across both platforms.",
+  },
 };
 
 function avg(arr: number[]) {

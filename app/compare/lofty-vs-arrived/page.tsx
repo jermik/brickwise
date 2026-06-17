@@ -8,7 +8,7 @@ import { EmailCaptureWidget } from "@/components/conversion/email-capture-widget
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: "Lofty vs Arrived (2026): Token vs Traditional Rental Comparison | Brickwise",
+  title: "Lofty vs Arrived 2026: Tokenized vs Traditional | Brickwise",
   description:
     "Lofty vs Arrived: tokenized real estate ($50 minimum, daily USDC payouts) versus traditional fractional rentals ($100 minimum, quarterly distributions). Honest editorial comparison.",
   keywords: [

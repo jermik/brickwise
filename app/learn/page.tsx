@@ -30,6 +30,12 @@ export const metadata: Metadata = {
     images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Brickwise tokenized real estate guides" }],
   },
   alternates: { canonical: "https://brickwise.pro/learn" },
+  twitter: {
+    card: "summary_large_image",
+    title: "Learn — Tokenized Real Estate Guides & Reviews | Brickwise",
+    description:
+      "Free guides on tokenized real estate — platform reviews, beginner how-tos, and RealT vs Lofty comparisons. Updated with live data.",
+  },
 };
 
 const count = PROPERTIES.length;

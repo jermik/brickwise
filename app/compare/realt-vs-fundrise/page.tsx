@@ -8,7 +8,7 @@ import { EmailCaptureWidget } from "@/components/conversion/email-capture-widget
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: "RealT vs Fundrise (2026): Tokenized Properties vs eREIT Pools | Brickwise",
+  title: "RealT vs Fundrise 2026: Tokens vs eREIT | Brickwise",
   description:
     "RealT vs Fundrise: tokenized direct ownership of single properties versus diversified eREIT fund shares. Editorial comparison of structure, minimums, liquidity, and best-fit investors.",
   keywords: [

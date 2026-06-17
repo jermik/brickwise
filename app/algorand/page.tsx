@@ -13,7 +13,7 @@ import { ProjectLogo } from "@/components/algorand/project-logo";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: `Algorand Ecosystem (${ALGORAND_TOTAL_COUNT}+ Projects) — DeFi, NFTs, Wallets, RWA | Brickwise`,
+  title: `Algorand Ecosystem — ${ALGORAND_TOTAL_COUNT}+ Projects | Brickwise`,
   description: `Discover ${ALGORAND_TOTAL_COUNT}+ projects across the Algorand ecosystem — wallets, DEXs, DeFi, NFT marketplaces, infrastructure, and developer tooling. Curated and updated by Brickwise.`,
   keywords: [
     "Algorand ecosystem",
@@ -35,6 +35,11 @@ export const metadata: Metadata = {
     url: "https://brickwise.pro/algorand",
   },
   alternates: { canonical: "https://brickwise.pro/algorand" },
+  twitter: {
+    card: "summary_large_image",
+    title: `Algorand Ecosystem — ${ALGORAND_TOTAL_COUNT}+ Projects | Brickwise`,
+    description: `Curated directory of ${ALGORAND_TOTAL_COUNT}+ Algorand projects — wallets, DeFi, NFTs, infrastructure, and developer tooling.`,
+  },
 };
 
 const ecosystemSchema = {

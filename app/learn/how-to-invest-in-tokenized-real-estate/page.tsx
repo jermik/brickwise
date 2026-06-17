@@ -32,6 +32,12 @@ export const metadata: Metadata = {
     url: "https://brickwise.pro/learn/how-to-invest-in-tokenized-real-estate",
   },
   alternates: { canonical: "https://brickwise.pro/learn/how-to-invest-in-tokenized-real-estate" },
+  twitter: {
+    card: "summary_large_image",
+    title: "How to Invest in Tokenized Real Estate (2026) | Brickwise",
+    description:
+      "Step-by-step: platform selection, KYC, buying your first token, and scoring properties for yield. Start from $50.",
+  },
 };
 
 const count = PROPERTIES.length;
