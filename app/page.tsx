@@ -23,7 +23,7 @@ import {
 
 export const metadata: Metadata = {
   title: "Tokenized Real Estate Scored — Lofty & RealT | Brickwise",
-  description: `${PROPERTIES.length} tokenized properties scored for yield, risk and fair value on Lofty & RealT. Buy/hold/avoid signals updated daily.`,
+  description: `${PROPERTIES.length} tokenized properties independently scored for yield, risk, and fair value on Lofty & RealT. Buy/hold/avoid signals updated daily. Free, no signup.`,
   keywords: [
     "best tokenized real estate investment",
     "Lofty best properties",

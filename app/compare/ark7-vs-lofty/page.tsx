@@ -9,7 +9,7 @@ import { AffiliateCta } from "@/components/conversion/affiliate-cta";
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: "Ark7 vs Lofty (2026): Regulated Securities vs Tokenized Real Estate | Brickwise",
+  title: { absolute: "Ark7 vs Lofty (2026): Securities vs Tokens | Brickwise" },
   description:
     "Ark7 vs Lofty: monthly cashflow regulated securities ($20 min) versus daily USDC payouts on blockchain tokens ($50 min). Honest comparison of structure, liquidity, and best-fit investors.",
   keywords: [

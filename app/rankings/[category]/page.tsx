@@ -16,7 +16,7 @@ const CATEGORY_META: Record<
   { title: string; h1: string; description: string; tag: string; keywords: string[] }
 > = {
   "highest-yield": {
-    title: "Highest Yield Tokenized Real Estate Properties Right Now",
+    title: "Highest Yield Tokenized Real Estate | Brickwise",
     h1: "Highest Yield Tokenized Real Estate Properties",
     description: `Live rankings of the top-yield tokenized properties across RealT and Lofty. See which of ${PROPERTIES.length} properties offer the best net returns right now.`,
     tag: "Yield Rankings",
@@ -31,7 +31,7 @@ const CATEGORY_META: Record<
     ],
   },
   "buy-signals": {
-    title: "Active Buy Signals — Best Tokenized Real Estate to Buy Now",
+    title: "Best Tokenized Real Estate to Buy Now | Brickwise",
     h1: "Active Buy Signals: Best Tokenized Real Estate Right Now",
     description: `All properties currently rated Buy across RealT and Lofty — scored for yield, risk, fair value, and neighborhood quality. Updated from ${PROPERTIES.length} analyzed properties.`,
     tag: "Buy Signals",
@@ -46,7 +46,7 @@ const CATEGORY_META: Record<
     ],
   },
   undervalued: {
-    title: "Undervalued Tokenized Real Estate Properties — Below Fair Value",
+    title: "Undervalued Tokenized Real Estate | Brickwise",
     h1: "Undervalued Tokenized Real Estate Properties",
     description: `Properties where the current token price sits below our estimated fair value — potential upside on top of rental yield. Screened from ${PROPERTIES.length} tracked properties.`,
     tag: "Undervalued",
@@ -60,7 +60,7 @@ const CATEGORY_META: Record<
     ],
   },
   "new-listings": {
-    title: "New Tokenized Real Estate Listings — Latest Properties Added",
+    title: "New Tokenized Real Estate Listings | Brickwise",
     h1: "New Tokenized Real Estate Listings",
     description: `The latest properties added to Brickwise — scored, risk-rated, and flagged buy/hold/avoid from day one. Track new listings across RealT and Lofty.`,
     tag: "New Listings",
@@ -87,15 +87,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!meta) return {};
   const url = `https://brickwise.pro/rankings/${category}`;
   return {
-    title: `${meta.title} | Brickwise`,
+    title: { absolute: meta.title },
     description: meta.description,
     keywords: meta.keywords,
     openGraph: {
-      title: `${meta.title} | Brickwise`,
+      title: meta.title,
       description: meta.description,
       type: "website",
       url,
-      images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: meta.title }],
+      images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: meta.h1 }],
     },
     alternates: { canonical: url },
   };

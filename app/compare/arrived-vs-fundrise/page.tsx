@@ -8,7 +8,7 @@ import { AffiliateCta } from "@/components/conversion/affiliate-cta";
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: "Arrived vs Fundrise (2026): Single-Property vs eREIT Comparison | Brickwise",
+  title: { absolute: "Arrived vs Fundrise (2026): Comparison | Brickwise" },
   description:
     "Arrived vs Fundrise: pick individual rental properties ($100 minimum) or invest in diversified eREIT pools ($10 minimum). Honest editorial comparison covering minimums, liquidity, and best-fit investors.",
   keywords: [
