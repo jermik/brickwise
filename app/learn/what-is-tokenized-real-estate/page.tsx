@@ -40,6 +40,10 @@ const maxYield = +Math.max(...PROPERTIES.map((p) => p.expectedYield)).toFixed(1)
 const buyCount = PROPERTIES.filter((p) => {
   return p.overallScore >= 75;
 }).length;
+// Data-driven freshness: the guide's stats refresh with the underlying dataset.
+const LAST_UPDATED =
+  PROPERTIES.reduce((max, p) => (p.lastUpdated > max ? p.lastUpdated : max), "") ||
+  "2026-01-15";
 
 export default function WhatIsTokenizedRealEstatePage() {
   const articleSchema = {
@@ -50,6 +54,8 @@ export default function WhatIsTokenizedRealEstatePage() {
       "A beginner's guide to tokenized real estate , how blockchain tokens represent property ownership, how to invest from $50, expected yields, risks, and the top platforms.",
     "author": { "@type": "Organization", "name": "Brickwise", "url": "https://brickwise.pro" },
     "publisher": { "@type": "Organization", "name": "Brickwise", "url": "https://brickwise.pro" },
+    "datePublished": "2026-01-15",
+    "dateModified": LAST_UPDATED,
     "url": "https://brickwise.pro/learn/what-is-tokenized-real-estate",
   };
 

@@ -46,6 +46,10 @@ const avgScore =
   count > 0
     ? Math.round(realtProps.reduce((s, p) => s + p.overallScore, 0) / count)
     : 0;
+// Data-driven freshness: the review's stats refresh with the underlying dataset.
+const LAST_UPDATED =
+  PROPERTIES.reduce((max, p) => (p.lastUpdated > max ? p.lastUpdated : max), "") ||
+  "2026-01-15";
 
 export default function RealtReviewPage() {
   const articleSchema = {
@@ -56,6 +60,8 @@ export default function RealtReviewPage() {
       "In-depth review of RealT tokenized real estate platform based on live yield and fee data across hundreds of properties.",
     "author": { "@type": "Organization", "name": "Brickwise", "url": "https://brickwise.pro" },
     "publisher": { "@type": "Organization", "name": "Brickwise", "url": "https://brickwise.pro" },
+    "datePublished": "2026-01-15",
+    "dateModified": LAST_UPDATED,
     "url": "https://brickwise.pro/learn/realt-review",
   };
 

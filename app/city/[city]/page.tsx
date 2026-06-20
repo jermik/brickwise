@@ -21,7 +21,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const cityName = PROPERTIES.find((p) => slugify(p.city) === citySlug)?.city;
   if (!cityName) return {};
 
-  const cityProps = PROPERTIES.filter((p) => p.city === cityName);
+  // Filter by slug so name variants (e.g. "St. Louis" / "St Louis" / "Saint Louis")
+  // all aggregate onto the single canonical city page instead of undercounting.
+  const cityProps = PROPERTIES.filter((p) => slugify(p.city) === citySlug);
   const avgYield = +(cityProps.reduce((s, p) => s + p.expectedYield, 0) / cityProps.length).toFixed(1);
   const buyCount = cityProps.filter((p) => getRecommendation(p, PROPERTIES).action === "Buy").length;
   const platforms = [...new Set(cityProps.map((p) => p.platform))];
@@ -54,7 +56,9 @@ export default async function CityPage({ params }: Props) {
   const cityName = PROPERTIES.find((p) => slugify(p.city) === citySlug)?.city;
   if (!cityName) notFound();
 
-  const cityProps = PROPERTIES.filter((p) => p.city === cityName);
+  // Filter by slug so name variants (e.g. "St. Louis" / "St Louis" / "Saint Louis")
+  // all aggregate onto the single canonical city page instead of undercounting.
+  const cityProps = PROPERTIES.filter((p) => slugify(p.city) === citySlug);
   if (cityProps.length === 0) notFound();
 
   const sorted = [...cityProps].sort((a, b) => b.overallScore - a.overallScore);
@@ -132,7 +136,7 @@ export default async function CityPage({ params }: Props) {
         <nav className="flex items-center gap-1.5 mb-6 text-[11px]" aria-label="Breadcrumb">
           <Link href="/" className="no-underline hover:opacity-70 transition-opacity" style={{ color: "rgba(242,237,230,0.4)" }}>Home</Link>
           <span style={{ color: "rgba(242,237,230,0.2)" }}>/</span>
-          <span style={{ color: "rgba(242,237,230,0.4)" }}>Cities</span>
+          <Link href="/city" className="no-underline hover:opacity-70 transition-opacity" style={{ color: "rgba(242,237,230,0.4)" }}>Cities</Link>
           <span style={{ color: "rgba(242,237,230,0.2)" }}>/</span>
           <span style={{ color: "rgba(242,237,230,0.7)" }}>{cityName}</span>
         </nav>
