@@ -7,9 +7,9 @@ import { FireEvent } from "@/components/analytics/page-view-tracker";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "What Is Tokenized Real Estate? Complete Guide (2026) | Brickwise",
+  title: "What Is Tokenized Real Estate? Guide (2026) | Brickwise",
   description:
-    "Tokenized real estate converts property ownership into blockchain tokens, letting investors buy fractional shares from $50. Learn how it works, typical yields (8–14%), risks, and how to get started.",
+    "Tokenized real estate converts property to blockchain tokens — buy fractional shares from $50. How it works, yields (8–14%), risks, and how to get started.",
   keywords: [
     "what is tokenized real estate",
     "how does real estate tokenization work",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "What Is Tokenized Real Estate? Complete Beginner's Guide (2026) | Brickwise",
     description:
-      "Everything you need to know about tokenized real estate , how it works, who the platforms are, what yields to expect, and whether it's right for you.",
+      "Everything you need to know about tokenized real estate: how it works, who the platforms are, what yields to expect, and whether it's right for you.",
     type: "article",
     url: "https://brickwise.pro/learn/what-is-tokenized-real-estate",
   },
@@ -47,7 +47,7 @@ export default function WhatIsTokenizedRealEstatePage() {
     "@type": "Article",
     "headline": "What Is Tokenized Real Estate? Complete Guide (2026)",
     "description":
-      "A beginner's guide to tokenized real estate , how blockchain tokens represent property ownership, how to invest from $50, expected yields, risks, and the top platforms.",
+      "A beginner's guide to tokenized real estate: how blockchain tokens represent property ownership, how to invest from $50, expected yields, risks, and the top platforms.",
     "author": { "@type": "Organization", "name": "Brickwise", "url": "https://brickwise.pro" },
     "publisher": { "@type": "Organization", "name": "Brickwise", "url": "https://brickwise.pro" },
     "url": "https://brickwise.pro/learn/what-is-tokenized-real-estate",
