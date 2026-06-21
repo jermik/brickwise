@@ -7,9 +7,9 @@ import { FireEvent } from "@/components/analytics/page-view-tracker";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Lofty Review 2026: Yield, Fees, Risks & How It Works | Brickwise",
+  title: "Lofty Review 2026: Yield, Fees & How It Works | Brickwise",
   description:
-    "Honest Lofty review: $50 minimum, daily USDC payouts, Algorand-based tokens. We analyze real yields, fees, liquidity, and who it's best for. Data from 100+ properties.",
+    "Honest Lofty review: $50 minimum, daily USDC payouts, Algorand-based tokens. Yields, fees, liquidity, and who it's best for. Data from 100+ properties.",
   keywords: [
     "lofty review",
     "lofty.ai review",
