@@ -5,6 +5,7 @@
 ## Done
 | Date              | Skill             | Artifact / Notes |
 |-------------------|-------------------|------------------|
+| 2026-05-29        | seo-routine       | DAILY MONITOR — 26 pages audited, 16 issues found (1 critical: analyzer SSR, 1 high: methodology sitemap gap). Report at `.agents/seo-reports/2026-05-29-monitor.md`. PR: https://github.com/jermik/brickwise/pull/17 |
 | pre-2026-05-12    | lead-magnets      | marketing-plans/brickwise-lead-magnet.md |
 | pre-2026-05-12    | seo-audit         | marketing-plans/brickwise-audit-v2.md |
 | pre-2026-05-12    | launch-strategy   | marketing-plans/brickwise-launch-strategy.md |
