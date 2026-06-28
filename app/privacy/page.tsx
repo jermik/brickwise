@@ -6,6 +6,13 @@ export const metadata: Metadata = {
   description:
     "How Brickwise handles your data. We don't sell personal data. Cookies are used for sign-in and product analytics only.",
   alternates: { canonical: "https://brickwise.pro/privacy" },
+  openGraph: {
+    title: "Privacy Policy — Brickwise",
+    description:
+      "How Brickwise handles your data. We don't sell personal data. Cookies are used for sign-in and product analytics only.",
+    type: "website",
+    url: "https://brickwise.pro/privacy",
+  },
 };
 
 const LAST_UPDATED = "2026-05-11";
