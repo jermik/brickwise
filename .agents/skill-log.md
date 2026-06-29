@@ -5,7 +5,7 @@
 ## Done
 | Date              | Skill             | Artifact / Notes |
 |-------------------|-------------------|------------------|
-| 2026-06-29        | seo-routine       | DAILY MONITOR — 28 routes audited, 31 issues found (1 critical, 27 high, 2 medium, 1 low). See .agents/seo-reports/2026-06-29-monitor.md. PR pending. |
+| 2026-06-29        | seo-routine       | DAILY MONITOR — 28 routes audited, 31 issues found (1 critical, 27 high, 2 medium, 1 low). PR: https://github.com/jermik/brickwise/pull/47 |
 | pre-2026-05-12    | lead-magnets      | marketing-plans/brickwise-lead-magnet.md |
 | pre-2026-05-12    | seo-audit         | marketing-plans/brickwise-audit-v2.md |
 | pre-2026-05-12    | launch-strategy   | marketing-plans/brickwise-launch-strategy.md |
