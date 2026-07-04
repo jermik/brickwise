@@ -5,6 +5,7 @@
 ## Done
 | Date              | Skill             | Artifact / Notes |
 |-------------------|-------------------|------------------|
+| 2026-07-04        | seo-routine       | DAILY MONITOR — baseline run. 15 issues found (double-branding titles, missing OG images, typo). PR pending. |
 | pre-2026-05-12    | lead-magnets      | marketing-plans/brickwise-lead-magnet.md |
 | pre-2026-05-12    | seo-audit         | marketing-plans/brickwise-audit-v2.md |
 | pre-2026-05-12    | launch-strategy   | marketing-plans/brickwise-launch-strategy.md |
