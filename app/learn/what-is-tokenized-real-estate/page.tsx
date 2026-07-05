@@ -7,9 +7,9 @@ import { FireEvent } from "@/components/analytics/page-view-tracker";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "What Is Tokenized Real Estate? Complete Guide (2026) | Brickwise",
+  title: "What Is Tokenized Real Estate? Guide 2026 | Brickwise",
   description:
-    "Tokenized real estate converts property ownership into blockchain tokens, letting investors buy fractional shares from $50. Learn how it works, typical yields (8–14%), risks, and how to get started.",
+    "Tokenized real estate lets investors buy fractional property shares from $50. Learn how it works, typical yields (8-14%), risks, and how to get started.",
   keywords: [
     "what is tokenized real estate",
     "how does real estate tokenization work",
