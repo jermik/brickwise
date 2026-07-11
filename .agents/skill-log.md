@@ -12,6 +12,7 @@
 | pre-2026-05-12    | programmatic-seo  | marketing-plans/brickwise-pseo-audit.md |
 | pre-2026-05-12    | social-content    | marketing-plans/brickwise-social-content.md |
 | 2026-05-13        | schedule          | 3 daily SEO routines created (Brickwise/SEO Terrain/FactuurDirect). Specs in `.agents/seo-routines/`. Pending GH App install. |
+| 2026-07-11        | seo-routine       | done | DAILY MONITOR — 27 pages audited; 15 title-too-long, 9 desc-too-long, 1 desc-too-short; FallbackImg CLS needs human. PR pending. |
 
 ## In Progress
 | Started    | Skill | Owner | Next step |
