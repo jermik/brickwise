@@ -54,7 +54,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const buyCount = props.filter((p) => getRecommendation(p, PROPERTIES).action === "Buy").length;
 
   return {
-    title: `${platformName} Properties — ${props.length} Tokenized Real Estate Investments | Brickwise`,
+    title: { absolute: `${platformName}: ${props.length} Tokenized Real Estate Properties | Brickwise` },
     description: `${props.length} ${platformName} tokenized real estate properties analyzed. Average net yield ${avgYield}%. ${buyCount} active Buy signals. Ranked by score, risk-rated, fair-value flagged.`,
     keywords: [
       `${platformName.toLowerCase()} properties`,

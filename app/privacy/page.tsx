@@ -4,7 +4,7 @@ import { PublicShell } from "@/components/layout/public-shell";
 export const metadata: Metadata = {
   title: { absolute: "Privacy Policy — Brickwise" },
   description:
-    "How Brickwise handles your data. We don't sell personal data. Cookies are used for sign-in and product analytics only.",
+    "How Brickwise handles your data. We don't sell personal data. Cookies are used for sign-in and analytics only. No third-party ad tracking.",
   alternates: { canonical: "https://brickwise.pro/privacy" },
 };
 
