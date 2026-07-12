@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title = `${project.name} — ${project.category} on Algorand | Brickwise`;
   return {
-    title,
+    title: { absolute: title },
     description: project.shortDescription,
     keywords: [
       project.name,
