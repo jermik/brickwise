@@ -49,7 +49,7 @@ export async function generateMetadata({
   });
 
   return {
-    title: `${u.title} | Brickwise`,
+    title: { absolute: `${u.title} | Brickwise` },
     description:
       u.highlights.join(". ") +
       ". Tokenized real estate investment analysis on Lofty and RealT.",
