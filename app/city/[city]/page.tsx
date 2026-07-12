@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const platforms = [...new Set(cityProps.map((p) => p.platform))];
 
   return {
-    title: `${cityName} Tokenized Real Estate — ${cityProps.length} Properties Ranked by Yield | Brickwise`,
+    title: { absolute: `${cityName}: ${cityProps.length} Tokenized Properties Ranked | Brickwise` },
     description: `${cityProps.length} tokenized real estate properties in ${cityName} across ${platforms.join(" and ")}. Average yield ${avgYield}%. ${buyCount} active buy signals. Ranked by score, risk-rated, and fair-value flagged.`,
     keywords: [
       `tokenized real estate ${cityName.toLowerCase()}`,
