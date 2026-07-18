@@ -12,6 +12,7 @@
 | pre-2026-05-12    | programmatic-seo  | marketing-plans/brickwise-pseo-audit.md |
 | pre-2026-05-12    | social-content    | marketing-plans/brickwise-social-content.md |
 | 2026-05-13        | schedule          | 3 daily SEO routines created (Brickwise/SEO Terrain/FactuurDirect). Specs in `.agents/seo-routines/`. Pending GH App install. |
+| 2026-07-18        | seo-routine       | DAILY MONITOR — 28 issues (17 double-Brickwise title bugs + 10 desc >160 chars + 1 CLS). PR: https://github.com/jermik/brickwise/pull/65 |
 
 ## In Progress
 | Started    | Skill | Owner | Next step |
