@@ -29,7 +29,9 @@ export const metadata: Metadata = {
       "Lofty, Fundrise, Arrived, Ark7, RealT compared. App experience, minimums, distribution frequency, regulatory model, and who each app is best for.",
     type: "article",
     url: "https://brickwise.pro/compare/best-real-estate-investing-apps",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Best real estate investing apps ranked" }],
   },
+  twitter: { card: "summary_large_image" },
   alternates: { canonical: "https://brickwise.pro/compare/best-real-estate-investing-apps" },
 };
 

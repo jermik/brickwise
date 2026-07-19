@@ -30,7 +30,9 @@ export const metadata: Metadata = {
       "Everything you need to know before investing on Lofty — yields, liquidity, fees, risks, and how it compares to RealT. Data-backed, no fluff.",
     type: "article",
     url: "https://brickwise.pro/learn/lofty-review",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Lofty review — yields, fees and risks" }],
   },
+  twitter: { card: "summary_large_image" },
   alternates: { canonical: "https://brickwise.pro/learn/lofty-review" },
 };
 

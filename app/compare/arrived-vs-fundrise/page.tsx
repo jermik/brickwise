@@ -27,7 +27,9 @@ export const metadata: Metadata = {
       "Single-property exposure (Arrived) vs diversified fund shares (Fundrise). Minimums, liquidity, and best-fit investors compared.",
     type: "article",
     url: "https://brickwise.pro/compare/arrived-vs-fundrise",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Arrived vs Fundrise comparison" }],
   },
+  twitter: { card: "summary_large_image" },
   alternates: { canonical: "https://brickwise.pro/compare/arrived-vs-fundrise" },
 };
 

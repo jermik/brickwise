@@ -27,7 +27,9 @@ export const metadata: Metadata = {
       "Tokenized daily-payout (Lofty) vs traditional quarterly fund (Arrived). Minimums, liquidity, distribution frequency, and best-fit investor profiles.",
     type: "article",
     url: "https://brickwise.pro/compare/lofty-vs-arrived",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Lofty vs Arrived fractional real estate comparison" }],
   },
+  twitter: { card: "summary_large_image" },
   alternates: { canonical: "https://brickwise.pro/compare/lofty-vs-arrived" },
 };
 

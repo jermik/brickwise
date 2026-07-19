@@ -38,6 +38,7 @@ export const metadata: Metadata = {
     publishedTime: "2026-02-01",
     modifiedTime: new Date().toISOString().slice(0, 10),
   },
+  twitter: { card: "summary_large_image" },
   alternates: { canonical: "https://brickwise.pro/compare/realt-vs-lofty" },
 };
 

@@ -26,12 +26,14 @@ export const metadata: Metadata = {
     "how does lofty work",
   ],
   openGraph: {
-    title: "What Is Tokenized Real Estate? Complete Beginner's Guide (2026) | Brickwise",
+    title: "What Is Tokenized Real Estate? Complete Beginner's Guide | Brickwise",
     description:
-      "Everything you need to know about tokenized real estate , how it works, who the platforms are, what yields to expect, and whether it's right for you.",
+      "Everything you need to know about tokenized real estate: how it works, which platforms, what yields to expect, and whether it's right for you.",
     type: "article",
     url: "https://brickwise.pro/learn/what-is-tokenized-real-estate",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "What is tokenized real estate guide" }],
   },
+  twitter: { card: "summary_large_image" },
   alternates: { canonical: "https://brickwise.pro/learn/what-is-tokenized-real-estate" },
 };
 

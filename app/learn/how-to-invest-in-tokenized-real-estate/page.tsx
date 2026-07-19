@@ -30,7 +30,9 @@ export const metadata: Metadata = {
       "Step-by-step guide to buying your first tokenized real estate token — platform selection, KYC, funding, and property analysis.",
     type: "article",
     url: "https://brickwise.pro/learn/how-to-invest-in-tokenized-real-estate",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "How to invest in tokenized real estate — step-by-step guide" }],
   },
+  twitter: { card: "summary_large_image" },
   alternates: { canonical: "https://brickwise.pro/learn/how-to-invest-in-tokenized-real-estate" },
 };
 

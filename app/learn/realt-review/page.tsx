@@ -30,7 +30,9 @@ export const metadata: Metadata = {
       "Data-driven RealT review covering actual net yields, fee structure, vacancy trends, and an honest verdict on who should invest.",
     type: "article",
     url: "https://brickwise.pro/learn/realt-review",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "RealT review — yields, fees and risks" }],
   },
+  twitter: { card: "summary_large_image" },
   alternates: { canonical: "https://brickwise.pro/learn/realt-review" },
 };
 

@@ -25,6 +25,7 @@ export const metadata: Metadata = {
     url: "https://brickwise.pro/market",
     images: [{ url: "/market/opengraph-image", width: 1200, height: 630, alt: "Brickwise tokenized real estate market overview" }],
   },
+  twitter: { card: "summary_large_image" },
   alternates: { canonical: "https://brickwise.pro/market" },
 };
 
