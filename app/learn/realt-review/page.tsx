@@ -9,9 +9,9 @@ import { EmailCaptureWidget } from "@/components/conversion/email-capture-widget
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "RealT Review 2026: Yields, Fees, Risks & Is It Worth It? | Brickwise",
+  title: "RealT Review 2026: Yields, Fees & Worth It? | Brickwise",
   description:
-    "In-depth RealT review based on live data from hundreds of tokenized properties. We analyze actual yields, management fees, vacancy rates, and how RealT compares to Lofty.",
+    "In-depth RealT review: actual yields, management fees, vacancy rates, and how RealT compares to Lofty. Based on live data from hundreds of properties.",
   keywords: [
     "RealT review 2026",
     "is RealT legit",
