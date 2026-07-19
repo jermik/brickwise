@@ -7,9 +7,9 @@ import { EmailCaptureWidget } from "@/components/conversion/email-capture-widget
 export const revalidate = 86400; // editorial comparison — refresh daily
 
 export const metadata: Metadata = {
-  title: "Best Fractional Real Estate Platforms (2026): Honest Comparison | Brickwise",
+  title: "Best Fractional Real Estate Platforms (2026) | Brickwise",
   description:
-    "Independent editorial comparison of the leading fractional real estate platforms — Lofty, RealT, Fundrise, Arrived, and Ark7. Minimums, liquidity, distribution frequency, and who each is best for.",
+    "Independent comparison of 5 fractional real estate platforms — Lofty, RealT, Fundrise, Arrived, and Ark7. Minimums, liquidity, and who each is best for.",
   keywords: [
     "best fractional real estate platforms",
     "best tokenized real estate platforms",
@@ -27,7 +27,9 @@ export const metadata: Metadata = {
       "Lofty, RealT, Fundrise, Arrived, and Ark7 compared. Minimums, liquidity, structure, and who each platform is best for.",
     type: "article",
     url: "https://brickwise.pro/compare/best-fractional-real-estate-platforms",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Best fractional real estate platforms comparison" }],
   },
+  twitter: { card: "summary_large_image" },
   alternates: { canonical: "https://brickwise.pro/compare/best-fractional-real-estate-platforms" },
 };
 

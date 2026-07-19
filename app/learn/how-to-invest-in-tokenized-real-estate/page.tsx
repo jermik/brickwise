@@ -9,9 +9,9 @@ import { EmailCaptureWidget } from "@/components/conversion/email-capture-widget
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "How to Invest in Tokenized Real Estate: Step-by-Step Guide (2026) | Brickwise",
+  title: "How to Invest in Tokenized Real Estate (2026) | Brickwise",
   description:
-    "Complete beginner's guide to investing in tokenized real estate. Learn how to choose a platform, complete KYC, buy your first token, and start earning daily rental income from $50.",
+    "Complete beginner's guide to tokenized real estate. Choose a platform, complete KYC, buy your first token, and earn daily rental income from $50.",
   keywords: [
     "how to invest in tokenized real estate",
     "tokenized real estate for beginners",
@@ -30,7 +30,9 @@ export const metadata: Metadata = {
       "Step-by-step guide to buying your first tokenized real estate token — platform selection, KYC, funding, and property analysis.",
     type: "article",
     url: "https://brickwise.pro/learn/how-to-invest-in-tokenized-real-estate",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "How to invest in tokenized real estate — step-by-step guide" }],
   },
+  twitter: { card: "summary_large_image" },
   alternates: { canonical: "https://brickwise.pro/learn/how-to-invest-in-tokenized-real-estate" },
 };
 

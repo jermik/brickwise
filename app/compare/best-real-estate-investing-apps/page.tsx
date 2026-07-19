@@ -8,9 +8,9 @@ import { AffiliateCta } from "@/components/conversion/affiliate-cta";
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: "Best Real Estate Investing Apps (2026): Honest Editorial Ranking | Brickwise",
+  title: "Best Real Estate Investing Apps (2026) | Brickwise",
   description:
-    "The best real estate investing apps for 2026 — Lofty, Fundrise, Arrived, Ark7, RealT — compared on minimum, distribution frequency, mobile experience, and best-fit investor.",
+    "Best real estate investing apps for 2026: Lofty, Fundrise, Arrived, Ark7, RealT compared on minimum, distribution frequency, and best-fit investor.",
   keywords: [
     "best real estate investing apps",
     "real estate investing app",
@@ -29,7 +29,9 @@ export const metadata: Metadata = {
       "Lofty, Fundrise, Arrived, Ark7, RealT compared. App experience, minimums, distribution frequency, regulatory model, and who each app is best for.",
     type: "article",
     url: "https://brickwise.pro/compare/best-real-estate-investing-apps",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Best real estate investing apps ranked" }],
   },
+  twitter: { card: "summary_large_image" },
   alternates: { canonical: "https://brickwise.pro/compare/best-real-estate-investing-apps" },
 };
 

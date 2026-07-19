@@ -8,9 +8,9 @@ import { EmailCaptureWidget } from "@/components/conversion/email-capture-widget
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: "Lofty vs Arrived (2026): Token vs Traditional Rental Comparison | Brickwise",
+  title: "Lofty vs Arrived: Tokenized vs Fractional Rental | Brickwise",
   description:
-    "Lofty vs Arrived: tokenized real estate ($50 minimum, daily USDC payouts) versus traditional fractional rentals ($100 minimum, quarterly distributions). Honest editorial comparison.",
+    "Lofty vs Arrived: tokenized $50 minimum with daily USDC payouts versus $100 minimum quarterly distributions. Which fractional rental platform wins?",
   keywords: [
     "lofty vs arrived",
     "arrived vs lofty",
@@ -27,7 +27,9 @@ export const metadata: Metadata = {
       "Tokenized daily-payout (Lofty) vs traditional quarterly fund (Arrived). Minimums, liquidity, distribution frequency, and best-fit investor profiles.",
     type: "article",
     url: "https://brickwise.pro/compare/lofty-vs-arrived",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Lofty vs Arrived fractional real estate comparison" }],
   },
+  twitter: { card: "summary_large_image" },
   alternates: { canonical: "https://brickwise.pro/compare/lofty-vs-arrived" },
 };
 

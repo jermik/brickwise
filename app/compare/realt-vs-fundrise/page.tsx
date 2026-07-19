@@ -8,9 +8,9 @@ import { EmailCaptureWidget } from "@/components/conversion/email-capture-widget
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: "RealT vs Fundrise (2026): Tokenized Properties vs eREIT Pools | Brickwise",
+  title: "RealT vs Fundrise: Tokenized Property vs eREIT | Brickwise",
   description:
-    "RealT vs Fundrise: tokenized direct ownership of single properties versus diversified eREIT fund shares. Editorial comparison of structure, minimums, liquidity, and best-fit investors.",
+    "RealT vs Fundrise: tokenized property ownership versus eREIT fund shares. Comparison of structure, minimums, liquidity, and best-fit investors.",
   keywords: [
     "realt vs fundrise",
     "fundrise vs realt",
@@ -27,7 +27,9 @@ export const metadata: Metadata = {
       "Direct tokenized property ownership (RealT) vs diversified fund shares (Fundrise). Structure, liquidity, distributions, and who each wins for.",
     type: "article",
     url: "https://brickwise.pro/compare/realt-vs-fundrise",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "RealT vs Fundrise comparison" }],
   },
+  twitter: { card: "summary_large_image" },
   alternates: { canonical: "https://brickwise.pro/compare/realt-vs-fundrise" },
 };
 

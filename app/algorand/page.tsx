@@ -14,7 +14,7 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: `Algorand Ecosystem (${ALGORAND_TOTAL_COUNT}+ Projects) — DeFi, NFTs, Wallets, RWA | Brickwise`,
-  description: `Discover ${ALGORAND_TOTAL_COUNT}+ projects across the Algorand ecosystem — wallets, DEXs, DeFi, NFT marketplaces, infrastructure, and developer tooling. Curated and updated by Brickwise.`,
+  description: `Discover ${ALGORAND_TOTAL_COUNT}+ Algorand projects — wallets, DEXs, DeFi, NFT marketplaces, infrastructure, and developer tooling. Curated by Brickwise.`,
   keywords: [
     "Algorand ecosystem",
     "Algorand projects",

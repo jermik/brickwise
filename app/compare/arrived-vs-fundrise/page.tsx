@@ -8,9 +8,9 @@ import { AffiliateCta } from "@/components/conversion/affiliate-cta";
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: "Arrived vs Fundrise (2026): Single-Property vs eREIT Comparison | Brickwise",
+  title: "Arrived vs Fundrise: Single Property vs eREIT | Brickwise",
   description:
-    "Arrived vs Fundrise: pick individual rental properties ($100 minimum) or invest in diversified eREIT pools ($10 minimum). Honest editorial comparison covering minimums, liquidity, and best-fit investors.",
+    "Arrived vs Fundrise: individual rentals ($100 min) versus diversified eREIT pools ($10 min). Minimums, liquidity, and best-fit investors compared.",
   keywords: [
     "arrived vs fundrise",
     "fundrise vs arrived",
@@ -27,7 +27,9 @@ export const metadata: Metadata = {
       "Single-property exposure (Arrived) vs diversified fund shares (Fundrise). Minimums, liquidity, and best-fit investors compared.",
     type: "article",
     url: "https://brickwise.pro/compare/arrived-vs-fundrise",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Arrived vs Fundrise comparison" }],
   },
+  twitter: { card: "summary_large_image" },
   alternates: { canonical: "https://brickwise.pro/compare/arrived-vs-fundrise" },
 };
 

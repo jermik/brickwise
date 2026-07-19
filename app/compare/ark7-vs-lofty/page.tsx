@@ -9,9 +9,9 @@ import { AffiliateCta } from "@/components/conversion/affiliate-cta";
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: "Ark7 vs Lofty (2026): Regulated Securities vs Tokenized Real Estate | Brickwise",
+  title: "Ark7 vs Lofty: Regulated Securities vs Tokens | Brickwise",
   description:
-    "Ark7 vs Lofty: monthly cashflow regulated securities ($20 min) versus daily USDC payouts on blockchain tokens ($50 min). Honest comparison of structure, liquidity, and best-fit investors.",
+    "Ark7 vs Lofty: monthly regulated securities ($20 min) versus daily USDC blockchain tokens ($50 min). Structure, liquidity, and best-fit investors compared.",
   keywords: [
     "ark7 vs lofty",
     "lofty vs ark7",
@@ -28,7 +28,9 @@ export const metadata: Metadata = {
       "Ark7's monthly distributions and regulated single-property shares vs Lofty's daily USDC payouts and blockchain tokens. Side-by-side editorial comparison.",
     type: "article",
     url: "https://brickwise.pro/compare/ark7-vs-lofty",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Ark7 vs Lofty comparison" }],
   },
+  twitter: { card: "summary_large_image" },
   alternates: { canonical: "https://brickwise.pro/compare/ark7-vs-lofty" },
 };
 
