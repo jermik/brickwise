@@ -7,7 +7,7 @@ import { FireEvent } from "@/components/analytics/page-view-tracker";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "What Is Tokenized Real Estate? Complete Guide (2026) | Brickwise",
+  title: "What Is Tokenized Real Estate? Complete Guide | Brickwise",
   description:
     "Tokenized real estate converts property ownership into blockchain tokens, letting investors buy fractional shares from $50. Learn how it works, typical yields (8–14%), risks, and how to get started.",
   keywords: [
@@ -28,9 +28,15 @@ export const metadata: Metadata = {
   openGraph: {
     title: "What Is Tokenized Real Estate? Complete Beginner's Guide (2026) | Brickwise",
     description:
-      "Everything you need to know about tokenized real estate , how it works, who the platforms are, what yields to expect, and whether it's right for you.",
+      "Everything you need to know about tokenized real estate — how it works, who the platforms are, what yields to expect, and whether it's right for you.",
     type: "article",
     url: "https://brickwise.pro/learn/what-is-tokenized-real-estate",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "What Is Tokenized Real Estate? Complete Guide | Brickwise",
+    description:
+      "Tokenized real estate converts property ownership into blockchain tokens, letting investors buy fractional shares from $50. Learn how it works, typical yields, risks, and how to get started.",
   },
   alternates: { canonical: "https://brickwise.pro/learn/what-is-tokenized-real-estate" },
 };

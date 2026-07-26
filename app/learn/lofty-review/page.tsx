@@ -7,7 +7,7 @@ import { FireEvent } from "@/components/analytics/page-view-tracker";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Lofty Review 2026: Yield, Fees, Risks & How It Works | Brickwise",
+  title: "Lofty Review 2026: Yield, Fees & Risks | Brickwise",
   description:
     "Honest Lofty review: $50 minimum, daily USDC payouts, Algorand-based tokens. We analyze real yields, fees, liquidity, and who it's best for. Data from 100+ properties.",
   keywords: [
@@ -30,6 +30,12 @@ export const metadata: Metadata = {
       "Everything you need to know before investing on Lofty — yields, liquidity, fees, risks, and how it compares to RealT. Data-backed, no fluff.",
     type: "article",
     url: "https://brickwise.pro/learn/lofty-review",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Lofty Review 2026: Yield, Fees & Risks | Brickwise",
+    description:
+      "Honest Lofty review: $50 minimum, daily USDC payouts, Algorand-based tokens. We analyze real yields, fees, liquidity, and who it's best for. Data from 100+ properties.",
   },
   alternates: { canonical: "https://brickwise.pro/learn/lofty-review" },
 };

@@ -38,6 +38,12 @@ export const metadata: Metadata = {
     publishedTime: "2026-02-01",
     modifiedTime: new Date().toISOString().slice(0, 10),
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "RealT vs Lofty (2026): Tokenized Real Estate Compared | Brickwise",
+    description:
+      "Independent RealT vs Lofty comparison: yields, fees, liquidity, city coverage. Verdict based on live property data.",
+  },
   alternates: { canonical: "https://brickwise.pro/compare/realt-vs-lofty" },
 };
 

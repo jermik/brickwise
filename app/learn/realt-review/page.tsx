@@ -9,7 +9,7 @@ import { EmailCaptureWidget } from "@/components/conversion/email-capture-widget
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "RealT Review 2026: Yields, Fees, Risks & Is It Worth It? | Brickwise",
+  title: "RealT Review 2026: Yields, Fees & Risks | Brickwise",
   description:
     "In-depth RealT review based on live data from hundreds of tokenized properties. We analyze actual yields, management fees, vacancy rates, and how RealT compares to Lofty.",
   keywords: [
@@ -30,6 +30,12 @@ export const metadata: Metadata = {
       "Data-driven RealT review covering actual net yields, fee structure, vacancy trends, and an honest verdict on who should invest.",
     type: "article",
     url: "https://brickwise.pro/learn/realt-review",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "RealT Review 2026: Yields, Fees & Risks | Brickwise",
+    description:
+      "In-depth RealT review based on live data from hundreds of tokenized properties. We analyze actual yields, management fees, vacancy rates, and how RealT compares to Lofty.",
   },
   alternates: { canonical: "https://brickwise.pro/learn/realt-review" },
 };
