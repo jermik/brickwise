@@ -5,7 +5,7 @@
 ## Done
 | Date              | Skill             | Artifact / Notes |
 |-------------------|-------------------|------------------|
-| 2026-07-31        | seo-routine       | DAILY MONITOR — 28 pages audited (static analysis, live site unreachable). 24 findings: 1 P0 (analyzer missing all metadata), 11 P1 title overflows, 10 P1 desc overflows, 2 P2, 2 P3. Report: .agents/seo-reports/2026-07-31-monitor.md. PR pending push. |
+| 2026-07-31        | seo-routine       | DAILY MONITOR — 28 pages audited (static analysis, live site unreachable). 24 findings: 1 P0 (analyzer missing all metadata), 11 P1 title overflows, 10 P1 desc overflows, 2 P2, 2 P3. Report: .agents/seo-reports/2026-07-31-monitor.md — https://github.com/jermik/brickwise/pull/78 |
 | pre-2026-05-12    | lead-magnets      | marketing-plans/brickwise-lead-magnet.md |
 | pre-2026-05-12    | seo-audit         | marketing-plans/brickwise-audit-v2.md |
 | pre-2026-05-12    | launch-strategy   | marketing-plans/brickwise-launch-strategy.md |
