@@ -12,6 +12,7 @@
 | pre-2026-05-12    | programmatic-seo  | marketing-plans/brickwise-pseo-audit.md |
 | pre-2026-05-12    | social-content    | marketing-plans/brickwise-social-content.md |
 | 2026-05-13        | schedule          | 3 daily SEO routines created (Brickwise/SEO Terrain/FactuurDirect). Specs in `.agents/seo-routines/`. Pending GH App install. |
+| 2026-08-07        | seo-routine       | DAILY MONITOR — 28 PublicShell routes audited (source-code). 1 HIGH (466 property page descriptions ~86 chars, min 120), 1 MEDIUM (methodology missing from sitemap), 10+ title/description length findings. PR pending. |
 
 ## In Progress
 | Started    | Skill | Owner | Next step |
