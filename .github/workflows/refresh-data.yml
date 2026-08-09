@@ -37,12 +37,9 @@ jobs:
       - name: Refresh property prices and yields
         run: node scripts/refresh-data.mjs
 
-      - name: Generate SEO content
-        continue-on-error: true
-        env:
-          KIE_AI_API_KEY: ${{ secrets.KIE_AI_API_KEY }}
-          KIE_AI_DEFAULT_MODEL: ${{ secrets.KIE_AI_DEFAULT_MODEL }}
-        run: node scripts/generate-seo-content.mjs
+      # SEO content generation removed 2026-08-09: project is frozen, the daily
+      # SEO push produced no traffic and burned AI credits. Data refresh stays
+      # so property scores remain accurate. Re-add the step to unfreeze.
 
       - name: Commit updated data
         run: |
