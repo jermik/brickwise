@@ -1,0 +1,9 @@
+﻿---
+description: Cursor MCP en marketplace-plugins voor dit project
+alwaysApply: true
+---
+
+# Project tooling
+
+Lees .cursor/PLUGINS.md voor welke MCP-servers en marketplace-plugins bij **brickwise** horen.
+Gebruik geen Vercel/Supabase/Figma-tools als dit project die stack niet heeft.

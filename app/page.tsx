@@ -52,6 +52,9 @@ export const metadata: Metadata = {
   },
 };
 
+const slugify = (city: string) =>
+  city.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
 const bestPick = getBestPick(PROPERTIES);
 const mistakes = getAvoidMistakes(HOLDINGS, PROPERTIES);
 const missedInsights = getMissedInsights(HOLDINGS, PROPERTIES);
@@ -849,10 +852,24 @@ export default function DecisionPage() {
             className="rounded-[10px] p-4"
             style={{ background: "#131109", border: "1px solid #2A2420" }}
           >
-            <div className="text-[12px] font-bold mb-3" style={{ color: "#F2EDE6" }}>By city</div>
+            <div className="flex items-center justify-between mb-3">
+              <div className="text-[12px] font-bold" style={{ color: "#F2EDE6" }}>By city</div>
+              <Link
+                href="/city"
+                className="text-[11px] font-medium no-underline transition-opacity hover:opacity-70"
+                style={{ color: "rgba(242,237,230,0.5)" }}
+              >
+                View all →
+              </Link>
+            </div>
             <div className="space-y-2">
               {byCityEntries.map(([city, count]) => (
-                <div key={city} className="flex items-center gap-2">
+                <Link
+                  key={city}
+                  href={`/city/${slugify(city)}`}
+                  className="flex items-center gap-2 no-underline transition-opacity hover:opacity-70"
+                  title={`${count} tokenized properties in ${city}`}
+                >
                   <div className="flex-1 min-w-0">
                     <div className="text-[11px] font-medium truncate" style={{ color: "rgba(242,237,230,0.7)" }}>{city}</div>
                   </div>
@@ -871,7 +888,7 @@ export default function DecisionPage() {
                     </div>
                     <span className="text-[11px] font-medium w-4 text-right" style={{ color: "rgba(242,237,230,0.45)" }}>{count}</span>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

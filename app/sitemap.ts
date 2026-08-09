@@ -18,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: base, lastModified: new Date(), changeFrequency: "daily", priority: 1 },
     { url: `${base}/analyzer`, lastModified: new Date(), changeFrequency: "daily", priority: 0.9 },
+    { url: `${base}/city`, lastModified: new Date(), changeFrequency: "daily", priority: 0.85 },
     { url: `${base}/compare/realt-vs-lofty`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
     { url: `${base}/compare/best-fractional-real-estate-platforms`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.85 },
     { url: `${base}/compare/lofty-vs-arrived`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },

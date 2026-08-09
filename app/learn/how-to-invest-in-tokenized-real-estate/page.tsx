@@ -38,6 +38,10 @@ const count = PROPERTIES.length;
 const avgYield =
   Math.round((PROPERTIES.reduce((s, p) => s + p.expectedYield, 0) / count) * 10) / 10;
 const buyCount = PROPERTIES.filter((p) => p.overallScore >= 75).length;
+// Data-driven freshness: the guide's stats refresh with the underlying dataset.
+const LAST_UPDATED =
+  PROPERTIES.reduce((max, p) => (p.lastUpdated > max ? p.lastUpdated : max), "") ||
+  "2026-01-15";
 
 const steps = [
   {
@@ -91,6 +95,8 @@ export default function HowToInvestPage() {
       "Complete beginner's guide to investing in tokenized real estate — platform selection, KYC, funding, buying tokens, and earning rental income.",
     "author": { "@type": "Organization", "name": "Brickwise", "url": "https://brickwise.pro" },
     "publisher": { "@type": "Organization", "name": "Brickwise", "url": "https://brickwise.pro" },
+    "datePublished": "2026-01-15",
+    "dateModified": LAST_UPDATED,
     "url": "https://brickwise.pro/learn/how-to-invest-in-tokenized-real-estate",
   };
 
